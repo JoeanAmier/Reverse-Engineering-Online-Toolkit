@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.ip-converter.title">IP 地址转换 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="ip-converter.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.ip-converter.title">IP 地址转换</h1>
+            <p data-i18n="tools.ip-converter.description">IP 地址与整数互转</p>
+        </header>
+
+        <main class="tool-main">
+            <section class="converter-section">
+                <h3 data-i18n="tools.ip-converter.ipv4">IPv4 地址</h3>
+                <div class="input-group">
+                    <label data-i18n="tools.ip-converter.dotted">点分十进制</label>
+                    <input type="text" id="ipv4-dotted" placeholder="192.168.1.1">
+                </div>
+                <div class="input-group">
+                    <label data-i18n="tools.ip-converter.decimal">十进制整数</label>
+                    <input type="text" id="ipv4-decimal" placeholder="3232235777">
+                </div>
+                <div class="input-group">
+                    <label data-i18n="tools.ip-converter.hex">十六进制</label>
+                    <input type="text" id="ipv4-hex" placeholder="C0A80101">
+                </div>
+                <div class="input-group">
+                    <label data-i18n="tools.ip-converter.binary">二进制</label>
+                    <input type="text" id="ipv4-binary" placeholder="11000000.10101000.00000001.00000001">
+                </div>
+            </section>
+
+            <section class="action-section">
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+            </section>
+
+            <section class="info-section">
+                <h3 data-i18n="tools.ip-converter.ipInfo">IP 地址信息</h3>
+                <div class="ip-info" id="ip-info">
+                    <div class="info-row">
+                        <span class="info-label" data-i18n="tools.ip-converter.type">类型:</span>
+                        <span class="info-value" id="ip-class">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label" data-i18n="tools.ip-converter.networkType">网络类别:</span>
+                        <span class="info-value" id="ip-type">-</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="ip-converter.js"></script>
+</body>
+</html>

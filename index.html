@@ -288,18 +288,23 @@
         </div>
     </div>
 
-    <!-- GitHub Pages SPA 重定向处理 -->
+    <!-- SPA 重定向处理（支持本地开发和 GitHub Pages） -->
     <script>
         (function() {
-            // 只在 GitHub Pages 上处理重定向
-            if (!window.location.hostname.endsWith('github.io')) {
+            // 检查工具页面重定向
+            var redirect = sessionStorage.getItem('spa_redirect');
+            if (redirect) {
+                sessionStorage.removeItem('spa_redirect');
+                window.__REDIRECT_PATH__ = redirect;
                 return;
             }
-            var redirect = sessionStorage.getItem('github_pages_redirect');
-            if (redirect) {
-                sessionStorage.removeItem('github_pages_redirect');
-                // 保存重定向路径，等待路由初始化后处理
-                window.__REDIRECT_PATH__ = redirect;
+            // 检查 GitHub Pages 404 重定向
+            if (window.location.hostname.endsWith('github.io')) {
+                redirect = sessionStorage.getItem('github_pages_redirect');
+                if (redirect) {
+                    sessionStorage.removeItem('github_pages_redirect');
+                    window.__REDIRECT_PATH__ = redirect;
+                }
             }
         })();
     </script>

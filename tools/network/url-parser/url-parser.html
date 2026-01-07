@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.url-parser.title">URL 解析 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="url-parser.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.url-parser.title">URL 解析</h1>
+            <p data-i18n="tools.url-parser.description">URL 组成部分解析</p>
+        </header>
+
+        <main class="tool-main">
+            <section class="input-section">
+                <label data-i18n="tools.url-parser.inputUrl">输入 URL</label>
+                <input type="text" id="input" data-i18n-placeholder="tools.url-parser.placeholder" placeholder="https://example.com:8080/path?query=value#hash">
+            </section>
+
+            <section class="action-section">
+                <button id="parse-btn" class="btn btn--primary" data-i18n="tools.url-parser.parse">解析</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+            </section>
+
+            <section class="result-section" id="result-section" style="display: none;">
+                <h3 data-i18n="common.result">解析结果</h3>
+                <div class="url-parts">
+                    <div class="url-part">
+                        <label data-i18n="tools.url-parser.protocol">协议 (Protocol)</label>
+                        <div class="value-row">
+                            <input type="text" id="protocol" readonly>
+                            <button class="copy-btn btn btn--sm btn--outline" data-target="protocol" data-i18n="common.copy">复制</button>
+                        </div>
+                    </div>
+                    <div class="url-part">
+                        <label data-i18n="tools.url-parser.host">主机 (Host)</label>
+                        <div class="value-row">
+                            <input type="text" id="host" readonly>
+                            <button class="copy-btn btn btn--sm btn--outline" data-target="host" data-i18n="common.copy">复制</button>
+                        </div>
+                    </div>
+                    <div class="url-part">
+                        <label data-i18n="tools.url-parser.hostname">主机名 (Hostname)</label>
+                        <div class="value-row">
+                            <input type="text" id="hostname" readonly>
+                            <button class="copy-btn btn btn--sm btn--outline" data-target="hostname" data-i18n="common.copy">复制</button>
+                        </div>
+                    </div>
+                    <div class="url-part">
+                        <label data-i18n="tools.url-parser.port">端口 (Port)</label>
+                        <div class="value-row">
+                            <input type="text" id="port" readonly>
+                            <button class="copy-btn btn btn--sm btn--outline" data-target="port" data-i18n="common.copy">复制</button>
+                        </div>
+                    </div>
+                    <div class="url-part">
+                        <label data-i18n="tools.url-parser.pathname">路径 (Pathname)</label>
+                        <div class="value-row">
+                            <input type="text" id="pathname" readonly>
+                            <button class="copy-btn btn btn--sm btn--outline" data-target="pathname" data-i18n="common.copy">复制</button>
+                        </div>
+                    </div>
+                    <div class="url-part">
+                        <label data-i18n="tools.url-parser.search">查询字符串 (Search)</label>
+                        <div class="value-row">
+                            <input type="text" id="search" readonly>
+                            <button class="copy-btn btn btn--sm btn--outline" data-target="search" data-i18n="common.copy">复制</button>
+                        </div>
+                    </div>
+                    <div class="url-part">
+                        <label data-i18n="tools.url-parser.hash">哈希 (Hash)</label>
+                        <div class="value-row">
+                            <input type="text" id="hash" readonly>
+                            <button class="copy-btn btn btn--sm btn--outline" data-target="hash" data-i18n="common.copy">复制</button>
+                        </div>
+                    </div>
+                    <div class="url-part">
+                        <label data-i18n="tools.url-parser.origin">来源 (Origin)</label>
+                        <div class="value-row">
+                            <input type="text" id="origin" readonly>
+                            <button class="copy-btn btn btn--sm btn--outline" data-target="origin" data-i18n="common.copy">复制</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="query-params" id="query-params-section" style="display: none;">
+                    <h4 data-i18n="tools.url-parser.queryParams">查询参数</h4>
+                    <table id="query-params-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="tools.url-parser.paramName">参数名</th>
+                                <th data-i18n="tools.url-parser.paramValue">参数值</th>
+                                <th data-i18n="tools.url-parser.actions">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="query-params-body"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="url-parser.js"></script>
+</body>
+</html>

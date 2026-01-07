@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.crc.title">CRC计算器 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="crc.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.crc.title">CRC计算器</h1>
+            <p data-i18n="tools.crc.description">计算CRC校验值</p>
+        </header>
+
+        <main class="tool-main">
+            <section class="input-section">
+                <label for="input-text" data-i18n="tools.crc.inputData">输入数据</label>
+                <textarea id="input-text" rows="4" data-i18n-placeholder="tools.crc.inputPlaceholder" placeholder="输入要计算CRC的文本..."></textarea>
+            </section>
+
+            <section class="options-section">
+                <div class="option-group">
+                    <label for="input-type" data-i18n="tools.crc.inputType">输入类型</label>
+                    <select id="input-type">
+                        <option value="text" data-i18n="tools.crc.textUtf8">文本 (UTF-8)</option>
+                        <option value="hex" data-i18n="tools.crc.hexadecimal">十六进制</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label for="crc-type" data-i18n="tools.crc.algorithm">CRC算法</label>
+                    <select id="crc-type">
+                        <option value="crc8">CRC-8</option>
+                        <option value="crc16">CRC-16 (IBM)</option>
+                        <option value="crc16-ccitt">CRC-16 CCITT</option>
+                        <option value="crc16-modbus">CRC-16 Modbus</option>
+                        <option value="crc32" selected>CRC-32</option>
+                        <option value="crc32c">CRC-32C</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="action-section">
+                <button id="calc-btn" class="btn btn--primary" data-i18n="tools.crc.calculate">计算</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+            </section>
+
+            <section class="result-section" id="result-section" style="display: none;">
+                <h3 data-i18n="common.result">计算结果</h3>
+                <div class="result-grid" id="result-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="crc.js"></script>
+</body>
+</html>

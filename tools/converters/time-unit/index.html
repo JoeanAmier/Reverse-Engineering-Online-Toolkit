@@ -1,89 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="tools.time-unit.title">时间单位转换 - REOT</title>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
     <script>
         (function() {
-            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
-                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            var path = window.location.pathname;
+            // 获取基础路径（支持GitHub Pages子目录）
+            var base = '/';
+            if (window.location.hostname.endsWith('github.io')) {
+                base = '/' + path.split('/')[1] + '/';
             }
+            // 保存当前路径并重定向到主页
+            sessionStorage.setItem('spa_redirect', path);
+            window.location.replace(base);
         })();
     </script>
-    <link rel="stylesheet" href="../../../assets/css/main.css">
-    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
-    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
-    <link rel="stylesheet" href="time-unit.css">
 </head>
 <body>
-    <div class="tool-container">
-        <header class="tool-header">
-            <h1 data-i18n="tools.time-unit.title">时间单位转换</h1>
-            <p data-i18n="tools.time-unit.description">秒、分钟、小时、天等单位转换</p>
-        </header>
-
-        <main class="tool-main">
-            <section class="input-section">
-                <div class="input-row">
-                    <input type="number" id="input-value" data-i18n-placeholder="tools.time-unit.inputPlaceholder" placeholder="输入数值" step="any">
-                    <select id="input-unit">
-                        <option value="ms" data-i18n="tools.time-unit.ms">毫秒 (ms)</option>
-                        <option value="s" selected data-i18n="tools.time-unit.s">秒 (s)</option>
-                        <option value="min" data-i18n="tools.time-unit.min">分钟 (min)</option>
-                        <option value="h" data-i18n="tools.time-unit.h">小时 (h)</option>
-                        <option value="d" data-i18n="tools.time-unit.d">天 (d)</option>
-                        <option value="w" data-i18n="tools.time-unit.w">周 (w)</option>
-                        <option value="mo" data-i18n="tools.time-unit.mo">月 (30天)</option>
-                        <option value="y" data-i18n="tools.time-unit.y">年 (365天)</option>
-                    </select>
-                </div>
-            </section>
-
-            <section class="result-section">
-                <h3 data-i18n="common.result">转换结果</h3>
-                <div class="results-grid">
-                    <div class="result-item">
-                        <label data-i18n="tools.time-unit.ms">毫秒 (ms)</label>
-                        <input type="text" id="result-ms" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label data-i18n="tools.time-unit.s">秒 (s)</label>
-                        <input type="text" id="result-s" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label data-i18n="tools.time-unit.min">分钟 (min)</label>
-                        <input type="text" id="result-min" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label data-i18n="tools.time-unit.h">小时 (h)</label>
-                        <input type="text" id="result-h" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label data-i18n="tools.time-unit.d">天 (d)</label>
-                        <input type="text" id="result-d" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label data-i18n="tools.time-unit.w">周 (w)</label>
-                        <input type="text" id="result-w" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label data-i18n="tools.time-unit.mo">月 (30天)</label>
-                        <input type="text" id="result-mo" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label data-i18n="tools.time-unit.y">年 (365天)</label>
-                        <input type="text" id="result-y" readonly>
-                    </div>
-                </div>
-
-                <div class="human-readable" id="human-readable"></div>
-            </section>
-        </main>
-    </div>
-
-    <script src="../../../assets/js/utils.js"></script>
-    <script src="../../../assets/js/i18n.js"></script>
-    <script src="time-unit.js"></script>
+    <p>Redirecting...</p>
 </body>
 </html>

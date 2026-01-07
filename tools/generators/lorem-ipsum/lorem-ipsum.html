@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.lorem-ipsum.title">Lorem Ipsum生成器 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="lorem-ipsum.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.lorem-ipsum.title">Lorem Ipsum生成器</h1>
+            <p data-i18n="tools.lorem-ipsum.description">生成占位文本</p>
+        </header>
+
+        <main class="tool-main">
+            <section class="options-section">
+                <div class="option-group">
+                    <label for="gen-type" data-i18n="tools.lorem-ipsum.genType">生成类型</label>
+                    <select id="gen-type">
+                        <option value="paragraphs" data-i18n="tools.lorem-ipsum.paragraphs">段落</option>
+                        <option value="sentences" data-i18n="tools.lorem-ipsum.sentences">句子</option>
+                        <option value="words" data-i18n="tools.lorem-ipsum.words">单词</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label for="gen-count" data-i18n="tools.lorem-ipsum.count">数量</label>
+                    <input type="number" id="gen-count" value="3" min="1" max="100">
+                </div>
+                <div class="option-group">
+                    <label for="start-lorem" data-i18n="tools.lorem-ipsum.startWithLorem">以 "Lorem ipsum" 开头</label>
+                    <input type="checkbox" id="start-lorem" checked>
+                </div>
+            </section>
+
+            <section class="action-section">
+                <button id="generate-btn" class="btn btn--primary" data-i18n="tools.lorem-ipsum.generate">生成</button>
+                <button id="copy-btn" class="btn btn--outline" data-i18n="common.copy">复制</button>
+            </section>
+
+            <section class="result-section">
+                <div class="result-stats" id="result-stats"></div>
+                <div class="result-output" id="result-output"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="lorem-ipsum.js"></script>
+</body>
+</html>

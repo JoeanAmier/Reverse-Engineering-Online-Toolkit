@@ -224,9 +224,9 @@
                     return;
                 }
 
-                // 加载工具HTML
+                // 加载工具HTML（使用 toolId.html 而非 index.html，避免直接访问时返回片段）
                 const basePath = getBasePath();
-                const response = await fetch(`${basePath}${path}index.html`);
+                const response = await fetch(`${basePath}${path}${tool.id}.html`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

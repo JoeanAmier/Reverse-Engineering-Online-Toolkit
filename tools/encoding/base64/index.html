@@ -1,80 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="tools.base64.title">Base64 编解码 - REOT</title>
-    <!-- 检测直接访问，重定向到主框架 -->
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
     <script>
         (function() {
-            // 如果不是通过主框架加载（即直接访问工具页面URL）
-            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
-                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            var path = window.location.pathname;
+            // 获取基础路径（支持GitHub Pages子目录）
+            var base = '/';
+            if (window.location.hostname.endsWith('github.io')) {
+                base = '/' + path.split('/')[1] + '/';
             }
+            // 保存当前路径并重定向到主页
+            sessionStorage.setItem('spa_redirect', path);
+            window.location.replace(base);
         })();
     </script>
-    <link rel="stylesheet" href="../../../assets/css/main.css">
-    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
-    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
-    <link rel="stylesheet" href="base64.css">
 </head>
 <body>
-    <div class="tool-container">
-        <!-- 工具头部 -->
-        <header class="tool-header">
-            <h1 data-i18n="tools.base64.title">Base64 编解码</h1>
-            <p data-i18n="tools.base64.description">Base64 编码与解码，支持标准 Base64 和 URL 安全的 Base64</p>
-        </header>
-
-        <!-- 工具主体 -->
-        <main class="tool-main">
-            <!-- 选项区域 -->
-            <section class="options-section">
-                <div class="option-group">
-                    <label class="form-radio">
-                        <input type="radio" name="base64-type" value="standard" checked>
-                        <span data-i18n="tools.base64.standard">标准 Base64</span>
-                    </label>
-                </div>
-                <div class="option-group">
-                    <label class="form-radio">
-                        <input type="radio" name="base64-type" value="urlsafe">
-                        <span data-i18n="tools.base64.urlSafe">URL 安全</span>
-                    </label>
-                </div>
-            </section>
-
-            <!-- 输入区域 -->
-            <section class="input-section">
-                <label data-i18n="common.input">输入</label>
-                <textarea id="input"
-                          class="form-input form-textarea form-textarea--code"
-                          data-i18n-placeholder="tools.base64.inputPlaceholder"
-                          placeholder="请输入要编码/解码的内容..."></textarea>
-            </section>
-
-            <!-- 操作按钮 -->
-            <section class="action-section">
-                <button id="encode-btn" class="btn btn--primary" data-i18n="common.encode">编码</button>
-                <button id="decode-btn" class="btn btn--secondary" data-i18n="common.decode">解码</button>
-                <button id="swap-btn" class="btn btn--outline" data-i18n="common.swap">交换</button>
-                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
-                <button id="copy-btn" class="btn btn--outline" data-i18n="common.copy">复制结果</button>
-            </section>
-
-            <!-- 输出区域 -->
-            <section class="output-section">
-                <label data-i18n="common.output">输出</label>
-                <textarea id="output"
-                          class="form-input form-textarea form-textarea--code"
-                          readonly></textarea>
-            </section>
-        </main>
-    </div>
-
-    <!-- 引入脚本 -->
-    <script src="../../../assets/js/utils.js"></script>
-    <script src="../../../assets/js/i18n.js"></script>
-    <script src="base64.js"></script>
+    <p>Redirecting...</p>
 </body>
 </html>

@@ -1,106 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="tools.byte-unit.title">字节单位转换 - REOT</title>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
     <script>
         (function() {
-            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
-                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            var path = window.location.pathname;
+            // 获取基础路径（支持GitHub Pages子目录）
+            var base = '/';
+            if (window.location.hostname.endsWith('github.io')) {
+                base = '/' + path.split('/')[1] + '/';
             }
+            // 保存当前路径并重定向到主页
+            sessionStorage.setItem('spa_redirect', path);
+            window.location.replace(base);
         })();
     </script>
-    <link rel="stylesheet" href="../../../assets/css/main.css">
-    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
-    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
-    <link rel="stylesheet" href="byte-unit.css">
 </head>
 <body>
-    <div class="tool-container">
-        <header class="tool-header">
-            <h1 data-i18n="tools.byte-unit.title">字节单位转换</h1>
-            <p data-i18n="tools.byte-unit.description">B, KB, MB, GB, TB 等单位转换</p>
-        </header>
-
-        <main class="tool-main">
-            <section class="input-section">
-                <div class="input-row">
-                    <input type="number" id="input-value" data-i18n-placeholder="tools.byte-unit.inputPlaceholder" placeholder="输入数值" step="any">
-                    <select id="input-unit">
-                        <option value="B">Bytes (B)</option>
-                        <option value="KB">Kilobytes (KB)</option>
-                        <option value="MB" selected>Megabytes (MB)</option>
-                        <option value="GB">Gigabytes (GB)</option>
-                        <option value="TB">Terabytes (TB)</option>
-                        <option value="PB">Petabytes (PB)</option>
-                        <option value="KiB">Kibibytes (KiB)</option>
-                        <option value="MiB">Mebibytes (MiB)</option>
-                        <option value="GiB">Gibibytes (GiB)</option>
-                        <option value="TiB">Tebibytes (TiB)</option>
-                    </select>
-                </div>
-            </section>
-
-            <section class="result-section">
-                <h3 data-i18n="common.result">转换结果</h3>
-                <div class="results-grid">
-                    <div class="result-item">
-                        <label>Bytes (B)</label>
-                        <input type="text" id="result-b" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label>Kilobytes (KB)</label>
-                        <input type="text" id="result-kb" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label>Megabytes (MB)</label>
-                        <input type="text" id="result-mb" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label>Gigabytes (GB)</label>
-                        <input type="text" id="result-gb" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label>Terabytes (TB)</label>
-                        <input type="text" id="result-tb" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label>Petabytes (PB)</label>
-                        <input type="text" id="result-pb" readonly>
-                    </div>
-                </div>
-
-                <h4 data-i18n="tools.byte-unit.binaryUnits">二进制单位 (IEC)</h4>
-                <div class="results-grid">
-                    <div class="result-item">
-                        <label>Kibibytes (KiB)</label>
-                        <input type="text" id="result-kib" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label>Mebibytes (MiB)</label>
-                        <input type="text" id="result-mib" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label>Gibibytes (GiB)</label>
-                        <input type="text" id="result-gib" readonly>
-                    </div>
-                    <div class="result-item">
-                        <label>Tebibytes (TiB)</label>
-                        <input type="text" id="result-tib" readonly>
-                    </div>
-                </div>
-            </section>
-
-            <section class="info-section">
-                <p><strong data-i18n="tools.byte-unit.decimalUnits">十进制单位:</strong> 1 KB = 1000 B, 1 MB = 1000 KB...</p>
-                <p><strong data-i18n="tools.byte-unit.binaryUnitsInfo">二进制单位:</strong> 1 KiB = 1024 B, 1 MiB = 1024 KiB...</p>
-            </section>
-        </main>
-    </div>
-
-    <script src="../../../assets/js/utils.js"></script>
-    <script src="../../../assets/js/i18n.js"></script>
-    <script src="byte-unit.js"></script>
+    <p>Redirecting...</p>
 </body>
 </html>

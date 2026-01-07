@@ -1,54 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="tools.punycode.title">Punycode 编解码 - REOT</title>
-    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script>
+        (function() {
+            var path = window.location.pathname;
+            // 获取基础路径（支持GitHub Pages子目录）
+            var base = '/';
+            if (window.location.hostname.endsWith('github.io')) {
+                base = '/' + path.split('/')[1] + '/';
+            }
+            // 保存当前路径并重定向到主页
+            sessionStorage.setItem('spa_redirect', path);
+            window.location.replace(base);
+        })();
+    </script>
 </head>
 <body>
-    <div class="tool-container">
-        <header class="tool-header">
-            <h1 data-i18n="tools.punycode.title">Punycode 编解码</h1>
-            <p data-i18n="tools.punycode.description">国际化域名 Punycode 编解码</p>
-        </header>
-
-        <main class="tool-main">
-            <section class="input-section">
-                <label data-i18n="common.input">输入</label>
-                <textarea id="input" rows="4" placeholder="输入域名或 Punycode..."></textarea>
-            </section>
-
-            <section class="action-section">
-                <button id="encode-btn" class="btn btn--primary" data-i18n="common.encode">编码</button>
-                <button id="decode-btn" class="btn btn--primary" data-i18n="common.decode">解码</button>
-                <button id="swap-btn" class="btn btn--outline" data-i18n="common.swap">交换</button>
-                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
-                <button id="copy-btn" class="btn btn--outline" data-i18n="common.copy">复制</button>
-            </section>
-
-            <section class="output-section">
-                <label data-i18n="common.output">输出</label>
-                <textarea id="output" rows="4" readonly></textarea>
-            </section>
-
-            <section class="info-section">
-                <h3 data-i18n="tools.punycode.examples">示例</h3>
-                <div class="examples-grid">
-                    <div class="example-item">
-                        <span class="example-label">Unicode:</span>
-                        <code>中国.com</code>
-                    </div>
-                    <div class="example-item">
-                        <span class="example-label">Punycode:</span>
-                        <code>xn--fiqs8s.com</code>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <script src="../../../assets/js/utils.js"></script>
-    <script src="punycode.js"></script>
+    <p>Redirecting...</p>
 </body>
 </html>
