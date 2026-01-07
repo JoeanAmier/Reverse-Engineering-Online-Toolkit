@@ -1,0 +1,15 @@
+{
+    "title": "Lorem Ipsum Generator",
+    "description": "Generate placeholder text",
+    "genType": "Generation Type",
+    "paragraphs": "Paragraphs",
+    "sentences": "Sentences",
+    "words": "Words",
+    "count": "Count",
+    "startWithLorem": "Start with \"Lorem ipsum\"",
+    "generate": "Generate",
+    "statParagraphs": "Paragraphs",
+    "statSentences": "Sentences",
+    "statWords": "Words",
+    "statCharacters": "Characters"
+}

@@ -1,0 +1,19 @@
+{
+    "title": "URL Parser",
+    "description": "Parse URL components",
+    "inputUrl": "Input URL",
+    "placeholder": "https://example.com:8080/path?query=value#hash",
+    "parse": "Parse",
+    "protocol": "Protocol",
+    "host": "Host",
+    "hostname": "Hostname",
+    "port": "Port",
+    "pathname": "Pathname",
+    "search": "Search (Query String)",
+    "hash": "Hash",
+    "origin": "Origin",
+    "queryParams": "Query Parameters",
+    "paramName": "Parameter Name",
+    "paramValue": "Parameter Value",
+    "actions": "Actions"
+}

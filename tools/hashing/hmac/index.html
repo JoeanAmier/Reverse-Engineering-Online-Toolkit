@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.hmac.title">HMAC 计算 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="hmac.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.hmac.title">HMAC 计算</h1>
+            <p data-i18n="tools.hmac.description">基于哈希的消息认证码计算</p>
+        </header>
+
+        <main class="tool-main">
+            <section class="options-section">
+                <div class="option-group">
+                    <label data-i18n="tools.hmac.algorithm">算法</label>
+                    <select id="algorithm">
+                        <option value="SHA-1">HMAC-SHA1</option>
+                        <option value="SHA-256" selected>HMAC-SHA256</option>
+                        <option value="SHA-384">HMAC-SHA384</option>
+                        <option value="SHA-512">HMAC-SHA512</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label data-i18n="tools.hmac.outputFormat">输出格式</label>
+                    <select id="output-format">
+                        <option value="hex" selected data-i18n="tools.hmac.hexLower">Hex (小写)</option>
+                        <option value="hex-upper" data-i18n="tools.hmac.hexUpper">Hex (大写)</option>
+                        <option value="base64">Base64</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="input-section">
+                <label data-i18n="tools.hmac.key">密钥</label>
+                <input type="text" id="key-input" data-i18n-placeholder="tools.hmac.keyPlaceholder" placeholder="输入密钥...">
+            </section>
+
+            <section class="input-section">
+                <label data-i18n="tools.hmac.message">消息</label>
+                <textarea id="input" rows="6" data-i18n-placeholder="tools.hmac.messagePlaceholder" placeholder="输入要计算 HMAC 的内容..."></textarea>
+            </section>
+
+            <section class="action-section">
+                <button id="calculate-btn" class="btn btn--primary" data-i18n="tools.hmac.calculate">计算 HMAC</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+            </section>
+
+            <section class="output-section">
+                <label data-i18n="common.result">结果</label>
+                <div class="result-row">
+                    <input type="text" id="output" readonly>
+                    <button id="copy-btn" class="btn btn--sm btn--outline" data-i18n="common.copy">复制</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="hmac.js"></script>
+</body>
+</html>

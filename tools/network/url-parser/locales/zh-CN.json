@@ -1,0 +1,19 @@
+{
+    "title": "URL 解析",
+    "description": "URL 组成部分解析",
+    "inputUrl": "输入 URL",
+    "placeholder": "https://example.com:8080/path?query=value#hash",
+    "parse": "解析",
+    "protocol": "协议 (Protocol)",
+    "host": "主机 (Host)",
+    "hostname": "主机名 (Hostname)",
+    "port": "端口 (Port)",
+    "pathname": "路径 (Pathname)",
+    "search": "查询字符串 (Search)",
+    "hash": "哈希 (Hash)",
+    "origin": "来源 (Origin)",
+    "queryParams": "查询参数",
+    "paramName": "参数名",
+    "paramValue": "参数值",
+    "actions": "操作"
+}

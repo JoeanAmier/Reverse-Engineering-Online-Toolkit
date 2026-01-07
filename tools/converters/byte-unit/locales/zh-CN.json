@@ -1,0 +1,8 @@
+{
+    "title": "字节单位转换",
+    "description": "B, KB, MB, GB, TB 等单位转换",
+    "inputPlaceholder": "输入数值",
+    "binaryUnits": "二进制单位 (IEC)",
+    "decimalUnits": "十进制单位:",
+    "binaryUnitsInfo": "二进制单位:"
+}

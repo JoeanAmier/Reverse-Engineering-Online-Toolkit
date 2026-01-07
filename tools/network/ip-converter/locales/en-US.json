@@ -1,0 +1,12 @@
+{
+    "title": "IP Address Converter",
+    "description": "Convert between IP address formats",
+    "ipv4": "IPv4 Address",
+    "dotted": "Dotted Decimal",
+    "decimal": "Decimal Integer",
+    "hex": "Hexadecimal",
+    "binary": "Binary",
+    "ipInfo": "IP Address Info",
+    "type": "Type:",
+    "networkType": "Network Type:"
+}

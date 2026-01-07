@@ -1,0 +1,13 @@
+{
+    "title": "Time Unit Converter",
+    "description": "Convert between seconds, minutes, hours, days, etc.",
+    "inputPlaceholder": "Enter value",
+    "ms": "Milliseconds (ms)",
+    "s": "Seconds (s)",
+    "min": "Minutes (min)",
+    "h": "Hours (h)",
+    "d": "Days (d)",
+    "w": "Weeks (w)",
+    "mo": "Months (30 days)",
+    "y": "Years (365 days)"
+}

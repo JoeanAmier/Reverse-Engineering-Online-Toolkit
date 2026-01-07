@@ -1,0 +1,18 @@
+{
+    "title": "条码扫描器",
+    "description": "扫描QR码和各种条形码",
+    "cameraScan": "📷 摄像头扫描",
+    "fileUpload": "📁 图片上传",
+    "selectCamera": "选择摄像头",
+    "loading": "加载中...",
+    "startScan": "开始扫描",
+    "stopScan": "停止扫描",
+    "dropHere": "点击或拖拽图片到此处",
+    "supportedFormats": "支持 JPG, PNG, GIF 等图片格式",
+    "scanImage": "扫描图片",
+    "supportedCodeFormats": "支持的格式",
+    "scanResult": "扫描结果",
+    "copyContent": "复制内容",
+    "openLink": "打开链接",
+    "scanHistory": "扫描历史"
+}

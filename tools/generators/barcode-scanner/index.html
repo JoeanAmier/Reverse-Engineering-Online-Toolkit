@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.barcode-scanner.title">条码扫描器 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="barcode-scanner.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.barcode-scanner.title">条码扫描器</h1>
+            <p data-i18n="tools.barcode-scanner.description">扫描QR码和各种条形码</p>
+        </header>
+
+        <main class="tool-main">
+            <section class="mode-section">
+                <div class="mode-tabs">
+                    <button class="mode-tab active" data-mode="camera" data-i18n="tools.barcode-scanner.cameraScan">📷 摄像头扫描</button>
+                    <button class="mode-tab" data-mode="file" data-i18n="tools.barcode-scanner.fileUpload">📁 图片上传</button>
+                </div>
+            </section>
+
+            <section class="scan-section" id="camera-section">
+                <div class="camera-options">
+                    <div class="option-group">
+                        <label for="camera-select" data-i18n="tools.barcode-scanner.selectCamera">选择摄像头</label>
+                        <select id="camera-select">
+                            <option value="" data-i18n="tools.barcode-scanner.loading">加载中...</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="reader" class="scanner-reader"></div>
+                <div class="scanner-controls">
+                    <button id="start-btn" class="btn btn--primary" data-i18n="tools.barcode-scanner.startScan">开始扫描</button>
+                    <button id="stop-btn" class="btn btn--outline" disabled data-i18n="tools.barcode-scanner.stopScan">停止扫描</button>
+                </div>
+            </section>
+
+            <section class="scan-section" id="file-section" style="display: none;">
+                <div class="file-upload-area" id="file-upload-area">
+                    <input type="file" id="file-input" accept="image/*" hidden>
+                    <div class="upload-placeholder">
+                        <span class="upload-icon">📷</span>
+                        <p data-i18n="tools.barcode-scanner.dropHere">点击或拖拽图片到此处</p>
+                        <p class="upload-hint" data-i18n="tools.barcode-scanner.supportedFormats">支持 JPG, PNG, GIF 等图片格式</p>
+                    </div>
+                    <img id="preview-image" class="preview-image" style="display: none;">
+                </div>
+                <button id="scan-file-btn" class="btn btn--primary" disabled data-i18n="tools.barcode-scanner.scanImage">扫描图片</button>
+            </section>
+
+            <section class="formats-section">
+                <h3 data-i18n="tools.barcode-scanner.supportedCodeFormats">支持的格式</h3>
+                <div class="formats-grid">
+                    <span class="format-tag">QR Code</span>
+                    <span class="format-tag">Data Matrix</span>
+                    <span class="format-tag">Aztec</span>
+                    <span class="format-tag">PDF 417</span>
+                    <span class="format-tag">CODE 128</span>
+                    <span class="format-tag">CODE 39</span>
+                    <span class="format-tag">CODE 93</span>
+                    <span class="format-tag">EAN-13</span>
+                    <span class="format-tag">EAN-8</span>
+                    <span class="format-tag">UPC-A</span>
+                    <span class="format-tag">UPC-E</span>
+                    <span class="format-tag">ITF</span>
+                    <span class="format-tag">Codabar</span>
+                </div>
+            </section>
+
+            <section class="result-section" id="result-section" style="display: none;">
+                <h3 data-i18n="tools.barcode-scanner.scanResult">扫描结果</h3>
+                <div class="result-card">
+                    <div class="result-format" id="result-format"></div>
+                    <div class="result-content" id="result-content"></div>
+                    <div class="result-actions">
+                        <button id="copy-btn" class="btn btn--primary" data-i18n="tools.barcode-scanner.copyContent">复制内容</button>
+                        <button id="open-link-btn" class="btn btn--outline" style="display: none;" data-i18n="tools.barcode-scanner.openLink">打开链接</button>
+                    </div>
+                </div>
+                <div class="scan-history" id="scan-history">
+                    <h4 data-i18n="tools.barcode-scanner.scanHistory">扫描历史</h4>
+                    <ul id="history-list"></ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="barcode-scanner.js"></script>
+</body>
+</html>

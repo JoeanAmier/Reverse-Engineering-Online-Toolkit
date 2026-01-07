@@ -1,0 +1,18 @@
+{
+    "title": "Barcode Scanner",
+    "description": "Scan QR codes and various barcodes",
+    "cameraScan": "📷 Camera Scan",
+    "fileUpload": "📁 File Upload",
+    "selectCamera": "Select Camera",
+    "loading": "Loading...",
+    "startScan": "Start Scan",
+    "stopScan": "Stop Scan",
+    "dropHere": "Click or drag image here",
+    "supportedFormats": "Supports JPG, PNG, GIF image formats",
+    "scanImage": "Scan Image",
+    "supportedCodeFormats": "Supported Formats",
+    "scanResult": "Scan Result",
+    "copyContent": "Copy Content",
+    "openLink": "Open Link",
+    "scanHistory": "Scan History"
+}

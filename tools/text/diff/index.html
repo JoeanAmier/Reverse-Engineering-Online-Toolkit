@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.text-diff.title">文本差异对比 - REOT</title>
+    <!-- 检测直接访问，重定向到主框架 -->
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="text-diff.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.text-diff.title">文本差异对比</h1>
+            <p data-i18n="tools.text-diff.description">两段文本的差异对比</p>
+        </header>
+
+        <main class="tool-main">
+            <section class="input-section diff-inputs">
+                <div class="diff-input">
+                    <label data-i18n="tools.text-diff.originalText">原始文本</label>
+                    <textarea id="text1" rows="10" data-i18n-placeholder="tools.text-diff.originalPlaceholder" placeholder="输入原始文本..."></textarea>
+                </div>
+                <div class="diff-input">
+                    <label data-i18n="tools.text-diff.modifiedText">修改后文本</label>
+                    <textarea id="text2" rows="10" data-i18n-placeholder="tools.text-diff.modifiedPlaceholder" placeholder="输入修改后的文本..."></textarea>
+                </div>
+            </section>
+
+            <section class="action-section">
+                <button id="compare-btn" class="btn btn--primary" data-i18n="tools.text-diff.compare">对比</button>
+                <button id="swap-btn" class="btn btn--outline" data-i18n="common.swap">交换</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+            </section>
+
+            <section class="result-section" id="result-section" style="display: none;">
+                <h3 data-i18n="tools.text-diff.result">对比结果</h3>
+                <div class="diff-stats" id="diff-stats"></div>
+                <div class="diff-output" id="diff-output"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="text-diff.js"></script>
+</body>
+</html>

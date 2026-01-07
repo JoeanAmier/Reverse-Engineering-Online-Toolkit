@@ -1,0 +1,10 @@
+{
+    "title": "文本差异对比",
+    "description": "两段文本的差异对比",
+    "originalText": "原始文本",
+    "modifiedText": "修改后文本",
+    "originalPlaceholder": "输入原始文本...",
+    "modifiedPlaceholder": "输入修改后的文本...",
+    "compare": "对比",
+    "result": "对比结果"
+}

@@ -240,6 +240,50 @@
         "regex": {
             "title": "Regex Tester",
             "description": "Test and debug regular expressions online"
+        },
+        "punycode": {
+            "title": "Punycode Encoder/Decoder",
+            "description": "Internationalized Domain Name (IDN) Punycode encoding and decoding"
+        },
+        "hmac": {
+            "title": "HMAC Calculator",
+            "description": "Calculate HMAC message authentication code"
+        },
+        "crc": {
+            "title": "CRC Calculator",
+            "description": "Calculate CRC checksum"
+        },
+        "url-parser": {
+            "title": "URL Parser",
+            "description": "Parse URL components"
+        },
+        "ip-converter": {
+            "title": "IP Address Converter",
+            "description": "Convert IP address formats"
+        },
+        "byte-unit": {
+            "title": "Byte Unit Converter",
+            "description": "Convert storage capacity units"
+        },
+        "time-unit": {
+            "title": "Time Unit Converter",
+            "description": "Convert time units"
+        },
+        "text-diff": {
+            "title": "Text Diff",
+            "description": "Compare differences between two texts"
+        },
+        "qrcode": {
+            "title": "Barcode Generator",
+            "description": "Generate QR codes and various barcodes"
+        },
+        "lorem-ipsum": {
+            "title": "Lorem Ipsum Generator",
+            "description": "Generate placeholder text"
+        },
+        "barcode-scanner": {
+            "title": "Barcode Scanner",
+            "description": "Scan QR codes and various barcodes"
         }
     }
 }

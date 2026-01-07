@@ -1,0 +1,12 @@
+{
+    "title": "IP 地址转换",
+    "description": "IP 地址与整数互转",
+    "ipv4": "IPv4 地址",
+    "dotted": "点分十进制",
+    "decimal": "十进制整数",
+    "hex": "十六进制",
+    "binary": "二进制",
+    "ipInfo": "IP 地址信息",
+    "type": "类型:",
+    "networkType": "网络类别:"
+}

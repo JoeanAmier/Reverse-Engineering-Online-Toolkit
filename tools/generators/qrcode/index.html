@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.qrcode.title">条码生成器 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="qrcode.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.qrcode.title">条码生成器</h1>
+            <p data-i18n="tools.qrcode.description">生成QR码和各种条形码</p>
+        </header>
+
+        <main class="tool-main">
+            <section class="type-section">
+                <div class="type-tabs">
+                    <button class="type-tab active" data-type="qrcode" data-i18n="tools.qrcode.qrCode">QR码</button>
+                    <button class="type-tab" data-type="barcode" data-i18n="tools.qrcode.barcode">条形码</button>
+                </div>
+            </section>
+
+            <section class="input-section">
+                <label for="input-text" data-i18n="tools.qrcode.inputContent">输入内容</label>
+                <textarea id="input-text" rows="3" data-i18n-placeholder="tools.qrcode.inputPlaceholder" placeholder="输入要编码的文本或URL..."></textarea>
+            </section>
+
+            <section class="options-section" id="qrcode-options">
+                <div class="option-group">
+                    <label for="qr-error-level" data-i18n="tools.qrcode.errorLevel">纠错级别</label>
+                    <select id="qr-error-level">
+                        <option value="L">L - 7%</option>
+                        <option value="M" selected>M - 15%</option>
+                        <option value="Q">Q - 25%</option>
+                        <option value="H">H - 30%</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label for="qr-size" data-i18n="tools.qrcode.size">尺寸</label>
+                    <select id="qr-size">
+                        <option value="128">128 x 128</option>
+                        <option value="200">200 x 200</option>
+                        <option value="256" selected>256 x 256</option>
+                        <option value="300">300 x 300</option>
+                        <option value="400">400 x 400</option>
+                        <option value="512">512 x 512</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label for="qr-fg-color" data-i18n="tools.qrcode.fgColor">前景色</label>
+                    <input type="color" id="qr-fg-color" value="#000000">
+                </div>
+                <div class="option-group">
+                    <label for="qr-bg-color" data-i18n="tools.qrcode.bgColor">背景色</label>
+                    <input type="color" id="qr-bg-color" value="#ffffff">
+                </div>
+            </section>
+
+            <section class="options-section" id="barcode-options" style="display: none;">
+                <div class="option-group">
+                    <label for="barcode-format" data-i18n="tools.qrcode.format">格式</label>
+                    <select id="barcode-format">
+                        <optgroup label="通用" data-i18n-label="tools.qrcode.general">
+                            <option value="CODE128" selected>CODE 128</option>
+                            <option value="CODE39">CODE 39</option>
+                            <option value="CODE93">CODE 93</option>
+                        </optgroup>
+                        <optgroup label="零售商品" data-i18n-label="tools.qrcode.retail">
+                            <option value="EAN13">EAN-13</option>
+                            <option value="EAN8">EAN-8</option>
+                            <option value="UPC">UPC-A</option>
+                            <option value="UPCE">UPC-E</option>
+                        </optgroup>
+                        <optgroup label="物流" data-i18n-label="tools.qrcode.logistics">
+                            <option value="ITF14">ITF-14</option>
+                            <option value="ITF">ITF</option>
+                        </optgroup>
+                        <optgroup label="医药" data-i18n-label="tools.qrcode.pharma">
+                            <option value="pharmacode">Pharmacode</option>
+                        </optgroup>
+                        <optgroup label="其他" data-i18n-label="tools.qrcode.other">
+                            <option value="MSI">MSI</option>
+                            <option value="codabar">Codabar</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label for="barcode-width" data-i18n="tools.qrcode.lineWidth">线条宽度</label>
+                    <select id="barcode-width">
+                        <option value="1" data-i18n="tools.qrcode.thin">1px (细)</option>
+                        <option value="2" selected data-i18n="tools.qrcode.standard">2px (标准)</option>
+                        <option value="3" data-i18n="tools.qrcode.thick">3px (粗)</option>
+                        <option value="4" data-i18n="tools.qrcode.veryThick">4px (很粗)</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label for="barcode-height" data-i18n="tools.qrcode.height">高度</label>
+                    <select id="barcode-height">
+                        <option value="50">50px</option>
+                        <option value="80">80px</option>
+                        <option value="100" selected>100px</option>
+                        <option value="150">150px</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label for="barcode-show-text" data-i18n="tools.qrcode.showText">显示文字</label>
+                    <input type="checkbox" id="barcode-show-text" checked>
+                </div>
+            </section>
+
+            <section class="action-section">
+                <button id="generate-btn" class="btn btn--primary" data-i18n="tools.qrcode.generate">生成</button>
+                <button id="download-btn" class="btn btn--outline" disabled data-i18n="tools.qrcode.downloadPng">下载PNG</button>
+                <button id="download-svg-btn" class="btn btn--outline" disabled data-i18n="tools.qrcode.downloadSvg">下载SVG</button>
+            </section>
+
+            <section class="result-section" id="result-section" style="display: none;">
+                <h3 data-i18n="tools.qrcode.result">生成结果</h3>
+                <div class="code-preview" id="code-preview"></div>
+                <div class="format-info" id="format-info"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="qrcode.js"></script>
+</body>
+</html>

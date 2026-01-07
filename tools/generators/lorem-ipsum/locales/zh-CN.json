@@ -1,0 +1,15 @@
+{
+    "title": "Lorem Ipsum生成器",
+    "description": "生成占位文本",
+    "genType": "生成类型",
+    "paragraphs": "段落",
+    "sentences": "句子",
+    "words": "单词",
+    "count": "数量",
+    "startWithLorem": "以 \"Lorem ipsum\" 开头",
+    "generate": "生成",
+    "statParagraphs": "段落",
+    "statSentences": "句子",
+    "statWords": "单词",
+    "statCharacters": "字符"
+}

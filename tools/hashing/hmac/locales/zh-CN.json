@@ -1,0 +1,13 @@
+{
+    "title": "HMAC 计算",
+    "description": "基于哈希的消息认证码计算",
+    "algorithm": "算法",
+    "outputFormat": "输出格式",
+    "hexLower": "Hex (小写)",
+    "hexUpper": "Hex (大写)",
+    "key": "密钥",
+    "keyPlaceholder": "输入密钥...",
+    "message": "消息",
+    "messagePlaceholder": "输入要计算 HMAC 的内容...",
+    "calculate": "计算 HMAC"
+}

@@ -1,0 +1,13 @@
+{
+    "title": "HMAC Calculator",
+    "description": "Hash-based Message Authentication Code calculator",
+    "algorithm": "Algorithm",
+    "outputFormat": "Output Format",
+    "hexLower": "Hex (lowercase)",
+    "hexUpper": "Hex (uppercase)",
+    "key": "Key",
+    "keyPlaceholder": "Enter key...",
+    "message": "Message",
+    "messagePlaceholder": "Enter content for HMAC...",
+    "calculate": "Calculate HMAC"
+}

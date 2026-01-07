@@ -1,0 +1,10 @@
+{
+    "title": "Text Diff",
+    "description": "Compare differences between two texts",
+    "originalText": "Original Text",
+    "modifiedText": "Modified Text",
+    "originalPlaceholder": "Enter original text...",
+    "modifiedPlaceholder": "Enter modified text...",
+    "compare": "Compare",
+    "result": "Diff Result"
+}

@@ -692,6 +692,118 @@
             path: '/tools/text/regex/',
             keywords: ['regex', 'regular', 'expression', '正则'],
             popular: true
+        },
+
+        // ========== 新增编码工具 ==========
+        {
+            id: 'punycode',
+            category: 'encoding',
+            name: 'tools.punycode.title',
+            description: 'tools.punycode.description',
+            icon: '🌍',
+            path: '/tools/encoding/punycode/',
+            keywords: ['punycode', 'idn', 'domain', '国际化域名', 'internationalized']
+        },
+
+        // ========== 新增哈希工具 ==========
+        {
+            id: 'hmac',
+            category: 'hashing',
+            name: 'tools.hmac.title',
+            description: 'tools.hmac.description',
+            icon: '🔑',
+            path: '/tools/hashing/hmac/',
+            keywords: ['hmac', 'hash', 'mac', 'sha', '消息认证码']
+        },
+        {
+            id: 'crc',
+            category: 'hashing',
+            name: 'tools.crc.title',
+            description: 'tools.crc.description',
+            icon: '✓',
+            path: '/tools/hashing/crc/',
+            keywords: ['crc', 'crc32', 'checksum', '校验', '循环冗余']
+        },
+
+        // ========== 新增网络工具 ==========
+        {
+            id: 'url-parser',
+            category: 'network',
+            name: 'tools.url-parser.title',
+            description: 'tools.url-parser.description',
+            icon: '🔗',
+            path: '/tools/network/url-parser/',
+            keywords: ['url', 'parse', 'query', 'uri', '解析']
+        },
+        {
+            id: 'ip-converter',
+            category: 'network',
+            name: 'tools.ip-converter.title',
+            description: 'tools.ip-converter.description',
+            icon: '🌐',
+            path: '/tools/network/ip-converter/',
+            keywords: ['ip', 'address', 'convert', '地址', '转换']
+        },
+
+        // ========== 新增转换器 ==========
+        {
+            id: 'byte-unit',
+            category: 'converters',
+            name: 'tools.byte-unit.title',
+            description: 'tools.byte-unit.description',
+            icon: '💾',
+            path: '/tools/converters/byte-unit/',
+            keywords: ['byte', 'kb', 'mb', 'gb', 'size', '字节', '大小']
+        },
+        {
+            id: 'time-unit',
+            category: 'converters',
+            name: 'tools.time-unit.title',
+            description: 'tools.time-unit.description',
+            icon: '⏱️',
+            path: '/tools/converters/time-unit/',
+            keywords: ['time', 'convert', 'second', 'minute', 'hour', '时间']
+        },
+
+        // ========== 新增文本工具 ==========
+        {
+            id: 'text-diff',
+            category: 'text',
+            name: 'tools.text-diff.title',
+            description: 'tools.text-diff.description',
+            icon: '📝',
+            path: '/tools/text/diff/',
+            keywords: ['diff', 'compare', 'difference', '对比', '差异']
+        },
+
+        // ========== 新增生成器 ==========
+        {
+            id: 'qrcode',
+            category: 'generators',
+            name: 'tools.qrcode.title',
+            description: 'tools.qrcode.description',
+            icon: '📱',
+            path: '/tools/generators/qrcode/',
+            keywords: ['qr', 'qrcode', 'barcode', '二维码', '条形码', 'code128', 'ean', 'upc', '生成'],
+            popular: true
+        },
+        {
+            id: 'lorem-ipsum',
+            category: 'generators',
+            name: 'tools.lorem-ipsum.title',
+            description: 'tools.lorem-ipsum.description',
+            icon: '📜',
+            path: '/tools/generators/lorem-ipsum/',
+            keywords: ['lorem', 'ipsum', 'placeholder', 'text', '占位', '文本']
+        },
+        {
+            id: 'barcode-scanner',
+            category: 'generators',
+            name: 'tools.barcode-scanner.title',
+            description: 'tools.barcode-scanner.description',
+            icon: '📷',
+            path: '/tools/generators/barcode-scanner/',
+            keywords: ['qr', 'barcode', 'scan', 'scanner', '扫描', '条码', '二维码']
         }
     ]);
 

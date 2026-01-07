@@ -240,6 +240,50 @@
         "regex": {
             "title": "正则表达式测试",
             "description": "正则表达式在线测试与调试"
+        },
+        "punycode": {
+            "title": "Punycode 编解码",
+            "description": "国际化域名 (IDN) Punycode 编码与解码"
+        },
+        "hmac": {
+            "title": "HMAC 计算器",
+            "description": "计算 HMAC 消息认证码"
+        },
+        "crc": {
+            "title": "CRC 计算器",
+            "description": "计算 CRC 校验值"
+        },
+        "url-parser": {
+            "title": "URL 解析器",
+            "description": "解析 URL 各组成部分"
+        },
+        "ip-converter": {
+            "title": "IP 地址转换",
+            "description": "IP 地址格式转换"
+        },
+        "byte-unit": {
+            "title": "字节单位转换",
+            "description": "存储容量单位转换"
+        },
+        "time-unit": {
+            "title": "时间单位转换",
+            "description": "时间单位换算"
+        },
+        "text-diff": {
+            "title": "文本差异对比",
+            "description": "两段文本的差异对比"
+        },
+        "qrcode": {
+            "title": "条码生成器",
+            "description": "生成QR码和各种条形码"
+        },
+        "lorem-ipsum": {
+            "title": "Lorem Ipsum 生成器",
+            "description": "生成占位文本"
+        },
+        "barcode-scanner": {
+            "title": "条码扫描器",
+            "description": "扫描QR码和各种条形码"
         }
     }
 }

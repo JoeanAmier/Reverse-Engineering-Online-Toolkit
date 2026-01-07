@@ -28,26 +28,26 @@
                 <label data-i18n="tools.regex.pattern">正则表达式</label>
                 <div class="regex-input-wrapper">
                     <span class="regex-delimiter">/</span>
-                    <input type="text" id="regex-input" class="form-input regex-input" placeholder="输入正则表达式...">
+                    <input type="text" id="regex-input" class="form-input regex-input" data-i18n-placeholder="tools.regex.patternPlaceholder" placeholder="输入正则表达式...">
                     <span class="regex-delimiter">/</span>
                     <input type="text" id="flags-input" class="form-input flags-input" value="g" placeholder="flags">
                 </div>
                 <div class="flags-checkboxes">
                     <label class="checkbox-label">
                         <input type="checkbox" id="flag-g" checked>
-                        <span>g (全局)</span>
+                        <span data-i18n="tools.regex.flagGlobal">g (全局)</span>
                     </label>
                     <label class="checkbox-label">
                         <input type="checkbox" id="flag-i">
-                        <span>i (忽略大小写)</span>
+                        <span data-i18n="tools.regex.flagIgnoreCase">i (忽略大小写)</span>
                     </label>
                     <label class="checkbox-label">
                         <input type="checkbox" id="flag-m">
-                        <span>m (多行)</span>
+                        <span data-i18n="tools.regex.flagMultiline">m (多行)</span>
                     </label>
                     <label class="checkbox-label">
                         <input type="checkbox" id="flag-s">
-                        <span>s (dotAll)</span>
+                        <span data-i18n="tools.regex.flagDotAll">s (dotAll)</span>
                     </label>
                 </div>
             </section>

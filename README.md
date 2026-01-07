@@ -43,7 +43,7 @@
 | **Unicode** | Unicode 编码与解码（\uXXXX 格式） | ✅ 已完成 |
 | **Hex 字符串** | 十六进制字符串与文本互转 | ✅ 已完成 |
 | **ASCII** | ASCII 码与字符互转 | ✅ 已完成 |
-| **Punycode** | 国际化域名 Punycode 编解码 | 📋 计划中 |
+| **Punycode** | 国际化域名 Punycode 编解码 | ✅ 已完成 |
 | **ROT13/ROT47** | ROT13 和 ROT47 编码 | ✅ 已完成 |
 | **Morse 电码** | 摩斯电码编码与解码 | ✅ 已完成 |
 
@@ -66,17 +66,14 @@
 | **SHA-2 系列** | SHA-256, SHA-384, SHA-512 | ✅ 已完成 |
 | **SHA-3 系列** | SHA3-224, SHA3-256, SHA3-384, SHA3-512 | 📋 计划中 |
 | **BLAKE2** | BLAKE2b, BLAKE2s 哈希计算 | 📋 计划中 |
-| **CRC** | CRC16, CRC32, CRC64 校验计算 | 📋 计划中 |
+| **CRC** | CRC8, CRC16, CRC32, CRC32C 校验计算 | ✅ 已完成 |
 | **RIPEMD** | RIPEMD-160 哈希计算 | 📋 计划中 |
 
 ### HMAC 计算 (HMAC)
 
 | 功能 | 描述 | 状态 |
 |------|------|------|
-| **HMAC-MD5** | 基于 MD5 的 HMAC 计算 | 📋 计划中 |
-| **HMAC-SHA1** | 基于 SHA-1 的 HMAC 计算 | 📋 计划中 |
-| **HMAC-SHA2** | 基于 SHA-2 系列的 HMAC 计算 | 📋 计划中 |
-| **HMAC-SHA3** | 基于 SHA-3 系列的 HMAC 计算 | 📋 计划中 |
+| **HMAC** | HMAC-SHA1, HMAC-SHA256, HMAC-SHA384, HMAC-SHA512 计算 | ✅ 已完成 |
 
 ### 对称加密 (Symmetric Encryption)
 
@@ -140,8 +137,8 @@
 | **Cookie 解析** | Cookie 字符串解析与格式化 | 📋 计划中 |
 | **User-Agent 解析** | User-Agent 字符串解析 | 📋 计划中 |
 | **HTTP 头解析** | HTTP 请求/响应头解析 | 📋 计划中 |
-| **IP 地址转换** | IP 地址与整数互转 | 📋 计划中 |
-| **URL 解析** | URL 组成部分解析 | 📋 计划中 |
+| **IP 地址转换** | IP 地址格式转换（十进制、整数、十六进制、二进制） | ✅ 已完成 |
+| **URL 解析** | URL 组成部分解析 | ✅ 已完成 |
 | **cURL 转代码** | cURL 命令转换为各语言代码 | 📋 计划中 |
 
 ### 生成器 (Generators)
@@ -150,20 +147,21 @@
 |------|------|------|
 | **UUID** | UUID v1/v4/v5/v7 生成 | ✅ 已完成 |
 | **时间戳** | Unix 时间戳转换与生成 | ✅ 已完成 |
-| **二维码** | 二维码生成与解析 | 📋 计划中 |
+| **条码生成器** | QR码和各种条形码生成（CODE128, EAN, UPC等） | ✅ 已完成 |
+| **条码扫描器** | 摄像头/图片扫描QR码和各种条形码 | ✅ 已完成 |
 | **随机字符串** | 随机字符串生成器 | ✅ 已完成 |
 | **密码生成** | 安全密码生成器 | ✅ 已完成 |
 | **密钥对生成** | RSA/ECC 密钥对生成 | 📋 计划中 |
-| **Lorem Ipsum** | 占位文本生成 | 📋 计划中 |
+| **Lorem Ipsum** | 占位文本生成 | ✅ 已完成 |
 
 ### 数值转换 (Number Conversion)
 
 | 功能 | 描述 | 状态 |
 |------|------|------|
 | **进制转换** | 二进制、八进制、十进制、十六进制互转 | ✅ 已完成 |
-| **字节单位转换** | B, KB, MB, GB, TB 等单位转换 | 📋 计划中 |
+| **字节单位转换** | B, KB, MB, GB, TB 等单位转换（SI/IEC） | ✅ 已完成 |
 | **颜色转换** | HEX, RGB, HSL, HSV 颜色格式互转 | ✅ 已完成 |
-| **时间单位转换** | 秒、分钟、小时、天等单位转换 | 📋 计划中 |
+| **时间单位转换** | 秒、分钟、小时、天等单位转换 | ✅ 已完成 |
 | **IEEE 754** | 浮点数 IEEE 754 表示查看 | 📋 计划中 |
 
 ### 文本处理 (Text Processing)
@@ -171,7 +169,7 @@
 | 功能 | 描述 | 状态 |
 |------|------|------|
 | **正则表达式测试** | 正则表达式在线测试与调试 | ✅ 已完成 |
-| **文本差异对比** | 两段文本的差异对比 | 📋 计划中 |
+| **文本差异对比** | 两段文本的差异对比 | ✅ 已完成 |
 | **字符统计** | 字符、单词、行数统计 | ✅ 已完成 |
 | **大小写转换** | 大小写、驼峰、下划线等格式转换 | ✅ 已完成 |
 | **文本去重** | 去除重复行 | ✅ 已完成 |
@@ -727,7 +725,9 @@ limitations under the License.
 - [CryptoJS](https://github.com/brix/crypto-js) - 加密库
 - [Pako](https://github.com/nodeca/pako) - GZIP 压缩库
 - [zstd-codec](https://github.com/nicholassmith/zstd-codec) - ZSTD 压缩库
-- [QRCode.js](https://github.com/davidshimjs/qrcodejs) - 二维码生成库
+- [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) - QR码生成库
+- [JsBarcode](https://github.com/lindell/JsBarcode) - 条形码生成库
+- [html5-qrcode](https://github.com/mebjas/html5-qrcode) - 条码扫描库
 - 以及所有贡献者的支持！
 
 ---

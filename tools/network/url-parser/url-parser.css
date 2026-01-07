@@ -1,0 +1,61 @@
+.url-parts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.url-part {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.url-part label {
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.value-row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.value-row input {
+    flex: 1;
+    font-family: monospace;
+    font-size: 0.875rem;
+}
+
+.query-params {
+    margin-top: 1.5rem;
+}
+
+.query-params h4 {
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+}
+
+.query-params table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.query-params th,
+.query-params td {
+    padding: 0.5rem;
+    text-align: left;
+    border: 1px solid var(--border-color);
+}
+
+.query-params th {
+    background: var(--bg-secondary);
+    font-weight: 500;
+}
+
+.query-params code {
+    background: var(--bg-tertiary);
+    padding: 0.125rem 0.375rem;
+    border-radius: 3px;
+    font-size: 0.875rem;
+}

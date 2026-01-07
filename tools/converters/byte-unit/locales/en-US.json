@@ -1,0 +1,8 @@
+{
+    "title": "Byte Unit Converter",
+    "description": "Convert between B, KB, MB, GB, TB, etc.",
+    "inputPlaceholder": "Enter value",
+    "binaryUnits": "Binary Units (IEC)",
+    "decimalUnits": "Decimal Units:",
+    "binaryUnitsInfo": "Binary Units:"
+}
