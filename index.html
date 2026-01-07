@@ -25,7 +25,7 @@
                 <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
                     <span class="hamburger"></span>
                 </button>
-                <a href="/" class="logo">
+                <a href="/" class="logo" data-route="/">
                     <img src="assets/images/logo.svg" alt="REOT Logo" class="logo-image">
                     <span class="logo-text" data-i18n="site.name">REOT</span>
                 </a>
@@ -287,6 +287,22 @@
             </div>
         </div>
     </div>
+
+    <!-- GitHub Pages SPA 重定向处理 -->
+    <script>
+        (function() {
+            // 只在 GitHub Pages 上处理重定向
+            if (!window.location.hostname.endsWith('github.io')) {
+                return;
+            }
+            var redirect = sessionStorage.getItem('github_pages_redirect');
+            if (redirect) {
+                sessionStorage.removeItem('github_pages_redirect');
+                // 保存重定向路径，等待路由初始化后处理
+                window.__REDIRECT_PATH__ = redirect;
+            }
+        })();
+    </script>
 
     <!-- Scripts -->
     <script src="assets/js/utils.js"></script>

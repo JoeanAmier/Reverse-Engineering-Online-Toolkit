@@ -12,6 +12,37 @@
     window.REOT = window.REOT || {};
 
     /**
+     * 获取基础路径（支持GitHub Pages子目录部署）
+     * @returns {string}
+     */
+    function getBasePath() {
+        // 检查是否有 <base> 标签
+        const baseTag = document.querySelector('base');
+        if (baseTag) {
+            return baseTag.href.replace(/\/$/, '');
+        }
+
+        // 从当前脚本路径推断基础路径
+        const scripts = document.querySelectorAll('script[src]');
+        for (const script of scripts) {
+            const src = script.getAttribute('src');
+            if (src && src.includes('assets/js/i18n.js')) {
+                // 移除 assets/js/i18n.js 得到基础路径
+                const basePath = src.replace(/assets\/js\/i18n\.js.*$/, '');
+                if (basePath.startsWith('http')) {
+                    return basePath.replace(/\/$/, '');
+                }
+                // 相对路径转绝对路径
+                const url = new URL(basePath, window.location.href);
+                return url.href.replace(/\/$/, '');
+            }
+        }
+
+        // 默认使用当前origin
+        return window.location.origin;
+    }
+
+    /**
      * 国际化模块
      */
     REOT.i18n = {
@@ -101,7 +132,8 @@
          */
         async loadLocale(locale) {
             try {
-                const response = await fetch(`/locales/${locale}.json`);
+                const basePath = getBasePath();
+                const response = await fetch(`${basePath}/locales/${locale}.json`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -136,7 +168,8 @@
             }
 
             try {
-                const response = await fetch(`${toolPath}locales/${locale}.json`);
+                const basePath = getBasePath();
+                const response = await fetch(`${basePath}${toolPath}locales/${locale}.json`);
                 if (!response.ok) {
                     // 工具没有本地化文件是正常的，静默处理
                     return false;

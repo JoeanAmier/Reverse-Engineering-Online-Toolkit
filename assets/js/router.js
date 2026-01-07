@@ -12,6 +12,53 @@
     window.REOT = window.REOT || {};
 
     /**
+     * 获取基础路径（支持GitHub Pages子目录部署）
+     * @returns {string}
+     */
+    function getBasePath() {
+        // 检查是否有 <base> 标签
+        const baseTag = document.querySelector('base');
+        if (baseTag) {
+            return baseTag.href.replace(/\/$/, '');
+        }
+
+        // 从当前脚本路径推断基础路径
+        const scripts = document.querySelectorAll('script[src]');
+        for (const script of scripts) {
+            const src = script.getAttribute('src');
+            if (src && src.includes('assets/js/router.js')) {
+                const basePath = src.replace(/assets\/js\/router\.js.*$/, '');
+                if (basePath.startsWith('http')) {
+                    return basePath.replace(/\/$/, '');
+                }
+                const url = new URL(basePath, window.location.href);
+                return url.href.replace(/\/$/, '');
+            }
+        }
+
+        return window.location.origin;
+    }
+
+    /**
+     * 获取路径前缀（用于识别GitHub Pages子目录）
+     * 从基础路径中提取，确保本地开发和GitHub Pages都能正常工作
+     * @returns {string}
+     */
+    function getPathPrefix() {
+        const basePath = getBasePath();
+        try {
+            const url = new URL(basePath);
+            // 返回路径部分（不包含末尾斜杠）
+            // 本地开发: http://localhost:8080 -> pathname = "/" -> ""
+            // GitHub Pages: https://xxx.github.io/repo-name -> pathname = "/repo-name" -> "/repo-name"
+            const pathname = url.pathname.replace(/\/$/, '');
+            return pathname === '' ? '' : pathname;
+        } catch (e) {
+            return '';
+        }
+    }
+
+    /**
      * 路由模块
      */
     REOT.router = {
@@ -28,9 +75,13 @@
          * 初始化路由
          */
         init() {
+            // 保存路径前缀
+            this.pathPrefix = getPathPrefix();
+
             // 监听 popstate 事件（浏览器前进/后退）
             window.addEventListener('popstate', (e) => {
-                this.handleRouteChange(e.state?.path || window.location.pathname);
+                const path = e.state?.path || this.normalizePath(window.location.pathname);
+                this.handleRouteChange(path);
             });
 
             // 监听点击事件，拦截导航链接
@@ -43,8 +94,31 @@
                 }
             });
 
-            // 初始化当前路由
-            this.handleRouteChange(window.location.pathname);
+            // 检查是否有来自 404.html 的重定向路径
+            let initialPath;
+            if (window.__REDIRECT_PATH__) {
+                initialPath = this.normalizePath(window.__REDIRECT_PATH__);
+                delete window.__REDIRECT_PATH__;
+                // 替换当前历史记录为正确的路径
+                const fullPath = this.pathPrefix + initialPath;
+                window.history.replaceState({ path: initialPath }, '', fullPath);
+            } else {
+                initialPath = this.normalizePath(window.location.pathname);
+            }
+
+            this.handleRouteChange(initialPath);
+        },
+
+        /**
+         * 规范化路径（移除GitHub Pages子目录前缀）
+         * @param {string} path - 原始路径
+         * @returns {string} - 规范化后的路径
+         */
+        normalizePath(path) {
+            if (this.pathPrefix && path.startsWith(this.pathPrefix)) {
+                path = path.substring(this.pathPrefix.length) || '/';
+            }
+            return path;
         },
 
         /**
@@ -57,10 +131,13 @@
                 return;
             }
 
+            // 构建完整的浏览器URL（包含路径前缀）
+            const fullPath = this.pathPrefix + path;
+
             if (replace) {
-                window.history.replaceState({ path }, '', path);
+                window.history.replaceState({ path }, '', fullPath);
             } else {
-                window.history.pushState({ path }, '', path);
+                window.history.pushState({ path }, '', fullPath);
             }
 
             this.handleRouteChange(path);
@@ -148,7 +225,8 @@
                 }
 
                 // 加载工具HTML
-                const response = await fetch(`${path}index.html`);
+                const basePath = getBasePath();
+                const response = await fetch(`${basePath}${path}index.html`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -214,8 +292,9 @@
 
             // 创建新脚本元素
             return new Promise((resolve, reject) => {
+                const basePath = getBasePath();
                 const script = document.createElement('script');
-                script.src = `${path}${toolId}.js`;
+                script.src = `${basePath}${path}${toolId}.js`;
                 script.setAttribute('data-tool', toolId);
                 script.onload = resolve;
                 script.onerror = reject;
@@ -236,9 +315,10 @@
             }
 
             // 创建新样式链接
+            const basePath = getBasePath();
             const link = document.createElement('link');
             link.rel = 'stylesheet';
-            link.href = `${path}${toolId}.css`;
+            link.href = `${basePath}${path}${toolId}.css`;
             link.setAttribute('data-tool', toolId);
             link.onerror = () => {
                 // CSS文件不存在时静默处理
