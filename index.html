@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="REOT - 纯前端逆向工程在线工具箱，提供编码解码、加密解密、哈希计算等功能">
+    <meta name="keywords" content="逆向工程,在线工具,编码解码,加密解密,Base64,MD5,SHA,AES,RSA">
+    <meta name="author" content="Evil0ctal">
+    <title data-i18n="site.title">REOT - 逆向工程在线工具箱</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/images/logo.svg">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="assets/css/themes/dark.css" id="theme-dark">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- 页头 -->
+        <header class="app-header" id="header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
+                    <span class="hamburger"></span>
+                </button>
+                <a href="/" class="logo">
+                    <img src="assets/images/logo.svg" alt="REOT Logo" class="logo-image">
+                    <span class="logo-text" data-i18n="site.name">REOT</span>
+                </a>
+            </div>
+            <div class="header-center">
+                <div class="search-box">
+                    <input type="text"
+                           id="search-input"
+                           class="search-input"
+                           data-i18n-placeholder="common.searchPlaceholder"
+                           placeholder="搜索工具...">
+                    <button class="search-btn" aria-label="Search">
+                        <svg class="icon-search" viewBox="0 0 24 24" width="20" height="20">
+                            <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
+                    <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="5" fill="currentColor"/>
+                        <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </g>
+                    </svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" style="display:none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <div class="language-selector">
+                    <select id="language-select" class="language-select">
+                        <option value="zh-CN">简体中文</option>
+                        <option value="en-US">English</option>
+                    </select>
+                </div>
+                <a href="https://github.com/Evil0ctal/Reverse-Engineering-Online-Toolkit"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="github-link"
+                   aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                </a>
+            </div>
+        </header>
+
+        <!-- 侧边栏 -->
+        <aside class="app-sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <!-- 分类列表 -->
+                <div class="nav-category" data-category="encoding">
+                    <div class="category-header">
+                        <span class="category-icon">📝</span>
+                        <span class="category-title" data-i18n="categories.encoding">编码与解码</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+
+                <div class="nav-category" data-category="compression">
+                    <div class="category-header">
+                        <span class="category-icon">📦</span>
+                        <span class="category-title" data-i18n="categories.compression">压缩与解压</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+
+                <div class="nav-category" data-category="hashing">
+                    <div class="category-header">
+                        <span class="category-icon">🔐</span>
+                        <span class="category-title" data-i18n="categories.hashing">哈希计算</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+
+                <div class="nav-category" data-category="hmac">
+                    <div class="category-header">
+                        <span class="category-icon">🔑</span>
+                        <span class="category-title" data-i18n="categories.hmac">HMAC 计算</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+
+                <div class="nav-category" data-category="encryption">
+                    <div class="category-header">
+                        <span class="category-icon">🔒</span>
+                        <span class="category-title" data-i18n="categories.encryption">加密与解密</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+
+                <div class="nav-category" data-category="formatting">
+                    <div class="category-header">
+                        <span class="category-icon">📋</span>
+                        <span class="category-title" data-i18n="categories.formatting">数据格式化</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+
+                <div class="nav-category" data-category="binary">
+                    <div class="category-header">
+                        <span class="category-icon">💾</span>
+                        <span class="category-title" data-i18n="categories.binary">二进制分析</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+
+                <div class="nav-category" data-category="protocol">
+                    <div class="category-header">
+                        <span class="category-icon">📡</span>
+                        <span class="category-title" data-i18n="categories.protocol">协议解析</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+
+                <div class="nav-category" data-category="network">
+                    <div class="category-header">
+                        <span class="category-icon">🌐</span>
+                        <span class="category-title" data-i18n="categories.network">网络工具</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+
+                <div class="nav-category" data-category="generators">
+                    <div class="category-header">
+                        <span class="category-icon">⚡</span>
+                        <span class="category-title" data-i18n="categories.generators">生成器</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+
+                <div class="nav-category" data-category="converters">
+                    <div class="category-header">
+                        <span class="category-icon">🔄</span>
+                        <span class="category-title" data-i18n="categories.converters">数值转换</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+
+                <div class="nav-category" data-category="text">
+                    <div class="category-header">
+                        <span class="category-icon">📄</span>
+                        <span class="category-title" data-i18n="categories.text">文本处理</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+
+                <div class="nav-category" data-category="reverse">
+                    <div class="category-header">
+                        <span class="category-icon">🔧</span>
+                        <span class="category-title" data-i18n="categories.reverse">逆向专用</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="category-tools"></ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="app-main" id="main">
+            <!-- 首页内容 -->
+            <div class="home-content" id="home-content">
+                <section class="hero">
+                    <h1 class="hero-title" data-i18n="home.title">逆向工程在线工具箱</h1>
+                    <p class="hero-subtitle" data-i18n="home.subtitle">纯前端实现，数据不上传，保护您的隐私安全</p>
+                </section>
+
+                <section class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">🌐</div>
+                        <h3 class="feature-title" data-i18n="home.features.local.title">本地计算</h3>
+                        <p class="feature-desc" data-i18n="home.features.local.desc">所有计算均在浏览器本地完成</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h3 class="feature-title" data-i18n="home.features.fast.title">即开即用</h3>
+                        <p class="feature-desc" data-i18n="home.features.fast.desc">无需安装，打开浏览器即可使用</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3 class="feature-title" data-i18n="home.features.secure.title">隐私安全</h3>
+                        <p class="feature-desc" data-i18n="home.features.secure.desc">数据不会上传至服务器</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3 class="feature-title" data-i18n="home.features.responsive.title">响应式设计</h3>
+                        <p class="feature-desc" data-i18n="home.features.responsive.desc">适配桌面端和移动端</p>
+                    </div>
+                </section>
+
+                <section class="quick-access">
+                    <h2 class="section-title" data-i18n="home.quickAccess">快速访问</h2>
+                    <div class="tool-grid" id="popular-tools">
+                        <!-- 由 JavaScript 动态填充 -->
+                    </div>
+                </section>
+
+                <section class="all-tools">
+                    <h2 class="section-title" data-i18n="home.allTools">所有工具</h2>
+                    <div class="tool-grid" id="all-tools">
+                        <!-- 由 JavaScript 动态填充 -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- 工具内容区（动态加载） -->
+            <div class="tool-content" id="tool-content" style="display: none;">
+                <!-- 工具页面将通过 iframe 或动态加载方式显示 -->
+            </div>
+        </main>
+
+        <!-- 页脚 -->
+        <footer class="app-footer" id="footer">
+            <div class="footer-content">
+                <p class="copyright">
+                    &copy; 2024-2026
+                    <a href="https://github.com/Evil0ctal" target="_blank" rel="noopener noreferrer">Evil0ctal</a>.
+                    <span data-i18n="footer.rights">保留所有权利。</span>
+                </p>
+                <p class="license">
+                    <span data-i18n="footer.license">基于</span>
+                    <a href="https://opensource.org/licenses/Apache-2.0" target="_blank" rel="noopener noreferrer">Apache License 2.0</a>
+                    <span data-i18n="footer.openSource">开源</span>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 搜索结果弹出框 -->
+    <div class="search-results-overlay" id="search-overlay" style="display: none;">
+        <div class="search-results-container">
+            <div class="search-results-header">
+                <h3 data-i18n="common.searchResults">搜索结果</h3>
+                <button class="close-btn" id="close-search">&times;</button>
+            </div>
+            <div class="search-results-list" id="search-results">
+                <!-- 搜索结果动态填充 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/router.js"></script>
+    <script src="assets/js/tools-registry.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

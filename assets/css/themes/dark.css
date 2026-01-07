@@ -1,0 +1,86 @@
+/**
+ * REOT - Dark Theme
+ * 暗色主题
+ */
+
+/* Dark theme via class or data attribute */
+:root[data-theme="dark"],
+html.dark-theme,
+.dark-theme {
+    /* Background Colors */
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --bg-input: #1e293b;
+    --bg-hover: #334155;
+
+    /* Text Colors */
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #64748b;
+    --text-inverse: #0f172a;
+
+    /* Border Colors */
+    --border-color: #334155;
+    --border-color-light: #475569;
+    --border-color-dark: #1e293b;
+
+    /* Status Colors */
+    --color-success-bg: #052e16;
+    --color-success-text: #86efac;
+    --color-warning-bg: #451a03;
+    --color-warning-text: #fcd34d;
+    --color-error-bg: #450a0a;
+    --color-error-text: #fca5a5;
+    --color-info-bg: #1e3a8a;
+    --color-info-text: #93c5fd;
+
+    /* Code Block */
+    --code-bg: #1e293b;
+    --code-text: #e2e8f0;
+
+    /* Color Scheme */
+    color-scheme: dark;
+}
+
+/* Dark theme body styles */
+html.dark-theme body,
+:root[data-theme="dark"] body {
+    color-scheme: dark;
+}
+
+/* Scrollbar - Dark Theme */
+html.dark-theme ::-webkit-scrollbar,
+:root[data-theme="dark"] ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+html.dark-theme ::-webkit-scrollbar-track,
+:root[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+html.dark-theme ::-webkit-scrollbar-thumb,
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--border-color-light);
+    border-radius: 4px;
+}
+
+html.dark-theme ::-webkit-scrollbar-thumb:hover,
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* Selection - Dark Theme */
+html.dark-theme ::selection,
+:root[data-theme="dark"] ::selection {
+    background-color: rgba(59, 130, 246, 0.4);
+    color: var(--text-primary);
+}
+
+/* Images - Dark Theme */
+html.dark-theme img,
+:root[data-theme="dark"] img {
+    opacity: 0.9;
+}

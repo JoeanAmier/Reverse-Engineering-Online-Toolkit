@@ -1,0 +1,192 @@
+{
+    "site": {
+        "title": "REOT - Reverse Engineering Online Toolkit",
+        "name": "REOT",
+        "description": "Pure frontend reverse engineering online toolkit"
+    },
+    "common": {
+        "input": "Input",
+        "output": "Output",
+        "encode": "Encode",
+        "decode": "Decode",
+        "encrypt": "Encrypt",
+        "decrypt": "Decrypt",
+        "hash": "Calculate Hash",
+        "format": "Format",
+        "minify": "Minify",
+        "copy": "Copy",
+        "copied": "Copied",
+        "copyFailed": "Copy failed",
+        "clear": "Clear",
+        "download": "Download",
+        "upload": "Upload",
+        "paste": "Paste",
+        "swap": "Swap",
+        "generate": "Generate",
+        "verify": "Verify",
+        "convert": "Convert",
+        "searchPlaceholder": "Search tools...",
+        "searchResults": "Search Results",
+        "noResults": "No results found",
+        "loading": "Loading...",
+        "backHome": "Back to Home",
+        "options": "Options",
+        "result": "Result",
+        "error": "Error",
+        "success": "Success",
+        "file": "File",
+        "text": "Text"
+    },
+    "home": {
+        "title": "Reverse Engineering Online Toolkit",
+        "subtitle": "Pure frontend implementation, data never uploaded, protecting your privacy",
+        "quickAccess": "Quick Access",
+        "allTools": "All Tools",
+        "features": {
+            "local": {
+                "title": "Local Computing",
+                "desc": "All computations are done locally in your browser"
+            },
+            "fast": {
+                "title": "Ready to Use",
+                "desc": "No installation needed, just open your browser"
+            },
+            "secure": {
+                "title": "Privacy Safe",
+                "desc": "Data is never uploaded to servers"
+            },
+            "responsive": {
+                "title": "Responsive Design",
+                "desc": "Works on desktop and mobile devices"
+            }
+        }
+    },
+    "categories": {
+        "encoding": "Encoding & Decoding",
+        "compression": "Compression",
+        "hashing": "Hashing",
+        "hmac": "HMAC",
+        "encryption": "Encryption",
+        "formatting": "Data Formatting",
+        "binary": "Binary Analysis",
+        "protocol": "Protocol Parsing",
+        "network": "Network Tools",
+        "generators": "Generators",
+        "converters": "Converters",
+        "text": "Text Processing",
+        "reverse": "Reverse Engineering"
+    },
+    "footer": {
+        "rights": "All rights reserved.",
+        "license": "Licensed under",
+        "openSource": "open source"
+    },
+    "errors": {
+        "loadFailed": "Load Failed",
+        "pageNotFound": "Page Not Found",
+        "pageNotFoundDesc": "The page you are looking for does not exist or has been removed",
+        "invalidInput": "Invalid input",
+        "encodeFailed": "Encoding failed",
+        "decodeFailed": "Decoding failed",
+        "encryptFailed": "Encryption failed",
+        "decryptFailed": "Decryption failed"
+    },
+    "tools": {
+        "base64": {
+            "title": "Base64 Encoder/Decoder",
+            "description": "Base64 encoding and decoding, supports standard and URL-safe Base64",
+            "standard": "Standard Base64",
+            "urlSafe": "URL Safe",
+            "inputPlaceholder": "Enter content to encode/decode..."
+        },
+        "url-encode": {
+            "title": "URL Encoder/Decoder",
+            "description": "URL encoding and decoding, supports component and full URL encoding",
+            "component": "Component Encoding",
+            "full": "Full URL Encoding",
+            "inputPlaceholder": "Enter URL to encode/decode..."
+        },
+        "hex": {
+            "title": "Hex Converter",
+            "description": "Convert between hexadecimal string and text",
+            "uppercase": "Uppercase",
+            "lowercase": "Lowercase",
+            "withSpaces": "With Spaces",
+            "inputPlaceholder": "Enter text or hex string..."
+        },
+        "unicode": {
+            "title": "Unicode Encoder/Decoder",
+            "description": "Unicode encoding and decoding (\\uXXXX format)",
+            "inputPlaceholder": "Enter text or Unicode encoding..."
+        },
+        "html-entity": {
+            "title": "HTML Entity Encoder/Decoder",
+            "description": "HTML entity encoding and decoding",
+            "inputPlaceholder": "Enter HTML text..."
+        },
+        "md5": {
+            "title": "MD5 Hash",
+            "description": "Calculate MD5 hash of text",
+            "inputPlaceholder": "Enter content to hash..."
+        },
+        "sha": {
+            "title": "SHA Hash",
+            "description": "SHA-1, SHA-256, SHA-384, SHA-512 hash calculation",
+            "algorithm": "Algorithm",
+            "inputPlaceholder": "Enter content to hash..."
+        },
+        "aes": {
+            "title": "AES Encryption",
+            "description": "AES symmetric encryption and decryption, supports multiple modes",
+            "mode": "Mode",
+            "padding": "Padding",
+            "key": "Key",
+            "iv": "IV Vector",
+            "keyPlaceholder": "Enter key...",
+            "ivPlaceholder": "Enter IV vector...",
+            "inputPlaceholder": "Enter content to encrypt/decrypt..."
+        },
+        "rsa": {
+            "title": "RSA Encryption",
+            "description": "RSA asymmetric encryption and decryption",
+            "publicKey": "Public Key",
+            "privateKey": "Private Key",
+            "keySize": "Key Size",
+            "generateKeys": "Generate Key Pair",
+            "inputPlaceholder": "Enter content to encrypt/decrypt..."
+        },
+        "json": {
+            "title": "JSON Formatter",
+            "description": "JSON formatting, minification, and validation",
+            "indent": "Indent",
+            "sortKeys": "Sort Keys",
+            "inputPlaceholder": "Enter JSON..."
+        },
+        "jwt": {
+            "title": "JWT Decoder",
+            "description": "JWT Token parsing and verification",
+            "header": "Header",
+            "payload": "Payload",
+            "signature": "Signature",
+            "inputPlaceholder": "Enter JWT Token..."
+        },
+        "uuid": {
+            "title": "UUID Generator",
+            "description": "Generate UUID v1/v4/v5/v7",
+            "version": "Version",
+            "count": "Count",
+            "uppercase": "Uppercase",
+            "noDashes": "No Dashes"
+        },
+        "timestamp": {
+            "title": "Timestamp Converter",
+            "description": "Unix timestamp conversion and generation",
+            "currentTimestamp": "Current Timestamp",
+            "unit": "Unit",
+            "seconds": "Seconds",
+            "milliseconds": "Milliseconds",
+            "toTimestamp": "To Timestamp",
+            "toDatetime": "To Datetime"
+        }
+    }
+}

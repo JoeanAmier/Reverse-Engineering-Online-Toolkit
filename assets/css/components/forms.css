@@ -1,0 +1,354 @@
+/**
+ * REOT - Form Components
+ * 表单组件样式
+ */
+
+/* ========================================
+   Form Group / 表单组
+   ======================================== */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group--horizontal {
+    flex-direction: row;
+    align-items: center;
+}
+
+.form-group--horizontal .form-label {
+    flex-shrink: 0;
+    width: 120px;
+}
+
+/* ========================================
+   Form Label / 表单标签
+   ======================================== */
+.form-label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.form-label--required::after {
+    content: '*';
+    color: var(--color-error);
+    margin-left: var(--spacing-xs);
+}
+
+/* ========================================
+   Form Input / 输入框
+   ======================================== */
+.form-input {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+    color: var(--text-primary);
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    outline: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-input::placeholder {
+    color: var(--text-muted);
+}
+
+.form-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-input:disabled {
+    background-color: var(--bg-secondary);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Input Sizes */
+.form-input--sm {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+}
+
+.form-input--lg {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-md);
+}
+
+/* Input States */
+.form-input--error {
+    border-color: var(--color-error);
+}
+
+.form-input--error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.form-input--success {
+    border-color: var(--color-success);
+}
+
+.form-input--success:focus {
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+/* ========================================
+   Textarea / 文本域
+   ======================================== */
+.form-textarea {
+    min-height: 120px;
+    resize: vertical;
+    font-family: var(--font-mono);
+}
+
+.form-textarea--code {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    tab-size: 4;
+}
+
+/* ========================================
+   Select / 选择框
+   ======================================== */
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--spacing-md) center;
+    padding-right: calc(var(--spacing-md) * 2 + 12px);
+    cursor: pointer;
+}
+
+/* ========================================
+   Checkbox / 复选框
+   ======================================== */
+.form-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+}
+
+.form-checkbox input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-input);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.form-checkbox input[type="checkbox"]:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.form-checkbox input[type="checkbox"]:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.form-checkbox span {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+}
+
+/* ========================================
+   Radio / 单选框
+   ======================================== */
+.form-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+}
+
+.form-radio input[type="radio"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    background-color: var(--bg-input);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.form-radio input[type="radio"]:checked {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+    box-shadow: inset 0 0 0 4px var(--bg-input);
+}
+
+.form-radio input[type="radio"]:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.form-radio span {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+}
+
+/* ========================================
+   Switch / 开关
+   ======================================== */
+.form-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+}
+
+.form-switch input[type="checkbox"] {
+    appearance: none;
+    width: 44px;
+    height: 24px;
+    border-radius: var(--radius-full);
+    background-color: var(--border-color);
+    cursor: pointer;
+    position: relative;
+    transition: background-color var(--transition-fast);
+}
+
+.form-switch input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    transition: transform var(--transition-fast);
+}
+
+.form-switch input[type="checkbox"]:checked {
+    background-color: var(--color-primary);
+}
+
+.form-switch input[type="checkbox"]:checked::before {
+    transform: translateX(20px);
+}
+
+.form-switch span {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+}
+
+/* ========================================
+   Form Helper / 表单帮助文本
+   ======================================== */
+.form-helper {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.form-helper--error {
+    color: var(--color-error);
+}
+
+.form-helper--success {
+    color: var(--color-success);
+}
+
+/* ========================================
+   Input Group / 输入组
+   ======================================== */
+.input-group {
+    display: flex;
+}
+
+.input-group .form-input {
+    border-radius: 0;
+}
+
+.input-group .form-input:first-child {
+    border-top-left-radius: var(--radius-md);
+    border-bottom-left-radius: var(--radius-md);
+}
+
+.input-group .form-input:last-child {
+    border-top-right-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+}
+
+.input-group__addon {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.input-group__addon:first-child {
+    border-right: none;
+    border-top-left-radius: var(--radius-md);
+    border-bottom-left-radius: var(--radius-md);
+}
+
+.input-group__addon:last-child {
+    border-left: none;
+    border-top-right-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+}
+
+/* ========================================
+   File Input / 文件输入
+   ======================================== */
+.form-file {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.form-file__dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    padding: var(--spacing-lg);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-secondary);
+    cursor: pointer;
+    transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.form-file__dropzone:hover,
+.form-file__dropzone--active {
+    border-color: var(--color-primary);
+    background-color: var(--bg-hover);
+}
+
+.form-file__dropzone input[type="file"] {
+    display: none;
+}
+
+.form-file__icon {
+    font-size: 32px;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-muted);
+}
+
+.form-file__text {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.form-file__text strong {
+    color: var(--color-primary);
+}

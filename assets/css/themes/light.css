@@ -1,0 +1,68 @@
+/**
+ * REOT - Light Theme
+ * 亮色主题
+ */
+
+:root {
+    /* Background Colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --bg-input: #ffffff;
+    --bg-hover: #f1f5f9;
+
+    /* Text Colors */
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --text-inverse: #ffffff;
+
+    /* Border Colors */
+    --border-color: #e2e8f0;
+    --border-color-light: #f1f5f9;
+    --border-color-dark: #cbd5e1;
+
+    /* Status Colors */
+    --color-success-bg: #dcfce7;
+    --color-success-text: #166534;
+    --color-warning-bg: #fef3c7;
+    --color-warning-text: #92400e;
+    --color-error-bg: #fee2e2;
+    --color-error-text: #991b1b;
+    --color-info-bg: #dbeafe;
+    --color-info-text: #1e40af;
+
+    /* Code Block */
+    --code-bg: #f8fafc;
+    --code-text: #1e293b;
+}
+
+/* Theme-specific styles */
+body {
+    color-scheme: light;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color-dark);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* Selection */
+::selection {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: var(--text-primary);
+}
