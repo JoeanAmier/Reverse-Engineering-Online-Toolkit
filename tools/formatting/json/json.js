@@ -488,9 +488,10 @@
         const contextMenu = document.getElementById('context-menu');
         if (!contextMenu) return;
 
+        // 使用 clientX/clientY 因为菜单是 position: fixed（相对于视口）
         contextMenu.style.display = 'block';
-        contextMenu.style.left = `${e.pageX}px`;
-        contextMenu.style.top = `${e.pageY}px`;
+        contextMenu.style.left = `${e.clientX}px`;
+        contextMenu.style.top = `${e.clientY}px`;
 
         // 存储当前上下文
         contextMenu.dataset.path = path;
@@ -500,10 +501,10 @@
         // 确保菜单不超出视口
         const rect = contextMenu.getBoundingClientRect();
         if (rect.right > window.innerWidth) {
-            contextMenu.style.left = `${e.pageX - rect.width}px`;
+            contextMenu.style.left = `${e.clientX - rect.width}px`;
         }
         if (rect.bottom > window.innerHeight) {
-            contextMenu.style.top = `${e.pageY - rect.height}px`;
+            contextMenu.style.top = `${e.clientY - rect.height}px`;
         }
     }
 
