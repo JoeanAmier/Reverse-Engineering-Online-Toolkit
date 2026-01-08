@@ -926,8 +926,26 @@
             path: '/tools/compression/deflate/',
             keywords: ['deflate', 'compress', 'decompress', 'zlib', '压缩', '解压']
         },
+        {
+            id: 'brotli',
+            category: 'compression',
+            name: 'tools.brotli.title',
+            description: 'tools.brotli.description',
+            icon: '📦',
+            path: '/tools/compression/brotli/',
+            keywords: ['brotli', 'compress', 'decompress', 'google', '压缩', '解压']
+        },
 
         // ========== 哈希工具（新增） ==========
+        {
+            id: 'blake2',
+            category: 'hashing',
+            name: 'tools.blake2.title',
+            description: 'tools.blake2.description',
+            icon: '🔒',
+            path: '/tools/hashing/blake2/',
+            keywords: ['blake2', 'blake2b', 'blake2s', 'hash', '哈希', '摘要']
+        },
         {
             id: 'sha3',
             category: 'hashing',
@@ -936,6 +954,17 @@
             icon: '🔒',
             path: '/tools/hashing/sha3/',
             keywords: ['sha3', 'sha3-256', 'sha3-512', 'keccak', 'hash', '哈希']
+        },
+
+        // ========== 协议解析（新增） ==========
+        {
+            id: 'x509',
+            category: 'protocol',
+            name: 'tools.x509.title',
+            description: 'tools.x509.description',
+            icon: '📜',
+            path: '/tools/protocol/x509/',
+            keywords: ['x509', 'certificate', 'ssl', 'tls', 'pem', 'der', '证书', '解析']
         },
 
         // ========== 网络工具（新增） ==========
@@ -1053,6 +1082,15 @@
         },
 
         // ========== 加密工具（新增） ==========
+        {
+            id: 'chacha20',
+            category: 'encryption',
+            name: 'tools.chacha20.title',
+            description: 'tools.chacha20.description',
+            icon: '🔐',
+            path: '/tools/encryption/chacha20/',
+            keywords: ['chacha20', 'chacha', 'poly1305', 'stream', 'cipher', '流加密', '加密', '解密']
+        },
         {
             id: 'blowfish',
             category: 'encryption',

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.blake2.title">BLAKE2 哈希 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="blake2.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.blake2.title">BLAKE2 哈希</h1>
+            <p data-i18n="tools.blake2.description">BLAKE2b 和 BLAKE2s 哈希计算，比 MD5/SHA 更快更安全</p>
+        </header>
+
+        <main class="tool-main">
+            <section class="options-section">
+                <div class="option-group">
+                    <label data-i18n="tools.blake2.algorithm">算法</label>
+                    <select id="algorithm-select" class="form-select">
+                        <option value="blake2b" selected>BLAKE2b (64位优化)</option>
+                        <option value="blake2s">BLAKE2s (32位优化)</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label data-i18n="tools.blake2.outputLength">输出长度 (字节)</label>
+                    <select id="output-length" class="form-select">
+                        <option value="16">16 (128位)</option>
+                        <option value="32" selected>32 (256位)</option>
+                        <option value="48">48 (384位)</option>
+                        <option value="64">64 (512位)</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label data-i18n="tools.blake2.key">密钥 (可选)</label>
+                    <input type="text" id="key-input" class="form-input"
+                           data-i18n-placeholder="tools.blake2.keyPlaceholder"
+                           placeholder="输入密钥用于 keyed 哈希...">
+                </div>
+            </section>
+
+            <section class="input-section">
+                <div class="input-header">
+                    <label data-i18n="common.input">输入</label>
+                    <div class="input-actions">
+                        <label class="file-upload-btn btn btn--sm btn--outline">
+                            <input type="file" id="file-input" style="display: none;">
+                            <span data-i18n="common.upload">上传文件</span>
+                        </label>
+                    </div>
+                </div>
+                <textarea id="input"
+                          class="form-input form-textarea form-textarea--code"
+                          data-i18n-placeholder="tools.blake2.inputPlaceholder"
+                          placeholder="请输入要计算哈希的内容..."></textarea>
+                <div id="file-info" class="file-info" style="display: none;"></div>
+            </section>
+
+            <section class="action-section">
+                <button id="hash-btn" class="btn btn--primary" data-i18n="common.hash">计算哈希</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+                <button id="copy-btn" class="btn btn--outline" data-i18n="common.copy">复制结果</button>
+            </section>
+
+            <section class="output-section">
+                <label data-i18n="tools.blake2.hashLower">哈希值 (小写)</label>
+                <input type="text" id="output-lower" class="form-input" readonly>
+            </section>
+
+            <section class="output-section">
+                <label data-i18n="tools.blake2.hashUpper">哈希值 (大写)</label>
+                <input type="text" id="output-upper" class="form-input" readonly>
+            </section>
+
+            <!-- 算法信息 -->
+            <section class="info-section">
+                <h3 data-i18n="tools.blake2.aboutBlake2">关于 BLAKE2</h3>
+                <p data-i18n="tools.blake2.aboutDesc">BLAKE2 是一种快速、安全的加密哈希函数，由 Jean-Philippe Aumasson 等人设计。它比 MD5 和 SHA-2 更快，同时提供更高的安全性。BLAKE2b 针对 64 位平台优化，输出长度可达 64 字节；BLAKE2s 针对 32 位平台优化，输出长度可达 32 字节。</p>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="blake2.js"></script>
+</body>
+</html>

@@ -425,6 +425,22 @@
         "javascript": {
             "title": "JavaScript 格式化",
             "description": "JavaScript 代码格式化、美化与压缩"
+        },
+        "brotli": {
+            "title": "Brotli 压缩",
+            "description": "Brotli 压缩与解压，支持文本和文件"
+        },
+        "blake2": {
+            "title": "BLAKE2 哈希",
+            "description": "BLAKE2b 和 BLAKE2s 哈希计算，比 MD5/SHA 更快更安全"
+        },
+        "chacha20": {
+            "title": "ChaCha20 加解密",
+            "description": "ChaCha20 流加密算法，由 Daniel J. Bernstein 设计"
+        },
+        "x509": {
+            "title": "X.509 证书解析",
+            "description": "解析 PEM/DER 格式的 X.509 证书，查看详细信息"
         }
     }
 }

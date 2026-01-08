@@ -1,0 +1,17 @@
+{
+    "title": "ChaCha20 Encryption",
+    "description": "ChaCha20 stream cipher designed by Daniel J. Bernstein",
+    "variant": "Algorithm Variant",
+    "outputFormat": "Output Format",
+    "key": "Key (256-bit)",
+    "keyPlaceholder": "Enter 32-byte key...",
+    "keyHint": "Requires 32 bytes (256 bit), accepts Hex or text",
+    "nonce": "Nonce",
+    "noncePlaceholder": "Enter Nonce...",
+    "nonceHint": "ChaCha20: 12 bytes, Poly1305: 12 bytes",
+    "counter": "Initial Counter",
+    "counterHint": "Usually 0, used for resumable encryption",
+    "inputPlaceholder": "Enter content to encrypt/decrypt...",
+    "aboutChaCha20": "About ChaCha20",
+    "aboutDesc": "ChaCha20 is a stream cipher designed by Daniel J. Bernstein, an improved version of Salsa20. It's faster than AES in software (especially on platforms without hardware acceleration) and is widely used in TLS 1.3, WireGuard VPN, etc. ChaCha20-Poly1305 is the AEAD variant providing integrity protection."
+}

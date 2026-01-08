@@ -425,6 +425,22 @@
         "javascript": {
             "title": "JavaScript Formatter",
             "description": "JavaScript code formatting, beautification, and minification"
+        },
+        "brotli": {
+            "title": "Brotli Compression",
+            "description": "Brotli compression and decompression for text and files"
+        },
+        "blake2": {
+            "title": "BLAKE2 Hash",
+            "description": "BLAKE2b and BLAKE2s hash calculation, faster and more secure than MD5/SHA"
+        },
+        "chacha20": {
+            "title": "ChaCha20 Encryption",
+            "description": "ChaCha20 stream cipher designed by Daniel J. Bernstein"
+        },
+        "x509": {
+            "title": "X.509 Certificate Parser",
+            "description": "Parse PEM/DER format X.509 certificates and view details"
         }
     }
 }

@@ -1,0 +1,85 @@
+/**
+ * ChaCha20 加解密工具样式
+ */
+
+.option-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.option-row .option-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+.key-section {
+    margin-top: 20px;
+}
+
+.key-row {
+    margin-bottom: 16px;
+}
+
+.key-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.key-group label {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.key-input-wrapper {
+    display: flex;
+    gap: 8px;
+}
+
+.key-input-wrapper .form-input {
+    flex: 1;
+}
+
+.key-hint {
+    font-size: 0.85em;
+    color: var(--text-muted);
+}
+
+/* 信息区域 */
+.info-section {
+    margin-top: 24px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.info-section h3 {
+    margin: 0 0 8px 0;
+    font-size: 1em;
+    color: var(--text-primary);
+}
+
+.info-section p {
+    margin: 0;
+    font-size: 0.9em;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* 响应式 */
+@media (max-width: 600px) {
+    .option-row {
+        flex-direction: column;
+    }
+
+    .key-input-wrapper {
+        flex-direction: column;
+    }
+}
+
+/* 暗色主题 */
+[data-theme="dark"] .info-section {
+    background: var(--bg-tertiary);
+}

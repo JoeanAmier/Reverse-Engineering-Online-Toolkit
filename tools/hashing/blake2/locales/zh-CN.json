@@ -1,0 +1,13 @@
+{
+    "title": "BLAKE2 哈希",
+    "description": "BLAKE2b 和 BLAKE2s 哈希计算，比 MD5/SHA 更快更安全",
+    "algorithm": "算法",
+    "outputLength": "输出长度 (字节)",
+    "key": "密钥 (可选)",
+    "keyPlaceholder": "输入密钥用于 keyed 哈希...",
+    "inputPlaceholder": "请输入要计算哈希的内容...",
+    "hashLower": "哈希值 (小写)",
+    "hashUpper": "哈希值 (大写)",
+    "aboutBlake2": "关于 BLAKE2",
+    "aboutDesc": "BLAKE2 是一种快速、安全的加密哈希函数，由 Jean-Philippe Aumasson 等人设计。它比 MD5 和 SHA-2 更快，同时提供更高的安全性。BLAKE2b 针对 64 位平台优化，输出长度可达 64 字节；BLAKE2s 针对 32 位平台优化，输出长度可达 32 字节。"
+}

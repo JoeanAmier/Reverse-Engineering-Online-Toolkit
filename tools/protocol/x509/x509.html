@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.x509.title">X.509 证书解析 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="x509.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.x509.title">X.509 证书解析</h1>
+            <p data-i18n="tools.x509.description">解析 PEM/DER 格式的 X.509 证书，查看详细信息</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 输入区域 -->
+            <section class="input-section">
+                <div class="input-header">
+                    <label data-i18n="tools.x509.certificate">证书内容</label>
+                    <div class="input-actions">
+                        <label class="file-upload-btn btn btn--sm btn--outline">
+                            <input type="file" id="file-input" accept=".pem,.crt,.cer,.der" style="display: none;">
+                            <span data-i18n="common.upload">上传文件</span>
+                        </label>
+                        <button id="sample-btn" class="btn btn--sm btn--outline" data-i18n="tools.x509.loadSample">加载示例</button>
+                    </div>
+                </div>
+                <textarea id="input"
+                          class="form-input form-textarea form-textarea--code"
+                          data-i18n-placeholder="tools.x509.inputPlaceholder"
+                          placeholder="粘贴 PEM 格式的证书（以 -----BEGIN CERTIFICATE----- 开始）..."></textarea>
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="parse-btn" class="btn btn--primary" data-i18n="tools.x509.parse">解析证书</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+            </section>
+
+            <!-- 证书信息展示 -->
+            <section class="result-section" id="result-section" style="display: none;">
+                <!-- 基本信息 -->
+                <div class="cert-card">
+                    <h3 data-i18n="tools.x509.basicInfo">基本信息</h3>
+                    <div class="cert-info-grid" id="basic-info"></div>
+                </div>
+
+                <!-- 主题信息 -->
+                <div class="cert-card">
+                    <h3 data-i18n="tools.x509.subject">主题 (Subject)</h3>
+                    <div class="cert-info-grid" id="subject-info"></div>
+                </div>
+
+                <!-- 颁发者信息 -->
+                <div class="cert-card">
+                    <h3 data-i18n="tools.x509.issuer">颁发者 (Issuer)</h3>
+                    <div class="cert-info-grid" id="issuer-info"></div>
+                </div>
+
+                <!-- 有效期 -->
+                <div class="cert-card">
+                    <h3 data-i18n="tools.x509.validity">有效期</h3>
+                    <div class="cert-info-grid" id="validity-info"></div>
+                </div>
+
+                <!-- 公钥信息 -->
+                <div class="cert-card">
+                    <h3 data-i18n="tools.x509.publicKey">公钥信息</h3>
+                    <div class="cert-info-grid" id="pubkey-info"></div>
+                </div>
+
+                <!-- 指纹 -->
+                <div class="cert-card">
+                    <h3 data-i18n="tools.x509.fingerprints">指纹</h3>
+                    <div class="cert-info-grid" id="fingerprint-info"></div>
+                </div>
+
+                <!-- 扩展信息 -->
+                <div class="cert-card">
+                    <h3 data-i18n="tools.x509.extensions">扩展信息</h3>
+                    <div class="cert-extensions" id="extensions-info"></div>
+                </div>
+
+                <!-- 原始数据 -->
+                <div class="cert-card collapsible">
+                    <h3 class="collapsible-header" data-i18n="tools.x509.rawData">原始 ASN.1 数据</h3>
+                    <div class="collapsible-content" id="raw-data" style="display: none;"></div>
+                </div>
+            </section>
+
+            <!-- 证书状态指示器 -->
+            <section class="status-section" id="status-section" style="display: none;">
+                <div class="status-indicator" id="status-indicator">
+                    <span class="status-icon"></span>
+                    <span class="status-text"></span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="x509.js"></script>
+</body>
+</html>
