@@ -340,6 +340,43 @@
         "file-type": {
             "title": "文件类型检测",
             "description": "基于文件头 Magic Number 检测真实文件类型"
+        },
+        "byte-order": {
+            "title": "字节序转换",
+            "description": "大端序 (Big Endian) 与小端序 (Little Endian) 互转",
+            "dataType": "数据类型",
+            "inputFormat": "输入格式",
+            "inputPlaceholder": "请输入数值...",
+            "swapEndian": "交换字节序",
+            "bigEndian": "大端序 (BE)",
+            "littleEndian": "小端序 (LE)",
+            "decimal": "十进制",
+            "byteVisualization": "字节可视化",
+            "aboutEndianness": "关于字节序",
+            "aboutDesc": "字节序是指多字节数据在内存中的存储顺序。大端序（Big Endian）将高位字节存储在低地址，小端序（Little Endian）将低位字节存储在低地址。x86/x64 架构使用小端序，而网络协议通常使用大端序。"
+        },
+        "ieee754": {
+            "title": "IEEE 754 浮点数",
+            "description": "查看浮点数的 IEEE 754 二进制表示",
+            "precision": "精度",
+            "inputMode": "输入模式",
+            "decimalMode": "十进制数值",
+            "hexMode": "十六进制字节",
+            "binaryMode": "二进制位",
+            "inputPlaceholder": "请输入浮点数...",
+            "decimalValue": "十进制值",
+            "hexValue": "十六进制",
+            "bitLayout": "位布局",
+            "signBit": "符号位",
+            "exponentBits": "指数位",
+            "mantissaBits": "尾数位",
+            "analysis": "详细分析",
+            "sign": "符号 (S)",
+            "exponent": "指数 (E)",
+            "mantissa": "尾数 (M)",
+            "formula": "计算公式",
+            "aboutIEEE754": "关于 IEEE 754",
+            "aboutDesc": "IEEE 754 是浮点数运算的国际标准，定义了浮点数的二进制表示格式。单精度 (float32) 使用 1 位符号、8 位指数、23 位尾数；双精度 (float64) 使用 1 位符号、11 位指数、52 位尾数。"
         }
     }
 }

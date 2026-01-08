@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.ieee754.title">IEEE 754 浮点数 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="ieee754.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.ieee754.title">IEEE 754 浮点数</h1>
+            <p data-i18n="tools.ieee754.description">查看浮点数的 IEEE 754 二进制表示</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 精度选择 -->
+            <section class="options-section">
+                <div class="option-row">
+                    <div class="option-group">
+                        <label data-i18n="tools.ieee754.precision">精度</label>
+                        <select id="precision" class="form-select">
+                            <option value="float32" selected>Float32 (单精度)</option>
+                            <option value="float64">Float64 (双精度)</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label data-i18n="tools.ieee754.inputMode">输入模式</label>
+                        <select id="input-mode" class="form-select">
+                            <option value="decimal" selected data-i18n="tools.ieee754.decimalMode">十进制数值</option>
+                            <option value="hex" data-i18n="tools.ieee754.hexMode">十六进制字节</option>
+                            <option value="binary" data-i18n="tools.ieee754.binaryMode">二进制位</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 输入区域 -->
+            <section class="input-section">
+                <label data-i18n="common.input">输入</label>
+                <input type="text" id="input"
+                       class="form-input form-input--mono"
+                       data-i18n-placeholder="tools.ieee754.inputPlaceholder"
+                       placeholder="请输入浮点数...">
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="convert-btn" class="btn btn--primary" data-i18n="common.convert">转换</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+            </section>
+
+            <!-- 转换结果 -->
+            <section class="result-section" id="result-section" style="display: none;">
+                <h3 data-i18n="common.result">结果</h3>
+
+                <!-- 数值显示 -->
+                <div class="value-display">
+                    <div class="value-card">
+                        <span class="value-label" data-i18n="tools.ieee754.decimalValue">十进制值</span>
+                        <span class="value-content" id="decimal-value">-</span>
+                        <button class="btn btn--sm btn--outline copy-btn" data-target="decimal-value">
+                            <span data-i18n="common.copy">复制</span>
+                        </button>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-label" data-i18n="tools.ieee754.hexValue">十六进制</span>
+                        <span class="value-content" id="hex-value">-</span>
+                        <button class="btn btn--sm btn--outline copy-btn" data-target="hex-value">
+                            <span data-i18n="common.copy">复制</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- IEEE 754 位图 -->
+                <div class="bits-visual" id="bits-visual">
+                    <h4 data-i18n="tools.ieee754.bitLayout">位布局</h4>
+                    <div class="bits-container" id="bits-container">
+                        <!-- 动态生成 -->
+                    </div>
+                    <div class="bits-legend">
+                        <span class="legend-item legend-sign"><span class="legend-box"></span> <span data-i18n="tools.ieee754.signBit">符号位</span></span>
+                        <span class="legend-item legend-exponent"><span class="legend-box"></span> <span data-i18n="tools.ieee754.exponentBits">指数位</span></span>
+                        <span class="legend-item legend-mantissa"><span class="legend-box"></span> <span data-i18n="tools.ieee754.mantissaBits">尾数位</span></span>
+                    </div>
+                </div>
+
+                <!-- 详细分析 -->
+                <div class="analysis-section">
+                    <h4 data-i18n="tools.ieee754.analysis">详细分析</h4>
+                    <div class="analysis-grid">
+                        <div class="analysis-item">
+                            <span class="analysis-label" data-i18n="tools.ieee754.sign">符号 (S)</span>
+                            <span class="analysis-value" id="sign-value">-</span>
+                            <span class="analysis-desc" id="sign-desc">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label" data-i18n="tools.ieee754.exponent">指数 (E)</span>
+                            <span class="analysis-value" id="exponent-value">-</span>
+                            <span class="analysis-desc" id="exponent-desc">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label" data-i18n="tools.ieee754.mantissa">尾数 (M)</span>
+                            <span class="analysis-value" id="mantissa-value">-</span>
+                            <span class="analysis-desc" id="mantissa-desc">-</span>
+                        </div>
+                        <div class="analysis-item full-width">
+                            <span class="analysis-label" data-i18n="tools.ieee754.formula">计算公式</span>
+                            <span class="analysis-formula" id="formula">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 特殊值检测 -->
+                <div class="special-value" id="special-value" style="display: none;">
+                    <span class="special-icon"></span>
+                    <span class="special-text" id="special-text"></span>
+                </div>
+            </section>
+
+            <!-- 说明 -->
+            <section class="info-section">
+                <div class="info-box">
+                    <h4 data-i18n="tools.ieee754.aboutIEEE754">关于 IEEE 754</h4>
+                    <p data-i18n="tools.ieee754.aboutDesc">IEEE 754 是浮点数运算的国际标准，定义了浮点数的二进制表示格式。单精度 (float32) 使用 1 位符号、8 位指数、23 位尾数；双精度 (float64) 使用 1 位符号、11 位指数、52 位尾数。</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="ieee754.js"></script>
+</body>
+</html>

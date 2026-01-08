@@ -1,0 +1,23 @@
+{
+    "tools.ieee754.title": "IEEE 754 Floating Point",
+    "tools.ieee754.description": "View IEEE 754 binary representation of floating-point numbers",
+    "tools.ieee754.precision": "Precision",
+    "tools.ieee754.inputMode": "Input Mode",
+    "tools.ieee754.decimalMode": "Decimal Value",
+    "tools.ieee754.hexMode": "Hexadecimal Bytes",
+    "tools.ieee754.binaryMode": "Binary Bits",
+    "tools.ieee754.inputPlaceholder": "Enter a floating-point number...",
+    "tools.ieee754.decimalValue": "Decimal Value",
+    "tools.ieee754.hexValue": "Hexadecimal",
+    "tools.ieee754.bitLayout": "Bit Layout",
+    "tools.ieee754.signBit": "Sign Bit",
+    "tools.ieee754.exponentBits": "Exponent Bits",
+    "tools.ieee754.mantissaBits": "Mantissa Bits",
+    "tools.ieee754.analysis": "Detailed Analysis",
+    "tools.ieee754.sign": "Sign (S)",
+    "tools.ieee754.exponent": "Exponent (E)",
+    "tools.ieee754.mantissa": "Mantissa (M)",
+    "tools.ieee754.formula": "Formula",
+    "tools.ieee754.aboutIEEE754": "About IEEE 754",
+    "tools.ieee754.aboutDesc": "IEEE 754 is the international standard for floating-point arithmetic, defining the binary representation format for floating-point numbers. Single precision (float32) uses 1 sign bit, 8 exponent bits, and 23 mantissa bits; double precision (float64) uses 1 sign bit, 11 exponent bits, and 52 mantissa bits."
+}

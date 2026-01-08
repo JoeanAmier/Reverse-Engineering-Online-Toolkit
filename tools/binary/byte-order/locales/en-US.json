@@ -1,0 +1,14 @@
+{
+    "tools.byte-order.title": "Byte Order Converter",
+    "tools.byte-order.description": "Convert between Big Endian and Little Endian",
+    "tools.byte-order.dataType": "Data Type",
+    "tools.byte-order.inputFormat": "Input Format",
+    "tools.byte-order.inputPlaceholder": "Enter a value...",
+    "tools.byte-order.swapEndian": "Swap Endian",
+    "tools.byte-order.bigEndian": "Big Endian (BE)",
+    "tools.byte-order.littleEndian": "Little Endian (LE)",
+    "tools.byte-order.decimal": "Decimal",
+    "tools.byte-order.byteVisualization": "Byte Visualization",
+    "tools.byte-order.aboutEndianness": "About Endianness",
+    "tools.byte-order.aboutDesc": "Endianness refers to the order in which multi-byte data is stored in memory. Big Endian stores the most significant byte at the lowest address, while Little Endian stores the least significant byte at the lowest address. x86/x64 architectures use Little Endian, while network protocols typically use Big Endian."
+}

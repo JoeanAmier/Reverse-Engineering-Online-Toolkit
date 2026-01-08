@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.byte-order.title">字节序转换 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="byte-order.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.byte-order.title">字节序转换</h1>
+            <p data-i18n="tools.byte-order.description">大端序 (Big Endian) 与小端序 (Little Endian) 互转</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 数据类型选择 -->
+            <section class="options-section">
+                <div class="option-row">
+                    <div class="option-group">
+                        <label data-i18n="tools.byte-order.dataType">数据类型</label>
+                        <select id="data-type" class="form-select">
+                            <option value="int16">Int16 (2 字节)</option>
+                            <option value="uint16">UInt16 (2 字节)</option>
+                            <option value="int32" selected>Int32 (4 字节)</option>
+                            <option value="uint32">UInt32 (4 字节)</option>
+                            <option value="int64">Int64 (8 字节)</option>
+                            <option value="uint64">UInt64 (8 字节)</option>
+                            <option value="float32">Float32 (4 字节)</option>
+                            <option value="float64">Float64 (8 字节)</option>
+                            <option value="hex">Hex 字节</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label data-i18n="tools.byte-order.inputFormat">输入格式</label>
+                        <select id="input-format" class="form-select">
+                            <option value="decimal" selected>十进制</option>
+                            <option value="hex">十六进制</option>
+                            <option value="binary">二进制</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 输入区域 -->
+            <section class="input-section">
+                <label data-i18n="common.input">输入</label>
+                <input type="text" id="input"
+                       class="form-input form-input--mono"
+                       data-i18n-placeholder="tools.byte-order.inputPlaceholder"
+                       placeholder="请输入数值...">
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="convert-btn" class="btn btn--primary" data-i18n="common.convert">转换</button>
+                <button id="swap-btn" class="btn btn--outline" data-i18n="tools.byte-order.swapEndian">交换字节序</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+            </section>
+
+            <!-- 转换结果 -->
+            <section class="result-section" id="result-section" style="display: none;">
+                <h3 data-i18n="common.result">结果</h3>
+
+                <div class="result-grid">
+                    <!-- 大端序 -->
+                    <div class="result-card">
+                        <div class="result-header">
+                            <span class="result-title" data-i18n="tools.byte-order.bigEndian">大端序 (BE)</span>
+                            <button class="btn btn--sm btn--outline copy-btn" data-target="be-hex">
+                                <span data-i18n="common.copy">复制</span>
+                            </button>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-row">
+                                <span class="result-label">Hex</span>
+                                <span class="result-value" id="be-hex">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Bytes</span>
+                                <span class="result-value" id="be-bytes">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label" data-i18n="tools.byte-order.decimal">十进制</span>
+                                <span class="result-value" id="be-decimal">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 小端序 -->
+                    <div class="result-card">
+                        <div class="result-header">
+                            <span class="result-title" data-i18n="tools.byte-order.littleEndian">小端序 (LE)</span>
+                            <button class="btn btn--sm btn--outline copy-btn" data-target="le-hex">
+                                <span data-i18n="common.copy">复制</span>
+                            </button>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-row">
+                                <span class="result-label">Hex</span>
+                                <span class="result-value" id="le-hex">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Bytes</span>
+                                <span class="result-value" id="le-bytes">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label" data-i18n="tools.byte-order.decimal">十进制</span>
+                                <span class="result-value" id="le-decimal">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 字节可视化 -->
+                <div class="byte-visual" id="byte-visual">
+                    <h4 data-i18n="tools.byte-order.byteVisualization">字节可视化</h4>
+                    <div class="byte-container" id="byte-container">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 说明 -->
+            <section class="info-section">
+                <div class="info-box">
+                    <h4 data-i18n="tools.byte-order.aboutEndianness">关于字节序</h4>
+                    <p data-i18n="tools.byte-order.aboutDesc">字节序是指多字节数据在内存中的存储顺序。大端序（Big Endian）将高位字节存储在低地址，小端序（Little Endian）将低位字节存储在低地址。x86/x64 架构使用小端序，而网络协议通常使用大端序。</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="byte-order.js"></script>
+</body>
+</html>

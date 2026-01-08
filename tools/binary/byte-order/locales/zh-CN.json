@@ -1,0 +1,14 @@
+{
+    "tools.byte-order.title": "字节序转换",
+    "tools.byte-order.description": "大端序 (Big Endian) 与小端序 (Little Endian) 互转",
+    "tools.byte-order.dataType": "数据类型",
+    "tools.byte-order.inputFormat": "输入格式",
+    "tools.byte-order.inputPlaceholder": "请输入数值...",
+    "tools.byte-order.swapEndian": "交换字节序",
+    "tools.byte-order.bigEndian": "大端序 (BE)",
+    "tools.byte-order.littleEndian": "小端序 (LE)",
+    "tools.byte-order.decimal": "十进制",
+    "tools.byte-order.byteVisualization": "字节可视化",
+    "tools.byte-order.aboutEndianness": "关于字节序",
+    "tools.byte-order.aboutDesc": "字节序是指多字节数据在内存中的存储顺序。大端序（Big Endian）将高位字节存储在低地址，小端序（Little Endian）将低位字节存储在低地址。x86/x64 架构使用小端序，而网络协议通常使用大端序。"
+}

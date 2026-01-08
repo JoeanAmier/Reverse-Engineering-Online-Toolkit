@@ -1,0 +1,23 @@
+{
+    "tools.ieee754.title": "IEEE 754 浮点数",
+    "tools.ieee754.description": "查看浮点数的 IEEE 754 二进制表示",
+    "tools.ieee754.precision": "精度",
+    "tools.ieee754.inputMode": "输入模式",
+    "tools.ieee754.decimalMode": "十进制数值",
+    "tools.ieee754.hexMode": "十六进制字节",
+    "tools.ieee754.binaryMode": "二进制位",
+    "tools.ieee754.inputPlaceholder": "请输入浮点数...",
+    "tools.ieee754.decimalValue": "十进制值",
+    "tools.ieee754.hexValue": "十六进制",
+    "tools.ieee754.bitLayout": "位布局",
+    "tools.ieee754.signBit": "符号位",
+    "tools.ieee754.exponentBits": "指数位",
+    "tools.ieee754.mantissaBits": "尾数位",
+    "tools.ieee754.analysis": "详细分析",
+    "tools.ieee754.sign": "符号 (S)",
+    "tools.ieee754.exponent": "指数 (E)",
+    "tools.ieee754.mantissa": "尾数 (M)",
+    "tools.ieee754.formula": "计算公式",
+    "tools.ieee754.aboutIEEE754": "关于 IEEE 754",
+    "tools.ieee754.aboutDesc": "IEEE 754 是浮点数运算的国际标准，定义了浮点数的二进制表示格式。单精度 (float32) 使用 1 位符号、8 位指数、23 位尾数；双精度 (float64) 使用 1 位符号、11 位指数、52 位尾数。"
+}

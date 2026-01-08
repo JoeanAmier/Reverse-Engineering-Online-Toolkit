@@ -340,6 +340,43 @@
         "file-type": {
             "title": "File Type Detection",
             "description": "Detect real file type based on Magic Number"
+        },
+        "byte-order": {
+            "title": "Byte Order Converter",
+            "description": "Convert between Big Endian and Little Endian",
+            "dataType": "Data Type",
+            "inputFormat": "Input Format",
+            "inputPlaceholder": "Enter a value...",
+            "swapEndian": "Swap Endian",
+            "bigEndian": "Big Endian (BE)",
+            "littleEndian": "Little Endian (LE)",
+            "decimal": "Decimal",
+            "byteVisualization": "Byte Visualization",
+            "aboutEndianness": "About Endianness",
+            "aboutDesc": "Endianness refers to the order in which multi-byte data is stored in memory. Big Endian stores the most significant byte at the lowest address, while Little Endian stores the least significant byte at the lowest address. x86/x64 architectures use Little Endian, while network protocols typically use Big Endian."
+        },
+        "ieee754": {
+            "title": "IEEE 754 Floating Point",
+            "description": "View IEEE 754 binary representation of floating-point numbers",
+            "precision": "Precision",
+            "inputMode": "Input Mode",
+            "decimalMode": "Decimal Value",
+            "hexMode": "Hexadecimal Bytes",
+            "binaryMode": "Binary Bits",
+            "inputPlaceholder": "Enter a floating-point number...",
+            "decimalValue": "Decimal Value",
+            "hexValue": "Hexadecimal",
+            "bitLayout": "Bit Layout",
+            "signBit": "Sign Bit",
+            "exponentBits": "Exponent Bits",
+            "mantissaBits": "Mantissa Bits",
+            "analysis": "Detailed Analysis",
+            "sign": "Sign (S)",
+            "exponent": "Exponent (E)",
+            "mantissa": "Mantissa (M)",
+            "formula": "Formula",
+            "aboutIEEE754": "About IEEE 754",
+            "aboutDesc": "IEEE 754 is the international standard for floating-point arithmetic, defining the binary representation format for floating-point numbers. Single precision (float32) uses 1 sign bit, 8 exponent bits, and 23 mantissa bits; double precision (float64) uses 1 sign bit, 11 exponent bits, and 52 mantissa bits."
         }
     }
 }

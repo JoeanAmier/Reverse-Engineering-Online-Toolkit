@@ -1,0 +1,345 @@
+/**
+ * IEEE 754 浮点数工具样式
+ */
+
+/* 选项区域 */
+.options-section {
+    margin-bottom: 1.5rem;
+}
+
+.option-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.option-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+.option-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* 输入区域 */
+.input-section {
+    margin-bottom: 1.5rem;
+}
+
+.input-section label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.form-input--mono {
+    font-family: var(--font-mono);
+}
+
+/* 操作按钮 */
+.action-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+/* 结果区域 */
+.result-section h3 {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+/* 数值显示 */
+.value-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.value-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+}
+
+.value-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.value-content {
+    font-family: var(--font-mono);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--primary);
+    word-break: break-all;
+}
+
+/* 位图可视化 */
+.bits-visual {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.bits-visual h4 {
+    margin: 0 0 1rem 0;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.bits-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    justify-content: center;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+}
+
+.bit-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 20px;
+    padding: 4px 2px;
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    transition: transform 0.15s;
+}
+
+.bit-cell:hover {
+    transform: scale(1.1);
+}
+
+.bit-index {
+    font-size: 0.5rem;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+}
+
+.bit-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.bit-cell.sign {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+.bit-cell.sign .bit-value {
+    color: #ef4444;
+}
+
+.bit-cell.exponent {
+    background: rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(59, 130, 246, 0.5);
+}
+
+.bit-cell.exponent .bit-value {
+    color: #3b82f6;
+}
+
+.bit-cell.mantissa {
+    background: rgba(16, 185, 129, 0.2);
+    border: 1px solid rgba(16, 185, 129, 0.5);
+}
+
+.bit-cell.mantissa .bit-value {
+    color: #10b981;
+}
+
+/* 图例 */
+.bits-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.legend-box {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.legend-sign .legend-box {
+    background: rgba(239, 68, 68, 0.3);
+    border: 1px solid #ef4444;
+}
+
+.legend-exponent .legend-box {
+    background: rgba(59, 130, 246, 0.3);
+    border: 1px solid #3b82f6;
+}
+
+.legend-mantissa .legend-box {
+    background: rgba(16, 185, 129, 0.3);
+    border: 1px solid #10b981;
+}
+
+/* 详细分析 */
+.analysis-section {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.analysis-section h4 {
+    margin: 0 0 1rem 0;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.analysis-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem;
+    background: var(--bg-primary);
+    border-radius: var(--radius-sm);
+}
+
+.analysis-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.analysis-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.analysis-value {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.analysis-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.analysis-formula {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--primary);
+    word-break: break-all;
+}
+
+/* 特殊值提示 */
+.special-value {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+}
+
+.special-icon::before {
+    content: "⚠️";
+}
+
+.special-text {
+    font-size: 0.875rem;
+    color: #d97706;
+}
+
+/* 说明区域 */
+.info-section {
+    margin-top: 2rem;
+}
+
+.info-box {
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--primary);
+}
+
+.info-box h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.info-box p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .option-row {
+        flex-direction: column;
+    }
+
+    .action-section {
+        flex-direction: column;
+    }
+
+    .action-section .btn {
+        width: 100%;
+    }
+
+    .bit-cell {
+        min-width: 16px;
+        padding: 2px 1px;
+    }
+
+    .bit-index {
+        font-size: 0.4rem;
+    }
+
+    .bit-value {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .bits-container {
+        font-size: 0.6rem;
+    }
+
+    .bit-cell {
+        min-width: 14px;
+    }
+}

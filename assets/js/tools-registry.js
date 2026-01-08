@@ -945,6 +945,28 @@
             icon: '🔍',
             path: '/tools/binary/file-type/',
             keywords: ['file', 'type', 'magic', 'detect', '文件类型', '检测', 'magic number']
+        },
+
+        // 字节序转换
+        {
+            id: 'byte-order',
+            category: 'binary',
+            name: 'tools.byte-order.title',
+            description: 'tools.byte-order.description',
+            icon: '🔃',
+            path: '/tools/binary/byte-order/',
+            keywords: ['byte', 'order', 'endian', 'big', 'little', '字节序', '大端', '小端']
+        },
+
+        // IEEE 754 浮点数
+        {
+            id: 'ieee754',
+            category: 'converters',
+            name: 'tools.ieee754.title',
+            description: 'tools.ieee754.description',
+            icon: '🔢',
+            path: '/tools/converters/ieee754/',
+            keywords: ['ieee', '754', 'float', 'double', 'floating', 'point', '浮点数', '单精度', '双精度']
         }
     ]);
 
