@@ -8,6 +8,57 @@
 (function() {
     'use strict';
 
+    // CodeMirror 编辑器实例
+    let inputEditor = null;
+    let outputEditor = null;
+    let currentOutputLang = 'yaml'; // 跟踪当前输出语言
+
+    /**
+     * 获取输入值
+     */
+    function getInputValue() {
+        if (inputEditor) {
+            return inputEditor.getValue();
+        }
+        return document.getElementById('input')?.value || '';
+    }
+
+    /**
+     * 设置输入值
+     */
+    function setInputValue(value) {
+        if (inputEditor) {
+            inputEditor.setValue(value);
+        }
+        const inputEl = document.getElementById('input');
+        if (inputEl) {
+            inputEl.value = value;
+        }
+    }
+
+    /**
+     * 获取输出值
+     */
+    function getOutputValue() {
+        if (outputEditor) {
+            return outputEditor.getValue();
+        }
+        return document.getElementById('output')?.value || '';
+    }
+
+    /**
+     * 设置输出值
+     */
+    function setOutputValue(value) {
+        if (outputEditor) {
+            outputEditor.setValue(value);
+        }
+        const outputEl = document.getElementById('output');
+        if (outputEl) {
+            outputEl.value = value;
+        }
+    }
+
     // js-yaml 库加载 Promise（单例）
     let jsyamlLoadPromise = null;
 
@@ -301,29 +352,33 @@
     /**
      * 显示高亮输出
      */
-    function showHighlightedOutput(text, isJson = false) {
-        const highlightedOutput = document.getElementById('highlighted-output');
-        const output = document.getElementById('output');
-        if (highlightedOutput) {
-            highlightedOutput.innerHTML = `<pre>${syntaxHighlight(text, isJson)}</pre>`;
+    async function showHighlightedOutput(text, isJson = false) {
+        // 如果输出语言改变，需要重新创建输出编辑器
+        const newLang = isJson ? 'json' : 'yaml';
+        if (outputEditor && currentOutputLang !== newLang && REOT.CodeEditor) {
+            try {
+                outputEditor.destroy();
+                const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+                outputEditor = await REOT.CodeEditor.create('#output-editor', {
+                    language: newLang,
+                    value: text,
+                    readOnly: true,
+                    theme: theme
+                });
+                currentOutputLang = newLang;
+                return;
+            } catch (e) {
+                console.error('Failed to recreate output editor:', e);
+            }
         }
-        if (output) {
-            output.value = text;
-        }
+        setOutputValue(text);
     }
 
     /**
      * 显示错误
      */
     function showError(message) {
-        const highlightedOutput = document.getElementById('highlighted-output');
-        const output = document.getElementById('output');
-        if (highlightedOutput) {
-            highlightedOutput.innerHTML = `<div class="yaml-error">${message}</div>`;
-        }
-        if (output) {
-            output.value = message;
-        }
+        setOutputValue(message);
     }
 
     /**
@@ -370,9 +425,8 @@
         if (target.id === 'format-btn' || target.closest('#format-btn')) {
             try {
                 await ensureLibraryLoaded();
-                const input = document.getElementById('input');
-                const result = formatYAML(input.value);
-                showHighlightedOutput(result, false);
+                const result = formatYAML(getInputValue());
+                await showHighlightedOutput(result, false);
                 document.getElementById('validation-section').style.display = 'none';
             } catch (error) {
                 showError(error.message);
@@ -384,8 +438,7 @@
         if (target.id === 'validate-btn' || target.closest('#validate-btn')) {
             try {
                 await ensureLibraryLoaded();
-                const input = document.getElementById('input');
-                const result = validateYAML(input.value);
+                const result = validateYAML(getInputValue());
                 showValidationResult(result);
                 if (result.valid) {
                     REOT.utils?.showNotification(result.message, 'success');
@@ -402,9 +455,8 @@
         if (target.id === 'to-json-btn' || target.closest('#to-json-btn')) {
             try {
                 await ensureLibraryLoaded();
-                const input = document.getElementById('input');
-                const result = yamlToJson(input.value);
-                showHighlightedOutput(result, true);
+                const result = yamlToJson(getInputValue());
+                await showHighlightedOutput(result, true);
                 document.getElementById('validation-section').style.display = 'none';
             } catch (error) {
                 showError(error.message);
@@ -416,9 +468,8 @@
         if (target.id === 'from-json-btn' || target.closest('#from-json-btn')) {
             try {
                 await ensureLibraryLoaded();
-                const input = document.getElementById('input');
-                const result = jsonToYaml(input.value);
-                showHighlightedOutput(result, false);
+                const result = jsonToYaml(getInputValue());
+                await showHighlightedOutput(result, false);
                 document.getElementById('validation-section').style.display = 'none';
             } catch (error) {
                 showError(error.message);
@@ -428,20 +479,15 @@
 
         // 清除按钮
         if (target.id === 'clear-btn' || target.closest('#clear-btn')) {
-            const input = document.getElementById('input');
-            const output = document.getElementById('output');
-            const highlightedOutput = document.getElementById('highlighted-output');
+            setInputValue('');
+            setOutputValue('');
             const validationSection = document.getElementById('validation-section');
-            if (input) input.value = '';
-            if (output) output.value = '';
-            if (highlightedOutput) highlightedOutput.innerHTML = '';
             if (validationSection) validationSection.style.display = 'none';
         }
 
         // 复制按钮
         if (target.id === 'copy-btn' || target.closest('#copy-btn')) {
-            const output = document.getElementById('output');
-            if (output) copyToClipboard(output.value);
+            copyToClipboard(getOutputValue());
         }
     });
 
@@ -454,10 +500,8 @@
         fromJson: jsonToYaml
     };
 
-    // 设置默认示例数据
-    const defaultInput = document.getElementById('input');
-    if (defaultInput && !defaultInput.value) {
-        const sampleYaml = `# REOT 配置示例
+    // 默认示例数据
+    const sampleYaml = `# REOT 配置示例
 name: REOT
 version: "1.0.0"
 description: 逆向工程在线工具箱
@@ -486,8 +530,75 @@ tools:
     - md5
     - sha256
 `;
-        defaultInput.value = sampleYaml;
+
+    /**
+     * 初始化 CodeMirror 编辑器
+     */
+    async function initEditors() {
+        if (!REOT.CodeEditor) {
+            console.warn('CodeEditor not available, using textarea fallback');
+            const inputEl = document.getElementById('input');
+            const outputEl = document.getElementById('output');
+            if (inputEl) {
+                inputEl.style.display = 'block';
+                inputEl.value = sampleYaml;
+            }
+            if (outputEl) outputEl.style.display = 'block';
+            return;
+        }
+
+        try {
+            const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+
+            // 创建输入编辑器
+            inputEditor = await REOT.CodeEditor.create('#input-editor', {
+                language: 'yaml',
+                value: sampleYaml,
+                readOnly: false,
+                theme: theme
+            });
+
+            // 创建输出编辑器（只读）
+            outputEditor = await REOT.CodeEditor.create('#output-editor', {
+                language: 'yaml',
+                value: '',
+                readOnly: true,
+                theme: theme
+            });
+
+            currentOutputLang = 'yaml';
+            console.log('YAML editors initialized');
+        } catch (error) {
+            console.error('Failed to initialize editors:', error);
+            const inputEl = document.getElementById('input');
+            const outputEl = document.getElementById('output');
+            if (inputEl) {
+                inputEl.style.display = 'block';
+                inputEl.value = sampleYaml;
+            }
+            if (outputEl) outputEl.style.display = 'block';
+        }
     }
+
+    // 初始化编辑器
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isYamlToolActive()) {
+                initEditors();
+            }
+        });
+    } else {
+        if (isYamlToolActive()) {
+            initEditors();
+        }
+    }
+
+    // 监听路由变化重新初始化
+    window.addEventListener('routeChange', () => {
+        if (isYamlToolActive() && !inputEditor) {
+            initEditors();
+        }
+    });
 
     // 预加载 js-yaml 库
     loadJsYaml().catch(err => console.warn('js-yaml 预加载失败:', err.message));

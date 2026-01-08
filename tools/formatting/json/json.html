@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../../../assets/css/main.css">
     <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
     <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="../../../assets/css/code-editor.css">
     <link rel="stylesheet" href="json.css">
 </head>
 <body>
@@ -52,10 +53,12 @@
             <!-- 输入区域 -->
             <section class="input-section">
                 <label data-i18n="common.input">输入</label>
+                <div id="input-editor" class="code-editor-container code-editor-container--code"></div>
                 <textarea id="input"
                           class="form-input form-textarea form-textarea--code"
                           data-i18n-placeholder="tools.json.inputPlaceholder"
-                          placeholder="请输入 JSON 或 Python Dict..."></textarea>
+                          placeholder="请输入 JSON 或 Python Dict..."
+                          style="display: none;"></textarea>
             </section>
 
             <!-- 操作按钮 -->
@@ -70,7 +73,7 @@
             <!-- 输出区域 - 文本模式 -->
             <section class="output-section" id="text-output-section">
                 <label data-i18n="common.output">输出</label>
-                <div id="highlighted-output" class="json-highlighted-output"></div>
+                <div id="output-editor" class="code-editor-container code-editor-container--code"></div>
                 <textarea id="output"
                           class="form-input form-textarea form-textarea--code"
                           readonly
@@ -125,6 +128,7 @@
     <!-- 引入脚本 -->
     <script src="../../../assets/js/utils.js"></script>
     <script src="../../../assets/js/i18n.js"></script>
+    <script src="../../../assets/js/code-editor.js"></script>
     <script src="json.js"></script>
 </body>
 </html>

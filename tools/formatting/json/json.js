@@ -14,6 +14,56 @@
     let currentMode = 'text'; // 'text' | 'tree'
     let selectedTreeNode = null;
 
+    // CodeMirror 编辑器实例
+    let inputEditor = null;
+    let outputEditor = null;
+
+    /**
+     * 获取输入值
+     */
+    function getInputValue() {
+        if (inputEditor) {
+            return inputEditor.getValue();
+        }
+        return document.getElementById('input')?.value || '';
+    }
+
+    /**
+     * 设置输入值
+     */
+    function setInputValue(value) {
+        if (inputEditor) {
+            inputEditor.setValue(value);
+        }
+        const inputEl = document.getElementById('input');
+        if (inputEl) {
+            inputEl.value = value;
+        }
+    }
+
+    /**
+     * 获取输出值
+     */
+    function getOutputValue() {
+        if (outputEditor) {
+            return outputEditor.getValue();
+        }
+        return document.getElementById('output')?.value || '';
+    }
+
+    /**
+     * 设置输出值
+     */
+    function setOutputValue(value) {
+        if (outputEditor) {
+            outputEditor.setValue(value);
+        }
+        const outputEl = document.getElementById('output');
+        if (outputEl) {
+            outputEl.value = value;
+        }
+    }
+
     /**
      * Python Dict 转 JSON
      * 处理单引号、True/False/None、元组等
@@ -216,28 +266,14 @@
      * 显示高亮输出
      */
     function showHighlightedOutput(jsonStr) {
-        const highlightedOutput = document.getElementById('highlighted-output');
-        const output = document.getElementById('output');
-        if (highlightedOutput) {
-            highlightedOutput.innerHTML = syntaxHighlight(jsonStr);
-        }
-        if (output) {
-            output.value = jsonStr;
-        }
+        setOutputValue(jsonStr);
     }
 
     /**
      * 显示错误
      */
     function showError(message) {
-        const highlightedOutput = document.getElementById('highlighted-output');
-        const output = document.getElementById('output');
-        if (highlightedOutput) {
-            highlightedOutput.innerHTML = `<div class="json-error">${message}</div>`;
-        }
-        if (output) {
-            output.value = message;
-        }
+        setOutputValue(message);
     }
 
     // ==================== 树形视图 ====================
@@ -548,14 +584,13 @@
      * 切换到树形视图
      */
     function switchToTreeView() {
-        const input = document.getElementById('input');
         const textOutputSection = document.getElementById('text-output-section');
         const treeOutputSection = document.getElementById('tree-output-section');
         const jsonTree = document.getElementById('json-tree');
 
         if (!currentJson) {
             try {
-                currentJson = parseInput(input?.value || '');
+                currentJson = parseInput(getInputValue());
             } catch (e) {
                 REOT.utils?.showNotification(e.message, 'error');
                 return;
@@ -609,8 +644,7 @@
         // 格式化按钮
         if (target.id === 'format-btn' || target.closest('#format-btn')) {
             try {
-                const input = document.getElementById('input');
-                const result = format(input.value);
+                const result = format(getInputValue());
                 showHighlightedOutput(result);
                 if (currentMode === 'tree') {
                     switchToTreeView();
@@ -624,8 +658,7 @@
         // 压缩按钮
         if (target.id === 'minify-btn' || target.closest('#minify-btn')) {
             try {
-                const input = document.getElementById('input');
-                const result = minify(input.value);
+                const result = minify(getInputValue());
                 showHighlightedOutput(result);
             } catch (error) {
                 showError(error.message);
@@ -640,21 +673,16 @@
 
         // 清除按钮
         if (target.id === 'clear-btn' || target.closest('#clear-btn')) {
-            const input = document.getElementById('input');
-            const output = document.getElementById('output');
-            const highlightedOutput = document.getElementById('highlighted-output');
+            setInputValue('');
+            setOutputValue('');
             const jsonTree = document.getElementById('json-tree');
-            if (input) input.value = '';
-            if (output) output.value = '';
-            if (highlightedOutput) highlightedOutput.innerHTML = '';
             if (jsonTree) jsonTree.innerHTML = '';
             currentJson = null;
         }
 
         // 复制按钮
         if (target.id === 'copy-btn' || target.closest('#copy-btn')) {
-            const output = document.getElementById('output');
-            if (output) copyToClipboard(output.value);
+            copyToClipboard(getOutputValue());
         }
 
         // 展开全部
@@ -702,22 +730,86 @@
         syntaxHighlight
     };
 
-    // 设置默认示例数据
-    const defaultInput = document.getElementById('input');
-    if (defaultInput && !defaultInput.value) {
-        const sampleJson = {
-            "name": "REOT",
-            "version": "1.0.0",
-            "description": "逆向工程在线工具箱",
-            "features": ["编码解码", "加密解密", "格式化"],
-            "author": {
-                "name": "Evil0ctal",
-                "github": "https://github.com/Evil0ctal"
-            },
-            "isOpenSource": true,
-            "stars": 1024
-        };
-        defaultInput.value = JSON.stringify(sampleJson, null, 2);
+    // 默认示例数据
+    const sampleJson = {
+        "name": "REOT",
+        "version": "1.0.0",
+        "description": "逆向工程在线工具箱",
+        "features": ["编码解码", "加密解密", "格式化"],
+        "author": {
+            "name": "Evil0ctal",
+            "github": "https://github.com/Evil0ctal"
+        },
+        "isOpenSource": true,
+        "stars": 1024
+    };
+
+    /**
+     * 初始化 CodeMirror 编辑器
+     */
+    async function initEditors() {
+        if (!REOT.CodeEditor) {
+            console.warn('CodeEditor not available, using textarea fallback');
+            const inputEl = document.getElementById('input');
+            const outputEl = document.getElementById('output');
+            if (inputEl) {
+                inputEl.style.display = 'block';
+                inputEl.value = JSON.stringify(sampleJson, null, 2);
+            }
+            if (outputEl) outputEl.style.display = 'block';
+            return;
+        }
+
+        try {
+            const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+
+            // 创建输入编辑器
+            inputEditor = await REOT.CodeEditor.create('#input-editor', {
+                language: 'json',
+                value: JSON.stringify(sampleJson, null, 2),
+                readOnly: false,
+                theme: theme
+            });
+
+            // 创建输出编辑器（只读）
+            outputEditor = await REOT.CodeEditor.create('#output-editor', {
+                language: 'json',
+                value: '',
+                readOnly: true,
+                theme: theme
+            });
+
+            console.log('JSON editors initialized');
+        } catch (error) {
+            console.error('Failed to initialize editors:', error);
+            const inputEl = document.getElementById('input');
+            const outputEl = document.getElementById('output');
+            if (inputEl) {
+                inputEl.style.display = 'block';
+                inputEl.value = JSON.stringify(sampleJson, null, 2);
+            }
+            if (outputEl) outputEl.style.display = 'block';
+        }
     }
+
+    // 初始化编辑器
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isJsonToolActive()) {
+                initEditors();
+            }
+        });
+    } else {
+        if (isJsonToolActive()) {
+            initEditors();
+        }
+    }
+
+    // 监听路由变化重新初始化
+    window.addEventListener('routeChange', () => {
+        if (isJsonToolActive() && !inputEditor) {
+            initEditors();
+        }
+    });
 
 })();

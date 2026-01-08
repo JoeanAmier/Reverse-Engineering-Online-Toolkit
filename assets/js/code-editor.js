@@ -40,6 +40,7 @@
                     langSql,
                     langJson,
                     langXml,
+                    langYaml,
                     themeOneDark
                 ] = await Promise.all([
                     import('https://esm.sh/@codemirror/state@6'),
@@ -55,6 +56,7 @@
                     import('https://esm.sh/@codemirror/lang-sql@6'),
                     import('https://esm.sh/@codemirror/lang-json@6'),
                     import('https://esm.sh/@codemirror/lang-xml@6'),
+                    import('https://esm.sh/@codemirror/lang-yaml@6'),
                     import('https://esm.sh/@codemirror/theme-one-dark@6')
                 ]);
 
@@ -109,6 +111,7 @@
                     sql: langSql.sql,
                     json: langJson.json,
                     xml: langXml.xml,
+                    yaml: langYaml.yaml,
 
                     // Theme
                     oneDark: themeOneDark.oneDark
@@ -144,6 +147,9 @@
                 return cm.json();
             case 'xml':
                 return cm.xml();
+            case 'yaml':
+            case 'yml':
+                return cm.yaml();
             default:
                 return null;
         }

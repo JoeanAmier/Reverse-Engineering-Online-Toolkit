@@ -11,6 +11,56 @@
     let parsedData = null;
     let headers = null;
 
+    // CodeMirror 编辑器实例
+    let inputEditor = null;
+    let jsonOutputEditor = null;
+
+    /**
+     * 获取输入值
+     */
+    function getInputValue() {
+        if (inputEditor) {
+            return inputEditor.getValue();
+        }
+        return document.getElementById('input')?.value || '';
+    }
+
+    /**
+     * 设置输入值
+     */
+    function setInputValue(value) {
+        if (inputEditor) {
+            inputEditor.setValue(value);
+        }
+        const inputEl = document.getElementById('input');
+        if (inputEl) {
+            inputEl.value = value;
+        }
+    }
+
+    /**
+     * 获取 JSON 输出值
+     */
+    function getJsonOutputValue() {
+        if (jsonOutputEditor) {
+            return jsonOutputEditor.getValue();
+        }
+        return document.getElementById('json-output')?.value || '';
+    }
+
+    /**
+     * 设置 JSON 输出值
+     */
+    function setJsonOutputValue(value) {
+        if (jsonOutputEditor) {
+            jsonOutputEditor.setValue(value);
+        }
+        const outputEl = document.getElementById('json-output');
+        if (outputEl) {
+            outputEl.value = value;
+        }
+    }
+
     /**
      * 检查当前是否在 CSV 工具页面
      */
@@ -315,10 +365,7 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (event) => {
-                    const inputEl = document.getElementById('input');
-                    if (inputEl) {
-                        inputEl.value = event.target.result;
-                    }
+                    setInputValue(event.target.result);
                 };
                 reader.readAsText(file);
             }
@@ -332,23 +379,20 @@
 
         // 加载示例
         if (target.id === 'sample-btn' || target.closest('#sample-btn')) {
-            const inputEl = document.getElementById('input');
-            if (inputEl) {
-                inputEl.value = loadSample();
-            }
+            setInputValue(loadSample());
         }
 
         // 解析 CSV
         if (target.id === 'parse-btn' || target.closest('#parse-btn')) {
-            const inputEl = document.getElementById('input');
-            if (!inputEl?.value.trim()) {
+            const inputValue = getInputValue();
+            if (!inputValue.trim()) {
                 REOT.utils?.showNotification('请输入 CSV 内容', 'warning');
                 return;
             }
 
             try {
                 const delimiter = getDelimiter();
-                parsedData = parseCSV(inputEl.value, delimiter);
+                parsedData = parseCSV(inputValue, delimiter);
                 updateStats(parsedData);
                 renderTable(parsedData);
                 REOT.utils?.showNotification('解析成功', 'success');
@@ -359,22 +403,21 @@
 
         // 转为 JSON
         if (target.id === 'to-json-btn' || target.closest('#to-json-btn')) {
-            const inputEl = document.getElementById('input');
-            const jsonOutput = document.getElementById('json-output');
+            const inputValue = getInputValue();
             const jsonSection = document.getElementById('json-output-section');
 
-            if (!inputEl?.value.trim()) {
+            if (!inputValue.trim()) {
                 REOT.utils?.showNotification('请输入 CSV 内容', 'warning');
                 return;
             }
 
             try {
                 const delimiter = getDelimiter();
-                parsedData = parseCSV(inputEl.value, delimiter);
+                parsedData = parseCSV(inputValue, delimiter);
                 const json = toJSON(parsedData, hasHeader());
 
-                if (jsonOutput && jsonSection) {
-                    jsonOutput.value = JSON.stringify(json, null, 2);
+                setJsonOutputValue(JSON.stringify(json, null, 2));
+                if (jsonSection) {
                     jsonSection.style.display = 'block';
                 }
 
@@ -388,16 +431,16 @@
 
         // 从 JSON 转换
         if (target.id === 'from-json-btn' || target.closest('#from-json-btn')) {
-            const inputEl = document.getElementById('input');
-            if (!inputEl?.value.trim()) {
+            const inputValue = getInputValue();
+            if (!inputValue.trim()) {
                 REOT.utils?.showNotification('请输入 JSON 内容', 'warning');
                 return;
             }
 
             try {
-                parsedData = fromJSON(inputEl.value);
+                parsedData = fromJSON(inputValue);
                 const delimiter = getDelimiter();
-                inputEl.value = toCSV(parsedData, delimiter);
+                setInputValue(toCSV(parsedData, delimiter));
 
                 updateStats(parsedData);
                 renderTable(parsedData);
@@ -409,14 +452,12 @@
 
         // 清除
         if (target.id === 'clear-btn' || target.closest('#clear-btn')) {
-            const inputEl = document.getElementById('input');
-            const jsonOutput = document.getElementById('json-output');
             const jsonSection = document.getElementById('json-output-section');
             const tableSection = document.getElementById('table-section');
             const statsSection = document.getElementById('stats-section');
 
-            if (inputEl) inputEl.value = '';
-            if (jsonOutput) jsonOutput.value = '';
+            setInputValue('');
+            setJsonOutputValue('');
             if (jsonSection) jsonSection.style.display = 'none';
             if (tableSection) tableSection.style.display = 'none';
             if (statsSection) statsSection.style.display = 'none';
@@ -425,8 +466,8 @@
 
         // 复制
         if (target.id === 'copy-btn' || target.closest('#copy-btn')) {
-            const jsonOutput = document.getElementById('json-output');
-            const textToCopy = jsonOutput?.value || document.getElementById('input')?.value;
+            const jsonOutputValue = getJsonOutputValue();
+            const textToCopy = jsonOutputValue || getInputValue();
 
             if (textToCopy) {
                 const success = await REOT.utils?.copyToClipboard(textToCopy);
@@ -444,5 +485,67 @@
 
     // 导出工具函数
     window.CSVTool = { parseCSV, toCSV, toJSON, fromJSON };
+
+    /**
+     * 初始化 CodeMirror 编辑器
+     */
+    async function initEditors() {
+        if (!REOT.CodeEditor) {
+            console.warn('CodeEditor not available, using textarea fallback');
+            const inputEl = document.getElementById('input');
+            const jsonOutputEl = document.getElementById('json-output');
+            if (inputEl) inputEl.style.display = 'block';
+            if (jsonOutputEl) jsonOutputEl.style.display = 'block';
+            return;
+        }
+
+        try {
+            const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+
+            // 创建输入编辑器 (CSV 没有专门的语言支持，使用普通文本)
+            inputEditor = await REOT.CodeEditor.create('#input-editor', {
+                language: null,
+                value: '',
+                readOnly: false,
+                theme: theme
+            });
+
+            // 创建 JSON 输出编辑器（只读）
+            jsonOutputEditor = await REOT.CodeEditor.create('#json-output-editor', {
+                language: 'json',
+                value: '',
+                readOnly: true,
+                theme: theme
+            });
+
+            console.log('CSV editors initialized');
+        } catch (error) {
+            console.error('Failed to initialize editors:', error);
+            const inputEl = document.getElementById('input');
+            const jsonOutputEl = document.getElementById('json-output');
+            if (inputEl) inputEl.style.display = 'block';
+            if (jsonOutputEl) jsonOutputEl.style.display = 'block';
+        }
+    }
+
+    // 初始化编辑器
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isCsvToolActive()) {
+                initEditors();
+            }
+        });
+    } else {
+        if (isCsvToolActive()) {
+            initEditors();
+        }
+    }
+
+    // 监听路由变化重新初始化
+    window.addEventListener('routeChange', () => {
+        if (isCsvToolActive() && !inputEditor) {
+            initEditors();
+        }
+    });
 
 })();

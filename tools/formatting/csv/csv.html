@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../../../assets/css/main.css">
     <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
     <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="../../../assets/css/code-editor.css">
     <link rel="stylesheet" href="csv.css">
 </head>
 <body>
@@ -63,10 +64,12 @@
                         </label>
                     </div>
                 </div>
+                <div id="input-editor" class="code-editor-container code-editor-container--code"></div>
                 <textarea id="input"
                           class="form-input form-textarea form-textarea--code"
                           data-i18n-placeholder="tools.csv.inputPlaceholder"
-                          placeholder="请输入 CSV 内容..."></textarea>
+                          placeholder="请输入 CSV 内容..."
+                          style="display: none;"></textarea>
             </section>
 
             <!-- 操作按钮 -->
@@ -112,15 +115,18 @@
             <!-- JSON 输出 -->
             <section class="output-section" id="json-output-section" style="display: none;">
                 <label data-i18n="tools.csv.jsonOutput">JSON 输出</label>
+                <div id="json-output-editor" class="code-editor-container code-editor-container--code"></div>
                 <textarea id="json-output"
                           class="form-input form-textarea form-textarea--code"
-                          readonly></textarea>
+                          readonly
+                          style="display: none;"></textarea>
             </section>
         </main>
     </div>
 
     <script src="../../../assets/js/utils.js"></script>
     <script src="../../../assets/js/i18n.js"></script>
+    <script src="../../../assets/js/code-editor.js"></script>
     <script src="csv.js"></script>
 </body>
 </html>
