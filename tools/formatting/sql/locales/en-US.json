@@ -1,0 +1,12 @@
+{
+    "tools.sql.title": "SQL Formatter",
+    "tools.sql.description": "SQL formatting, beautification, and minification",
+    "tools.sql.dialect": "SQL Dialect",
+    "tools.sql.indent": "Indentation",
+    "tools.sql.keywordCase": "Keyword Case",
+    "tools.sql.lineBetween": "Blank Lines Between Statements",
+    "tools.sql.inputPlaceholder": "Enter SQL statement...",
+    "tools.sql.loadExample": "Load Example",
+    "tools.sql.aboutTitle": "About SQL Formatter",
+    "tools.sql.aboutDesc": "SQL Formatter beautifies and compresses SQL statements, supporting multiple SQL dialects. Formatted SQL is easier to read and maintain, while compressed SQL takes less storage space."
+}

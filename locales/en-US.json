@@ -405,6 +405,14 @@
         "struct-parser": {
             "title": "Struct Parser",
             "description": "C struct memory layout visualization"
+        },
+        "toml": {
+            "title": "TOML Formatter",
+            "description": "TOML formatting, validation, and JSON conversion"
+        },
+        "sql": {
+            "title": "SQL Formatter",
+            "description": "SQL formatting, beautification, and minification"
         }
     }
 }

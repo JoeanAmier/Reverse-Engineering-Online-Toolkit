@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.sql.title">SQL 格式化 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="sql.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.sql.title">SQL 格式化</h1>
+            <p data-i18n="tools.sql.description">SQL 语句格式化、美化与压缩</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 选项区域 -->
+            <section class="options-section">
+                <div class="option-row">
+                    <div class="option-group">
+                        <label data-i18n="tools.sql.dialect">SQL 方言</label>
+                        <select id="dialect-select" class="form-select">
+                            <option value="sql">标准 SQL</option>
+                            <option value="mysql">MySQL</option>
+                            <option value="postgresql">PostgreSQL</option>
+                            <option value="sqlite">SQLite</option>
+                            <option value="tsql">T-SQL (SQL Server)</option>
+                            <option value="plsql">PL/SQL (Oracle)</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label data-i18n="tools.sql.indent">缩进</label>
+                        <select id="indent-select" class="form-select">
+                            <option value="2">2 空格</option>
+                            <option value="4" selected>4 空格</option>
+                            <option value="tab">Tab</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label data-i18n="tools.sql.keywordCase">关键字大小写</label>
+                        <select id="case-select" class="form-select">
+                            <option value="upper" selected>大写</option>
+                            <option value="lower">小写</option>
+                            <option value="preserve">保持原样</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="option-row">
+                    <div class="option-group">
+                        <label class="form-checkbox">
+                            <input type="checkbox" id="line-between" checked>
+                            <span data-i18n="tools.sql.lineBetween">语句间空行</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 输入区域 -->
+            <section class="input-section">
+                <div class="section-header">
+                    <label data-i18n="common.input">输入</label>
+                    <button id="example-btn" class="btn btn--sm btn--outline" data-i18n="tools.sql.loadExample">加载示例</button>
+                </div>
+                <textarea id="input"
+                          class="form-input form-textarea form-textarea--code"
+                          data-i18n-placeholder="tools.sql.inputPlaceholder"
+                          placeholder="请输入 SQL 语句..."></textarea>
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="format-btn" class="btn btn--primary" data-i18n="common.format">格式化</button>
+                <button id="minify-btn" class="btn btn--secondary" data-i18n="common.minify">压缩</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+                <button id="copy-btn" class="btn btn--outline" data-i18n="common.copy">复制结果</button>
+            </section>
+
+            <!-- 输出区域 -->
+            <section class="output-section">
+                <label data-i18n="common.output">输出</label>
+                <textarea id="output"
+                          class="form-input form-textarea form-textarea--code"
+                          readonly></textarea>
+            </section>
+
+            <!-- 说明 -->
+            <section class="info-section">
+                <div class="info-box">
+                    <h4 data-i18n="tools.sql.aboutTitle">关于 SQL 格式化</h4>
+                    <p data-i18n="tools.sql.aboutDesc">SQL 格式化工具可以美化和压缩 SQL 语句，支持多种 SQL 方言。格式化后的 SQL 更易于阅读和维护，压缩后的 SQL 占用更少的存储空间。</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="sql.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+    "tools.sql.title": "SQL 格式化",
+    "tools.sql.description": "SQL 语句格式化、美化与压缩",
+    "tools.sql.dialect": "SQL 方言",
+    "tools.sql.indent": "缩进",
+    "tools.sql.keywordCase": "关键字大小写",
+    "tools.sql.lineBetween": "语句间空行",
+    "tools.sql.inputPlaceholder": "请输入 SQL 语句...",
+    "tools.sql.loadExample": "加载示例",
+    "tools.sql.aboutTitle": "关于 SQL 格式化",
+    "tools.sql.aboutDesc": "SQL 格式化工具可以美化和压缩 SQL 语句，支持多种 SQL 方言。格式化后的 SQL 更易于阅读和维护，压缩后的 SQL 占用更少的存储空间。"
+}

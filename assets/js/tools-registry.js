@@ -860,6 +860,24 @@
             path: '/tools/formatting/csv/',
             keywords: ['csv', 'tsv', 'excel', 'table', '表格', '解析']
         },
+        {
+            id: 'toml',
+            category: 'formatting',
+            name: 'tools.toml.title',
+            description: 'tools.toml.description',
+            icon: '⚙️',
+            path: '/tools/formatting/toml/',
+            keywords: ['toml', 'config', 'cargo', 'pyproject', '配置', '格式化']
+        },
+        {
+            id: 'sql',
+            category: 'formatting',
+            name: 'tools.sql.title',
+            description: 'tools.sql.description',
+            icon: '🗄️',
+            path: '/tools/formatting/sql/',
+            keywords: ['sql', 'mysql', 'postgresql', 'sqlite', 'query', '查询', '格式化']
+        },
 
         // ========== 压缩工具（新增） ==========
         {

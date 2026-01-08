@@ -405,6 +405,14 @@
         "struct-parser": {
             "title": "结构体解析",
             "description": "C 结构体内存布局可视化"
+        },
+        "toml": {
+            "title": "TOML 格式化",
+            "description": "TOML 格式化、验证，支持 TOML 与 JSON 互转"
+        },
+        "sql": {
+            "title": "SQL 格式化",
+            "description": "SQL 语句格式化、美化与压缩"
         }
     }
 }

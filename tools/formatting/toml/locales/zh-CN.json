@@ -1,0 +1,13 @@
+{
+    "tools.toml.title": "TOML 格式化",
+    "tools.toml.description": "TOML 格式化、验证，支持 TOML 与 JSON 互转",
+    "tools.toml.sortKeys": "排序键名",
+    "tools.toml.inlineTables": "内联简单表",
+    "tools.toml.inputPlaceholder": "请输入 TOML 或 JSON...",
+    "tools.toml.loadExample": "加载示例",
+    "tools.toml.validate": "校验",
+    "tools.toml.toJson": "转为 JSON",
+    "tools.toml.fromJson": "JSON 转 TOML",
+    "tools.toml.aboutTitle": "关于 TOML",
+    "tools.toml.aboutDesc": "TOML (Tom's Obvious Minimal Language) 是一种配置文件格式，设计目标是简单易读。它被广泛用于 Rust 的 Cargo.toml、Python 的 pyproject.toml 等项目配置文件。"
+}

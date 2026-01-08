@@ -1,0 +1,13 @@
+{
+    "tools.toml.title": "TOML Formatter",
+    "tools.toml.description": "TOML formatting, validation, and JSON conversion",
+    "tools.toml.sortKeys": "Sort Keys",
+    "tools.toml.inlineTables": "Inline Simple Tables",
+    "tools.toml.inputPlaceholder": "Enter TOML or JSON...",
+    "tools.toml.loadExample": "Load Example",
+    "tools.toml.validate": "Validate",
+    "tools.toml.toJson": "To JSON",
+    "tools.toml.fromJson": "JSON to TOML",
+    "tools.toml.aboutTitle": "About TOML",
+    "tools.toml.aboutDesc": "TOML (Tom's Obvious Minimal Language) is a configuration file format designed to be simple and readable. It is widely used in project configuration files like Rust's Cargo.toml and Python's pyproject.toml."
+}
