@@ -1,0 +1,17 @@
+{
+    "title": "DES/3DES Encryption",
+    "description": "DES and Triple DES (3DES) symmetric encryption and decryption",
+    "securityWarning": "Security Warning: DES is considered insecure, and 3DES is being phased out. Only recommended for legacy system compatibility. Use AES for new projects.",
+    "algorithm": "Algorithm",
+    "mode": "Mode",
+    "padding": "Padding",
+    "outputFormat": "Output Format",
+    "key": "Key",
+    "keyPlaceholder": "Enter key...",
+    "keyHintDES": "DES requires 8-byte key",
+    "keyHint3DES": "3DES requires 24-byte key",
+    "iv": "IV Vector",
+    "ivPlaceholder": "Enter IV vector...",
+    "ivHint": "Requires 8 bytes (64 bit)",
+    "inputPlaceholder": "Enter content to encrypt/decrypt..."
+}

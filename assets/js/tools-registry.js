@@ -541,6 +541,15 @@
             path: '/tools/encryption/rsa/',
             keywords: ['rsa', '非对称', '公钥', '私钥', 'encrypt', 'decrypt']
         },
+        {
+            id: 'des',
+            category: 'encryption',
+            name: 'tools.des.title',
+            description: 'tools.des.description',
+            icon: '🔓',
+            path: '/tools/encryption/des/',
+            keywords: ['des', '3des', 'triple des', '加密', '解密', 'encrypt', 'decrypt']
+        },
 
         // ========== 数据格式化 ==========
         {

@@ -324,6 +324,10 @@
         "file-hash": {
             "title": "File Hash Calculator",
             "description": "Calculate various hash values for files (MD5, SHA-1, SHA-256, SHA-384, SHA-512)"
+        },
+        "des": {
+            "title": "DES/3DES Encryption",
+            "description": "DES and Triple DES (3DES) symmetric encryption and decryption"
         }
     }
 }
