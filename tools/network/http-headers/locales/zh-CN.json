@@ -1,0 +1,19 @@
+{
+    "title": "HTTP 头解析",
+    "description": "解析和格式化 HTTP 请求/响应头",
+    "inputPlaceholder": "粘贴 HTTP 头部内容...",
+    "parse": "解析",
+    "format": "格式化",
+    "headerType": "头部类型",
+    "auto": "自动检测",
+    "request": "请求头",
+    "response": "响应头",
+    "statusLine": "状态行",
+    "headers": "头部字段",
+    "headerName": "名称",
+    "headerValue": "值",
+    "headerDesc": "说明",
+    "statistics": "统计",
+    "sampleRequest": "示例请求",
+    "sampleResponse": "示例响应"
+}

@@ -261,6 +261,10 @@
             "title": "IP 地址转换",
             "description": "IP 地址格式转换"
         },
+        "http-headers": {
+            "title": "HTTP 头解析",
+            "description": "解析和格式化 HTTP 请求/响应头"
+        },
         "byte-unit": {
             "title": "字节单位转换",
             "description": "存储容量单位转换"
@@ -296,6 +300,10 @@
         "gzip": {
             "title": "GZIP 压缩",
             "description": "GZIP 压缩与解压，支持文本和文件"
+        },
+        "deflate": {
+            "title": "Deflate 压缩",
+            "description": "Deflate 压缩与解压，支持原始 Deflate 和 zlib 格式"
         },
         "sha3": {
             "title": "SHA-3 哈希",

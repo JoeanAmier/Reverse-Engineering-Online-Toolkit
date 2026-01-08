@@ -1,0 +1,14 @@
+{
+    "title": "Deflate Compression",
+    "description": "Deflate compression and decompression (raw Deflate format)",
+    "inputPlaceholder": "Enter content to compress/decompress...",
+    "compress": "Compress",
+    "decompress": "Decompress",
+    "compressionLevel": "Compression Level",
+    "outputFormat": "Output Format",
+    "rawDeflate": "Raw Deflate (no zlib header)",
+    "uploadFile": "Upload File",
+    "originalSize": "Original Size",
+    "compressedSize": "Compressed Size",
+    "compressionRatio": "Compression Ratio"
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.http-headers.title">HTTP 头解析 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="http-headers.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.http-headers.title">HTTP 头解析</h1>
+            <p data-i18n="tools.http-headers.description">解析和格式化 HTTP 请求/响应头</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 选项区域 -->
+            <section class="options-section">
+                <div class="option-group">
+                    <label data-i18n="tools.http-headers.headerType">头部类型</label>
+                    <select id="header-type" class="form-select">
+                        <option value="auto" selected data-i18n="tools.http-headers.auto">自动检测</option>
+                        <option value="request" data-i18n="tools.http-headers.request">请求头</option>
+                        <option value="response" data-i18n="tools.http-headers.response">响应头</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- 输入区域 -->
+            <section class="input-section">
+                <label data-i18n="common.input">输入</label>
+                <textarea id="input"
+                          class="form-input form-textarea form-textarea--code"
+                          data-i18n-placeholder="tools.http-headers.inputPlaceholder"
+                          placeholder="粘贴 HTTP 头部内容..."></textarea>
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="parse-btn" class="btn btn--primary" data-i18n="tools.http-headers.parse">解析</button>
+                <button id="format-btn" class="btn btn--secondary" data-i18n="tools.http-headers.format">格式化</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+                <button id="copy-btn" class="btn btn--outline" data-i18n="common.copy">复制结果</button>
+                <button id="sample-request-btn" class="btn btn--outline" data-i18n="tools.http-headers.sampleRequest">示例请求</button>
+                <button id="sample-response-btn" class="btn btn--outline" data-i18n="tools.http-headers.sampleResponse">示例响应</button>
+            </section>
+
+            <!-- 解析结果 -->
+            <section class="result-section" id="result-section" style="display: none;">
+                <!-- 状态行信息 -->
+                <div class="status-line-section" id="status-line-section">
+                    <h3 data-i18n="tools.http-headers.statusLine">状态行</h3>
+                    <div class="status-line-info" id="status-line-info"></div>
+                </div>
+
+                <!-- 头部表格 -->
+                <div class="headers-section">
+                    <h3 data-i18n="tools.http-headers.headers">头部字段</h3>
+                    <div class="headers-table-wrapper">
+                        <table class="headers-table" id="headers-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="tools.http-headers.headerName">名称</th>
+                                    <th data-i18n="tools.http-headers.headerValue">值</th>
+                                    <th data-i18n="tools.http-headers.headerDesc">说明</th>
+                                </tr>
+                            </thead>
+                            <tbody id="headers-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 统计信息 -->
+                <div class="stats-section">
+                    <h3 data-i18n="tools.http-headers.statistics">统计</h3>
+                    <div class="stats-grid" id="stats-grid"></div>
+                </div>
+            </section>
+
+            <!-- 格式化输出 -->
+            <section class="output-section">
+                <label data-i18n="common.output">输出</label>
+                <textarea id="output"
+                          class="form-input form-textarea form-textarea--code"
+                          readonly></textarea>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="http-headers.js"></script>
+</body>
+</html>

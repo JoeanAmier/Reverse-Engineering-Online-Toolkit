@@ -1,0 +1,14 @@
+{
+    "title": "Deflate 压缩",
+    "description": "Deflate 压缩与解压（原始 Deflate 格式）",
+    "inputPlaceholder": "请输入要压缩/解压的内容...",
+    "compress": "压缩",
+    "decompress": "解压",
+    "compressionLevel": "压缩级别",
+    "outputFormat": "输出格式",
+    "rawDeflate": "原始 Deflate（无 zlib 头）",
+    "uploadFile": "上传文件",
+    "originalSize": "原始大小",
+    "compressedSize": "压缩后大小",
+    "compressionRatio": "压缩率"
+}

@@ -743,6 +743,15 @@
             path: '/tools/network/ip-converter/',
             keywords: ['ip', 'address', 'convert', '地址', '转换']
         },
+        {
+            id: 'http-headers',
+            category: 'network',
+            name: 'tools.http-headers.title',
+            description: 'tools.http-headers.description',
+            icon: '📋',
+            path: '/tools/network/http-headers/',
+            keywords: ['http', 'header', 'request', 'response', '请求', '响应', '头部']
+        },
 
         // ========== 新增转换器 ==========
         {
@@ -835,6 +844,15 @@
             path: '/tools/compression/gzip/',
             keywords: ['gzip', 'compress', 'decompress', '压缩', '解压'],
             popular: true
+        },
+        {
+            id: 'deflate',
+            category: 'compression',
+            name: 'tools.deflate.title',
+            description: 'tools.deflate.description',
+            icon: '📦',
+            path: '/tools/compression/deflate/',
+            keywords: ['deflate', 'compress', 'decompress', 'zlib', '压缩', '解压']
         },
 
         // ========== 哈希工具（新增） ==========

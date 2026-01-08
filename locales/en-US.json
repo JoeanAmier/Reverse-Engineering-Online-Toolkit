@@ -261,6 +261,10 @@
             "title": "IP Address Converter",
             "description": "Convert IP address formats"
         },
+        "http-headers": {
+            "title": "HTTP Header Parser",
+            "description": "Parse and format HTTP request/response headers"
+        },
         "byte-unit": {
             "title": "Byte Unit Converter",
             "description": "Convert storage capacity units"
@@ -296,6 +300,10 @@
         "gzip": {
             "title": "GZIP Compression",
             "description": "GZIP compression and decompression for text and files"
+        },
+        "deflate": {
+            "title": "Deflate Compression",
+            "description": "Deflate compression and decompression, supports raw Deflate and zlib format"
         },
         "sha3": {
             "title": "SHA-3 Hash",

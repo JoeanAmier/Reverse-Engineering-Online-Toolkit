@@ -1,0 +1,19 @@
+{
+    "title": "HTTP Header Parser",
+    "description": "Parse and format HTTP request/response headers",
+    "inputPlaceholder": "Paste HTTP header content...",
+    "parse": "Parse",
+    "format": "Format",
+    "headerType": "Header Type",
+    "auto": "Auto Detect",
+    "request": "Request",
+    "response": "Response",
+    "statusLine": "Status Line",
+    "headers": "Header Fields",
+    "headerName": "Name",
+    "headerValue": "Value",
+    "headerDesc": "Description",
+    "statistics": "Statistics",
+    "sampleRequest": "Sample Request",
+    "sampleResponse": "Sample Response"
+}
