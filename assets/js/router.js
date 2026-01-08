@@ -80,7 +80,7 @@
                 const link = e.target.closest('a[data-route]');
                 if (link) {
                     e.preventDefault();
-                    const path = link.getAttribute('href') || link.getAttribute('data-route');
+                    const path = link.getAttribute('data-route') || link.getAttribute('href');
                     this.navigate(path);
                 }
             });
