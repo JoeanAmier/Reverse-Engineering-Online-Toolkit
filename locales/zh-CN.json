@@ -413,6 +413,18 @@
         "sql": {
             "title": "SQL 格式化",
             "description": "SQL 语句格式化、美化与压缩"
+        },
+        "html": {
+            "title": "HTML 格式化",
+            "description": "HTML 代码格式化、美化与压缩"
+        },
+        "css": {
+            "title": "CSS 格式化",
+            "description": "CSS 代码格式化、美化与压缩"
+        },
+        "javascript": {
+            "title": "JavaScript 格式化",
+            "description": "JavaScript 代码格式化、美化与压缩"
         }
     }
 }

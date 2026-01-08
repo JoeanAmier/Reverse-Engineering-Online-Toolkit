@@ -413,6 +413,18 @@
         "sql": {
             "title": "SQL Formatter",
             "description": "SQL formatting, beautification, and minification"
+        },
+        "html": {
+            "title": "HTML Formatter",
+            "description": "HTML code formatting, beautification, and minification"
+        },
+        "css": {
+            "title": "CSS Formatter",
+            "description": "CSS code formatting, beautification, and minification"
+        },
+        "javascript": {
+            "title": "JavaScript Formatter",
+            "description": "JavaScript code formatting, beautification, and minification"
         }
     }
 }

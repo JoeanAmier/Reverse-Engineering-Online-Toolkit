@@ -106,9 +106,9 @@
 | **TOML** | TOML 格式化与解析 | ✅ 已完成 |
 | **CSV** | CSV 解析与格式化 | ✅ 已完成 |
 | **SQL** | SQL 格式化 | ✅ 已完成 |
-| **HTML** | HTML 格式化与压缩 | 📋 计划中 |
-| **CSS** | CSS 格式化与压缩 | 📋 计划中 |
-| **JavaScript** | JavaScript 格式化与压缩 | 📋 计划中 |
+| **HTML** | HTML 格式化与压缩 | ✅ 已完成 |
+| **CSS** | CSS 格式化与压缩 | ✅ 已完成 |
+| **JavaScript** | JavaScript 格式化与压缩 | ✅ 已完成 |
 
 ### 二进制分析 (Binary Analysis)
 

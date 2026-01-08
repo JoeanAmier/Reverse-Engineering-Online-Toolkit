@@ -1,0 +1,11 @@
+{
+    "tools.javascript.title": "JavaScript Formatter",
+    "tools.javascript.description": "JavaScript code formatting, beautification, and minification",
+    "tools.javascript.indent": "Indentation",
+    "tools.javascript.braceStyle": "Brace Style",
+    "tools.javascript.semicolons": "Add Semicolons",
+    "tools.javascript.inputPlaceholder": "Enter JavaScript code...",
+    "tools.javascript.loadExample": "Load Example",
+    "tools.javascript.aboutTitle": "About JavaScript Formatter",
+    "tools.javascript.aboutDesc": "JavaScript Formatter beautifies and compresses JavaScript code. Formatted code is easier to read and debug, while compressed code reduces file size and improves page load speed."
+}

@@ -1,0 +1,133 @@
+/**
+ * JavaScript 格式化工具样式
+ */
+
+/* 选项区域 */
+.options-section {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+}
+
+.option-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.option-row:last-child {
+    margin-bottom: 0;
+}
+
+.option-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+.option-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.form-checkbox input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+}
+
+.form-checkbox span {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* 输入输出区域 */
+.input-section,
+.output-section {
+    margin-bottom: 1rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.input-section label,
+.output-section label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.form-textarea {
+    min-height: 200px;
+    resize: vertical;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* 操作按钮 */
+.action-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+/* 说明区域 */
+.info-section {
+    margin-top: 2rem;
+}
+
+.info-box {
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--primary);
+}
+
+.info-box h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.info-box p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .option-row {
+        flex-direction: column;
+    }
+
+    .action-section {
+        flex-direction: column;
+    }
+
+    .action-section .btn {
+        width: 100%;
+    }
+}

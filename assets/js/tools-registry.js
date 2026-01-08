@@ -878,6 +878,33 @@
             path: '/tools/formatting/sql/',
             keywords: ['sql', 'mysql', 'postgresql', 'sqlite', 'query', '查询', '格式化']
         },
+        {
+            id: 'html',
+            category: 'formatting',
+            name: 'tools.html.title',
+            description: 'tools.html.description',
+            icon: '🌐',
+            path: '/tools/formatting/html/',
+            keywords: ['html', 'markup', 'web', '网页', '格式化', '标记']
+        },
+        {
+            id: 'css',
+            category: 'formatting',
+            name: 'tools.css.title',
+            description: 'tools.css.description',
+            icon: '🎨',
+            path: '/tools/formatting/css/',
+            keywords: ['css', 'style', 'stylesheet', '样式', '格式化']
+        },
+        {
+            id: 'javascript',
+            category: 'formatting',
+            name: 'tools.javascript.title',
+            description: 'tools.javascript.description',
+            icon: '📜',
+            path: '/tools/formatting/javascript/',
+            keywords: ['javascript', 'js', 'ecmascript', '脚本', '格式化']
+        },
 
         // ========== 压缩工具（新增） ==========
         {

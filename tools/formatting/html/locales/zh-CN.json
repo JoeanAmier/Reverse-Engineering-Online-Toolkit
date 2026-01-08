@@ -1,0 +1,11 @@
+{
+    "tools.html.title": "HTML 格式化",
+    "tools.html.description": "HTML 代码格式化、美化与压缩",
+    "tools.html.indent": "缩进",
+    "tools.html.preserveNewlines": "保留空行",
+    "tools.html.wrapAttributes": "属性换行",
+    "tools.html.inputPlaceholder": "请输入 HTML 代码...",
+    "tools.html.loadExample": "加载示例",
+    "tools.html.aboutTitle": "关于 HTML 格式化",
+    "tools.html.aboutDesc": "HTML 格式化工具可以美化和压缩 HTML 代码。格式化后的 HTML 更易于阅读和维护，压缩后的 HTML 减少文件大小，提升网页加载速度。"
+}

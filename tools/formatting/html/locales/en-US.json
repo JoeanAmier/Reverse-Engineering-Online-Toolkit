@@ -1,0 +1,11 @@
+{
+    "tools.html.title": "HTML Formatter",
+    "tools.html.description": "HTML code formatting, beautification, and minification",
+    "tools.html.indent": "Indentation",
+    "tools.html.preserveNewlines": "Preserve Empty Lines",
+    "tools.html.wrapAttributes": "Wrap Attributes",
+    "tools.html.inputPlaceholder": "Enter HTML code...",
+    "tools.html.loadExample": "Load Example",
+    "tools.html.aboutTitle": "About HTML Formatter",
+    "tools.html.aboutDesc": "HTML Formatter beautifies and compresses HTML code. Formatted HTML is easier to read and maintain, while compressed HTML reduces file size and improves page load speed."
+}

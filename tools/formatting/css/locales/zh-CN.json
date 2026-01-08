@@ -1,0 +1,11 @@
+{
+    "tools.css.title": "CSS 格式化",
+    "tools.css.description": "CSS 代码格式化、美化与压缩",
+    "tools.css.indent": "缩进",
+    "tools.css.braceStyle": "括号风格",
+    "tools.css.sortProperties": "属性排序",
+    "tools.css.inputPlaceholder": "请输入 CSS 代码...",
+    "tools.css.loadExample": "加载示例",
+    "tools.css.aboutTitle": "关于 CSS 格式化",
+    "tools.css.aboutDesc": "CSS 格式化工具可以美化和压缩 CSS 代码。格式化后的 CSS 更易于阅读和维护，压缩后的 CSS 减少文件大小，提升网页加载速度。"
+}
