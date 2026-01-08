@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="gradV1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#gradV1)"/>
+
+  <g fill="white">
+    <circle cx="32" cy="32" r="18" />
+    <g transform="translate(32,32)">
+        <rect x="-4" y="-22" width="8" height="10" rx="1" ry="1" transform="rotate(0)"/>
+        <rect x="-4" y="-22" width="8" height="10" rx="1" ry="1" transform="rotate(45)"/>
+        <rect x="-4" y="-22" width="8" height="10" rx="1" ry="1" transform="rotate(90)"/>
+        <rect x="-4" y="-22" width="8" height="10" rx="1" ry="1" transform="rotate(135)"/>
+        <rect x="-4" y="-22" width="8" height="10" rx="1" ry="1" transform="rotate(180)"/>
+        <rect x="-4" y="-22" width="8" height="10" rx="1" ry="1" transform="rotate(225)"/>
+        <rect x="-4" y="-22" width="8" height="10" rx="1" ry="1" transform="rotate(270)"/>
+        <rect x="-4" y="-22" width="8" height="10" rx="1" ry="1" transform="rotate(315)"/>
+    </g>
+    <circle cx="32" cy="32" r="10" fill="url(#gradV1)"/>
+  </g>
+
+  <text x="32" y="35" font-family="sans-serif" font-size="10" fill="white" font-weight="bold" text-anchor="middle">01</text>
+</svg>
