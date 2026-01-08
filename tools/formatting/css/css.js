@@ -44,12 +44,13 @@
             // 字符串（单引号或双引号）
             if (char === '"' || char === "'") {
                 let str = char;
+                const quote = char;
                 i++;
                 while (i < css.length) {
                     if (css[i] === '\\' && i + 1 < css.length) {
                         str += css[i] + css[i + 1];
                         i += 2;
-                    } else if (css[i] === char) {
+                    } else if (css[i] === quote) {
                         str += css[i];
                         i++;
                         break;
@@ -74,35 +75,7 @@
                 continue;
             }
 
-            // 选择器或属性名
-            if (/[a-zA-Z_\-#.*:\[\]()>+~=^$|]/.test(char)) {
-                let ident = '';
-                while (i < css.length && /[a-zA-Z0-9_\-#.*:\[\]()>+~=^$|"'\s,]/.test(css[i])) {
-                    if (css[i] === '{' || css[i] === ';' || css[i] === '}') break;
-                    // 处理括号内的内容（如 url(), calc() 等）
-                    if (css[i] === '(') {
-                        ident += css[i];
-                        i++;
-                        let parenDepth = 1;
-                        while (i < css.length && parenDepth > 0) {
-                            if (css[i] === '(') parenDepth++;
-                            else if (css[i] === ')') parenDepth--;
-                            ident += css[i];
-                            i++;
-                        }
-                        continue;
-                    }
-                    ident += css[i];
-                    i++;
-                }
-                ident = ident.trim();
-                if (ident) {
-                    tokens.push({ type: 'ident', value: ident });
-                }
-                continue;
-            }
-
-            // 符号
+            // 符号 - 优先检查，避免被 ident 吞掉
             if (char === '{') {
                 tokens.push({ type: 'lbrace', value: '{' });
                 i++;
@@ -127,6 +100,40 @@
                 continue;
             }
 
+            if (char === ',') {
+                tokens.push({ type: 'comma', value: ',' });
+                i++;
+                continue;
+            }
+
+            // 标识符（选择器、属性名、属性值等）
+            // 不包含 : ; { } , 这些分隔符
+            if (/[a-zA-Z0-9_\-#.*\[\]()>+~=^$|%!]/.test(char)) {
+                let ident = '';
+                while (i < css.length) {
+                    const c = css[i];
+                    // 遇到分隔符停止
+                    if (/[{};:,]/.test(c)) break;
+                    // 空白也停止（但不包括在函数括号内）
+                    if (/\s/.test(c)) {
+                        // 检查是否在括号内
+                        let parenCount = 0;
+                        for (let j = 0; j < ident.length; j++) {
+                            if (ident[j] === '(') parenCount++;
+                            else if (ident[j] === ')') parenCount--;
+                        }
+                        if (parenCount <= 0) break;
+                    }
+                    ident += c;
+                    i++;
+                }
+                ident = ident.trim();
+                if (ident) {
+                    tokens.push({ type: 'ident', value: ident });
+                }
+                continue;
+            }
+
             // 其他字符
             tokens.push({ type: 'other', value: char });
             i++;
@@ -148,11 +155,13 @@
         const tokens = tokenize(css);
         let result = '';
         let currentIndent = 0;
-        let inBlock = false;
+        let blockStack = []; // 跟踪块类型: 'rule' | 'at-media' | 'at-keyframes'
         let properties = [];
         let currentProperty = '';
-        let currentValue = '';
+        let currentValues = [];
         let expectValue = false;
+        let selectorBuffer = '';
+        let lastSelectorToken = null; // 跟踪上一个选择器 token 类型
 
         function addIndent() {
             return indent.repeat(currentIndent);
@@ -171,91 +180,211 @@
             properties = [];
         }
 
+        function saveCurrentProperty() {
+            if (currentProperty && currentValues.length > 0) {
+                const value = currentValues.join(' ').trim();
+                if (value) {
+                    properties.push({ name: currentProperty, value: value });
+                }
+            }
+            currentProperty = '';
+            currentValues = [];
+            expectValue = false;
+        }
+
+        function flushSelector() {
+            if (selectorBuffer.trim()) {
+                // 在 @media/@keyframes 块内需要添加缩进
+                if (blockStack.length > 0 && !result.endsWith('\n' + addIndent())) {
+                    if (!result.endsWith('\n')) {
+                        result += '\n';
+                    }
+                    result += addIndent();
+                }
+                result += selectorBuffer.trim();
+                selectorBuffer = '';
+                lastSelectorToken = null;
+            }
+        }
+
+        function getCurrentBlockType() {
+            return blockStack.length > 0 ? blockStack[blockStack.length - 1] : null;
+        }
+
+        function isInDeclarationBlock() {
+            const blockType = getCurrentBlockType();
+            return blockType === 'rule';
+        }
+
+        function isInAtBlock() {
+            const blockType = getCurrentBlockType();
+            return blockType === 'at-media' || blockType === 'at-keyframes';
+        }
+
         for (let i = 0; i < tokens.length; i++) {
             const token = tokens[i];
             const nextToken = tokens[i + 1];
+            const prevToken = tokens[i - 1];
 
             switch (token.type) {
                 case 'comment':
-                    if (inBlock) {
+                    flushSelector();
+                    if (isInDeclarationBlock()) {
+                        flushProperties();
                         result += addIndent() + token.value + '\n';
                     } else {
-                        result += token.value + '\n';
+                        if (result && !result.endsWith('\n')) {
+                            result += '\n';
+                        }
+                        result += addIndent() + token.value + '\n';
                     }
                     break;
 
                 case 'at-rule':
-                    result += token.value;
-                    // 检查是否是 @media, @keyframes 等块级规则
-                    if (['@media', '@keyframes', '@supports', '@font-face', '@page'].includes(token.value)) {
-                        // 读取条件
+                    flushSelector();
+                    // @media, @keyframes 等块级规则
+                    if (['@media', '@keyframes', '@supports', '@-webkit-keyframes', '@-moz-keyframes'].some(r => token.value.startsWith(r))) {
+                        if (result && !result.endsWith('\n')) {
+                            result += '\n';
+                        }
+                        result += addIndent() + token.value;
+                        // 读取条件直到 {
                         while (tokens[i + 1] && tokens[i + 1].type !== 'lbrace') {
                             i++;
-                            result += ' ' + tokens[i].value.trim();
+                            if (tokens[i].type === 'ident' || tokens[i].type === 'string') {
+                                result += ' ' + tokens[i].value;
+                            } else if (tokens[i].type === 'colon') {
+                                result += ':';
+                            } else if (tokens[i].type === 'comma') {
+                                result += ', ';
+                            }
+                        }
+                        // 下一个 { 会被处理并推入 at-media 或 at-keyframes
+                        if (tokens[i + 1] && tokens[i + 1].type === 'lbrace') {
+                            i++;
+                            result += ' {\n';
+                            currentIndent++;
+                            if (token.value.includes('keyframes')) {
+                                blockStack.push('at-keyframes');
+                            } else {
+                                blockStack.push('at-media');
+                            }
+                        }
+                    } else if (token.value === '@font-face' || token.value === '@page') {
+                        // @font-face 和 @page 是声明块
+                        if (result && !result.endsWith('\n')) {
+                            result += '\n';
+                        }
+                        result += addIndent() + token.value;
+                    } else {
+                        // @import, @charset 等单行规则
+                        result += addIndent() + token.value;
+                        while (tokens[i + 1] && tokens[i + 1].type !== 'semicolon') {
+                            i++;
+                            result += ' ' + tokens[i].value;
+                        }
+                        if (tokens[i + 1] && tokens[i + 1].type === 'semicolon') {
+                            i++;
+                            result += ';\n';
                         }
                     }
                     break;
 
                 case 'ident':
-                    if (!inBlock) {
-                        // 选择器
-                        if (braceStyle === 'expand') {
-                            result += token.value + ' ';
-                        } else {
-                            result += token.value + ' ';
+                    if (!isInDeclarationBlock()) {
+                        // 选择器或 keyframe 关键帧
+                        // 只有当上一个 token 不是冒号时才添加空格
+                        if (selectorBuffer && lastSelectorToken !== 'colon') {
+                            selectorBuffer += ' ';
                         }
+                        selectorBuffer += token.value;
+                        lastSelectorToken = 'ident';
                     } else if (!expectValue) {
                         // 属性名
                         currentProperty = token.value;
                     } else {
                         // 属性值
-                        currentValue = token.value;
+                        currentValues.push(token.value);
+                    }
+                    break;
+
+                case 'string':
+                    if (!isInDeclarationBlock()) {
+                        if (selectorBuffer && lastSelectorToken !== 'colon') {
+                            selectorBuffer += ' ';
+                        }
+                        selectorBuffer += token.value;
+                        lastSelectorToken = 'string';
+                    } else if (expectValue) {
+                        currentValues.push(token.value);
                     }
                     break;
 
                 case 'lbrace':
-                    inBlock = true;
-                    if (braceStyle === 'expand') {
-                        result = result.trimEnd() + ' {\n';
-                    } else {
-                        result = result.trimEnd() + ' {\n';
-                    }
+                    flushSelector();
+                    result = result.trimEnd() + ' {\n';
                     currentIndent++;
+                    blockStack.push('rule');
                     break;
 
                 case 'rbrace':
+                    // 保存最后一个属性（可能没有分号）
+                    saveCurrentProperty();
                     flushProperties();
+
                     currentIndent = Math.max(0, currentIndent - 1);
-                    result += addIndent() + '}\n\n';
-                    inBlock = false;
-                    expectValue = false;
-                    currentProperty = '';
-                    currentValue = '';
+                    result += addIndent() + '}';
+
+                    const poppedBlock = blockStack.pop();
+
+                    // 检查是否还在 @media 等块内
+                    if (blockStack.length > 0) {
+                        result += '\n';
+                        // 只有当下一个 token 不是 } 时才添加空行（为了规则之间的间距）
+                        if (isInAtBlock() && nextToken && nextToken.type !== 'rbrace') {
+                            result += '\n';
+                        }
+                    } else {
+                        result += '\n\n';
+                    }
                     break;
 
                 case 'colon':
-                    if (inBlock) {
+                    if (isInDeclarationBlock() && currentProperty) {
+                        // 属性后的冒号
                         expectValue = true;
-                    } else {
-                        // 伪类选择器
-                        result += ':';
+                    } else if (!isInDeclarationBlock()) {
+                        // 伪类/伪元素选择器
+                        selectorBuffer += ':';
+                        lastSelectorToken = 'colon';
                     }
                     break;
 
                 case 'semicolon':
-                    if (currentProperty && currentValue) {
-                        properties.push({ name: currentProperty, value: currentValue.trim() });
-                    }
-                    currentProperty = '';
-                    currentValue = '';
-                    expectValue = false;
+                    saveCurrentProperty();
                     break;
 
-                case 'string':
-                    if (expectValue) {
-                        currentValue += token.value;
-                    } else {
-                        result += token.value;
+                case 'comma':
+                    if (!isInDeclarationBlock()) {
+                        // 选择器列表
+                        selectorBuffer += ',\n' + addIndent();
+                        lastSelectorToken = 'comma';
+                    } else if (expectValue) {
+                        // 属性值中的逗号 - 追加到最后一个值后面，避免多余空格
+                        if (currentValues.length > 0) {
+                            currentValues[currentValues.length - 1] += ',';
+                        } else {
+                            currentValues.push(',');
+                        }
+                    }
+                    break;
+
+                case 'other':
+                    if (isInDeclarationBlock() && expectValue) {
+                        currentValues.push(token.value);
+                    } else if (!isInDeclarationBlock()) {
+                        selectorBuffer += token.value;
+                        lastSelectorToken = 'other';
                     }
                     break;
             }
