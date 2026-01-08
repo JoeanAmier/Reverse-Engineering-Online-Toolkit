@@ -1,0 +1,20 @@
+{
+    "title": "File Hash Calculator",
+    "description": "Calculate various hash values for files (MD5, SHA-1, SHA-256, SHA-384, SHA-512)",
+    "dropHint": "Drop file here or click to select",
+    "supportAllTypes": "All file types supported",
+    "fileInfo": "File Information",
+    "fileName": "File Name",
+    "fileSize": "File Size",
+    "fileType": "File Type",
+    "lastModified": "Last Modified",
+    "calculating": "Calculating...",
+    "selectAlgorithms": "Select Hash Algorithms",
+    "calculate": "Calculate Hash",
+    "copyAll": "Copy All",
+    "results": "Hash Results",
+    "lowercase": "Lower",
+    "uppercase": "Upper",
+    "verifyHash": "Verify Hash",
+    "verifyPlaceholder": "Enter hash to verify..."
+}

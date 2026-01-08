@@ -1,0 +1,20 @@
+{
+    "title": "文件哈希计算",
+    "description": "计算文件的各种哈希值 (MD5, SHA-1, SHA-256, SHA-384, SHA-512)",
+    "dropHint": "拖拽文件到此处或点击选择文件",
+    "supportAllTypes": "支持所有文件类型",
+    "fileInfo": "文件信息",
+    "fileName": "文件名",
+    "fileSize": "文件大小",
+    "fileType": "文件类型",
+    "lastModified": "最后修改",
+    "calculating": "计算中...",
+    "selectAlgorithms": "选择哈希算法",
+    "calculate": "计算哈希",
+    "copyAll": "复制全部",
+    "results": "哈希结果",
+    "lowercase": "小写",
+    "uppercase": "大写",
+    "verifyHash": "验证哈希",
+    "verifyPlaceholder": "输入要验证的哈希值..."
+}

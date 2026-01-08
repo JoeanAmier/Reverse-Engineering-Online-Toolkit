@@ -896,6 +896,17 @@
             path: '/tools/binary/hex-viewer/',
             keywords: ['hex', 'binary', 'viewer', '十六进制', '二进制', '查看器'],
             popular: true
+        },
+
+        // 文件哈希
+        {
+            id: 'file-hash',
+            category: 'binary',
+            name: 'tools.file-hash.title',
+            description: 'tools.file-hash.description',
+            icon: '#️⃣',
+            path: '/tools/binary/file-hash/',
+            keywords: ['file', 'hash', 'md5', 'sha', 'checksum', '文件', '哈希', '校验']
         }
     ]);
 

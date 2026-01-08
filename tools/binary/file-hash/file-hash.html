@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.file-hash.title">文件哈希计算 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="file-hash.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.file-hash.title">文件哈希计算</h1>
+            <p data-i18n="tools.file-hash.description">计算文件的各种哈希值 (MD5, SHA-1, SHA-256, SHA-384, SHA-512)</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 文件上传区域 -->
+            <section class="upload-section">
+                <div class="upload-area" id="upload-area">
+                    <input type="file" id="file-input" class="file-input">
+                    <div class="upload-content">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <p class="upload-text" data-i18n="tools.file-hash.dropHint">拖拽文件到此处或点击选择文件</p>
+                        <p class="upload-subtext" data-i18n="tools.file-hash.supportAllTypes">支持所有文件类型</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 文件信息 -->
+            <section class="file-info-section" id="file-info-section" style="display: none;">
+                <h3 data-i18n="tools.file-hash.fileInfo">文件信息</h3>
+                <div class="file-info-grid">
+                    <div class="file-info-item">
+                        <span class="info-label" data-i18n="tools.file-hash.fileName">文件名</span>
+                        <span class="info-value" id="file-name">-</span>
+                    </div>
+                    <div class="file-info-item">
+                        <span class="info-label" data-i18n="tools.file-hash.fileSize">文件大小</span>
+                        <span class="info-value" id="file-size">-</span>
+                    </div>
+                    <div class="file-info-item">
+                        <span class="info-label" data-i18n="tools.file-hash.fileType">文件类型</span>
+                        <span class="info-value" id="file-type">-</span>
+                    </div>
+                    <div class="file-info-item">
+                        <span class="info-label" data-i18n="tools.file-hash.lastModified">最后修改</span>
+                        <span class="info-value" id="file-modified">-</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 进度条 -->
+            <section class="progress-section" id="progress-section" style="display: none;">
+                <div class="progress-header">
+                    <span data-i18n="tools.file-hash.calculating">计算中...</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </section>
+
+            <!-- 算法选择 -->
+            <section class="options-section">
+                <h3 data-i18n="tools.file-hash.selectAlgorithms">选择哈希算法</h3>
+                <div class="algorithm-checkboxes">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="algo-md5" checked>
+                        <span>MD5</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="algo-sha1" checked>
+                        <span>SHA-1</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="algo-sha256" checked>
+                        <span>SHA-256</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="algo-sha384">
+                        <span>SHA-384</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="algo-sha512">
+                        <span>SHA-512</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="calculate-btn" class="btn btn--primary" data-i18n="tools.file-hash.calculate">计算哈希</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+                <button id="copy-all-btn" class="btn btn--outline" data-i18n="tools.file-hash.copyAll">复制全部</button>
+            </section>
+
+            <!-- 哈希结果 -->
+            <section class="results-section" id="results-section" style="display: none;">
+                <h3 data-i18n="tools.file-hash.results">哈希结果</h3>
+
+                <div class="hash-result" id="result-md5" style="display: none;">
+                    <div class="hash-header">
+                        <span class="hash-name">MD5</span>
+                        <button class="btn btn--small copy-hash-btn" data-algorithm="md5">
+                            <span data-i18n="common.copy">复制</span>
+                        </button>
+                    </div>
+                    <div class="hash-values">
+                        <div class="hash-value-row">
+                            <span class="value-label" data-i18n="tools.file-hash.lowercase">小写</span>
+                            <input type="text" class="hash-input" id="md5-lower" readonly>
+                        </div>
+                        <div class="hash-value-row">
+                            <span class="value-label" data-i18n="tools.file-hash.uppercase">大写</span>
+                            <input type="text" class="hash-input" id="md5-upper" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hash-result" id="result-sha1" style="display: none;">
+                    <div class="hash-header">
+                        <span class="hash-name">SHA-1</span>
+                        <button class="btn btn--small copy-hash-btn" data-algorithm="sha1">
+                            <span data-i18n="common.copy">复制</span>
+                        </button>
+                    </div>
+                    <div class="hash-values">
+                        <div class="hash-value-row">
+                            <span class="value-label" data-i18n="tools.file-hash.lowercase">小写</span>
+                            <input type="text" class="hash-input" id="sha1-lower" readonly>
+                        </div>
+                        <div class="hash-value-row">
+                            <span class="value-label" data-i18n="tools.file-hash.uppercase">大写</span>
+                            <input type="text" class="hash-input" id="sha1-upper" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hash-result" id="result-sha256" style="display: none;">
+                    <div class="hash-header">
+                        <span class="hash-name">SHA-256</span>
+                        <button class="btn btn--small copy-hash-btn" data-algorithm="sha256">
+                            <span data-i18n="common.copy">复制</span>
+                        </button>
+                    </div>
+                    <div class="hash-values">
+                        <div class="hash-value-row">
+                            <span class="value-label" data-i18n="tools.file-hash.lowercase">小写</span>
+                            <input type="text" class="hash-input" id="sha256-lower" readonly>
+                        </div>
+                        <div class="hash-value-row">
+                            <span class="value-label" data-i18n="tools.file-hash.uppercase">大写</span>
+                            <input type="text" class="hash-input" id="sha256-upper" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hash-result" id="result-sha384" style="display: none;">
+                    <div class="hash-header">
+                        <span class="hash-name">SHA-384</span>
+                        <button class="btn btn--small copy-hash-btn" data-algorithm="sha384">
+                            <span data-i18n="common.copy">复制</span>
+                        </button>
+                    </div>
+                    <div class="hash-values">
+                        <div class="hash-value-row">
+                            <span class="value-label" data-i18n="tools.file-hash.lowercase">小写</span>
+                            <input type="text" class="hash-input" id="sha384-lower" readonly>
+                        </div>
+                        <div class="hash-value-row">
+                            <span class="value-label" data-i18n="tools.file-hash.uppercase">大写</span>
+                            <input type="text" class="hash-input" id="sha384-upper" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hash-result" id="result-sha512" style="display: none;">
+                    <div class="hash-header">
+                        <span class="hash-name">SHA-512</span>
+                        <button class="btn btn--small copy-hash-btn" data-algorithm="sha512">
+                            <span data-i18n="common.copy">复制</span>
+                        </button>
+                    </div>
+                    <div class="hash-values">
+                        <div class="hash-value-row">
+                            <span class="value-label" data-i18n="tools.file-hash.lowercase">小写</span>
+                            <input type="text" class="hash-input" id="sha512-lower" readonly>
+                        </div>
+                        <div class="hash-value-row">
+                            <span class="value-label" data-i18n="tools.file-hash.uppercase">大写</span>
+                            <input type="text" class="hash-input" id="sha512-upper" readonly>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 哈希验证 -->
+            <section class="verify-section">
+                <h3 data-i18n="tools.file-hash.verifyHash">验证哈希</h3>
+                <div class="verify-input-group">
+                    <input type="text" id="verify-input" class="form-input"
+                           data-i18n-placeholder="tools.file-hash.verifyPlaceholder"
+                           placeholder="输入要验证的哈希值...">
+                    <button id="verify-btn" class="btn btn--primary" data-i18n="common.verify">验证</button>
+                </div>
+                <div class="verify-result" id="verify-result" style="display: none;">
+                    <span class="verify-status" id="verify-status"></span>
+                    <span class="verify-algorithm" id="verify-algorithm"></span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="file-hash.js"></script>
+</body>
+</html>

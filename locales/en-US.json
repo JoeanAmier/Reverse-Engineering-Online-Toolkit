@@ -320,6 +320,10 @@
         "hex-viewer": {
             "title": "Hex Viewer",
             "description": "View hexadecimal representation of files or text"
+        },
+        "file-hash": {
+            "title": "File Hash Calculator",
+            "description": "Calculate various hash values for files (MD5, SHA-1, SHA-256, SHA-384, SHA-512)"
         }
     }
 }
