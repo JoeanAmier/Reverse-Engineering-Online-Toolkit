@@ -397,6 +397,14 @@
         "blowfish": {
             "title": "Blowfish Encryption",
             "description": "Blowfish symmetric encryption and decryption"
+        },
+        "pattern-search": {
+            "title": "Pattern Search",
+            "description": "Search byte patterns in binary data"
+        },
+        "struct-parser": {
+            "title": "Struct Parser",
+            "description": "C struct memory layout visualization"
         }
     }
 }

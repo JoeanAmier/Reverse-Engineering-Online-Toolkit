@@ -1016,6 +1016,24 @@
             icon: '🐡',
             path: '/tools/encryption/blowfish/',
             keywords: ['blowfish', 'cipher', 'encrypt', 'decrypt', '加密', '解密', '对称']
+        },
+        {
+            id: 'pattern-search',
+            category: 'reverse',
+            name: 'tools.pattern-search.title',
+            description: 'tools.pattern-search.description',
+            icon: '🔎',
+            path: '/tools/reverse/pattern-search/',
+            keywords: ['pattern', 'search', 'binary', 'hex', 'wildcard', '模式', '搜索', '字节']
+        },
+        {
+            id: 'struct-parser',
+            category: 'reverse',
+            name: 'tools.struct-parser.title',
+            description: 'tools.struct-parser.description',
+            icon: '🏗️',
+            path: '/tools/reverse/struct-parser/',
+            keywords: ['struct', 'layout', 'memory', 'padding', 'alignment', '结构体', '内存', '布局']
         }
     ]);
 

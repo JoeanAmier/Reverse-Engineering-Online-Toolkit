@@ -397,6 +397,14 @@
         "blowfish": {
             "title": "Blowfish 加解密",
             "description": "Blowfish 对称加密与解密"
+        },
+        "pattern-search": {
+            "title": "模式搜索",
+            "description": "在二进制数据中搜索字节模式"
+        },
+        "struct-parser": {
+            "title": "结构体解析",
+            "description": "C 结构体内存布局可视化"
         }
     }
 }

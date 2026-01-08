@@ -1,0 +1,23 @@
+{
+    "tools.struct-parser.title": "Struct Parser",
+    "tools.struct-parser.description": "C struct memory layout visualization",
+    "tools.struct-parser.architecture": "Architecture",
+    "tools.struct-parser.alignment": "Alignment",
+    "tools.struct-parser.endianness": "Endianness",
+    "tools.struct-parser.structDef": "Struct Definition",
+    "tools.struct-parser.loadExample": "Load Example",
+    "tools.struct-parser.parse": "Parse",
+    "tools.struct-parser.totalSize": "Total Size",
+    "tools.struct-parser.actualData": "Actual Data",
+    "tools.struct-parser.padding": "Padding",
+    "tools.struct-parser.efficiency": "Efficiency",
+    "tools.struct-parser.memoryLayout": "Memory Layout",
+    "tools.struct-parser.fieldDetails": "Field Details",
+    "tools.struct-parser.offset": "Offset",
+    "tools.struct-parser.fieldName": "Field Name",
+    "tools.struct-parser.type": "Type",
+    "tools.struct-parser.size": "Size",
+    "tools.struct-parser.note": "Note",
+    "tools.struct-parser.aboutTitle": "About Struct Parser",
+    "tools.struct-parser.aboutDesc": "Struct parser tool analyzes C/C++ struct memory layout. It calculates field offsets, padding bytes, and total size, helping understand how data structures are actually arranged in memory. Supports common basic types, pointers, and arrays with configurable architecture and alignment settings."
+}

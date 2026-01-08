@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.pattern-search.title">模式搜索 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="pattern-search.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.pattern-search.title">模式搜索</h1>
+            <p data-i18n="tools.pattern-search.description">在二进制数据中搜索字节模式</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 数据输入 -->
+            <section class="data-section">
+                <div class="section-header">
+                    <h3 data-i18n="tools.pattern-search.dataInput">数据输入</h3>
+                    <div class="input-actions">
+                        <label class="file-upload-btn btn btn--sm btn--outline">
+                            <input type="file" id="file-input" hidden>
+                            <span data-i18n="common.upload">上传文件</span>
+                        </label>
+                        <button id="clear-data-btn" class="btn btn--sm btn--outline" data-i18n="common.clear">清除</button>
+                    </div>
+                </div>
+                <div class="drop-zone" id="drop-zone">
+                    <p data-i18n="tools.pattern-search.dropHint">拖拽文件到此处或点击上传</p>
+                    <p class="file-info" id="file-info"></p>
+                </div>
+                <div class="hex-input-wrapper">
+                    <label data-i18n="tools.pattern-search.hexInput">或输入十六进制数据</label>
+                    <textarea id="hex-input"
+                              class="form-input form-textarea form-textarea--code"
+                              placeholder="00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF..."></textarea>
+                </div>
+            </section>
+
+            <!-- 搜索设置 -->
+            <section class="search-section">
+                <h3 data-i18n="tools.pattern-search.searchPattern">搜索模式</h3>
+                <div class="search-row">
+                    <div class="search-group flex-2">
+                        <label data-i18n="tools.pattern-search.pattern">搜索模式</label>
+                        <input type="text" id="pattern-input"
+                               class="form-input form-input--mono"
+                               placeholder="48 65 6C 6C 6F 或 Hello 或 48 ?? 6C">
+                    </div>
+                    <div class="search-group">
+                        <label data-i18n="tools.pattern-search.patternType">模式类型</label>
+                        <select id="pattern-type" class="form-select">
+                            <option value="hex">十六进制 (Hex)</option>
+                            <option value="ascii">ASCII 文本</option>
+                            <option value="regex">正则表达式</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="search-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="case-sensitive">
+                        <span data-i18n="tools.pattern-search.caseSensitive">区分大小写</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="show-context" checked>
+                        <span data-i18n="tools.pattern-search.showContext">显示上下文</span>
+                    </label>
+                </div>
+                <div class="search-hint">
+                    <span data-i18n="tools.pattern-search.wildcardHint">提示：在 Hex 模式下，使用 ?? 作为通配符匹配任意字节</span>
+                </div>
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="search-btn" class="btn btn--primary" data-i18n="tools.pattern-search.search">搜索</button>
+                <button id="search-all-btn" class="btn btn--secondary" data-i18n="tools.pattern-search.searchAll">搜索全部</button>
+                <button id="clear-results-btn" class="btn btn--outline" data-i18n="tools.pattern-search.clearResults">清除结果</button>
+            </section>
+
+            <!-- 搜索结果 -->
+            <section class="results-section" id="results-section" style="display: none;">
+                <div class="results-header">
+                    <h3 data-i18n="tools.pattern-search.results">搜索结果</h3>
+                    <span class="results-count" id="results-count"></span>
+                </div>
+                <div class="results-list" id="results-list"></div>
+            </section>
+
+            <!-- 说明 -->
+            <section class="info-section">
+                <div class="info-box">
+                    <h4 data-i18n="tools.pattern-search.aboutTitle">关于模式搜索</h4>
+                    <p data-i18n="tools.pattern-search.aboutDesc">模式搜索工具用于在二进制数据中查找特定的字节序列。支持十六进制模式（带通配符）、ASCII 文本和正则表达式搜索。常用于逆向工程中定位特定数据结构、字符串或代码片段。</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="pattern-search.js"></script>
+</body>
+</html>

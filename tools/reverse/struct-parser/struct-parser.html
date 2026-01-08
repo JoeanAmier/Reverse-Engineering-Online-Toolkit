@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.struct-parser.title">结构体解析 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="struct-parser.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.struct-parser.title">结构体解析</h1>
+            <p data-i18n="tools.struct-parser.description">C 结构体内存布局可视化</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 设置区域 -->
+            <section class="settings-section">
+                <div class="settings-row">
+                    <div class="setting-group">
+                        <label data-i18n="tools.struct-parser.architecture">架构</label>
+                        <select id="arch-select" class="form-select">
+                            <option value="32">32 位</option>
+                            <option value="64" selected>64 位</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <label data-i18n="tools.struct-parser.alignment">对齐</label>
+                        <select id="align-select" class="form-select">
+                            <option value="1">1 字节 (packed)</option>
+                            <option value="2">2 字节</option>
+                            <option value="4">4 字节</option>
+                            <option value="8" selected>8 字节 (默认)</option>
+                            <option value="16">16 字节</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <label data-i18n="tools.struct-parser.endianness">字节序</label>
+                        <select id="endian-select" class="form-select">
+                            <option value="little" selected>小端序 (Little Endian)</option>
+                            <option value="big">大端序 (Big Endian)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 输入区域 -->
+            <section class="input-section">
+                <div class="section-header">
+                    <label data-i18n="tools.struct-parser.structDef">结构体定义</label>
+                    <button id="example-btn" class="btn btn--sm btn--outline" data-i18n="tools.struct-parser.loadExample">加载示例</button>
+                </div>
+                <textarea id="struct-input"
+                          class="form-input form-textarea form-textarea--code"
+                          placeholder="struct Example {
+    char a;
+    int b;
+    short c;
+    double d;
+    char e[3];
+    void* ptr;
+};"></textarea>
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="parse-btn" class="btn btn--primary" data-i18n="tools.struct-parser.parse">解析</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+            </section>
+
+            <!-- 结果区域 -->
+            <section class="results-section" id="results-section" style="display: none;">
+                <!-- 摘要信息 -->
+                <div class="summary-box" id="summary-box">
+                    <div class="summary-item">
+                        <span class="summary-label" data-i18n="tools.struct-parser.totalSize">总大小</span>
+                        <span class="summary-value" id="total-size">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label" data-i18n="tools.struct-parser.actualData">实际数据</span>
+                        <span class="summary-value" id="actual-data">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label" data-i18n="tools.struct-parser.padding">填充字节</span>
+                        <span class="summary-value" id="padding-bytes">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label" data-i18n="tools.struct-parser.efficiency">空间效率</span>
+                        <span class="summary-value" id="efficiency">-</span>
+                    </div>
+                </div>
+
+                <!-- 内存布局可视化 -->
+                <div class="layout-section">
+                    <h3 data-i18n="tools.struct-parser.memoryLayout">内存布局</h3>
+                    <div class="layout-container" id="layout-container"></div>
+                </div>
+
+                <!-- 字段列表 -->
+                <div class="fields-section">
+                    <h3 data-i18n="tools.struct-parser.fieldDetails">字段详情</h3>
+                    <div class="fields-table-wrapper">
+                        <table class="fields-table" id="fields-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="tools.struct-parser.offset">偏移</th>
+                                    <th data-i18n="tools.struct-parser.fieldName">字段名</th>
+                                    <th data-i18n="tools.struct-parser.type">类型</th>
+                                    <th data-i18n="tools.struct-parser.size">大小</th>
+                                    <th data-i18n="tools.struct-parser.note">备注</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fields-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 说明 -->
+            <section class="info-section">
+                <div class="info-box">
+                    <h4 data-i18n="tools.struct-parser.aboutTitle">关于结构体解析</h4>
+                    <p data-i18n="tools.struct-parser.aboutDesc">结构体解析工具用于分析 C/C++ 结构体的内存布局。它可以计算字段偏移、填充字节和总大小，帮助理解数据结构在内存中的实际排列方式。支持常见的基本类型、指针和数组，可配置不同的架构和对齐方式。</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="struct-parser.js"></script>
+</body>
+</html>

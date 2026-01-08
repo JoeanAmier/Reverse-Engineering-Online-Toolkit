@@ -1,0 +1,19 @@
+{
+    "tools.pattern-search.title": "模式搜索",
+    "tools.pattern-search.description": "在二进制数据中搜索字节模式",
+    "tools.pattern-search.dataInput": "数据输入",
+    "tools.pattern-search.dropHint": "拖拽文件到此处或点击上传",
+    "tools.pattern-search.hexInput": "或输入十六进制数据",
+    "tools.pattern-search.searchPattern": "搜索设置",
+    "tools.pattern-search.pattern": "搜索模式",
+    "tools.pattern-search.patternType": "模式类型",
+    "tools.pattern-search.caseSensitive": "区分大小写",
+    "tools.pattern-search.showContext": "显示上下文",
+    "tools.pattern-search.wildcardHint": "提示：在 Hex 模式下，使用 ?? 作为通配符匹配任意字节",
+    "tools.pattern-search.search": "搜索",
+    "tools.pattern-search.searchAll": "搜索全部",
+    "tools.pattern-search.clearResults": "清除结果",
+    "tools.pattern-search.results": "搜索结果",
+    "tools.pattern-search.aboutTitle": "关于模式搜索",
+    "tools.pattern-search.aboutDesc": "模式搜索工具用于在二进制数据中查找特定的字节序列。支持十六进制模式（带通配符）、ASCII 文本和正则表达式搜索。常用于逆向工程中定位特定数据结构、字符串或代码片段。"
+}

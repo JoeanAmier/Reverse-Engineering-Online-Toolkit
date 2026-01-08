@@ -1,0 +1,23 @@
+{
+    "tools.struct-parser.title": "结构体解析",
+    "tools.struct-parser.description": "C 结构体内存布局可视化",
+    "tools.struct-parser.architecture": "架构",
+    "tools.struct-parser.alignment": "对齐",
+    "tools.struct-parser.endianness": "字节序",
+    "tools.struct-parser.structDef": "结构体定义",
+    "tools.struct-parser.loadExample": "加载示例",
+    "tools.struct-parser.parse": "解析",
+    "tools.struct-parser.totalSize": "总大小",
+    "tools.struct-parser.actualData": "实际数据",
+    "tools.struct-parser.padding": "填充字节",
+    "tools.struct-parser.efficiency": "空间效率",
+    "tools.struct-parser.memoryLayout": "内存布局",
+    "tools.struct-parser.fieldDetails": "字段详情",
+    "tools.struct-parser.offset": "偏移",
+    "tools.struct-parser.fieldName": "字段名",
+    "tools.struct-parser.type": "类型",
+    "tools.struct-parser.size": "大小",
+    "tools.struct-parser.note": "备注",
+    "tools.struct-parser.aboutTitle": "关于结构体解析",
+    "tools.struct-parser.aboutDesc": "结构体解析工具用于分析 C/C++ 结构体的内存布局。它可以计算字段偏移、填充字节和总大小，帮助理解数据结构在内存中的实际排列方式。支持常见的基本类型、指针和数组，可配置不同的架构和对齐方式。"
+}

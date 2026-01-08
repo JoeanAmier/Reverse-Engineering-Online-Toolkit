@@ -1,0 +1,19 @@
+{
+    "tools.pattern-search.title": "Pattern Search",
+    "tools.pattern-search.description": "Search byte patterns in binary data",
+    "tools.pattern-search.dataInput": "Data Input",
+    "tools.pattern-search.dropHint": "Drag and drop a file here or click to upload",
+    "tools.pattern-search.hexInput": "Or enter hexadecimal data",
+    "tools.pattern-search.searchPattern": "Search Settings",
+    "tools.pattern-search.pattern": "Search Pattern",
+    "tools.pattern-search.patternType": "Pattern Type",
+    "tools.pattern-search.caseSensitive": "Case Sensitive",
+    "tools.pattern-search.showContext": "Show Context",
+    "tools.pattern-search.wildcardHint": "Tip: In Hex mode, use ?? as wildcard to match any byte",
+    "tools.pattern-search.search": "Search",
+    "tools.pattern-search.searchAll": "Search All",
+    "tools.pattern-search.clearResults": "Clear Results",
+    "tools.pattern-search.results": "Search Results",
+    "tools.pattern-search.aboutTitle": "About Pattern Search",
+    "tools.pattern-search.aboutDesc": "Pattern search tool is used to find specific byte sequences in binary data. Supports hexadecimal patterns (with wildcards), ASCII text, and regular expression search. Commonly used in reverse engineering to locate specific data structures, strings, or code fragments."
+}
