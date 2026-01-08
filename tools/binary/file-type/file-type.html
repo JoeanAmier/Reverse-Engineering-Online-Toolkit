@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.file-type.title">文件类型检测 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="file-type.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.file-type.title">文件类型检测</h1>
+            <p data-i18n="tools.file-type.description">基于文件头 Magic Number 检测真实文件类型</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 文件上传区域 -->
+            <section class="upload-section">
+                <div class="upload-area" id="upload-area">
+                    <input type="file" id="file-input" class="file-input">
+                    <div class="upload-content">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <p class="upload-text" data-i18n="tools.file-type.dropHint">拖拽文件到此处或点击选择文件</p>
+                        <p class="upload-subtext" data-i18n="tools.file-type.analyzeHint">将分析文件头部字节识别真实类型</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+            </section>
+
+            <!-- 检测结果 -->
+            <section class="result-section" id="result-section" style="display: none;">
+                <h3 data-i18n="tools.file-type.detectionResult">检测结果</h3>
+
+                <div class="result-card">
+                    <div class="result-icon" id="result-icon">📄</div>
+                    <div class="result-info">
+                        <div class="result-type" id="result-type">Unknown</div>
+                        <div class="result-mime" id="result-mime">application/octet-stream</div>
+                    </div>
+                </div>
+
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label" data-i18n="tools.file-type.fileName">文件名</span>
+                        <span class="detail-value" id="detail-filename">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label" data-i18n="tools.file-type.fileSize">文件大小</span>
+                        <span class="detail-value" id="detail-size">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label" data-i18n="tools.file-type.extension">扩展名</span>
+                        <span class="detail-value" id="detail-extension">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label" data-i18n="tools.file-type.suggestedExt">建议扩展名</span>
+                        <span class="detail-value" id="detail-suggested">-</span>
+                    </div>
+                </div>
+
+                <!-- Magic Number 信息 -->
+                <div class="magic-section">
+                    <h4 data-i18n="tools.file-type.magicNumber">Magic Number</h4>
+                    <div class="magic-hex" id="magic-hex">-</div>
+                    <div class="magic-ascii" id="magic-ascii">-</div>
+                </div>
+
+                <!-- 警告信息 -->
+                <div class="warning-box" id="warning-box" style="display: none;">
+                    <span class="warning-icon">⚠️</span>
+                    <span id="warning-text"></span>
+                </div>
+            </section>
+
+            <!-- 支持的文件类型 -->
+            <section class="supported-section">
+                <h3 data-i18n="tools.file-type.supportedTypes">支持检测的文件类型</h3>
+                <div class="type-tags" id="type-tags">
+                    <!-- 动态生成 -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="file-type.js"></script>
+</body>
+</html>

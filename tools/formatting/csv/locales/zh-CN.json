@@ -1,0 +1,18 @@
+{
+    "title": "CSV 解析器",
+    "description": "CSV 解析、格式化，支持 JSON 互转",
+    "delimiter": "分隔符",
+    "customDelimiter": "自定义分隔符",
+    "hasHeader": "首行为表头",
+    "inputPlaceholder": "请输入 CSV 内容...",
+    "loadSample": "加载示例",
+    "parse": "解析 CSV",
+    "toJson": "转为 JSON",
+    "fromJson": "从 JSON 转换",
+    "rows": "行数",
+    "columns": "列数",
+    "cells": "单元格",
+    "tablePreview": "表格预览",
+    "jsonOutput": "JSON 输出",
+    "downloadCsv": "下载 CSV"
+}

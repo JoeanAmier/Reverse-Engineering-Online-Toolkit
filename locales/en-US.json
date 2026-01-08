@@ -328,6 +328,18 @@
         "des": {
             "title": "DES/3DES Encryption",
             "description": "DES and Triple DES (3DES) symmetric encryption and decryption"
+        },
+        "rc4": {
+            "title": "RC4 Encryption",
+            "description": "RC4 stream cipher, encryption and decryption use the same operation"
+        },
+        "csv": {
+            "title": "CSV Parser",
+            "description": "CSV parsing, formatting, and JSON conversion"
+        },
+        "file-type": {
+            "title": "File Type Detection",
+            "description": "Detect real file type based on Magic Number"
         }
     }
 }

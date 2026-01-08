@@ -550,6 +550,15 @@
             path: '/tools/encryption/des/',
             keywords: ['des', '3des', 'triple des', '加密', '解密', 'encrypt', 'decrypt']
         },
+        {
+            id: 'rc4',
+            category: 'encryption',
+            name: 'tools.rc4.title',
+            description: 'tools.rc4.description',
+            icon: '🔀',
+            path: '/tools/encryption/rc4/',
+            keywords: ['rc4', 'stream', 'cipher', '流加密', '加密', '解密']
+        },
 
         // ========== 数据格式化 ==========
         {
@@ -842,6 +851,15 @@
             path: '/tools/formatting/yaml/',
             keywords: ['yaml', 'yml', 'json', 'format', '格式化']
         },
+        {
+            id: 'csv',
+            category: 'formatting',
+            name: 'tools.csv.title',
+            description: 'tools.csv.description',
+            icon: '📊',
+            path: '/tools/formatting/csv/',
+            keywords: ['csv', 'tsv', 'excel', 'table', '表格', '解析']
+        },
 
         // ========== 压缩工具（新增） ==========
         {
@@ -916,6 +934,17 @@
             icon: '#️⃣',
             path: '/tools/binary/file-hash/',
             keywords: ['file', 'hash', 'md5', 'sha', 'checksum', '文件', '哈希', '校验']
+        },
+
+        // 文件类型检测
+        {
+            id: 'file-type',
+            category: 'binary',
+            name: 'tools.file-type.title',
+            description: 'tools.file-type.description',
+            icon: '🔍',
+            path: '/tools/binary/file-type/',
+            keywords: ['file', 'type', 'magic', 'detect', '文件类型', '检测', 'magic number']
         }
     ]);
 

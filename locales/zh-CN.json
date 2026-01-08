@@ -328,6 +328,18 @@
         "des": {
             "title": "DES/3DES 加解密",
             "description": "DES 和 Triple DES (3DES) 对称加密与解密"
+        },
+        "rc4": {
+            "title": "RC4 加解密",
+            "description": "RC4 流加密算法，加密和解密使用相同操作"
+        },
+        "csv": {
+            "title": "CSV 解析器",
+            "description": "CSV 解析、格式化，支持 JSON 互转"
+        },
+        "file-type": {
+            "title": "文件类型检测",
+            "description": "基于文件头 Magic Number 检测真实文件类型"
         }
     }
 }

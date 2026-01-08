@@ -1,0 +1,14 @@
+{
+    "title": "RC4 Encryption",
+    "description": "RC4 stream cipher, encryption and decryption use the same operation",
+    "securityWarning": "Security Warning: RC4 has known vulnerabilities and has been removed from TLS 1.3. Only recommended for legacy compatibility or educational purposes.",
+    "inputFormat": "Input Format",
+    "outputFormat": "Output Format",
+    "key": "Key",
+    "keyPlaceholder": "Enter key...",
+    "keyHint": "Recommended key length: 5-256 bytes",
+    "inputPlaceholder": "Enter content to encrypt/decrypt...",
+    "process": "Encrypt/Decrypt",
+    "howItWorks": "How It Works",
+    "howItWorksDesc": "RC4 is a stream cipher that generates a pseudo-random byte stream from the key, then XORs it with the plaintext. Due to the properties of XOR, encryption and decryption use exactly the same operation."
+}

@@ -1,0 +1,18 @@
+{
+    "title": "CSV Parser",
+    "description": "CSV parsing, formatting, and JSON conversion",
+    "delimiter": "Delimiter",
+    "customDelimiter": "Custom Delimiter",
+    "hasHeader": "First Row as Header",
+    "inputPlaceholder": "Enter CSV content...",
+    "loadSample": "Load Sample",
+    "parse": "Parse CSV",
+    "toJson": "To JSON",
+    "fromJson": "From JSON",
+    "rows": "Rows",
+    "columns": "Columns",
+    "cells": "Cells",
+    "tablePreview": "Table Preview",
+    "jsonOutput": "JSON Output",
+    "downloadCsv": "Download CSV"
+}

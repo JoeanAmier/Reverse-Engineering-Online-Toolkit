@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.csv.title">CSV 解析器 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="csv.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.csv.title">CSV 解析器</h1>
+            <p data-i18n="tools.csv.description">CSV 解析、格式化，支持 JSON 互转</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 选项区域 -->
+            <section class="options-section">
+                <div class="option-row">
+                    <div class="option-group">
+                        <label data-i18n="tools.csv.delimiter">分隔符</label>
+                        <select id="delimiter-select" class="form-select">
+                            <option value="," selected>,（逗号）</option>
+                            <option value=";">; （分号）</option>
+                            <option value="\t">Tab（制表符）</option>
+                            <option value="|">|（竖线）</option>
+                            <option value="custom">自定义</option>
+                        </select>
+                    </div>
+                    <div class="option-group" id="custom-delimiter-group" style="display: none;">
+                        <label data-i18n="tools.csv.customDelimiter">自定义分隔符</label>
+                        <input type="text" id="custom-delimiter" class="form-input" maxlength="1" placeholder=",">
+                    </div>
+                    <div class="option-group">
+                        <label data-i18n="tools.csv.hasHeader">首行为表头</label>
+                        <select id="has-header" class="form-select">
+                            <option value="true" selected>是</option>
+                            <option value="false">否</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 输入区域 -->
+            <section class="input-section">
+                <div class="section-header">
+                    <label data-i18n="common.input">输入</label>
+                    <div class="input-actions">
+                        <button id="sample-btn" class="btn btn--sm btn--outline" data-i18n="tools.csv.loadSample">加载示例</button>
+                        <label class="btn btn--sm btn--outline">
+                            <span data-i18n="common.upload">上传</span>
+                            <input type="file" id="file-input" accept=".csv,.tsv,.txt" style="display: none;">
+                        </label>
+                    </div>
+                </div>
+                <textarea id="input"
+                          class="form-input form-textarea form-textarea--code"
+                          data-i18n-placeholder="tools.csv.inputPlaceholder"
+                          placeholder="请输入 CSV 内容..."></textarea>
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="parse-btn" class="btn btn--primary" data-i18n="tools.csv.parse">解析 CSV</button>
+                <button id="to-json-btn" class="btn btn--secondary" data-i18n="tools.csv.toJson">转为 JSON</button>
+                <button id="from-json-btn" class="btn btn--secondary" data-i18n="tools.csv.fromJson">从 JSON 转换</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+                <button id="copy-btn" class="btn btn--outline" data-i18n="common.copy">复制结果</button>
+            </section>
+
+            <!-- 统计信息 -->
+            <section class="stats-section" id="stats-section" style="display: none;">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value" id="row-count">0</span>
+                        <span class="stat-label" data-i18n="tools.csv.rows">行数</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="col-count">0</span>
+                        <span class="stat-label" data-i18n="tools.csv.columns">列数</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="cell-count">0</span>
+                        <span class="stat-label" data-i18n="tools.csv.cells">单元格</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 表格预览 -->
+            <section class="table-section" id="table-section" style="display: none;">
+                <div class="section-header">
+                    <label data-i18n="tools.csv.tablePreview">表格预览</label>
+                    <button id="download-csv-btn" class="btn btn--sm btn--outline" data-i18n="tools.csv.downloadCsv">下载 CSV</button>
+                </div>
+                <div class="table-wrapper">
+                    <table id="preview-table" class="preview-table">
+                        <!-- 动态生成 -->
+                    </table>
+                </div>
+            </section>
+
+            <!-- JSON 输出 -->
+            <section class="output-section" id="json-output-section" style="display: none;">
+                <label data-i18n="tools.csv.jsonOutput">JSON 输出</label>
+                <textarea id="json-output"
+                          class="form-input form-textarea form-textarea--code"
+                          readonly></textarea>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="csv.js"></script>
+</body>
+</html>

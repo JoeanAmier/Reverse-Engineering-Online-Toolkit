@@ -1,0 +1,13 @@
+{
+    "title": "文件类型检测",
+    "description": "基于文件头 Magic Number 检测真实文件类型",
+    "dropHint": "拖拽文件到此处或点击选择文件",
+    "analyzeHint": "将分析文件头部字节识别真实类型",
+    "detectionResult": "检测结果",
+    "fileName": "文件名",
+    "fileSize": "文件大小",
+    "extension": "扩展名",
+    "suggestedExt": "建议扩展名",
+    "magicNumber": "Magic Number",
+    "supportedTypes": "支持检测的文件类型"
+}

@@ -1,0 +1,13 @@
+{
+    "title": "File Type Detection",
+    "description": "Detect real file type based on Magic Number",
+    "dropHint": "Drop file here or click to select",
+    "analyzeHint": "Will analyze file header bytes to identify real type",
+    "detectionResult": "Detection Result",
+    "fileName": "File Name",
+    "fileSize": "File Size",
+    "extension": "Extension",
+    "suggestedExt": "Suggested Extension",
+    "magicNumber": "Magic Number",
+    "supportedTypes": "Supported File Types"
+}
