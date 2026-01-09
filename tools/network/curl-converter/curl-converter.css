@@ -2,6 +2,27 @@
  * cURL 解析器样式
  */
 
+/* CodeMirror 编辑器容器 */
+.code-editor-container {
+    min-height: 200px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.code-editor-container--sm {
+    min-height: 180px;
+}
+
+.code-editor-container .cm-editor {
+    height: 100%;
+    min-height: inherit;
+}
+
+.code-editor-container .cm-scroller {
+    min-height: inherit;
+}
+
 /* 功能选项卡 */
 .feature-tabs {
     display: flex;
@@ -218,6 +239,47 @@
 
 .params-table tr:hover td {
     background: rgba(var(--color-primary-rgb), 0.05);
+}
+
+/* 解析表格可点击单元格 */
+.params-table .clickable-cell {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    position: relative;
+}
+
+.params-table .clickable-cell:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.15) !important;
+}
+
+.params-table .clickable-cell:active {
+    background-color: rgba(var(--color-primary-rgb), 0.25) !important;
+}
+
+.params-table .clickable-cell.copied {
+    background-color: rgba(16, 185, 129, 0.25) !important;
+}
+
+.params-table .clickable-cell::after {
+    content: '点击复制';
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    font-size: 0.65rem;
+    color: var(--color-primary);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+    background: var(--bg-primary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.params-table .clickable-cell:hover::after {
+    opacity: 1;
 }
 
 .params-table .param-name {

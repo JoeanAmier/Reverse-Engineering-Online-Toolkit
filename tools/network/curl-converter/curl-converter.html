@@ -41,10 +41,12 @@
                             <button id="clear-btn" class="btn btn--sm btn--outline" data-i18n="common.clear">清除</button>
                         </div>
                     </div>
+                    <div id="input-editor" class="code-editor-container"></div>
                     <textarea id="input"
                               class="form-input form-textarea form-textarea--code"
                               data-i18n-placeholder="tools.curl-converter.inputPlaceholder"
-                              placeholder="粘贴 cURL 命令..."></textarea>
+                              placeholder="粘贴 cURL 命令..."
+                              style="display: none;"></textarea>
                 </section>
 
                 <section class="action-section">
@@ -195,7 +197,8 @@
                             <button id="export-curl-btn" class="btn btn--primary" data-i18n="tools.curl-converter.generateCurl">生成 cURL 命令</button>
                             <button id="copy-curl-btn" class="btn btn--outline" data-i18n="common.copy">复制</button>
                         </div>
-                        <pre id="exported-curl" class="code-output"></pre>
+                        <div id="exported-curl-editor" class="code-editor-container"></div>
+                        <pre id="exported-curl" class="code-output" style="display: none;"></pre>
                     </section>
                 </div>
             </div>
@@ -205,15 +208,19 @@
                 <div class="compare-container">
                     <div class="compare-input">
                         <label data-i18n="tools.curl-converter.firstRequest">第一个请求</label>
+                        <div id="compare-editor-1" class="code-editor-container code-editor-container--sm"></div>
                         <textarea id="compare-input-1" class="form-input form-textarea form-textarea--code"
                                   data-i18n-placeholder="tools.curl-converter.inputPlaceholder"
-                                  placeholder="粘贴第一个 cURL 命令..."></textarea>
+                                  placeholder="粘贴第一个 cURL 命令..."
+                                  style="display: none;"></textarea>
                     </div>
                     <div class="compare-input">
                         <label data-i18n="tools.curl-converter.secondRequest">第二个请求</label>
+                        <div id="compare-editor-2" class="code-editor-container code-editor-container--sm"></div>
                         <textarea id="compare-input-2" class="form-input form-textarea form-textarea--code"
                                   data-i18n-placeholder="tools.curl-converter.inputPlaceholder"
-                                  placeholder="粘贴第二个 cURL 命令..."></textarea>
+                                  placeholder="粘贴第二个 cURL 命令..."
+                                  style="display: none;"></textarea>
                     </div>
                 </div>
                 <section class="action-section">
@@ -291,10 +298,12 @@
                         <label data-i18n="tools.curl-converter.curlCommand">cURL 命令</label>
                         <button id="gen-sample-btn" class="btn btn--sm btn--outline" data-i18n="tools.curl-converter.sample">示例</button>
                     </div>
+                    <div id="gen-input-editor" class="code-editor-container"></div>
                     <textarea id="gen-input"
                               class="form-input form-textarea form-textarea--code"
                               data-i18n-placeholder="tools.curl-converter.inputPlaceholder"
-                              placeholder="粘贴 cURL 命令..."></textarea>
+                              placeholder="粘贴 cURL 命令..."
+                              style="display: none;"></textarea>
                 </section>
 
                 <section class="options-section">
@@ -355,7 +364,8 @@
 
                 <section class="output-section">
                     <label data-i18n="tools.curl-converter.generatedCode">生成的代码</label>
-                    <pre id="code-output" class="code-output"></pre>
+                    <div id="code-output-editor" class="code-editor-container"></div>
+                    <pre id="code-output" class="code-output" style="display: none;"></pre>
                 </section>
             </div>
         </main>
@@ -363,6 +373,7 @@
 
     <script src="../../../assets/js/utils.js"></script>
     <script src="../../../assets/js/i18n.js"></script>
+    <script src="../../../assets/js/code-editor.js"></script>
     <script src="curl-converter.js"></script>
 </body>
 </html>

@@ -11,6 +11,43 @@
     // 当前解析结果
     let currentParsed = null;
 
+    // CodeMirror 编辑器实例
+    let inputEditor = null;
+    let compareEditor1 = null;
+    let compareEditor2 = null;
+    let genInputEditor = null;
+    let codeOutputEditor = null;
+    let exportedCurlEditor = null;
+    let editorsInitialized = false;
+
+    // 获取编辑器值的辅助函数
+    function getEditorValue(editor, fallbackId) {
+        if (editor) {
+            return editor.getValue();
+        }
+        const el = document.getElementById(fallbackId);
+        if (!el) return '';
+        if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') {
+            return el.value || '';
+        }
+        return el.textContent || '';
+    }
+
+    // 设置编辑器值的辅助函数
+    function setEditorValue(editor, fallbackId, value) {
+        if (editor) {
+            editor.setValue(value);
+        }
+        const el = document.getElementById(fallbackId);
+        if (el) {
+            if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') {
+                el.value = value;
+            } else {
+                el.textContent = value;
+            }
+        }
+    }
+
     // ==================== 常量定义 ====================
 
     // 常见 HTTP 请求头说明
@@ -478,8 +515,8 @@
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td class="param-name">${escapeHtml(key)}</td>
-                <td class="param-value">${escapeHtml(String(value))}</td>
+                <td class="param-name clickable-cell" data-copy="${escapeHtml(key)}">${escapeHtml(key)}</td>
+                <td class="param-value clickable-cell" data-copy="${escapeHtml(String(value))}">${escapeHtml(String(value))}</td>
                 <td class="param-type"><span class="type-badge ${type}">${type}</span></td>
                 <td class="param-desc">${escapeHtml(hint)}</td>
             `;
@@ -514,8 +551,8 @@
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td class="param-name">${escapeHtml(key)}</td>
-                <td class="param-value">${escapeHtml(value)}</td>
+                <td class="param-name clickable-cell" data-copy="${escapeHtml(key)}">${escapeHtml(key)}</td>
+                <td class="param-value clickable-cell" data-copy="${escapeHtml(value)}">${escapeHtml(value)}</td>
                 <td class="header-function">
                     ${info.tag ? `<span class="function-tag">${info.tag}</span>` : ''}
                     ${escapeHtml(info.desc)}
@@ -556,8 +593,8 @@
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td class="param-name">${escapeHtml(key)}</td>
-                    <td class="param-value">${escapeHtml(String(value))}</td>
+                    <td class="param-name clickable-cell" data-copy="${escapeHtml(key)}">${escapeHtml(key)}</td>
+                    <td class="param-value clickable-cell" data-copy="${escapeHtml(String(value))}">${escapeHtml(String(value))}</td>
                     <td class="param-type"><span class="type-badge ${type}">${type}</span></td>
                 `;
                 tbody.appendChild(tr);
@@ -602,8 +639,8 @@
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td class="param-name">${escapeHtml(key)}</td>
-                <td class="param-value">${escapeHtml(value)}</td>
+                <td class="param-name clickable-cell" data-copy="${escapeHtml(key)}">${escapeHtml(key)}</td>
+                <td class="param-value clickable-cell" data-copy="${escapeHtml(value)}">${escapeHtml(value)}</td>
                 <td class="param-type"><span class="type-badge ${type}">${type}</span></td>
             `;
             tbody.appendChild(tr);
@@ -614,8 +651,8 @@
      * 渲染导出的 cURL
      */
     function renderExportedCurl(parsed) {
-        const output = document.getElementById('exported-curl');
-        output.textContent = generateCurlCommand(parsed);
+        const curl = generateCurlCommand(parsed);
+        setEditorValue(exportedCurlEditor, 'exported-curl', curl);
     }
 
     /**
@@ -1591,6 +1628,173 @@
   -H 'X-Timestamp: 1704067260' \\
   -H 'X-Page-Token: eyJwYWdlIjoyfQ=='`;
 
+    // ==================== 编辑器初始化 ====================
+
+    /**
+     * 获取语言对应的 CodeMirror 语言标识
+     */
+    function getLanguageForEditor(langValue) {
+        if (!langValue) return null;
+        if (langValue.startsWith('python')) return 'python';
+        if (langValue.startsWith('js-') || langValue.startsWith('node-')) return 'javascript';
+        if (langValue.startsWith('php')) return 'php';
+        if (langValue.startsWith('go')) return 'go';
+        if (langValue.startsWith('java-')) return 'java';
+        if (langValue.startsWith('csharp')) return 'csharp';
+        if (langValue.startsWith('rust')) return 'rust';
+        if (langValue.startsWith('ruby')) return 'ruby';
+        if (langValue.startsWith('swift')) return 'swift';
+        if (langValue.startsWith('kotlin')) return 'kotlin';
+        return 'javascript'; // 默认使用 JavaScript 高亮
+    }
+
+    /**
+     * 重新创建代码输出编辑器（切换语言时）
+     */
+    async function recreateCodeOutputEditor(language) {
+        if (!REOT.CodeEditor) return;
+
+        const container = document.getElementById('code-output-editor');
+        if (!container) return;
+
+        // 保存当前值
+        const currentValue = codeOutputEditor ? codeOutputEditor.getValue() : '';
+
+        // 销毁旧编辑器
+        if (codeOutputEditor) {
+            codeOutputEditor.destroy();
+            codeOutputEditor = null;
+        }
+
+        // 清空容器
+        container.innerHTML = '';
+
+        try {
+            const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            const editorLang = getLanguageForEditor(language);
+
+            codeOutputEditor = await REOT.CodeEditor.create('#code-output-editor', {
+                language: editorLang,
+                value: currentValue,
+                readOnly: true,
+                theme: theme,
+                lineWrapping: true
+            });
+        } catch (error) {
+            console.error('Failed to recreate code output editor:', error);
+        }
+    }
+
+    /**
+     * 初始化 CodeMirror 编辑器
+     */
+    async function initializeEditors() {
+        if (editorsInitialized) return;
+        if (!REOT.CodeEditor) {
+            console.warn('CodeEditor not available, using textarea fallback');
+            // 显示 textarea 作为备用
+            document.querySelectorAll('.code-editor-container').forEach(el => {
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('textarea[style*="display: none"]').forEach(el => {
+                el.style.display = 'block';
+            });
+            return;
+        }
+
+        try {
+            const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+
+            // 解析页面的输入编辑器 (使用 shell 语法高亮)
+            if (document.getElementById('input-editor')) {
+                inputEditor = await REOT.CodeEditor.create('#input-editor', {
+                    language: 'shell',
+                    value: '',
+                    readOnly: false,
+                    theme: theme,
+                    lineWrapping: true,
+                    placeholder: '粘贴 cURL 命令...'
+                });
+            }
+
+            // 导出的 cURL 编辑器 (使用 shell 语法高亮)
+            if (document.getElementById('exported-curl-editor')) {
+                exportedCurlEditor = await REOT.CodeEditor.create('#exported-curl-editor', {
+                    language: 'shell',
+                    value: '',
+                    readOnly: true,
+                    theme: theme,
+                    lineWrapping: true
+                });
+            }
+
+            // 对比页面的编辑器 (使用 shell 语法高亮)
+            if (document.getElementById('compare-editor-1')) {
+                compareEditor1 = await REOT.CodeEditor.create('#compare-editor-1', {
+                    language: 'shell',
+                    value: '',
+                    readOnly: false,
+                    theme: theme,
+                    lineWrapping: true,
+                    placeholder: '粘贴第一个 cURL 命令...'
+                });
+            }
+
+            if (document.getElementById('compare-editor-2')) {
+                compareEditor2 = await REOT.CodeEditor.create('#compare-editor-2', {
+                    language: 'shell',
+                    value: '',
+                    readOnly: false,
+                    theme: theme,
+                    lineWrapping: true,
+                    placeholder: '粘贴第二个 cURL 命令...'
+                });
+            }
+
+            // 代码生成页面的输入编辑器 (使用 shell 语法高亮)
+            if (document.getElementById('gen-input-editor')) {
+                genInputEditor = await REOT.CodeEditor.create('#gen-input-editor', {
+                    language: 'shell',
+                    value: '',
+                    readOnly: false,
+                    theme: theme,
+                    lineWrapping: true,
+                    placeholder: '粘贴 cURL 命令...'
+                });
+            }
+
+            // 代码生成页面的输出编辑器
+            if (document.getElementById('code-output-editor')) {
+                codeOutputEditor = await REOT.CodeEditor.create('#code-output-editor', {
+                    language: 'javascript',
+                    value: '',
+                    readOnly: true,
+                    theme: theme,
+                    lineWrapping: true
+                });
+            }
+
+            editorsInitialized = true;
+            console.log('cURL Converter editors initialized');
+        } catch (error) {
+            console.error('Failed to initialize editors:', error);
+            // 显示 textarea 作为备用
+            document.querySelectorAll('.code-editor-container').forEach(el => {
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('textarea[style*="display: none"]').forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+    }
+
+    // 初始化编辑器
+    setTimeout(() => {
+        if (isCurlConverterToolActive()) {
+            initializeEditors();
+        }
+    }, 100);
+
     // ==================== 事件处理 ====================
 
     function isCurlConverterToolActive() {
@@ -1623,7 +1827,7 @@
 
         // 解析按钮
         if (target.id === 'parse-btn' || target.closest('#parse-btn')) {
-            const input = document.getElementById('input')?.value || '';
+            const input = getEditorValue(inputEditor, 'input');
             if (!input.trim()) {
                 REOT.utils?.showNotification('请输入 cURL 命令', 'warning');
                 return;
@@ -1640,14 +1844,14 @@
 
         // 示例按钮
         if (target.id === 'sample-btn' || target.closest('#sample-btn')) {
-            document.getElementById('input').value = SAMPLE_CURL;
+            setEditorValue(inputEditor, 'input', SAMPLE_CURL);
             const parsed = parseCurl(SAMPLE_CURL);
             renderParseResult(parsed);
         }
 
         // 清除按钮
         if (target.id === 'clear-btn' || target.closest('#clear-btn')) {
-            document.getElementById('input').value = '';
+            setEditorValue(inputEditor, 'input', '');
             document.getElementById('parse-result').style.display = 'none';
             currentParsed = null;
         }
@@ -1676,13 +1880,13 @@
         if (target.id === 'export-curl-btn' || target.closest('#export-curl-btn')) {
             if (currentParsed) {
                 const curl = generateCurlCommand(currentParsed);
-                document.getElementById('exported-curl').textContent = curl;
+                setEditorValue(exportedCurlEditor, 'exported-curl', curl);
             }
         }
 
         // 复制导出的 cURL
         if (target.id === 'copy-curl-btn' || target.closest('#copy-curl-btn')) {
-            const curl = document.getElementById('exported-curl').textContent;
+            const curl = getEditorValue(exportedCurlEditor, 'exported-curl');
             if (curl) {
                 await REOT.utils?.copyToClipboard(curl);
                 REOT.utils?.showNotification('已复制 cURL 命令', 'success');
@@ -1691,8 +1895,8 @@
 
         // 对比按钮
         if (target.id === 'compare-btn' || target.closest('#compare-btn')) {
-            const curl1 = document.getElementById('compare-input-1')?.value || '';
-            const curl2 = document.getElementById('compare-input-2')?.value || '';
+            const curl1 = getEditorValue(compareEditor1, 'compare-input-1');
+            const curl2 = getEditorValue(compareEditor2, 'compare-input-2');
 
             if (!curl1.trim() || !curl2.trim()) {
                 REOT.utils?.showNotification('请输入两个 cURL 命令', 'warning');
@@ -1710,23 +1914,25 @@
 
         // 对比示例按钮
         if (target.id === 'compare-sample-btn' || target.closest('#compare-sample-btn')) {
-            document.getElementById('compare-input-1').value = SAMPLE_COMPARE_1;
-            document.getElementById('compare-input-2').value = SAMPLE_COMPARE_2;
+            setEditorValue(compareEditor1, 'compare-input-1', SAMPLE_COMPARE_1);
+            setEditorValue(compareEditor2, 'compare-input-2', SAMPLE_COMPARE_2);
             const diff = compareCurls(SAMPLE_COMPARE_1, SAMPLE_COMPARE_2);
             renderCompareResult(diff);
         }
 
         // 代码生成示例按钮
         if (target.id === 'gen-sample-btn' || target.closest('#gen-sample-btn')) {
-            document.getElementById('gen-input').value = SAMPLE_CURL;
+            setEditorValue(genInputEditor, 'gen-input', SAMPLE_CURL);
             const language = document.getElementById('language-select').value;
+            // 重新创建编辑器以应用正确的语言高亮
+            await recreateCodeOutputEditor(language);
             const code = generateCode(SAMPLE_CURL, language);
-            document.getElementById('code-output').textContent = code;
+            setEditorValue(codeOutputEditor, 'code-output', code);
         }
 
         // 生成代码按钮
         if (target.id === 'generate-btn' || target.closest('#generate-btn')) {
-            const input = document.getElementById('gen-input')?.value || '';
+            const input = getEditorValue(genInputEditor, 'gen-input');
             const language = document.getElementById('language-select').value;
 
             if (!input.trim()) {
@@ -1735,8 +1941,10 @@
             }
 
             try {
+                // 重新创建编辑器以应用正确的语言高亮
+                await recreateCodeOutputEditor(language);
                 const code = generateCode(input, language);
-                document.getElementById('code-output').textContent = code;
+                setEditorValue(codeOutputEditor, 'code-output', code);
                 REOT.utils?.showNotification('代码生成成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
@@ -1745,7 +1953,7 @@
 
         // 复制代码按钮
         if (target.id === 'copy-code-btn' || target.closest('#copy-code-btn')) {
-            const code = document.getElementById('code-output').textContent;
+            const code = getEditorValue(codeOutputEditor, 'code-output');
             if (code) {
                 await REOT.utils?.copyToClipboard(code);
                 REOT.utils?.showNotification('代码已复制', 'success');
@@ -1767,19 +1975,45 @@
     });
 
     // 语言选择变化时重新生成
-    document.addEventListener('change', (e) => {
+    document.addEventListener('change', async (e) => {
         if (!isCurlConverterToolActive()) return;
 
         if (e.target.id === 'language-select') {
-            const input = document.getElementById('gen-input')?.value || '';
+            const input = getEditorValue(genInputEditor, 'gen-input');
+            const language = e.target.value;
+
+            // 重新创建编辑器以应用新的语言高亮
+            await recreateCodeOutputEditor(language);
+
             if (input.trim()) {
                 try {
-                    const code = generateCode(input, e.target.value);
-                    document.getElementById('code-output').textContent = code;
+                    const code = generateCode(input, language);
+                    setEditorValue(codeOutputEditor, 'code-output', code);
                 } catch (error) {
-                    document.getElementById('code-output').textContent = '错误: ' + error.message;
+                    setEditorValue(codeOutputEditor, 'code-output', '错误: ' + error.message);
                 }
             }
+        }
+    });
+
+    // 监听路由变化，重新初始化编辑器
+    window.addEventListener('hashchange', () => {
+        if (isCurlConverterToolActive() && !editorsInitialized) {
+            setTimeout(initializeEditors, 100);
+        }
+    });
+
+    // 监听 popstate 事件（SPA 路由）
+    window.addEventListener('popstate', () => {
+        if (isCurlConverterToolActive() && !editorsInitialized) {
+            setTimeout(initializeEditors, 100);
+        }
+    });
+
+    // 监听自定义路由事件
+    document.addEventListener('routechange', () => {
+        if (isCurlConverterToolActive() && !editorsInitialized) {
+            setTimeout(initializeEditors, 100);
         }
     });
 
@@ -1788,7 +2022,8 @@
         parseCurl,
         generateCode,
         compareCurls,
-        inferDataType
+        inferDataType,
+        initializeEditors
     };
 
 })();

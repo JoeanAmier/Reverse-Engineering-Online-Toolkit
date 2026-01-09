@@ -41,6 +41,14 @@
                     langJson,
                     langXml,
                     langYaml,
+                    langPython,
+                    langPhp,
+                    langRust,
+                    langJava,
+                    langCpp,
+                    langMarkdown,
+                    legacyModes,
+                    shellMode,
                     themeOneDark
                 ] = await Promise.all([
                     import('https://esm.sh/@codemirror/state@6'),
@@ -57,6 +65,14 @@
                     import('https://esm.sh/@codemirror/lang-json@6'),
                     import('https://esm.sh/@codemirror/lang-xml@6'),
                     import('https://esm.sh/@codemirror/lang-yaml@6'),
+                    import('https://esm.sh/@codemirror/lang-python@6'),
+                    import('https://esm.sh/@codemirror/lang-php@6'),
+                    import('https://esm.sh/@codemirror/lang-rust@6'),
+                    import('https://esm.sh/@codemirror/lang-java@6'),
+                    import('https://esm.sh/@codemirror/lang-cpp@6'),
+                    import('https://esm.sh/@codemirror/lang-markdown@6'),
+                    import('https://esm.sh/@codemirror/language@6'),
+                    import('https://esm.sh/@codemirror/legacy-modes@6/mode/shell'),
                     import('https://esm.sh/@codemirror/theme-one-dark@6')
                 ]);
 
@@ -112,6 +128,16 @@
                     json: langJson.json,
                     xml: langXml.xml,
                     yaml: langYaml.yaml,
+                    python: langPython.python,
+                    php: langPhp.php,
+                    rust: langRust.rust,
+                    java: langJava.java,
+                    cpp: langCpp.cpp,
+                    markdown: langMarkdown.markdown,
+
+                    // Legacy modes (Shell/Bash)
+                    StreamLanguage: language.StreamLanguage,
+                    shell: shellMode.shell,
 
                     // Theme
                     oneDark: themeOneDark.oneDark
@@ -136,6 +162,8 @@
         switch (lang) {
             case 'javascript':
             case 'js':
+            case 'typescript':
+            case 'ts':
                 return cm.javascript();
             case 'css':
                 return cm.css();
@@ -150,6 +178,42 @@
             case 'yaml':
             case 'yml':
                 return cm.yaml();
+            case 'python':
+            case 'py':
+                return cm.python();
+            case 'php':
+                return cm.php();
+            case 'rust':
+            case 'rs':
+                return cm.rust();
+            case 'java':
+            case 'kotlin':
+            case 'kt':
+                return cm.java();
+            case 'cpp':
+            case 'c':
+            case 'csharp':
+            case 'cs':
+                return cm.cpp();
+            case 'markdown':
+            case 'md':
+                return cm.markdown();
+            case 'go':
+                // Go 使用类似 C 的语法高亮
+                return cm.cpp();
+            case 'ruby':
+            case 'rb':
+                // Ruby 使用 Python 的语法高亮作为近似
+                return cm.python();
+            case 'swift':
+                // Swift 使用类似 C 的语法高亮
+                return cm.cpp();
+            case 'shell':
+            case 'bash':
+            case 'sh':
+            case 'curl':
+                // Shell/Bash 使用 legacy mode
+                return cm.StreamLanguage.define(cm.shell);
             default:
                 return null;
         }
@@ -165,7 +229,8 @@
             lineNumbers: showLineNumbers = true,
             foldGutter: showFoldGutter = true,
             theme = 'light',
-            placeholderText = ''
+            placeholderText = '',
+            lineWrapping = false
         } = options;
 
         const extensions = [
@@ -216,6 +281,11 @@
             extensions.push(cm.oneDark);
         }
 
+        // 自动换行
+        if (lineWrapping) {
+            extensions.push(cm.EditorView.lineWrapping);
+        }
+
         // 语言支持
         if (language) {
             const langExt = getLanguageExtension(cm, language);
@@ -245,6 +315,7 @@
             readOnly = false,
             lineNumbers = true,
             foldGutter = true,
+            lineWrapping = false,
             theme = 'auto',
             onChange = null,
             placeholder = ''
@@ -273,6 +344,7 @@
             readOnly,
             lineNumbers,
             foldGutter,
+            lineWrapping,
             theme: actualTheme,
             placeholderText: placeholder
         });
