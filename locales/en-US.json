@@ -467,8 +467,8 @@
             "description": "Generate RSA, ECDSA, Ed25519 key pairs"
         },
         "curl-converter": {
-            "title": "cURL to Code",
-            "description": "Convert cURL commands to various programming language code"
+            "title": "cURL Parser",
+            "description": "Parse, compare, edit cURL commands and convert to various programming languages"
         },
         "x509-certificate": {
             "title": "X.509 Certificate Tool",

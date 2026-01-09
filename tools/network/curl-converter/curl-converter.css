@@ -1,8 +1,49 @@
 /**
- * cURL 转代码工具样式
- * 只定义工具特定的样式，不覆盖全局类
+ * cURL 解析器样式
  */
 
+/* 功能选项卡 */
+.feature-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.feature-tab {
+    flex: 1;
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.feature-tab:hover {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+}
+
+.feature-tab.active {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* 功能区域 */
+.feature-section {
+    display: none;
+}
+
+.feature-section.active {
+    display: block;
+}
+
+/* 输入区域头部 */
 .input-header {
     display: flex;
     justify-content: space-between;
@@ -10,14 +51,430 @@
     margin-bottom: 8px;
 }
 
-/* 代码输出区域 */
-.code-output {
-    min-height: 300px;
+.input-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* 解析结果 */
+.parse-result {
+    margin-top: 20px;
+}
+
+/* 概览区域 */
+.overview-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.overview-section h3 {
+    margin: 0 0 12px 0;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+}
+
+.overview-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 12px;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+.overview-item--wide {
+    grid-column: span 2;
+}
+
+.overview-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.overview-value {
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    word-break: break-all;
+}
+
+.method-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    width: fit-content;
+}
+
+.method-badge.GET { background: #10b981; color: white; }
+.method-badge.POST { background: #f59e0b; color: white; }
+.method-badge.PUT { background: #3b82f6; color: white; }
+.method-badge.DELETE { background: #ef4444; color: white; }
+.method-badge.PATCH { background: #8b5cf6; color: white; }
+.method-badge.HEAD { background: #6b7280; color: white; }
+.method-badge.OPTIONS { background: #ec4899; color: white; }
+
+.url-value {
+    color: var(--color-primary);
+}
+
+/* 视图选项卡 */
+.view-tabs {
+    display: flex;
+    gap: 2px;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 16px;
+}
+
+.view-tab {
+    padding: 10px 16px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s ease;
+}
+
+.view-tab:hover {
+    color: var(--text-primary);
+}
+
+.view-tab.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
+/* 详情区域 */
+.detail-section {
+    display: none;
+}
+
+.detail-section.active {
+    display: block;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.section-header h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.section-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* 参数表格 */
+.params-table-container {
+    overflow-x: auto;
+}
+
+.params-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.params-table th,
+.params-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border: 1px solid var(--border-color);
+}
+
+.params-table th {
+    background: var(--bg-tertiary);
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.params-table td {
+    background: var(--bg-secondary);
+}
+
+.params-table tr:hover td {
+    background: rgba(var(--color-primary-rgb), 0.05);
+}
+
+.params-table .param-name {
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-weight: 500;
+    color: var(--color-primary);
+}
+
+.params-table .param-value {
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    word-break: break-all;
+    max-width: 400px;
+}
+
+.params-table .param-type {
+    white-space: nowrap;
+}
+
+.params-table .param-desc {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* 数据类型标签 */
+.type-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.type-badge.string { background: #dbeafe; color: #1d4ed8; }
+.type-badge.number { background: #dcfce7; color: #166534; }
+.type-badge.boolean { background: #fef3c7; color: #92400e; }
+.type-badge.array { background: #f3e8ff; color: #7c3aed; }
+.type-badge.object { background: #ffe4e6; color: #be123c; }
+.type-badge.null { background: #f3f4f6; color: #4b5563; }
+.type-badge.timestamp { background: #cffafe; color: #0e7490; }
+.type-badge.uuid { background: #fce7f3; color: #be185d; }
+.type-badge.base64 { background: #fed7aa; color: #c2410c; }
+.type-badge.json { background: #fef9c3; color: #854d0e; }
+.type-badge.url { background: #e0e7ff; color: #4338ca; }
+
+/* 请求头功能说明 */
+.header-function {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    max-width: 300px;
+}
+
+.header-function .function-tag {
+    display: inline-block;
+    padding: 1px 4px;
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    margin-right: 4px;
+}
+
+/* 请求体 */
+.body-content {
+    position: relative;
+}
+
+.body-raw {
     padding: 16px;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+    display: none;
+}
+
+/* 空状态 */
+.empty-state {
+    padding: 24px;
+    text-align: center;
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    display: none;
+}
+
+/* 导出区域 */
+.export-section {
+    margin-top: 24px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+}
+
+.export-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 0.95rem;
+}
+
+.export-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+/* 对比功能 */
+.compare-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.compare-input label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.compare-input textarea {
+    min-height: 150px;
+}
+
+/* 对比结果 */
+.compare-result {
+    margin-top: 20px;
+}
+
+.diff-summary {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.diff-summary h4 {
+    margin: 0 0 12px 0;
+}
+
+.diff-stats {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.diff-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+.diff-stat .stat-icon {
+    font-size: 1.2rem;
+}
+
+.diff-stat .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.diff-stat .stat-value {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.diff-stat.added { border-left: 3px solid #10b981; }
+.diff-stat.removed { border-left: 3px solid #ef4444; }
+.diff-stat.changed { border-left: 3px solid #f59e0b; }
+.diff-stat.same { border-left: 3px solid #6b7280; }
+
+/* 差异详情 */
+.diff-details {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.diff-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.diff-section h5 {
+    margin: 0 0 12px 0;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.diff-content {
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-size: 0.85rem;
+}
+
+.diff-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.diff-table th,
+.diff-table td {
+    padding: 8px 10px;
+    text-align: left;
+    border: 1px solid var(--border-color);
+}
+
+.diff-table th {
+    background: var(--bg-tertiary);
+    font-weight: 600;
+}
+
+.diff-table td {
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+}
+
+.diff-table .diff-status {
+    white-space: nowrap;
+}
+
+.diff-table tr.diff-added td { background: rgba(16, 185, 129, 0.1); }
+.diff-table tr.diff-removed td { background: rgba(239, 68, 68, 0.1); }
+.diff-table tr.diff-changed td { background: rgba(245, 158, 11, 0.1); }
+
+.status-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-badge.added { background: #10b981; color: white; }
+.status-badge.removed { background: #ef4444; color: white; }
+.status-badge.changed { background: #f59e0b; color: white; }
+.status-badge.same { background: #6b7280; color: white; }
+
+/* 代码输出 */
+.code-output {
+    min-height: 200px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
     font-size: 0.85rem;
     line-height: 1.5;
     overflow: auto;
@@ -26,40 +483,95 @@
     margin: 0;
 }
 
-/* 信息区域 */
-.info-section {
-    margin-top: 24px;
-    padding: 16px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-}
-
-.info-section h3 {
-    margin: 0 0 8px 0;
-    font-size: 1em;
-    color: var(--text-primary);
-}
-
-.info-section p {
-    margin: 0;
-    font-size: 0.9em;
-    color: var(--text-muted);
-    line-height: 1.6;
+/* 小选择框 */
+.form-select--sm {
+    padding: 4px 8px;
+    font-size: 0.8rem;
 }
 
 /* 响应式 */
 @media (max-width: 768px) {
-    .code-output {
-        min-height: 200px;
+    .feature-tabs {
+        flex-wrap: wrap;
+    }
+
+    .feature-tab {
+        flex: 1 1 auto;
+        min-width: 80px;
+    }
+
+    .overview-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .overview-item--wide {
+        grid-column: span 1;
+    }
+
+    .compare-container {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .params-table {
+        font-size: 0.8rem;
+    }
+
+    .params-table th,
+    .params-table td {
+        padding: 8px;
     }
 }
 
 /* 暗色主题 */
-[data-theme="dark"] .code-output {
+[data-theme="dark"] .overview-section,
+[data-theme="dark"] .diff-section,
+[data-theme="dark"] .diff-summary,
+[data-theme="dark"] .export-section {
     background: var(--bg-tertiary);
 }
 
-[data-theme="dark"] .info-section {
+[data-theme="dark"] .params-table th {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .params-table td {
     background: var(--bg-tertiary);
 }
+
+[data-theme="dark"] .params-table th,
+[data-theme="dark"] .params-table td,
+[data-theme="dark"] .diff-table th,
+[data-theme="dark"] .diff-table td {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .type-badge.string { background: #1e3a5f; color: #93c5fd; }
+[data-theme="dark"] .type-badge.number { background: #14532d; color: #86efac; }
+[data-theme="dark"] .type-badge.boolean { background: #451a03; color: #fcd34d; }
+[data-theme="dark"] .type-badge.array { background: #3b0764; color: #c4b5fd; }
+[data-theme="dark"] .type-badge.object { background: #4c0519; color: #fda4af; }
+[data-theme="dark"] .type-badge.timestamp { background: #083344; color: #67e8f9; }
+[data-theme="dark"] .type-badge.uuid { background: #500724; color: #f9a8d4; }
+[data-theme="dark"] .type-badge.base64 { background: #431407; color: #fdba74; }
+[data-theme="dark"] .type-badge.json { background: #422006; color: #fde047; }
+[data-theme="dark"] .type-badge.url { background: #1e1b4b; color: #a5b4fc; }
+
+[data-theme="dark"] .code-output,
+[data-theme="dark"] .body-raw {
+    background: var(--bg-tertiary);
+}
+
+[data-theme="dark"] .empty-state {
+    background: var(--bg-tertiary);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .diff-table tr.diff-added td { background: rgba(16, 185, 129, 0.15); }
+[data-theme="dark"] .diff-table tr.diff-removed td { background: rgba(239, 68, 68, 0.15); }
+[data-theme="dark"] .diff-table tr.diff-changed td { background: rgba(245, 158, 11, 0.15); }

@@ -467,8 +467,8 @@
             "description": "生成 RSA、ECDSA、Ed25519 等密钥对"
         },
         "curl-converter": {
-            "title": "cURL 转代码",
-            "description": "将 cURL 命令转换为各种编程语言代码"
+            "title": "cURL 解析器",
+            "description": "解析、对比、编辑 cURL 命令并转换为多种编程语言代码"
         },
         "x509-certificate": {
             "title": "X.509 证书工具",

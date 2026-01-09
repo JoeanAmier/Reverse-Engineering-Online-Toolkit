@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="tools.curl-converter.title">cURL 转代码 - REOT</title>
+    <title data-i18n="tools.curl-converter.title">cURL 解析器 - REOT</title>
     <script>
         (function() {
             if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
@@ -19,53 +19,339 @@
 <body>
     <div class="tool-container">
         <header class="tool-header">
-            <h1 data-i18n="tools.curl-converter.title">cURL 转代码</h1>
-            <p data-i18n="tools.curl-converter.description">将 cURL 命令转换为各种编程语言代码</p>
+            <h1 data-i18n="tools.curl-converter.title">cURL 解析器</h1>
+            <p data-i18n="tools.curl-converter.description">解析、对比、编辑 cURL 命令并转换为多种编程语言代码</p>
         </header>
 
         <main class="tool-main">
-            <section class="input-section">
-                <div class="input-header">
-                    <label data-i18n="tools.curl-converter.curlCommand">cURL 命令</label>
-                    <button id="sample-btn" class="btn btn--sm btn--outline" data-i18n="tools.curl-converter.sample">示例</button>
+            <!-- 功能选项卡 -->
+            <div class="feature-tabs">
+                <button class="feature-tab active" data-feature="parse" data-i18n="tools.curl-converter.tabs.parse">解析</button>
+                <button class="feature-tab" data-feature="compare" data-i18n="tools.curl-converter.tabs.compare">对比</button>
+                <button class="feature-tab" data-feature="generate" data-i18n="tools.curl-converter.tabs.generate">代码生成</button>
+            </div>
+
+            <!-- 解析功能区 -->
+            <div id="parse-section" class="feature-section active">
+                <section class="input-section">
+                    <div class="input-header">
+                        <label data-i18n="tools.curl-converter.curlCommand">cURL 命令</label>
+                        <div class="input-actions">
+                            <button id="sample-btn" class="btn btn--sm btn--outline" data-i18n="tools.curl-converter.sample">示例</button>
+                            <button id="clear-btn" class="btn btn--sm btn--outline" data-i18n="common.clear">清除</button>
+                        </div>
+                    </div>
+                    <textarea id="input"
+                              class="form-input form-textarea form-textarea--code"
+                              data-i18n-placeholder="tools.curl-converter.inputPlaceholder"
+                              placeholder="粘贴 cURL 命令..."></textarea>
+                </section>
+
+                <section class="action-section">
+                    <button id="parse-btn" class="btn btn--primary" data-i18n="tools.curl-converter.parse">解析</button>
+                </section>
+
+                <!-- 解析结果 -->
+                <div id="parse-result" class="parse-result" style="display: none;">
+                    <!-- 概览卡片 -->
+                    <section class="overview-section">
+                        <h3 data-i18n="tools.curl-converter.overview">请求概览</h3>
+                        <div class="overview-grid">
+                            <div class="overview-item">
+                                <span class="overview-label" data-i18n="tools.curl-converter.method">方法</span>
+                                <span class="overview-value method-badge" id="overview-method">GET</span>
+                            </div>
+                            <div class="overview-item overview-item--wide">
+                                <span class="overview-label" data-i18n="tools.curl-converter.url">URL</span>
+                                <span class="overview-value url-value" id="overview-url">-</span>
+                            </div>
+                            <div class="overview-item">
+                                <span class="overview-label" data-i18n="tools.curl-converter.host">主机</span>
+                                <span class="overview-value" id="overview-host">-</span>
+                            </div>
+                            <div class="overview-item">
+                                <span class="overview-label" data-i18n="tools.curl-converter.path">路径</span>
+                                <span class="overview-value" id="overview-path">-</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 视图切换 -->
+                    <div class="view-tabs">
+                        <button class="view-tab active" data-view="query" data-i18n="tools.curl-converter.queryParams">查询参数</button>
+                        <button class="view-tab" data-view="headers" data-i18n="tools.curl-converter.headers">请求头</button>
+                        <button class="view-tab" data-view="body" data-i18n="tools.curl-converter.body">请求体</button>
+                        <button class="view-tab" data-view="cookies" data-i18n="tools.curl-converter.cookies">Cookies</button>
+                    </div>
+
+                    <!-- 查询参数 -->
+                    <section id="query-section" class="detail-section active">
+                        <div class="section-header">
+                            <h4 data-i18n="tools.curl-converter.queryParams">查询参数</h4>
+                            <div class="section-actions">
+                                <button class="btn btn--sm btn--outline copy-json-btn" data-target="query" data-i18n="tools.curl-converter.copyJson">复制 JSON</button>
+                                <button class="btn btn--sm btn--outline copy-string-btn" data-target="query" data-i18n="tools.curl-converter.copyString">复制字符串</button>
+                            </div>
+                        </div>
+                        <div class="params-table-container">
+                            <table class="params-table" id="query-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="tools.curl-converter.paramName">参数名</th>
+                                        <th data-i18n="tools.curl-converter.paramValue">值</th>
+                                        <th data-i18n="tools.curl-converter.dataType">类型</th>
+                                        <th data-i18n="tools.curl-converter.description">说明</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="empty-state" id="query-empty" data-i18n="tools.curl-converter.noQueryParams">无查询参数</div>
+                        </div>
+                    </section>
+
+                    <!-- 请求头 -->
+                    <section id="headers-section" class="detail-section">
+                        <div class="section-header">
+                            <h4 data-i18n="tools.curl-converter.headers">请求头</h4>
+                            <div class="section-actions">
+                                <button class="btn btn--sm btn--outline copy-json-btn" data-target="headers" data-i18n="tools.curl-converter.copyJson">复制 JSON</button>
+                                <button class="btn btn--sm btn--outline copy-string-btn" data-target="headers" data-i18n="tools.curl-converter.copyString">复制字符串</button>
+                            </div>
+                        </div>
+                        <div class="params-table-container">
+                            <table class="params-table" id="headers-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="tools.curl-converter.headerName">请求头</th>
+                                        <th data-i18n="tools.curl-converter.headerValue">值</th>
+                                        <th data-i18n="tools.curl-converter.function">功能</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="empty-state" id="headers-empty" data-i18n="tools.curl-converter.noHeaders">无请求头</div>
+                        </div>
+                    </section>
+
+                    <!-- 请求体 -->
+                    <section id="body-section" class="detail-section">
+                        <div class="section-header">
+                            <h4 data-i18n="tools.curl-converter.body">请求体</h4>
+                            <div class="section-actions">
+                                <select id="body-format" class="form-select form-select--sm">
+                                    <option value="auto">自动检测</option>
+                                    <option value="json">JSON</option>
+                                    <option value="form">Form Data</option>
+                                    <option value="raw">Raw</option>
+                                </select>
+                                <button class="btn btn--sm btn--outline copy-json-btn" data-target="body" data-i18n="tools.curl-converter.copyJson">复制 JSON</button>
+                            </div>
+                        </div>
+                        <div class="body-content">
+                            <div class="params-table-container" id="body-params-container">
+                                <table class="params-table" id="body-table">
+                                    <thead>
+                                        <tr>
+                                            <th data-i18n="tools.curl-converter.paramName">参数名</th>
+                                            <th data-i18n="tools.curl-converter.paramValue">值</th>
+                                            <th data-i18n="tools.curl-converter.dataType">类型</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            <pre id="body-raw" class="body-raw"></pre>
+                            <div class="empty-state" id="body-empty" data-i18n="tools.curl-converter.noBody">无请求体</div>
+                        </div>
+                    </section>
+
+                    <!-- Cookies -->
+                    <section id="cookies-section" class="detail-section">
+                        <div class="section-header">
+                            <h4 data-i18n="tools.curl-converter.cookies">Cookies</h4>
+                            <div class="section-actions">
+                                <button class="btn btn--sm btn--outline copy-json-btn" data-target="cookies" data-i18n="tools.curl-converter.copyJson">复制 JSON</button>
+                            </div>
+                        </div>
+                        <div class="params-table-container">
+                            <table class="params-table" id="cookies-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="tools.curl-converter.cookieName">名称</th>
+                                        <th data-i18n="tools.curl-converter.cookieValue">值</th>
+                                        <th data-i18n="tools.curl-converter.dataType">类型</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="empty-state" id="cookies-empty" data-i18n="tools.curl-converter.noCookies">无 Cookies</div>
+                        </div>
+                    </section>
+
+                    <!-- 编辑与导出 -->
+                    <section class="export-section">
+                        <h4 data-i18n="tools.curl-converter.exportCurl">导出 cURL</h4>
+                        <div class="export-actions">
+                            <button id="export-curl-btn" class="btn btn--primary" data-i18n="tools.curl-converter.generateCurl">生成 cURL 命令</button>
+                            <button id="copy-curl-btn" class="btn btn--outline" data-i18n="common.copy">复制</button>
+                        </div>
+                        <pre id="exported-curl" class="code-output"></pre>
+                    </section>
                 </div>
-                <textarea id="input"
-                          class="form-input form-textarea form-textarea--code"
-                          data-i18n-placeholder="tools.curl-converter.inputPlaceholder"
-                          placeholder="粘贴 cURL 命令..."></textarea>
-            </section>
+            </div>
 
-            <section class="options-section">
-                <div class="option-group">
-                    <label data-i18n="tools.curl-converter.language">目标语言</label>
-                    <select id="language-select" class="form-select">
-                        <option value="python" selected>Python (requests)</option>
-                        <option value="javascript">JavaScript (fetch)</option>
-                        <option value="nodejs">Node.js (axios)</option>
-                        <option value="php">PHP (cURL)</option>
-                        <option value="go">Go (net/http)</option>
-                        <option value="java">Java (HttpClient)</option>
-                        <option value="csharp">C# (HttpClient)</option>
-                        <option value="rust">Rust (reqwest)</option>
-                    </select>
+            <!-- 对比功能区 -->
+            <div id="compare-section" class="feature-section">
+                <div class="compare-container">
+                    <div class="compare-input">
+                        <label data-i18n="tools.curl-converter.firstRequest">第一个请求</label>
+                        <textarea id="compare-input-1" class="form-input form-textarea form-textarea--code"
+                                  data-i18n-placeholder="tools.curl-converter.inputPlaceholder"
+                                  placeholder="粘贴第一个 cURL 命令..."></textarea>
+                    </div>
+                    <div class="compare-input">
+                        <label data-i18n="tools.curl-converter.secondRequest">第二个请求</label>
+                        <textarea id="compare-input-2" class="form-input form-textarea form-textarea--code"
+                                  data-i18n-placeholder="tools.curl-converter.inputPlaceholder"
+                                  placeholder="粘贴第二个 cURL 命令..."></textarea>
+                    </div>
                 </div>
-            </section>
+                <section class="action-section">
+                    <button id="compare-btn" class="btn btn--primary" data-i18n="tools.curl-converter.compare">对比</button>
+                    <button id="compare-sample-btn" class="btn btn--outline" data-i18n="tools.curl-converter.sample">示例</button>
+                </section>
 
-            <section class="action-section">
-                <button id="convert-btn" class="btn btn--primary" data-i18n="common.convert">转换</button>
-                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
-                <button id="copy-btn" class="btn btn--outline" data-i18n="common.copy">复制代码</button>
-            </section>
+                <!-- 对比结果 -->
+                <div id="compare-result" class="compare-result" style="display: none;">
+                    <div class="diff-summary">
+                        <h4 data-i18n="tools.curl-converter.diffSummary">差异摘要</h4>
+                        <div class="diff-stats" id="diff-stats"></div>
+                    </div>
+                    <div class="diff-details">
+                        <div class="diff-section" id="diff-url">
+                            <h5 data-i18n="tools.curl-converter.urlDiff">URL 差异</h5>
+                            <div class="diff-content"></div>
+                        </div>
+                        <div class="diff-section" id="diff-query">
+                            <h5 data-i18n="tools.curl-converter.queryDiff">查询参数差异</h5>
+                            <table class="diff-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="tools.curl-converter.paramName">参数名</th>
+                                        <th data-i18n="tools.curl-converter.firstValue">第一个值</th>
+                                        <th data-i18n="tools.curl-converter.secondValue">第二个值</th>
+                                        <th data-i18n="tools.curl-converter.status">状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="diff-section" id="diff-headers">
+                            <h5 data-i18n="tools.curl-converter.headersDiff">请求头差异</h5>
+                            <table class="diff-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="tools.curl-converter.headerName">请求头</th>
+                                        <th data-i18n="tools.curl-converter.firstValue">第一个值</th>
+                                        <th data-i18n="tools.curl-converter.secondValue">第二个值</th>
+                                        <th data-i18n="tools.curl-converter.status">状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="diff-section" id="diff-body">
+                            <h5 data-i18n="tools.curl-converter.bodyDiff">请求体差异</h5>
+                            <table class="diff-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="tools.curl-converter.paramName">参数名</th>
+                                        <th data-i18n="tools.curl-converter.firstValue">第一个值</th>
+                                        <th data-i18n="tools.curl-converter.secondValue">第二个值</th>
+                                        <th data-i18n="tools.curl-converter.status">状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <section class="output-section">
-                <label data-i18n="common.output">生成的代码</label>
-                <pre id="output" class="code-output"></pre>
-            </section>
+            <!-- 代码生成功能区 -->
+            <div id="generate-section" class="feature-section">
+                <section class="input-section">
+                    <div class="input-header">
+                        <label data-i18n="tools.curl-converter.curlCommand">cURL 命令</label>
+                        <button id="gen-sample-btn" class="btn btn--sm btn--outline" data-i18n="tools.curl-converter.sample">示例</button>
+                    </div>
+                    <textarea id="gen-input"
+                              class="form-input form-textarea form-textarea--code"
+                              data-i18n-placeholder="tools.curl-converter.inputPlaceholder"
+                              placeholder="粘贴 cURL 命令..."></textarea>
+                </section>
 
-            <section class="info-section">
-                <h3 data-i18n="tools.curl-converter.tips">使用提示</h3>
-                <p data-i18n="tools.curl-converter.tipsDesc">支持常用的 cURL 选项：-X (方法)、-H (请求头)、-d/--data (请求体)、-u (认证)、-k (忽略证书) 等。从浏览器开发者工具 (F12) 的网络面板中可以直接复制请求为 cURL 命令。</p>
-            </section>
+                <section class="options-section">
+                    <div class="option-group">
+                        <label data-i18n="tools.curl-converter.language">编程语言</label>
+                        <select id="language-select" class="form-select">
+                            <optgroup label="Python">
+                                <option value="python-requests" selected>Python - requests</option>
+                                <option value="python-httpx">Python - httpx</option>
+                                <option value="python-aiohttp">Python - aiohttp</option>
+                                <option value="python-urllib">Python - urllib</option>
+                            </optgroup>
+                            <optgroup label="JavaScript">
+                                <option value="js-fetch">JavaScript - fetch</option>
+                                <option value="js-axios">JavaScript - axios</option>
+                                <option value="js-xhr">JavaScript - XMLHttpRequest</option>
+                                <option value="node-axios">Node.js - axios</option>
+                                <option value="node-fetch">Node.js - node-fetch</option>
+                                <option value="node-http">Node.js - http/https</option>
+                            </optgroup>
+                            <optgroup label="PHP">
+                                <option value="php-curl">PHP - cURL</option>
+                                <option value="php-guzzle">PHP - Guzzle</option>
+                            </optgroup>
+                            <optgroup label="Go">
+                                <option value="go-http">Go - net/http</option>
+                                <option value="go-resty">Go - resty</option>
+                            </optgroup>
+                            <optgroup label="Java">
+                                <option value="java-httpclient">Java - HttpClient</option>
+                                <option value="java-okhttp">Java - OkHttp</option>
+                            </optgroup>
+                            <optgroup label="C#">
+                                <option value="csharp-httpclient">C# - HttpClient</option>
+                                <option value="csharp-restsharp">C# - RestSharp</option>
+                            </optgroup>
+                            <optgroup label="Rust">
+                                <option value="rust-reqwest">Rust - reqwest</option>
+                            </optgroup>
+                            <optgroup label="Ruby">
+                                <option value="ruby-net-http">Ruby - Net::HTTP</option>
+                                <option value="ruby-faraday">Ruby - Faraday</option>
+                            </optgroup>
+                            <optgroup label="Swift">
+                                <option value="swift-urlsession">Swift - URLSession</option>
+                            </optgroup>
+                            <optgroup label="Kotlin">
+                                <option value="kotlin-okhttp">Kotlin - OkHttp</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </section>
+
+                <section class="action-section">
+                    <button id="generate-btn" class="btn btn--primary" data-i18n="tools.curl-converter.generate">生成代码</button>
+                    <button id="copy-code-btn" class="btn btn--outline" data-i18n="common.copy">复制代码</button>
+                </section>
+
+                <section class="output-section">
+                    <label data-i18n="tools.curl-converter.generatedCode">生成的代码</label>
+                    <pre id="code-output" class="code-output"></pre>
+                </section>
+            </div>
         </main>
     </div>
 
