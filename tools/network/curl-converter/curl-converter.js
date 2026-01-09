@@ -781,10 +781,18 @@
         items.forEach(item => {
             const tr = document.createElement('tr');
             tr.className = `diff-${item.status}`;
+
+            // 格式化显示值，超长值截断并添加 title 提示
+            const val1Str = String(item.val1);
+            const val2Str = String(item.val2);
+            const maxLen = 100;
+            const displayVal1 = val1Str.length > maxLen ? val1Str.slice(0, maxLen) + '...' : val1Str;
+            const displayVal2 = val2Str.length > maxLen ? val2Str.slice(0, maxLen) + '...' : val2Str;
+
             tr.innerHTML = `
-                <td>${escapeHtml(item.key)}</td>
-                <td>${escapeHtml(String(item.val1))}</td>
-                <td>${escapeHtml(String(item.val2))}</td>
+                <td class="diff-key" title="${escapeHtml(item.key)}">${escapeHtml(item.key)}</td>
+                <td class="diff-value" title="${escapeHtml(val1Str)}">${escapeHtml(displayVal1)}</td>
+                <td class="diff-value" title="${escapeHtml(val2Str)}">${escapeHtml(displayVal2)}</td>
                 <td class="diff-status"><span class="status-badge ${item.status}">${getStatusText(item.status)}</span></td>
             `;
             tbody.appendChild(tr);
