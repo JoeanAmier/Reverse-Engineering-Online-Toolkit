@@ -9,6 +9,17 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 并且本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.0.2] - 2026-01-09
+
+### 修复
+- **GZIP** - 修复无法解压上传的 .gz 文件问题
+- **Deflate** - 修复无法解压上传文件问题，支持自动检测 zlib 格式
+- **Brotli** - 使用 Google 官方 brotli-wasm 库，支持真正的 Brotli 压缩/解压
+- **LZ4** - 修复帧解析逻辑，正确处理 FLG 标志位和多块解压
+- **ZSTD** - 修复无法解压真实 ZSTD 文件问题
+
+---
+
 ## [1.0.1] - 2026-01-09
 
 ### 新增
