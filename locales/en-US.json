@@ -452,6 +452,14 @@
             "title": "Brotli Compression",
             "description": "Brotli compression and decompression for text and files"
         },
+        "zstd": {
+            "title": "ZSTD Compression",
+            "description": "Zstandard compression and decompression for text and files"
+        },
+        "lz4": {
+            "title": "LZ4 Compression",
+            "description": "LZ4 high-speed compression and decompression for text and files"
+        },
         "blake2": {
             "title": "BLAKE2 Hash",
             "description": "BLAKE2b and BLAKE2s hash calculation, faster and more secure than MD5/SHA"
@@ -471,6 +479,18 @@
         "sm4": {
             "title": "SM4 Encryption",
             "description": "Chinese national standard SM4 symmetric encryption, supports ECB and CBC modes"
+        },
+        "ecc": {
+            "title": "ECC Encryption",
+            "description": "Elliptic Curve key exchange and ECIES encryption/decryption"
+        },
+        "sm2": {
+            "title": "SM2 Encryption",
+            "description": "Chinese SM2 elliptic curve encryption and digital signature"
+        },
+        "ed25519": {
+            "title": "Ed25519 Signature",
+            "description": "Ed25519 digital signature algorithm, signing and verification"
         },
         "pem": {
             "title": "PEM Parser",
@@ -518,6 +538,10 @@
         "x509-certificate": {
             "title": "X.509 Certificate Tool",
             "description": "Key pair generation, CSR creation, self-signed certificates, CA issuance, certificate parsing"
+        },
+        "binary-editor": {
+            "title": "Binary Editor",
+            "description": "View and edit binary files at byte level"
         }
     }
 }

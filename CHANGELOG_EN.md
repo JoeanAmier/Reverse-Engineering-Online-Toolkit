@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### New Tools
 - **Brotli** - Brotli compression/decompression
 - **Deflate** - Deflate compression/decompression
+- **ZSTD** - Zstandard compression/decompression
+- **LZ4** - LZ4 high-speed compression/decompression
+- **ECC** - Elliptic Curve Cryptography (ECDH key exchange and ECIES encryption)
+- **SM2** - Chinese SM2 elliptic curve encryption and digital signature
+- **Ed25519** - Ed25519 digital signature algorithm
+- **Binary Editor** - Binary file viewing and editing with undo/redo, search/replace
 - **BLAKE2** - BLAKE2b, BLAKE2s hash calculation
 - **SHA-3 Family** - SHA3-224, SHA3-256, SHA3-384, SHA3-512
 - **RIPEMD** - RIPEMD-160 hash calculation

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.ecc.title">ECC 椭圆曲线加密 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="ecc.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.ecc.title">ECC 椭圆曲线加密</h1>
+            <p data-i18n="tools.ecc.description">基于椭圆曲线的密钥交换与 ECIES 加解密</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 选项区域 -->
+            <section class="options-section">
+                <div class="option-group">
+                    <label data-i18n="tools.ecc.curve">椭圆曲线</label>
+                    <select id="curve-select" class="form-select">
+                        <option value="P-256" selected>P-256 (secp256r1)</option>
+                        <option value="P-384">P-384 (secp384r1)</option>
+                        <option value="P-521">P-521 (secp521r1)</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label data-i18n="tools.ecc.outputFormat">输出格式</label>
+                    <select id="output-format" class="form-select">
+                        <option value="base64" selected>Base64</option>
+                        <option value="hex">Hex</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- 密钥对区域 -->
+            <section class="keys-section">
+                <div class="keys-header">
+                    <h3 data-i18n="tools.ecc.myKeyPair">我的密钥对</h3>
+                    <button id="generate-keys-btn" class="btn btn--sm btn--primary" data-i18n="tools.ecc.generateKeys">生成密钥对</button>
+                </div>
+                <div class="keys-grid">
+                    <div class="key-group">
+                        <label data-i18n="tools.ecc.publicKey">公钥</label>
+                        <textarea id="public-key" class="form-input form-textarea form-textarea--code key-textarea" readonly placeholder="点击生成密钥对..."></textarea>
+                        <button id="copy-public-btn" class="btn btn--sm btn--outline" data-i18n="common.copy">复制</button>
+                    </div>
+                    <div class="key-group">
+                        <label data-i18n="tools.ecc.privateKey">私钥</label>
+                        <textarea id="private-key" class="form-input form-textarea form-textarea--code key-textarea" readonly placeholder="点击生成密钥对..."></textarea>
+                        <button id="copy-private-btn" class="btn btn--sm btn--outline" data-i18n="common.copy">复制</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 对方公钥 -->
+            <section class="peer-section">
+                <div class="peer-header">
+                    <h3 data-i18n="tools.ecc.peerPublicKey">对方公钥 (用于加密)</h3>
+                </div>
+                <textarea id="peer-public-key"
+                          class="form-input form-textarea form-textarea--code"
+                          data-i18n-placeholder="tools.ecc.peerPublicKeyPlaceholder"
+                          placeholder="粘贴对方的公钥用于加密..."></textarea>
+            </section>
+
+            <!-- 输入区域 -->
+            <section class="input-section">
+                <label data-i18n="common.input">输入</label>
+                <textarea id="input"
+                          class="form-input form-textarea form-textarea--code"
+                          data-i18n-placeholder="tools.ecc.inputPlaceholder"
+                          placeholder="请输入要加密/解密的内容..."></textarea>
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="encrypt-btn" class="btn btn--primary" data-i18n="tools.ecc.encrypt">加密</button>
+                <button id="decrypt-btn" class="btn btn--secondary" data-i18n="tools.ecc.decrypt">解密</button>
+                <button id="derive-btn" class="btn btn--outline" data-i18n="tools.ecc.deriveKey">派生共享密钥</button>
+                <button id="swap-btn" class="btn btn--outline" data-i18n="common.swap">交换</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+                <button id="copy-btn" class="btn btn--outline" data-i18n="common.copy">复制结果</button>
+            </section>
+
+            <!-- 输出区域 -->
+            <section class="output-section">
+                <label data-i18n="common.output">输出</label>
+                <textarea id="output"
+                          class="form-input form-textarea form-textarea--code"
+                          readonly></textarea>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="ecc.js"></script>
+</body>
+</html>

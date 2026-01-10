@@ -1,0 +1,15 @@
+{
+    "title": "LZ4 压缩",
+    "description": "LZ4 高速压缩与解压，支持文本和文件",
+    "compress": "压缩",
+    "decompress": "解压",
+    "mode": "压缩模式",
+    "modeFast": "快速模式",
+    "modeHC": "高压缩模式",
+    "outputFormat": "输出格式",
+    "uploadFile": "上传文件",
+    "inputPlaceholder": "请输入要压缩/解压的内容...",
+    "originalSize": "原始大小",
+    "compressedSize": "压缩后大小",
+    "ratio": "压缩率"
+}

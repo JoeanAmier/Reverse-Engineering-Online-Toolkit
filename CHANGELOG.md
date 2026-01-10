@@ -16,6 +16,12 @@
 #### 新工具
 - **Brotli** - Brotli 压缩与解压
 - **Deflate** - Deflate 压缩与解压
+- **ZSTD** - Zstandard 压缩与解压
+- **LZ4** - LZ4 高速压缩与解压
+- **ECC** - 椭圆曲线加密 (ECDH 密钥交换与 ECIES 加解密)
+- **SM2** - 国密 SM2 椭圆曲线加解密与签名验签
+- **Ed25519** - Ed25519 数字签名算法
+- **二进制编辑器** - 二进制文件查看与编辑，支持撤销/重做、搜索替换
 - **BLAKE2** - BLAKE2b, BLAKE2s 哈希计算
 - **SHA-3 系列** - SHA3-224, SHA3-256, SHA3-384, SHA3-512
 - **RIPEMD** - RIPEMD-160 哈希计算

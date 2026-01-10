@@ -1,0 +1,16 @@
+{
+    "title": "ECC Encryption",
+    "description": "Elliptic Curve key exchange and ECIES encryption/decryption",
+    "curve": "Elliptic Curve",
+    "outputFormat": "Output Format",
+    "myKeyPair": "My Key Pair",
+    "generateKeys": "Generate Key Pair",
+    "publicKey": "Public Key",
+    "privateKey": "Private Key",
+    "peerPublicKey": "Peer Public Key (for encryption)",
+    "peerPublicKeyPlaceholder": "Paste peer's public key for encryption...",
+    "inputPlaceholder": "Enter content to encrypt/decrypt...",
+    "encrypt": "Encrypt",
+    "decrypt": "Decrypt",
+    "deriveKey": "Derive Shared Key"
+}

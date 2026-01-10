@@ -1,0 +1,15 @@
+{
+    "title": "LZ4 Compression",
+    "description": "LZ4 high-speed compression and decompression for text and files",
+    "compress": "Compress",
+    "decompress": "Decompress",
+    "mode": "Compression Mode",
+    "modeFast": "Fast Mode",
+    "modeHC": "High Compression Mode",
+    "outputFormat": "Output Format",
+    "uploadFile": "Upload File",
+    "inputPlaceholder": "Enter content to compress/decompress...",
+    "originalSize": "Original Size",
+    "compressedSize": "Compressed Size",
+    "ratio": "Compression Ratio"
+}

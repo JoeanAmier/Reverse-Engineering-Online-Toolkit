@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.ed25519.title">Ed25519 签名 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="ed25519.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.ed25519.title">Ed25519 签名</h1>
+            <p data-i18n="tools.ed25519.description">Ed25519 数字签名算法，签名与验证</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 选项区域 -->
+            <section class="options-section">
+                <div class="option-group">
+                    <label data-i18n="tools.ed25519.keyFormat">密钥格式</label>
+                    <select id="key-format" class="form-select">
+                        <option value="pem" selected>PEM</option>
+                        <option value="jwk">JWK</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label data-i18n="tools.ed25519.outputFormat">签名格式</label>
+                    <select id="output-format" class="form-select">
+                        <option value="base64" selected>Base64</option>
+                        <option value="hex">Hex</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- 密钥对区域 -->
+            <section class="keys-section">
+                <div class="keys-header">
+                    <h3 data-i18n="tools.ed25519.keyPair">密钥对</h3>
+                    <button id="generate-keys-btn" class="btn btn--sm btn--primary" data-i18n="tools.ed25519.generateKeys">生成密钥对</button>
+                </div>
+                <div class="keys-grid">
+                    <div class="key-group">
+                        <label data-i18n="tools.ed25519.publicKey">公钥</label>
+                        <textarea id="public-key" class="form-input form-textarea form-textarea--code key-textarea" placeholder="点击生成密钥对..."></textarea>
+                        <button id="copy-public-btn" class="btn btn--sm btn--outline" data-i18n="common.copy">复制</button>
+                    </div>
+                    <div class="key-group">
+                        <label data-i18n="tools.ed25519.privateKey">私钥</label>
+                        <textarea id="private-key" class="form-input form-textarea form-textarea--code key-textarea" placeholder="点击生成密钥对..."></textarea>
+                        <button id="copy-private-btn" class="btn btn--sm btn--outline" data-i18n="common.copy">复制</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 输入区域 -->
+            <section class="input-section">
+                <label data-i18n="tools.ed25519.message">消息</label>
+                <textarea id="input"
+                          class="form-input form-textarea form-textarea--code"
+                          data-i18n-placeholder="tools.ed25519.inputPlaceholder"
+                          placeholder="请输入要签名的消息..."></textarea>
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="sign-btn" class="btn btn--primary" data-i18n="tools.ed25519.sign">签名</button>
+                <button id="verify-btn" class="btn btn--secondary" data-i18n="tools.ed25519.verify">验证签名</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+                <button id="copy-btn" class="btn btn--outline" data-i18n="common.copy">复制签名</button>
+            </section>
+
+            <!-- 签名/输出区域 -->
+            <section class="output-section">
+                <label data-i18n="tools.ed25519.signature">签名</label>
+                <textarea id="output"
+                          class="form-input form-textarea form-textarea--code"
+                          data-i18n-placeholder="tools.ed25519.signaturePlaceholder"
+                          placeholder="签名将显示在这里..."></textarea>
+            </section>
+
+            <!-- 验证结果 -->
+            <section class="result-section" id="result-section" style="display: none;">
+                <div class="result-box" id="result-box">
+                    <span class="result-icon" id="result-icon"></span>
+                    <span class="result-text" id="result-text"></span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="ed25519.js"></script>
+</body>
+</html>

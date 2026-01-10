@@ -1,0 +1,18 @@
+{
+    "title": "SM2 Encryption",
+    "description": "Chinese SM2 elliptic curve encryption and digital signature",
+    "mode": "Operation Mode",
+    "modeEncrypt": "Encrypt/Decrypt",
+    "modeSign": "Sign/Verify",
+    "outputFormat": "Output Format",
+    "keyPair": "Key Pair",
+    "generateKeys": "Generate Key Pair",
+    "publicKey": "Public Key",
+    "privateKey": "Private Key",
+    "userId": "User ID",
+    "inputPlaceholder": "Enter content to encrypt/sign...",
+    "encrypt": "Encrypt",
+    "decrypt": "Decrypt",
+    "sign": "Sign",
+    "verify": "Verify"
+}

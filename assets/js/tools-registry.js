@@ -1445,6 +1445,24 @@
             path: '/tools/compression/brotli/',
             keywords: ['brotli', 'compress', 'decompress', 'google', '压缩', '解压']
         },
+        {
+            id: 'zstd',
+            category: 'compression',
+            name: 'tools.zstd.title',
+            description: 'tools.zstd.description',
+            icon: '📦',
+            path: '/tools/compression/zstd/',
+            keywords: ['zstd', 'zstandard', 'compress', 'decompress', 'facebook', '压缩', '解压']
+        },
+        {
+            id: 'lz4',
+            category: 'compression',
+            name: 'tools.lz4.title',
+            description: 'tools.lz4.description',
+            icon: '📦',
+            path: '/tools/compression/lz4/',
+            keywords: ['lz4', 'compress', 'decompress', 'fast', '压缩', '解压', '高速']
+        },
 
         // ========== 哈希工具（新增） ==========
         {
@@ -1540,6 +1558,17 @@
             icon: '🔃',
             path: '/tools/binary/byte-order/',
             keywords: ['byte', 'order', 'endian', 'big', 'little', '字节序', '大端', '小端']
+        },
+
+        // 二进制编辑器
+        {
+            id: 'binary-editor',
+            category: 'binary',
+            name: 'tools.binary-editor.title',
+            description: 'tools.binary-editor.description',
+            icon: '📝',
+            path: '/tools/binary/binary-editor/',
+            keywords: ['binary', 'editor', 'hex', 'edit', '二进制', '编辑器', '十六进制', '编辑']
         },
 
         // IEEE 754 浮点数
@@ -1649,6 +1678,33 @@
             icon: '🔒',
             path: '/tools/encryption/sm4/',
             keywords: ['sm4', '国密', 'china', 'encrypt', 'decrypt', '加密', '解密', '对称']
+        },
+        {
+            id: 'ecc',
+            category: 'encryption',
+            name: 'tools.ecc.title',
+            description: 'tools.ecc.description',
+            icon: '🔐',
+            path: '/tools/encryption/ecc/',
+            keywords: ['ecc', 'ecdh', 'ecies', 'elliptic', 'curve', '椭圆曲线', 'encrypt', 'decrypt', '加密', '解密']
+        },
+        {
+            id: 'sm2',
+            category: 'encryption',
+            name: 'tools.sm2.title',
+            description: 'tools.sm2.description',
+            icon: '🔒',
+            path: '/tools/encryption/sm2/',
+            keywords: ['sm2', '国密', 'china', 'elliptic', 'curve', '椭圆曲线', 'encrypt', 'decrypt', '加密', '解密', '签名']
+        },
+        {
+            id: 'ed25519',
+            category: 'encryption',
+            name: 'tools.ed25519.title',
+            description: 'tools.ed25519.description',
+            icon: '🔏',
+            path: '/tools/encryption/ed25519/',
+            keywords: ['ed25519', 'eddsa', 'signature', 'sign', 'verify', '签名', '验证', '数字签名']
         },
 
         // ========== 协议解析（新增） ==========

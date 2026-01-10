@@ -1,0 +1,13 @@
+{
+    "title": "ZSTD Compression",
+    "description": "Zstandard compression and decompression, supports text and files",
+    "compress": "Compress",
+    "decompress": "Decompress",
+    "compressionLevel": "Compression Level",
+    "outputFormat": "Output Format",
+    "uploadFile": "Upload File",
+    "inputPlaceholder": "Enter content to compress/decompress...",
+    "originalSize": "Original Size",
+    "compressedSize": "Compressed Size",
+    "ratio": "Compression Ratio"
+}

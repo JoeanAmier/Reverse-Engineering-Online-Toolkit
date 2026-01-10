@@ -1,0 +1,73 @@
+/**
+ * SM2 国密加解密工具样式
+ */
+
+/* 密钥区域 */
+.keys-section {
+    margin-bottom: 24px;
+}
+
+.keys-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.keys-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.keys-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.key-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.key-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.key-textarea {
+    min-height: 100px;
+    font-size: 0.8rem;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    word-break: break-all;
+}
+
+/* 用户ID区域 */
+.userid-section {
+    margin-bottom: 16px;
+}
+
+.userid-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .keys-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .keys-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}

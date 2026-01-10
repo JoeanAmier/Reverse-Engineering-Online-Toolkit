@@ -1,0 +1,104 @@
+/**
+ * Ed25519 签名工具样式
+ */
+
+/* 密钥区域 */
+.keys-section {
+    margin-bottom: 24px;
+}
+
+.keys-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.keys-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.keys-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.key-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.key-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.key-textarea {
+    min-height: 120px;
+    font-size: 0.85rem;
+}
+
+/* 验证结果 */
+.result-section {
+    margin-top: 24px;
+}
+
+.result-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.result-box--success {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #16a34a;
+}
+
+.result-box--error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+}
+
+.result-icon {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.result-text {
+    font-size: 1rem;
+}
+
+/* 暗色主题 */
+[data-theme="dark"] .result-box--success {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+}
+
+[data-theme="dark"] .result-box--error {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .keys-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .keys-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}

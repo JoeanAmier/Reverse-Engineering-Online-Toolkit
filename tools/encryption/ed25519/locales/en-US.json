@@ -1,0 +1,18 @@
+{
+    "title": "Ed25519 Signature",
+    "description": "Ed25519 digital signature algorithm, signing and verification",
+    "keyFormat": "Key Format",
+    "outputFormat": "Signature Format",
+    "keyPair": "Key Pair",
+    "generateKeys": "Generate Key Pair",
+    "publicKey": "Public Key",
+    "privateKey": "Private Key",
+    "message": "Message",
+    "inputPlaceholder": "Enter message to sign...",
+    "signature": "Signature",
+    "signaturePlaceholder": "Signature will be displayed here...",
+    "sign": "Sign",
+    "verify": "Verify Signature",
+    "validSignature": "Signature is valid",
+    "invalidSignature": "Signature is invalid"
+}

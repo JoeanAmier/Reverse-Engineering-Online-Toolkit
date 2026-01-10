@@ -53,9 +53,9 @@
 |---------|-------------|--------|
 | **GZIP** | GZIP compression/decompression | ✅ Done |
 | **Deflate** | Deflate compression/decompression | ✅ Done |
-| **ZSTD** | Zstandard compression/decompression | 📋 Planned |
+| **ZSTD** | Zstandard compression/decompression | ✅ Done |
 | **Brotli** | Brotli compression/decompression | ✅ Done |
-| **LZ4** | LZ4 compression/decompression | 📋 Planned |
+| **LZ4** | LZ4 compression/decompression | ✅ Done |
 
 ### Hashing
 
@@ -92,9 +92,9 @@
 | Feature | Description | Status |
 |---------|-------------|--------|
 | **RSA** | RSA encryption/decryption (1024/2048/4096 bit) | ✅ Done |
-| **ECC** | Elliptic Curve Cryptography | 📋 Planned |
-| **SM2** | Chinese SM2 encryption/decryption | 📋 Planned |
-| **Ed25519** | Ed25519 signing/verification | 📋 Planned |
+| **ECC** | Elliptic Curve Cryptography | ✅ Done |
+| **SM2** | Chinese SM2 encryption/decryption | ✅ Done |
+| **Ed25519** | Ed25519 signing/verification | ✅ Done |
 
 ### Data Formatting
 
@@ -115,7 +115,7 @@
 | Feature | Description | Status |
 |---------|-------------|--------|
 | **Hex Viewer** | Hexadecimal viewer | ✅ Done |
-| **Binary Editor** | Binary file viewing and editing | 📋 Planned |
+| **Binary Editor** | Binary file viewing and editing | ✅ Done |
 | **File Hash** | Calculate various hash values for files | ✅ Done |
 | **File Type Detection** | Detect file type based on Magic Number | ✅ Done |
 | **Byte Order Conversion** | Big-endian and little-endian conversion | ✅ Done |

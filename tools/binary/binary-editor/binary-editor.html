@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.binary-editor.title">Binary Editor - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="binary-editor.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.binary-editor.title">Binary Editor</h1>
+            <p data-i18n="tools.binary-editor.description">View and edit binary files at byte level</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- Help Section -->
+            <section class="help-section">
+                <button id="help-toggle-btn" class="btn btn--sm btn--outline help-toggle">
+                    <span class="help-icon">?</span>
+                    <span data-i18n="tools.binary-editor.showHelp">Show Help</span>
+                </button>
+                <div id="help-panel" class="help-panel" style="display: none;">
+                    <div class="help-content">
+                        <!-- Keyboard Shortcuts -->
+                        <div class="help-group">
+                            <h4 data-i18n="tools.binary-editor.keyboardShortcuts">Keyboard Shortcuts</h4>
+                            <div class="shortcut-grid">
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl</kbd> + <kbd>Z</kbd>
+                                    <span data-i18n="tools.binary-editor.shortcutUndo">Undo last operation</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl</kbd> + <kbd>Y</kbd>
+                                    <span data-i18n="tools.binary-editor.shortcutRedo">Redo last operation</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl</kbd> + <kbd>S</kbd>
+                                    <span data-i18n="tools.binary-editor.shortcutSave">Save file</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl</kbd> + <kbd>G</kbd>
+                                    <span data-i18n="tools.binary-editor.shortcutGoto">Go to offset</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl</kbd> + <kbd>F</kbd>
+                                    <span data-i18n="tools.binary-editor.shortcutSearch">Focus search box</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Arrow Keys</kbd>
+                                    <span data-i18n="tools.binary-editor.shortcutNavigate">Navigate between bytes</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Shift</kbd> + <kbd>Arrow</kbd>
+                                    <span data-i18n="tools.binary-editor.shortcutSelect">Extend selection</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Delete</kbd>
+                                    <span data-i18n="tools.binary-editor.shortcutDelete">Delete byte at cursor</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>0-9</kbd> / <kbd>A-F</kbd>
+                                    <span data-i18n="tools.binary-editor.shortcutEdit">Open byte edit dialog</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mouse Operations -->
+                        <div class="help-group">
+                            <h4 data-i18n="tools.binary-editor.mouseOperations">Mouse Operations</h4>
+                            <div class="shortcut-grid">
+                                <div class="shortcut-item">
+                                    <kbd data-i18n="tools.binary-editor.mouseClick">Click</kbd>
+                                    <span data-i18n="tools.binary-editor.mouseClickDesc">Move cursor to byte</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd data-i18n="tools.binary-editor.mouseDoubleClick">Double Click</kbd>
+                                    <span data-i18n="tools.binary-editor.mouseDoubleClickDesc">Edit byte value</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Shift</kbd> + <kbd data-i18n="tools.binary-editor.mouseClick">Click</kbd>
+                                    <span data-i18n="tools.binary-editor.mouseShiftClickDesc">Select range of bytes</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tips -->
+                        <div class="help-group">
+                            <h4 data-i18n="tools.binary-editor.tips">Tips</h4>
+                            <ul class="tips-list">
+                                <li data-i18n="tools.binary-editor.tip1">Modified bytes are highlighted in orange</li>
+                                <li data-i18n="tools.binary-editor.tip2">Search supports both Hex (e.g., "FF 00 AB") and ASCII text</li>
+                                <li data-i18n="tools.binary-editor.tip3">Use "Fill" button to fill selected range with a specific byte value</li>
+                                <li data-i18n="tools.binary-editor.tip4">Go to offset supports both decimal (e.g., "256") and hex (e.g., "0x100") format</li>
+                                <li data-i18n="tools.binary-editor.tip5">All changes can be undone/redone (up to 100 operations)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- File Operations -->
+            <section class="file-section">
+                <div class="file-actions">
+                    <label class="file-upload-btn btn btn--primary">
+                        <input type="file" id="file-input" style="display: none;">
+                        <span data-i18n="tools.binary-editor.openFile">Open File</span>
+                    </label>
+                    <button id="new-btn" class="btn btn--outline" data-i18n="tools.binary-editor.newFile">New File</button>
+                    <button id="save-btn" class="btn btn--outline" data-i18n="tools.binary-editor.saveFile">Save File</button>
+                </div>
+                <div id="file-info" class="file-info-bar" style="display: none;">
+                    <span class="file-name" id="file-name">-</span>
+                    <span class="file-size" id="file-size">-</span>
+                    <span class="modified-indicator" id="modified-indicator" style="display: none;" data-i18n="tools.binary-editor.modified">Modified</span>
+                </div>
+            </section>
+
+            <!-- Toolbar -->
+            <section class="toolbar-section">
+                <div class="toolbar-group">
+                    <button id="undo-btn" class="btn btn--sm btn--outline" title="Undo (Ctrl+Z)" disabled>
+                        <span data-i18n="tools.binary-editor.undo">Undo</span>
+                    </button>
+                    <button id="redo-btn" class="btn btn--sm btn--outline" title="Redo (Ctrl+Y)" disabled>
+                        <span data-i18n="tools.binary-editor.redo">Redo</span>
+                    </button>
+                </div>
+                <div class="toolbar-group">
+                    <button id="insert-btn" class="btn btn--sm btn--outline" data-i18n="tools.binary-editor.insertByte">Insert Byte</button>
+                    <button id="delete-btn" class="btn btn--sm btn--outline" data-i18n="tools.binary-editor.deleteByte">Delete Byte</button>
+                    <button id="fill-btn" class="btn btn--sm btn--outline" data-i18n="tools.binary-editor.fillSelection">Fill</button>
+                </div>
+                <div class="toolbar-group">
+                    <label data-i18n="tools.binary-editor.gotoOffset">Go to:</label>
+                    <input type="text" id="goto-offset" class="form-input form-input--sm" placeholder="0x0000">
+                    <button id="goto-btn" class="btn btn--sm btn--primary" data-i18n="tools.binary-editor.go">Go</button>
+                </div>
+            </section>
+
+            <!-- Display Options -->
+            <section class="options-section">
+                <div class="option-group">
+                    <label data-i18n="tools.binary-editor.bytesPerLine">Bytes per line</label>
+                    <select id="bytes-per-line" class="form-select">
+                        <option value="8">8</option>
+                        <option value="16" selected>16</option>
+                        <option value="32">32</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="form-checkbox">
+                        <input type="checkbox" id="show-ascii" checked>
+                        <span data-i18n="tools.binary-editor.showAscii">Show ASCII</span>
+                    </label>
+                </div>
+                <div class="option-group">
+                    <label class="form-checkbox">
+                        <input type="checkbox" id="uppercase" checked>
+                        <span data-i18n="tools.binary-editor.uppercase">Uppercase</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- Hex Editor -->
+            <section class="editor-section" id="editor-section">
+                <div class="hex-editor-container">
+                    <div class="hex-editor" id="hex-editor">
+                        <div class="empty-state" id="empty-state">
+                            <p data-i18n="tools.binary-editor.emptyState">Open a file or create a new one to start editing</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Status Bar -->
+            <section class="status-bar" id="status-bar" style="display: none;">
+                <div class="status-item">
+                    <span class="status-label" data-i18n="tools.binary-editor.offset">Offset:</span>
+                    <span class="status-value" id="cursor-offset">0x00000000</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label" data-i18n="tools.binary-editor.selection">Selection:</span>
+                    <span class="status-value" id="selection-info">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label" data-i18n="tools.binary-editor.value">Value:</span>
+                    <span class="status-value" id="byte-value">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label" data-i18n="tools.binary-editor.totalSize">Size:</span>
+                    <span class="status-value" id="total-size">0 bytes</span>
+                </div>
+            </section>
+
+            <!-- Search & Replace -->
+            <section class="search-section">
+                <div class="search-row">
+                    <div class="search-group">
+                        <label data-i18n="tools.binary-editor.search">Search:</label>
+                        <input type="text" id="search-input" class="form-input" placeholder="Hex (FF FF) or ASCII">
+                        <select id="search-type" class="form-select">
+                            <option value="hex" data-i18n="tools.binary-editor.hexSearch">Hex</option>
+                            <option value="ascii" data-i18n="tools.binary-editor.asciiSearch">ASCII</option>
+                        </select>
+                    </div>
+                    <div class="search-group">
+                        <label data-i18n="tools.binary-editor.replace">Replace:</label>
+                        <input type="text" id="replace-input" class="form-input" placeholder="Hex or ASCII">
+                    </div>
+                </div>
+                <div class="search-actions">
+                    <button id="find-prev-btn" class="btn btn--sm btn--outline" data-i18n="tools.binary-editor.findPrev">Find Prev</button>
+                    <button id="find-next-btn" class="btn btn--sm btn--outline" data-i18n="tools.binary-editor.findNext">Find Next</button>
+                    <button id="replace-btn" class="btn btn--sm btn--outline" data-i18n="tools.binary-editor.replaceOne">Replace</button>
+                    <button id="replace-all-btn" class="btn btn--sm btn--outline" data-i18n="tools.binary-editor.replaceAll">Replace All</button>
+                    <span id="search-result" class="search-result"></span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="binary-editor.js"></script>
+</body>
+</html>

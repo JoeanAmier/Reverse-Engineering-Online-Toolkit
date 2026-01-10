@@ -1,0 +1,18 @@
+{
+    "title": "SM2 加解密",
+    "description": "国密 SM2 椭圆曲线加解密与签名验签",
+    "mode": "操作模式",
+    "modeEncrypt": "加密/解密",
+    "modeSign": "签名/验签",
+    "outputFormat": "输出格式",
+    "keyPair": "密钥对",
+    "generateKeys": "生成密钥对",
+    "publicKey": "公钥",
+    "privateKey": "私钥",
+    "userId": "用户标识 (User ID)",
+    "inputPlaceholder": "请输入要加密/签名的内容...",
+    "encrypt": "加密",
+    "decrypt": "解密",
+    "sign": "签名",
+    "verify": "验签"
+}

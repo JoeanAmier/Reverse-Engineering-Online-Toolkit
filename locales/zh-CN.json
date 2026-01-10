@@ -452,6 +452,14 @@
             "title": "Brotli 压缩",
             "description": "Brotli 压缩与解压，支持文本和文件"
         },
+        "zstd": {
+            "title": "ZSTD 压缩",
+            "description": "Zstandard 压缩与解压，支持文本和文件"
+        },
+        "lz4": {
+            "title": "LZ4 压缩",
+            "description": "LZ4 高速压缩与解压，支持文本和文件"
+        },
         "blake2": {
             "title": "BLAKE2 哈希",
             "description": "BLAKE2b 和 BLAKE2s 哈希计算，比 MD5/SHA 更快更安全"
@@ -471,6 +479,18 @@
         "sm4": {
             "title": "SM4 加解密",
             "description": "国密 SM4 对称加密算法，支持 ECB 和 CBC 模式"
+        },
+        "ecc": {
+            "title": "ECC 椭圆曲线加密",
+            "description": "基于椭圆曲线的密钥交换与 ECIES 加解密"
+        },
+        "sm2": {
+            "title": "SM2 加解密",
+            "description": "国密 SM2 椭圆曲线加解密与签名验签"
+        },
+        "ed25519": {
+            "title": "Ed25519 签名",
+            "description": "Ed25519 数字签名算法，签名与验证"
         },
         "pem": {
             "title": "PEM 格式解析",
@@ -518,6 +538,10 @@
         "x509-certificate": {
             "title": "X.509 证书工具",
             "description": "密钥对生成、CSR创建、自签名证书、CA签发、证书解析"
+        },
+        "binary-editor": {
+            "title": "二进制编辑器",
+            "description": "查看和编辑二进制文件"
         }
     }
 }

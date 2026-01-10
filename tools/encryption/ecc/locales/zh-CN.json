@@ -1,0 +1,16 @@
+{
+    "title": "ECC 椭圆曲线加密",
+    "description": "基于椭圆曲线的密钥交换与 ECIES 加解密",
+    "curve": "椭圆曲线",
+    "outputFormat": "输出格式",
+    "myKeyPair": "我的密钥对",
+    "generateKeys": "生成密钥对",
+    "publicKey": "公钥",
+    "privateKey": "私钥",
+    "peerPublicKey": "对方公钥 (用于加密)",
+    "peerPublicKeyPlaceholder": "粘贴对方的公钥用于加密...",
+    "inputPlaceholder": "请输入要加密/解密的内容...",
+    "encrypt": "加密",
+    "decrypt": "解密",
+    "deriveKey": "派生共享密钥"
+}
