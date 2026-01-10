@@ -327,26 +327,50 @@
     }
 
     /**
-     * 将参数名转换为有效的 Python 变量名
+     * 将参数名转换为有效的 Python 变量名（Pydantic 兼容）
      * @param {string} name - 原始参数名
-     * @returns {string} 有效的 Python 变量名
+     * @returns {object} { varName: 有效的变量名, needsAlias: 是否需要别名 }
      */
     function toPythonVarName(name) {
-        // 替换无效字符为下划线
-        let varName = name.replace(/[^a-zA-Z0-9_]/g, '_');
-        // 如果以数字开头，添加下划线前缀
-        if (/^[0-9]/.test(varName)) {
-            varName = '_' + varName;
+        let varName = name;
+        let needsAlias = false;
+
+        // 1. 去除前导下划线（Pydantic 会把 _ 开头当私有属性）
+        if (varName.startsWith('_')) {
+            varName = varName.replace(/^_+/, '');
+            needsAlias = true;
         }
-        // 处理 Python 关键字
+
+        // 2. 替换无效字符为下划线
+        const sanitized = varName.replace(/[^a-zA-Z0-9_]/g, '_');
+        if (sanitized !== varName) {
+            varName = sanitized;
+            needsAlias = true;
+        }
+
+        // 3. 如果以数字开头，添加前缀
+        if (/^[0-9]/.test(varName)) {
+            varName = 'param_' + varName;
+            needsAlias = true;
+        }
+
+        // 4. 如果为空，使用默认名
+        if (!varName) {
+            varName = 'param';
+            needsAlias = true;
+        }
+
+        // 5. 处理 Python 关键字
         const pythonKeywords = ['False', 'None', 'True', 'and', 'as', 'assert', 'async', 'await',
             'break', 'class', 'continue', 'def', 'del', 'elif', 'else', 'except', 'finally',
             'for', 'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'nonlocal', 'not',
             'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield'];
         if (pythonKeywords.includes(varName)) {
-            varName = varName + '_';
+            varName = varName + '_param';
+            needsAlias = true;
         }
-        return varName;
+
+        return { varName, needsAlias };
     }
 
     /**
@@ -372,14 +396,21 @@
 
         // 生成参数名映射（原始名 -> Python 变量名）
         const paramNameMap = {};
+        let hasAnyAlias = false;
         for (const key of Object.keys(queryParams)) {
-            paramNameMap[key] = toPythonVarName(key);
+            const { varName, needsAlias } = toPythonVarName(key);
+            paramNameMap[key] = { varName, needsAlias };
+            if (needsAlias) hasAnyAlias = true;
         }
 
         let code = 'from fastapi import FastAPI, HTTPException, Depends\n';
-        code += 'from pydantic import BaseModel, Field\n';
+        code += 'from pydantic import BaseModel, ConfigDict';
+        if (hasAnyAlias) {
+            code += ', Field';
+        }
+        code += '\n';
         code += 'import httpx\n';
-        code += 'from typing import Optional, Any\n\n';
+        code += 'from typing import Any\n\n';
 
         code += 'app = FastAPI()\n\n';
 
@@ -387,19 +418,18 @@
         if (hasQueryParams) {
             code += '# 查询参数模型\n';
             code += 'class QueryParams(BaseModel):\n';
+            code += `${i1}model_config = ConfigDict(populate_by_name=True)\n\n`;
+
             for (const [key, value] of Object.entries(queryParams)) {
-                const varName = paramNameMap[key];
+                const { varName, needsAlias } = paramNameMap[key];
                 const escapedValue = escapeString(value, 'python');
-                // 如果变量名与原始参数名不同，使用 Field 的 alias
-                if (varName !== key) {
+                // 如果需要别名，使用 Field
+                if (needsAlias) {
                     code += `${i1}${varName}: str = Field(default='${escapedValue}', alias='${escapeString(key, 'python')}')\n`;
                 } else {
                     code += `${i1}${varName}: str = '${escapedValue}'\n`;
                 }
             }
-            code += '\n';
-            code += `${i1}class Config:\n`;
-            code += `${i2}populate_by_name = True\n`;
             code += '\n';
         }
 
@@ -411,7 +441,8 @@
                 const jsonData = JSON.parse(parsed.data);
                 for (const [key, value] of Object.entries(jsonData)) {
                     const pyType = getPythonType(value);
-                    code += `${i1}${toPythonVarName(key)}: ${pyType}\n`;
+                    const { varName } = toPythonVarName(key);
+                    code += `${i1}${varName}: ${pyType}\n`;
                 }
             } catch (e) {
                 code += `${i1}data: str\n`;
@@ -445,15 +476,10 @@
         // 目标 URL
         code += `${i1}url = '${escapeString(targetBaseUrl + apiPath, 'python')}'\n\n`;
 
-        // 将 Pydantic 模型转换为请求参数字典
+        // 使用 model_dump 转换查询参数
         if (hasQueryParams) {
-            code += `${i1}# 将查询参数模型转换为字典\n`;
-            code += `${i1}query_params = {\n`;
-            for (const [key, value] of Object.entries(queryParams)) {
-                const varName = paramNameMap[key];
-                code += `${i2}'${escapeString(key, 'python')}': params.${varName},\n`;
-            }
-            code += `${i1}}\n\n`;
+            code += `${i1}# 将查询参数模型转换为字典（by_alias=True 确保使用原始参数名）\n`;
+            code += `${i1}query_params = params.model_dump(by_alias=True, exclude_none=True)\n\n`;
         }
 
         // Headers
@@ -465,7 +491,7 @@
             code += `${i1}}\n\n`;
         }
 
-        code += `${i1}async with httpx.AsyncClient() as client:\n`;
+        code += `${i1}async with httpx.AsyncClient(timeout=30.0) as client:\n`;
         code += `${i2}try:\n`;
         code += `${i2}${i1}response = await client.${parsed.method.toLowerCase()}(\n`;
         code += `${i2}${i2}url,\n`;
@@ -486,15 +512,15 @@
         code += `${i2}${i1}# 尝试解析 JSON 响应\n`;
         code += `${i2}${i1}try:\n`;
         code += `${i2}${i2}data = response.json()\n`;
-        code += `${i2}${i1}except:\n`;
+        code += `${i2}${i1}except Exception:\n`;
         code += `${i2}${i2}data = response.text\n\n`;
 
         code += `${i2}${i1}return ProxyResponse(status_code=response.status_code, data=data)\n\n`;
 
         code += `${i2}except httpx.HTTPStatusError as e:\n`;
-        code += `${i2}${i1}raise HTTPException(status_code=e.response.status_code, detail=str(e))\n`;
+        code += `${i2}${i1}raise HTTPException(status_code=e.response.status_code, detail=e.response.text)\n`;
         code += `${i2}except httpx.RequestError as e:\n`;
-        code += `${i2}${i1}raise HTTPException(status_code=500, detail=f"请求失败: {str(e)}")\n\n`;
+        code += `${i2}${i1}raise HTTPException(status_code=500, detail=f"请求失败: {e}")\n\n`;
 
         code += '\n# 运行: uvicorn main:app --reload';
 
