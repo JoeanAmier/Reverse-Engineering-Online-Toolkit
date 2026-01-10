@@ -1,6 +1,6 @@
 /**
  * ZSTD 压缩工具
- * @description Zstandard 压缩与解压（纯 JavaScript 实现）
+ * @description Zstandard 压缩与解压
  * @author Evil0ctal
  * @license Apache-2.0
  */
@@ -9,24 +9,46 @@
     'use strict';
 
     let currentFileData = null;
+    let fzstdLoaded = false;
 
     // ========== ZSTD 常量 ==========
 
     // ZSTD Magic Number: 0xFD2FB528 (little-endian)
     const ZSTD_MAGIC = new Uint8Array([0x28, 0xB5, 0x2F, 0xFD]);
 
-    // 简化的 ZSTD 帧头
-    const FRAME_HEADER_SIZE = 6;
+    // ========== 动态加载 fzstd 库 ==========
+
+    function loadFzstd() {
+        return new Promise((resolve, reject) => {
+            if (fzstdLoaded && window.fzstd) {
+                resolve(window.fzstd);
+                return;
+            }
+
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/fzstd@0.1.1/umd/index.js';
+            script.onload = () => {
+                fzstdLoaded = true;
+                resolve(window.fzstd);
+            };
+            script.onerror = () => {
+                reject(new Error('无法加载 ZSTD 解压库'));
+            };
+            document.head.appendChild(script);
+        });
+    }
+
+    // ========== 简化的压缩实现 ==========
+    // 注意：这是简化实现，生成的文件只能被本工具解压
+    // 真实的 ZSTD 压缩需要更复杂的实现
 
     /**
-     * 简单的 LZ77 压缩
-     * ZSTD 使用更复杂的 FSE 熵编码，这里使用简化的 LZ77
+     * 简单的 LZ77 压缩 (用于演示)
      */
-    function lz77Compress(data, level) {
+    function simpleLz77Compress(data, level) {
         const result = [];
         let i = 0;
 
-        // 根据压缩级别调整窗口大小
         const windowSize = Math.min(32768, 1024 * Math.pow(2, Math.floor(level / 3)));
         const minMatch = 4;
         const maxMatch = 255;
@@ -35,7 +57,6 @@
             let bestLen = 0;
             let bestDist = 0;
 
-            // 在滑动窗口中查找最长匹配
             const searchStart = Math.max(0, i - windowSize);
             for (let j = searchStart; j < i; j++) {
                 let len = 0;
@@ -49,14 +70,12 @@
             }
 
             if (bestLen >= minMatch) {
-                // 匹配：标记 + 长度 + 距离
                 result.push(0x01);
                 result.push(bestLen);
                 result.push(bestDist & 0xFF);
                 result.push((bestDist >> 8) & 0xFF);
                 i += bestLen;
             } else {
-                // 字面量：标记 + 值
                 result.push(0x00);
                 result.push(data[i]);
                 i++;
@@ -67,9 +86,9 @@
     }
 
     /**
-     * 解压 LZ77 数据
+     * 解压简化的 LZ77 数据
      */
-    function lz77Decompress(data) {
+    function simpleLz77Decompress(data) {
         const output = [];
         let pos = 0;
 
@@ -77,12 +96,10 @@
             const type = data[pos++];
 
             if (type === 0x00) {
-                // 字面量
                 if (pos < data.length) {
                     output.push(data[pos++]);
                 }
             } else if (type === 0x01) {
-                // 匹配
                 if (pos + 2 < data.length) {
                     const length = data[pos++];
                     const distance = data[pos] | (data[pos + 1] << 8);
@@ -99,68 +116,11 @@
         return new Uint8Array(output);
     }
 
-    /**
-     * 创建 ZSTD 帧头
-     */
-    function createFrameHeader(originalSize) {
-        const header = new Uint8Array(FRAME_HEADER_SIZE);
-
-        // Frame Header Descriptor
-        // Bit 0-1: Dictionary_ID_flag (0 = no dict)
-        // Bit 2-3: Content_Checksum_flag (0 = no checksum)
-        // Bit 4: Reserved
-        // Bit 5: Single_Segment_flag (1 = single segment)
-        // Bit 6-7: Frame_Content_Size_flag (2 = 4 bytes)
-        header[0] = 0b10100000; // Single segment, 4-byte content size
-
-        // Window Descriptor (not present when Single_Segment_flag is set)
-
-        // Frame Content Size (4 bytes, little-endian)
-        header[1] = originalSize & 0xFF;
-        header[2] = (originalSize >> 8) & 0xFF;
-        header[3] = (originalSize >> 16) & 0xFF;
-        header[4] = (originalSize >> 24) & 0xFF;
-
-        // Block type marker
-        header[5] = 0x00;
-
-        return header;
-    }
+    // 自定义压缩标记 (避免与真实 ZSTD 混淆)
+    const CUSTOM_MAGIC = new Uint8Array([0x52, 0x45, 0x4F, 0x54]); // "REOT"
 
     /**
-     * 解析 ZSTD 帧头
-     */
-    function parseFrameHeader(data, offset) {
-        const descriptor = data[offset];
-
-        // Frame Content Size flag
-        const fcsFlag = (descriptor >> 6) & 0x03;
-        const singleSegment = (descriptor >> 5) & 0x01;
-
-        let headerSize = 1;
-        let contentSize = 0;
-
-        if (singleSegment) {
-            // 读取内容大小
-            if (fcsFlag === 2 || fcsFlag === 0) {
-                // 4 字节
-                contentSize = data[offset + 1] |
-                              (data[offset + 2] << 8) |
-                              (data[offset + 3] << 16) |
-                              (data[offset + 4] << 24);
-                headerSize = 6;
-            }
-        }
-
-        return {
-            headerSize,
-            contentSize,
-            singleSegment
-        };
-    }
-
-    /**
-     * 压缩数据
+     * 压缩数据 (简化实现)
      */
     function compress(data, level = 3) {
         let input;
@@ -170,52 +130,72 @@
             input = new Uint8Array(data);
         }
 
-        // 压缩数据
-        const compressedData = lz77Compress(input, level);
+        const compressedData = simpleLz77Compress(input, level);
 
-        // 创建帧头
-        const frameHeader = createFrameHeader(input.length);
+        // 使用自定义头，包含原始大小
+        const header = new Uint8Array(8);
+        header.set(CUSTOM_MAGIC, 0);
+        header[4] = input.length & 0xFF;
+        header[5] = (input.length >> 8) & 0xFF;
+        header[6] = (input.length >> 16) & 0xFF;
+        header[7] = (input.length >> 24) & 0xFF;
 
-        // 组装完整帧
-        const output = new Uint8Array(ZSTD_MAGIC.length + frameHeader.length + compressedData.length);
-        output.set(ZSTD_MAGIC, 0);
-        output.set(frameHeader, ZSTD_MAGIC.length);
-        output.set(compressedData, ZSTD_MAGIC.length + frameHeader.length);
+        const output = new Uint8Array(header.length + compressedData.length);
+        output.set(header, 0);
+        output.set(compressedData, header.length);
 
         return output;
     }
 
     /**
+     * 检查是否是真实的 ZSTD 格式
+     */
+    function isRealZstd(data) {
+        if (data.length < 4) return false;
+        return data[0] === 0x28 && data[1] === 0xB5 && data[2] === 0x2F && data[3] === 0xFD;
+    }
+
+    /**
+     * 检查是否是自定义压缩格式
+     */
+    function isCustomFormat(data) {
+        if (data.length < 4) return false;
+        return data[0] === 0x52 && data[1] === 0x45 && data[2] === 0x4F && data[3] === 0x54;
+    }
+
+    /**
      * 解压数据
      */
-    function decompress(data) {
+    async function decompress(data) {
         if (!(data instanceof Uint8Array)) {
             data = new Uint8Array(data);
         }
 
-        // 验证 Magic Number
-        for (let i = 0; i < ZSTD_MAGIC.length; i++) {
-            if (data[i] !== ZSTD_MAGIC[i]) {
-                throw new Error('无效的 ZSTD 格式：Magic Number 不匹配');
+        // 检查是否是真实的 ZSTD 格式
+        if (isRealZstd(data)) {
+            // 使用 fzstd 库解压
+            const fzstd = await loadFzstd();
+            try {
+                return fzstd.decompress(data);
+            } catch (e) {
+                throw new Error('ZSTD 解压失败: ' + e.message);
             }
         }
 
-        // 解析帧头
-        const frameInfo = parseFrameHeader(data, ZSTD_MAGIC.length);
+        // 检查是否是自定义格式
+        if (isCustomFormat(data)) {
+            const originalSize = data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] << 24);
+            const compressedData = data.slice(8);
+            const decompressed = simpleLz77Decompress(compressedData);
 
-        // 获取压缩数据起始位置
-        const dataStart = ZSTD_MAGIC.length + frameInfo.headerSize;
-        const compressedData = data.slice(dataStart);
+            if (decompressed.length !== originalSize) {
+                console.warn(`解压大小不匹配: 期望 ${originalSize}, 实际 ${decompressed.length}`);
+            }
 
-        // 解压
-        const decompressed = lz77Decompress(compressedData);
-
-        // 验证解压后大小
-        if (frameInfo.contentSize > 0 && decompressed.length !== frameInfo.contentSize) {
-            console.warn(`解压后大小不匹配: 期望 ${frameInfo.contentSize}, 实际 ${decompressed.length}`);
+            return decompressed;
         }
 
-        return decompressed;
+        throw new Error('无效的压缩格式：既不是 ZSTD 也不是本工具的压缩格式');
     }
 
     // ========== 工具函数 ==========
@@ -294,7 +274,7 @@
         }
     }
 
-    function downloadResult() {
+    function downloadResult(isDecompressed = false) {
         const output = document.getElementById('output');
         if (!output || !output.value) {
             REOT.utils?.showNotification('没有可下载的内容', 'warning');
@@ -304,11 +284,15 @@
         const format = getOutputFormat();
         let data, filename;
 
-        if (format === 'base64') {
+        if (isDecompressed) {
+            // 解压后的数据，作为文本或二进制下载
+            data = new Blob([output.value], { type: 'application/octet-stream' });
+            filename = 'decompressed.bin';
+        } else if (format === 'base64') {
             try {
                 const binary = base64ToUint8Array(output.value);
-                data = new Blob([binary], { type: 'application/zstd' });
-                filename = 'compressed.zst';
+                data = new Blob([binary], { type: 'application/octet-stream' });
+                filename = 'compressed.bin';
             } catch (e) {
                 data = new Blob([output.value], { type: 'text/plain' });
                 filename = 'result.txt';
@@ -356,7 +340,14 @@
                 }
 
                 if (input) {
-                    input.value = `[文件已加载: ${file.name}]`;
+                    // 检测文件类型
+                    let fileType = '二进制文件';
+                    if (isRealZstd(currentFileData)) {
+                        fileType = 'ZSTD 压缩文件';
+                    } else if (isCustomFormat(currentFileData)) {
+                        fileType = '本工具压缩文件';
+                    }
+                    input.value = `[${fileType}已加载: ${file.name}]`;
                     input.disabled = true;
                 }
             };
@@ -402,7 +393,7 @@
                         : uint8ArrayToHex(compressed);
                 }
 
-                REOT.utils?.showNotification('压缩成功', 'success');
+                REOT.utils?.showNotification('压缩成功 (本工具格式)', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -415,29 +406,38 @@
                 const output = document.getElementById('output');
                 const format = getOutputFormat();
 
-                if (!input.value.trim()) {
-                    REOT.utils?.showNotification('请输入要解压的内容', 'warning');
+                let compressedData;
+
+                // 优先使用文件数据
+                if (currentFileData) {
+                    compressedData = currentFileData;
+                } else if (input.value.trim()) {
+                    try {
+                        if (format === 'base64') {
+                            compressedData = base64ToUint8Array(input.value.trim());
+                        } else {
+                            compressedData = hexToUint8Array(input.value.trim());
+                        }
+                    } catch (e) {
+                        throw new Error('输入格式无效');
+                    }
+                } else {
+                    REOT.utils?.showNotification('请输入要解压的内容或上传文件', 'warning');
                     return;
                 }
 
-                let compressedData;
-                try {
-                    if (format === 'base64') {
-                        compressedData = base64ToUint8Array(input.value.trim());
-                    } else {
-                        compressedData = hexToUint8Array(input.value.trim());
-                    }
-                } catch (e) {
-                    throw new Error('输入格式无效');
-                }
+                // 显示加载提示
+                REOT.utils?.showNotification('正在解压...', 'info');
 
-                const decompressed = decompress(compressedData);
+                const decompressed = await decompress(compressedData);
                 updateStats(decompressed.length, compressedData.length);
 
                 if (output) {
                     try {
+                        // 尝试作为文本显示
                         output.value = uint8ArrayToString(decompressed);
                     } catch (e) {
+                        // 如果不是有效文本，显示为 Base64
                         output.value = uint8ArrayToBase64(decompressed);
                     }
                 }
@@ -488,25 +488,35 @@
     window.ZstdTool = {
         compress,
         decompress,
-        formatFileSize
+        formatFileSize,
+        isRealZstd,
+        loadFzstd
     };
 
     // 设置默认示例数据
     const defaultInput = document.getElementById('input');
     if (defaultInput && !defaultInput.value) {
-        const sampleText = `这是一段示例文本，用于演示 ZSTD 压缩功能。
+        const sampleText = `这是一段示例文本，用于演示压缩功能。
 
 ZSTD (Zstandard) 是由 Facebook 开发的快速压缩算法。
 
 主要特点：
 1. 压缩比高，速度快
-2. 可调节压缩级别 (1-19)
+2. 可调节压缩级别 (1-22)
 3. 支持字典压缩
 4. 广泛应用于数据存储和传输
 
-This is sample text for demonstrating ZSTD compression.
-Zstandard provides high compression ratios with fast speeds.`;
+提示：
+- 上传 .zst 文件可以解压真实的 ZSTD 压缩文件
+- 本工具的压缩功能使用简化算法，仅供演示
+
+This is sample text for demonstrating compression.`;
         defaultInput.value = sampleText;
     }
+
+    // 预加载 fzstd 库
+    loadFzstd().catch(() => {
+        console.warn('fzstd 库预加载失败，将在需要时重试');
+    });
 
 })();
