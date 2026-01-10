@@ -11,10 +11,30 @@
     // 确保命名空间存在
     window.CurlGenerators = window.CurlGenerators || {};
 
-    const escapeString = window.CurlGenerators.escapeString;
+    const escapeStringBase = window.CurlGenerators.escapeString;
     const makeIndent = window.CurlGenerators.makeIndent;
     const getDefaultOptions = window.CurlGenerators.getDefaultOptions;
+    const getQuote = window.CurlGenerators.getQuote;
     const getBaseUrl = window.CurlGenerators.getBaseUrl;
+
+    /**
+     * 包装字符串（带引号和转义）
+     * @param {string} str - 要包装的字符串
+     * @param {Object} opts - 选项
+     * @returns {string} 带引号的字符串
+     */
+    function pyStr(str, opts) {
+        const q = getQuote(opts);
+        const escaped = escapeStringBase(str, 'python', opts);
+        return `${q}${escaped}${q}`;
+    }
+
+    /**
+     * 转义字符串（兼容旧调用）
+     */
+    function escapeString(str, lang, opts) {
+        return escapeStringBase(str, lang, opts);
+    }
 
     /**
      * 从 URL 中提取查询参数
@@ -47,23 +67,23 @@
         if (opts.useParamsDict) {
             const params = extractQueryParams(parsed.url);
             const baseUrl = getBaseUrl(parsed.url);
-            code += `url = '${escapeString(baseUrl, 'python')}'\n\n`;
+            code += `url = ${pyStr(baseUrl, opts)}\n\n`;
 
             if (Object.keys(params).length > 0) {
                 code += 'params = {\n';
                 for (const [key, value] of Object.entries(params)) {
-                    code += `${i1}'${escapeString(key, 'python')}': '${escapeString(value, 'python')}',\n`;
+                    code += `${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
                 }
                 code += '}\n\n';
             }
         } else {
-            code += `url = '${escapeString(parsed.url, 'python')}'\n\n`;
+            code += `url = ${pyStr(parsed.url, opts)}\n\n`;
         }
 
         if (Object.keys(parsed.headers).length > 0) {
             code += 'headers = {\n';
             for (const [key, value] of Object.entries(parsed.headers)) {
-                code += `${i1}'${escapeString(key, 'python')}': '${escapeString(value, 'python')}',\n`;
+                code += `${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
             }
             code += '}\n\n';
         }
@@ -71,13 +91,13 @@
         if (parsed.cookies && Object.keys(parsed.cookies).length > 0) {
             code += 'cookies = {\n';
             for (const [key, value] of Object.entries(parsed.cookies)) {
-                code += `${i1}'${escapeString(key, 'python')}': '${escapeString(value, 'python')}',\n`;
+                code += `${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
             }
             code += '}\n\n';
         }
 
         if (parsed.data) {
-            code += `data = '${escapeString(parsed.data, 'python')}'\n\n`;
+            code += `data = ${pyStr(parsed.data, opts)}\n\n`;
         }
 
         code += `response = requests.${parsed.method.toLowerCase()}(url`;
@@ -113,29 +133,29 @@
         if (opts.useParamsDict) {
             const params = extractQueryParams(parsed.url);
             const baseUrl = getBaseUrl(parsed.url);
-            code += `url = '${escapeString(baseUrl, 'python')}'\n\n`;
+            code += `url = ${pyStr(baseUrl, opts)}\n\n`;
 
             if (Object.keys(params).length > 0) {
                 code += 'params = {\n';
                 for (const [key, value] of Object.entries(params)) {
-                    code += `${i1}'${escapeString(key, 'python')}': '${escapeString(value, 'python')}',\n`;
+                    code += `${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
                 }
                 code += '}\n\n';
             }
         } else {
-            code += `url = '${escapeString(parsed.url, 'python')}'\n\n`;
+            code += `url = ${pyStr(parsed.url, opts)}\n\n`;
         }
 
         if (Object.keys(parsed.headers).length > 0) {
             code += 'headers = {\n';
             for (const [key, value] of Object.entries(parsed.headers)) {
-                code += `${i1}'${escapeString(key, 'python')}': '${escapeString(value, 'python')}',\n`;
+                code += `${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
             }
             code += '}\n\n';
         }
 
         if (parsed.data) {
-            code += `data = '${escapeString(parsed.data, 'python')}'\n\n`;
+            code += `data = ${pyStr(parsed.data, opts)}\n\n`;
         }
 
         code += `response = httpx.${parsed.method.toLowerCase()}(url`;
@@ -172,29 +192,29 @@
         if (opts.useParamsDict) {
             const params = extractQueryParams(parsed.url);
             const baseUrl = getBaseUrl(parsed.url);
-            code += `${i2}url = '${escapeString(baseUrl, 'python')}'\n\n`;
+            code += `${i2}url = ${pyStr(baseUrl, opts)}\n\n`;
 
             if (Object.keys(params).length > 0) {
                 code += `${i2}params = {\n`;
                 for (const [key, value] of Object.entries(params)) {
-                    code += `${i3}'${escapeString(key, 'python')}': '${escapeString(value, 'python')}',\n`;
+                    code += `${i3}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
                 }
                 code += `${i2}}\n\n`;
             }
         } else {
-            code += `${i2}url = '${escapeString(parsed.url, 'python')}'\n\n`;
+            code += `${i2}url = ${pyStr(parsed.url, opts)}\n\n`;
         }
 
         if (Object.keys(parsed.headers).length > 0) {
             code += `${i2}headers = {\n`;
             for (const [key, value] of Object.entries(parsed.headers)) {
-                code += `${i3}'${escapeString(key, 'python')}': '${escapeString(value, 'python')}',\n`;
+                code += `${i3}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
             }
             code += `${i2}}\n\n`;
         }
 
         if (parsed.data) {
-            code += `${i2}data = '${escapeString(parsed.data, 'python')}'\n\n`;
+            code += `${i2}data = ${pyStr(parsed.data, opts)}\n\n`;
         }
 
         code += `${i2}async with session.${parsed.method.toLowerCase()}(url`;
@@ -221,48 +241,48 @@
     function toPythonUrllib(parsed, options = {}) {
         const opts = getDefaultOptions(options);
         const i1 = makeIndent(1, opts);
+        const q = getQuote(opts);
 
         let code = 'import urllib.request\nimport urllib.parse\n\n';
 
         // 处理 URL 和查询参数
-        let urlVar = 'url';
         if (opts.useParamsDict) {
             const params = extractQueryParams(parsed.url);
             const baseUrl = getBaseUrl(parsed.url);
-            code += `base_url = '${escapeString(baseUrl, 'python')}'\n\n`;
+            code += `base_url = ${pyStr(baseUrl, opts)}\n\n`;
 
             if (Object.keys(params).length > 0) {
                 code += 'params = {\n';
                 for (const [key, value] of Object.entries(params)) {
-                    code += `${i1}'${escapeString(key, 'python')}': '${escapeString(value, 'python')}',\n`;
+                    code += `${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
                 }
                 code += '}\n\n';
-                code += 'url = base_url + \'?\' + urllib.parse.urlencode(params)\n\n';
+                code += `url = base_url + ${q}?${q} + urllib.parse.urlencode(params)\n\n`;
             } else {
                 code += 'url = base_url\n\n';
             }
         } else {
-            code += `url = '${escapeString(parsed.url, 'python')}'\n\n`;
+            code += `url = ${pyStr(parsed.url, opts)}\n\n`;
         }
 
         if (parsed.data) {
-            code += `data = '${escapeString(parsed.data, 'python')}'\n`;
-            code += 'data = data.encode(\'utf-8\')\n\n';
+            code += `data = ${pyStr(parsed.data, opts)}\n`;
+            code += `data = data.encode(${q}utf-8${q})\n\n`;
         }
 
-        code += `request = urllib.request.Request(url, method='${parsed.method}'`;
+        code += `request = urllib.request.Request(url, method=${pyStr(parsed.method, opts)}`;
         if (parsed.data) {
             code += ', data=data';
         }
         code += ')\n\n';
 
         for (const [key, value] of Object.entries(parsed.headers)) {
-            code += `request.add_header('${escapeString(key, 'python')}', '${escapeString(value, 'python')}')\n`;
+            code += `request.add_header(${pyStr(key, opts)}, ${pyStr(value, opts)})\n`;
         }
 
         code += '\nwith urllib.request.urlopen(request) as response:\n';
         code += `${i1}print(response.status)\n`;
-        code += `${i1}print(response.read().decode('utf-8'))`;
+        code += `${i1}print(response.read().decode(${q}utf-8${q}))`;
 
         return code;
     }
@@ -283,29 +303,29 @@
         if (opts.useParamsDict) {
             const params = extractQueryParams(parsed.url);
             const baseUrl = getBaseUrl(parsed.url);
-            code += `${i2}url = '${escapeString(baseUrl, 'python')}'\n\n`;
+            code += `${i2}url = ${pyStr(baseUrl, opts)}\n\n`;
 
             if (Object.keys(params).length > 0) {
                 code += `${i2}params = {\n`;
                 for (const [key, value] of Object.entries(params)) {
-                    code += `${i2}${i1}'${escapeString(key, 'python')}': '${escapeString(value, 'python')}',\n`;
+                    code += `${i2}${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
                 }
                 code += `${i2}}\n\n`;
             }
         } else {
-            code += `${i2}url = '${escapeString(parsed.url, 'python')}'\n\n`;
+            code += `${i2}url = ${pyStr(parsed.url, opts)}\n\n`;
         }
 
         if (Object.keys(parsed.headers).length > 0) {
             code += `${i2}headers = {\n`;
             for (const [key, value] of Object.entries(parsed.headers)) {
-                code += `${i2}${i1}'${escapeString(key, 'python')}': '${escapeString(value, 'python')}',\n`;
+                code += `${i2}${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
             }
             code += `${i2}}\n\n`;
         }
 
         if (parsed.data) {
-            code += `${i2}data = '${escapeString(parsed.data, 'python')}'\n\n`;
+            code += `${i2}data = ${pyStr(parsed.data, opts)}\n\n`;
         }
 
         code += `${i2}response = await client.${parsed.method.toLowerCase()}(url`;
@@ -376,11 +396,14 @@
     /**
      * 从字符串值推断 Python 类型
      * @param {string} value - 字符串值
+     * @param {Object} opts - 选项（用于引号样式）
      * @returns {object} { pyType: Python类型, pyValue: Python格式的值 }
      */
-    function inferPythonType(value) {
+    function inferPythonType(value, opts = {}) {
+        const q = getQuote(opts);
+
         if (value === null || value === undefined || value === '') {
-            return { pyType: 'str', pyValue: "''" };
+            return { pyType: 'str', pyValue: `${q}${q}` };
         }
 
         const strValue = String(value);
@@ -401,7 +424,7 @@
                 return { pyType: 'int', pyValue: strValue };
             }
             // 超大整数作为字符串处理
-            return { pyType: 'str', pyValue: `'${strValue}'` };
+            return { pyType: 'str', pyValue: pyStr(strValue, opts) };
         }
 
         // 3. 浮点数检测
@@ -410,7 +433,48 @@
         }
 
         // 4. 默认为字符串
-        return { pyType: 'str', pyValue: `'${escapeString(strValue, 'python')}'` };
+        return { pyType: 'str', pyValue: pyStr(strValue, opts) };
+    }
+
+    /**
+     * 从 URI 路径生成有意义的名称
+     * @param {string} path - URI 路径
+     * @param {string} method - HTTP 方法
+     * @returns {object} { className: PascalCase类名, funcName: snake_case函数名, baseName: 基础名称 }
+     */
+    function generateNamesFromPath(path, method) {
+        // 提取路径段，过滤空段和版本号（如 v1, v2）
+        const segments = path.split('/').filter(seg => {
+            if (!seg) return false;
+            if (/^v\d+$/i.test(seg)) return false;  // 过滤 v1, v2 等
+            return true;
+        });
+
+        // 取最后 1-2 个有意义的路径段
+        let meaningfulParts = segments.slice(-2);
+        if (meaningfulParts.length === 0) {
+            meaningfulParts = ['api'];
+        }
+
+        // 清理每个部分（移除特殊字符，保留字母数字）
+        const cleanParts = meaningfulParts.map(part =>
+            part.replace(/[^a-zA-Z0-9]/g, '_').replace(/^_+|_+$/g, '')
+        ).filter(p => p);
+
+        if (cleanParts.length === 0) {
+            cleanParts.push('api');
+        }
+
+        // 生成 PascalCase 类名 (如 SeriesAweme)
+        const className = cleanParts.map(part =>
+            part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+        ).join('');
+
+        // 生成 snake_case 函数名 (如 get_series_aweme)
+        const methodPrefix = method.toLowerCase();
+        const funcName = methodPrefix + '_' + cleanParts.map(p => p.toLowerCase()).join('_');
+
+        return { className, funcName, baseName: cleanParts.join('_') };
     }
 
     /**
@@ -420,6 +484,7 @@
         const opts = getDefaultOptions(options);
         const i1 = makeIndent(1, opts);
         const i2 = makeIndent(2, opts);
+        const q = getQuote(opts);
 
         // 从 URL 提取完整路径作为 API 端点
         let apiPath = '/proxy';
@@ -429,6 +494,11 @@
             apiPath = urlObj.pathname || '/proxy';
             targetBaseUrl = `${urlObj.protocol}//${urlObj.host}`;
         } catch (e) {}
+
+        // 从路径生成有意义的名称
+        const { className, funcName } = generateNamesFromPath(apiPath, parsed.method);
+        const responseModelName = className + 'Response';
+        const queryParamsName = className + 'Params';
 
         // 提取查询参数
         const queryParams = extractQueryParams(parsed.url);
@@ -443,7 +513,14 @@
             if (needsAlias) hasAnyAlias = true;
         }
 
-        let code = 'from fastapi import FastAPI, HTTPException, Depends\n';
+        // 文件头注释（docstring 固定使用三引号）
+        let code = '"""\n';
+        code += `FastAPI 代理接口 - ${apiPath}\n`;
+        code += `目标地址: ${targetBaseUrl}${apiPath}\n`;
+        code += `HTTP 方法: ${parsed.method}\n`;
+        code += '"""\n\n';
+
+        code += 'from fastapi import FastAPI, HTTPException, Depends\n';
         code += 'from pydantic import BaseModel, ConfigDict';
         if (hasAnyAlias) {
             code += ', Field';
@@ -452,20 +529,23 @@
         code += 'import httpx\n';
         code += 'from typing import Any\n\n';
 
-        code += 'app = FastAPI()\n\n';
+        code += 'app = FastAPI(\n';
+        code += `${i1}title=${q}${className} API${q},\n`;
+        code += `${i1}description=${q}代理请求到 ${targetBaseUrl}${q},\n`;
+        code += `${i1}version=${q}1.0.0${q}\n`;
+        code += ')\n\n';
 
         // 生成查询参数 Pydantic 模型
         if (hasQueryParams) {
             code += '# 查询参数模型\n';
-            code += 'class QueryParams(BaseModel):\n';
+            code += `class ${queryParamsName}(BaseModel):\n`;
             code += `${i1}model_config = ConfigDict(populate_by_name=True)\n\n`;
 
             for (const [key, value] of Object.entries(queryParams)) {
                 const { varName, needsAlias } = paramNameMap[key];
-                const { pyType, pyValue } = inferPythonType(value);
-                // 如果需要别名，使用 Field
+                const { pyType, pyValue } = inferPythonType(value, opts);
                 if (needsAlias) {
-                    code += `${i1}${varName}: ${pyType} = Field(default=${pyValue}, alias='${escapeString(key, 'python')}')\n`;
+                    code += `${i1}${varName}: ${pyType} = Field(default=${pyValue}, alias=${pyStr(key, opts)})\n`;
                 } else {
                     code += `${i1}${varName}: ${pyType} = ${pyValue}\n`;
                 }
@@ -474,9 +554,10 @@
         }
 
         // 如果有请求体，生成 Pydantic 模型
+        const requestBodyName = className + 'Request';
         if (parsed.data && parsed.dataType === 'json') {
             code += '# 请求体模型\n';
-            code += 'class RequestBody(BaseModel):\n';
+            code += `class ${requestBodyName}(BaseModel):\n`;
             try {
                 const jsonData = JSON.parse(parsed.data);
                 for (const [key, value] of Object.entries(jsonData)) {
@@ -491,34 +572,34 @@
         }
 
         code += '# 响应模型\n';
-        code += 'class ProxyResponse(BaseModel):\n';
+        code += `class ${responseModelName}(BaseModel):\n`;
         code += `${i1}status_code: int\n`;
         code += `${i1}data: Any\n\n`;
 
         // 生成 API 端点
         const methodDecorator = parsed.method.toLowerCase();
-        code += `@app.${methodDecorator}("${apiPath}", response_model=ProxyResponse)\n`;
+        code += `@app.${methodDecorator}(${q}${apiPath}${q}, response_model=${responseModelName})\n`;
 
         // 构建函数签名
         let funcParams = [];
         if (hasQueryParams) {
-            funcParams.push('params: QueryParams = Depends()');
+            funcParams.push(`params: ${queryParamsName} = Depends()`);
         }
         if (parsed.data && parsed.dataType === 'json') {
-            funcParams.push('body: RequestBody');
+            funcParams.push(`body: ${requestBodyName}`);
         }
-        code += `async def proxy_request(${funcParams.join(', ')}):\n`;
+        code += `async def ${funcName}(${funcParams.join(', ')}):\n`;
 
         code += `${i1}"""\n`;
-        code += `${i1}代理请求到目标 API\n`;
+        code += `${i1}代理请求到: ${targetBaseUrl}${apiPath}\n`;
         code += `${i1}"""\n`;
 
-        // 目标 URL
-        code += `${i1}url = '${escapeString(targetBaseUrl + apiPath, 'python')}'\n\n`;
+        // 目标 URL（函数内部定义，便于修改）
+        code += `${i1}target_url = ${pyStr(targetBaseUrl + apiPath, opts)}\n\n`;
 
         // 使用 model_dump 转换查询参数
         if (hasQueryParams) {
-            code += `${i1}# 将查询参数模型转换为字典（by_alias=True 确保使用原始参数名）\n`;
+            code += `${i1}# 将查询参数模型转换为字典\n`;
             code += `${i1}query_params = params.model_dump(by_alias=True, exclude_none=True)\n\n`;
         }
 
@@ -526,7 +607,7 @@
         if (Object.keys(parsed.headers).length > 0) {
             code += `${i1}headers = {\n`;
             for (const [key, value] of Object.entries(parsed.headers)) {
-                code += `${i2}'${escapeString(key, 'python')}': '${escapeString(value, 'python')}',\n`;
+                code += `${i2}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
             }
             code += `${i1}}\n\n`;
         }
@@ -534,7 +615,7 @@
         code += `${i1}async with httpx.AsyncClient(timeout=30.0) as client:\n`;
         code += `${i2}try:\n`;
         code += `${i2}${i1}response = await client.${parsed.method.toLowerCase()}(\n`;
-        code += `${i2}${i2}url,\n`;
+        code += `${i2}${i2}target_url,\n`;
         if (hasQueryParams) {
             code += `${i2}${i2}params=query_params,\n`;
         }
@@ -544,25 +625,30 @@
         if (parsed.data && parsed.dataType === 'json') {
             code += `${i2}${i2}json=body.model_dump(),\n`;
         } else if (parsed.data) {
-            code += `${i2}${i2}data='${escapeString(parsed.data, 'python')}',\n`;
+            code += `${i2}${i2}data=${pyStr(parsed.data, opts)},\n`;
         }
         code += `${i2}${i1})\n`;
         code += `${i2}${i1}response.raise_for_status()\n\n`;
 
-        code += `${i2}${i1}# 尝试解析 JSON 响应\n`;
+        code += `${i2}${i1}# 解析响应\n`;
         code += `${i2}${i1}try:\n`;
         code += `${i2}${i2}data = response.json()\n`;
         code += `${i2}${i1}except Exception:\n`;
         code += `${i2}${i2}data = response.text\n\n`;
 
-        code += `${i2}${i1}return ProxyResponse(status_code=response.status_code, data=data)\n\n`;
+        code += `${i2}${i1}return ${responseModelName}(status_code=response.status_code, data=data)\n\n`;
 
         code += `${i2}except httpx.HTTPStatusError as e:\n`;
         code += `${i2}${i1}raise HTTPException(status_code=e.response.status_code, detail=e.response.text)\n`;
         code += `${i2}except httpx.RequestError as e:\n`;
-        code += `${i2}${i1}raise HTTPException(status_code=500, detail=f"请求失败: {e}")\n\n`;
+        code += `${i2}${i1}raise HTTPException(status_code=500, detail=f${q}请求失败: {e}${q})\n\n\n`;
 
-        code += '\n# 运行: uvicorn main:app --reload';
+        // 添加 main 入口
+        code += 'if __name__ == "__main__":\n';
+        code += `${i1}import uvicorn\n`;
+        code += `${i1}# 直接运行: python main.py\n`;
+        code += `${i1}# 访问文档: http://127.0.0.1:8000/docs\n`;
+        code += `${i1}uvicorn.run(app, host=${q}0.0.0.0${q}, port=8000)\n`;
 
         return code;
     }

@@ -11,10 +11,20 @@
     // 确保命名空间存在
     window.CurlGenerators = window.CurlGenerators || {};
 
-    const escapeString = window.CurlGenerators.escapeString;
+    const escapeStringBase = window.CurlGenerators.escapeString;
     const makeIndent = window.CurlGenerators.makeIndent;
     const getDefaultOptions = window.CurlGenerators.getDefaultOptions;
+    const getQuote = window.CurlGenerators.getQuote;
     const getBaseUrl = window.CurlGenerators.getBaseUrl;
+
+    /**
+     * 包装字符串（带引号和转义）
+     */
+    function jsStr(str, opts) {
+        const q = getQuote(opts);
+        const escaped = escapeStringBase(str, 'javascript', opts);
+        return `${q}${escaped}${q}`;
+    }
 
     /**
      * 从 URL 中提取查询参数
@@ -50,33 +60,33 @@
             const baseUrl = getBaseUrl(parsed.url);
 
             if (Object.keys(params).length > 0) {
-                code += `const baseUrl = '${escapeString(baseUrl, 'javascript')}';\n`;
+                code += `const baseUrl = ${jsStr(baseUrl, opts)};\n`;
                 code += 'const params = new URLSearchParams({\n';
                 for (const [key, value] of Object.entries(params)) {
-                    code += `${i1}'${escapeString(key, 'javascript')}': '${escapeString(value, 'javascript')}',\n`;
+                    code += `${i1}${jsStr(key, opts)}: ${jsStr(value, opts)},\n`;
                 }
                 code += '});\n';
                 code += 'const url = `${baseUrl}?${params.toString()}`;\n\n';
             } else {
-                code += `const url = '${escapeString(baseUrl, 'javascript')}';\n\n`;
+                code += `const url = ${jsStr(baseUrl, opts)};\n\n`;
             }
         } else {
-            code += `const url = '${escapeString(parsed.url, 'javascript')}';\n\n`;
+            code += `const url = ${jsStr(parsed.url, opts)};\n\n`;
         }
 
         code += 'fetch(url, {\n';
-        code += `${i1}method: '${parsed.method}',\n`;
+        code += `${i1}method: ${jsStr(parsed.method, opts)},\n`;
 
         if (Object.keys(parsed.headers).length > 0) {
             code += `${i1}headers: {\n`;
             for (const [key, value] of Object.entries(parsed.headers)) {
-                code += `${i2}'${escapeString(key, 'javascript')}': '${escapeString(value, 'javascript')}',\n`;
+                code += `${i2}${jsStr(key, opts)}: ${jsStr(value, opts)},\n`;
             }
             code += `${i1}},\n`;
         }
 
         if (parsed.data) {
-            code += `${i1}body: '${escapeString(parsed.data, 'javascript')}',\n`;
+            code += `${i1}body: ${jsStr(parsed.data, opts)},\n`;
         }
 
         code += '})\n';

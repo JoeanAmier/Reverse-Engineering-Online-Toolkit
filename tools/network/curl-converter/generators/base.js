@@ -15,19 +15,32 @@
      * 转义字符串用于不同语言
      * @param {string} str - 要转义的字符串
      * @param {string} lang - 目标语言
+     * @param {Object} options - 选项（用于 Python 引号样式）
      * @returns {string} 转义后的字符串
      */
-    function escapeString(str, lang) {
+    function escapeString(str, lang, options = {}) {
         if (!str) return '';
 
         switch (lang) {
             case 'python':
+                // 根据引号样式选择转义方式
+                if (options.quoteChar === 'double') {
+                    return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
+                }
                 return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n');
             case 'javascript':
             case 'typescript':
-                return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n');
+                // 根据引号样式选择转义方式
+                if (options.quoteChar === 'double') {
+                    return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
+                }
+                return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n');
             case 'php':
-                return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\$/g, '\\$').replace(/\n/g, '\\n');
+                // 根据引号样式选择转义方式
+                if (options.quoteChar === 'double') {
+                    return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\$/g, '\\$').replace(/\n/g, '\\n');
+                }
+                return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n');
             case 'java':
             case 'kotlin':
                 return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
@@ -38,6 +51,10 @@
             case 'rust':
                 return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
             case 'ruby':
+                // 根据引号样式选择转义方式
+                if (options.quoteChar === 'double') {
+                    return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
+                }
                 return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n');
             case 'swift':
                 return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
@@ -103,8 +120,18 @@
         return {
             useParamsDict: options.useParamsDict || false,
             indentSize: parseInt(options.indentSize) || 4,
-            indentChar: options.indentChar || 'space'
+            indentChar: options.indentChar || 'space',
+            quoteChar: options.quoteChar || 'single'
         };
+    }
+
+    /**
+     * 获取 Python 引号字符
+     * @param {Object} options - 选项
+     * @returns {string} 引号字符
+     */
+    function getQuote(options = {}) {
+        return options.quoteChar === 'double' ? '"' : "'";
     }
 
     /**
@@ -126,6 +153,7 @@
     window.CurlGenerators.getHighlightLanguage = getHighlightLanguage;
     window.CurlGenerators.makeIndent = makeIndent;
     window.CurlGenerators.getDefaultOptions = getDefaultOptions;
+    window.CurlGenerators.getQuote = getQuote;
     window.CurlGenerators.getBaseUrl = getBaseUrl;
 
 })();

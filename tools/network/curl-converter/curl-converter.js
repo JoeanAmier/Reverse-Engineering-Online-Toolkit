@@ -946,11 +946,13 @@
         const useParamsDict = document.getElementById('opt-use-params-dict')?.checked || false;
         const indentSize = parseInt(document.getElementById('opt-indent-size')?.value) || 4;
         const indentChar = document.getElementById('opt-indent-char')?.value || 'space';
+        const quoteChar = document.getElementById('opt-quote-char')?.value || 'single';
 
         return {
             useParamsDict,
             indentSize,
-            indentChar
+            indentChar,
+            quoteChar
         };
     }
 
@@ -1443,7 +1445,8 @@
         // 选项变化时重新生成代码
         if (e.target.id === 'opt-use-params-dict' ||
             e.target.id === 'opt-indent-size' ||
-            e.target.id === 'opt-indent-char') {
+            e.target.id === 'opt-indent-char' ||
+            e.target.id === 'opt-quote-char') {
             const input = getEditorValue(genInputEditor, 'gen-input');
             const selectEl = document.getElementById('code-language-select');
             const language = selectEl?.value;
