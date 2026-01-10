@@ -255,6 +255,13 @@
                 // 更新页面标题
                 document.title = `${REOT.i18n?.t(`tools.${tool.id}.title`) || tool.name} - REOT`;
 
+                // 初始化工具页面的快速访问按钮
+                if (REOT.tools?.initToolPageQuickAccess) {
+                    setTimeout(() => {
+                        REOT.tools.initToolPageQuickAccess();
+                    }, 100);
+                }
+
             } catch (error) {
                 console.error('加载工具页面失败:', error);
                 container.innerHTML = `

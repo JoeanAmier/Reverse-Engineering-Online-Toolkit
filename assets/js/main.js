@@ -72,12 +72,101 @@
                     REOT.tools.initHomeGrid();
                 });
 
+                // 获取 GitHub 统计数据
+                this.fetchGitHubStats();
+
                 this.initialized = true;
                 console.log('REOT 初始化完成');
 
             } catch (error) {
                 console.error('REOT 初始化失败:', error);
             }
+        },
+
+        /**
+         * 获取 GitHub 统计数据
+         */
+        async fetchGitHubStats() {
+            const owner = 'Evil0ctal';
+            const repo = 'Reverse-Engineering-Online-Toolkit';
+            const cacheKey = 'github_stats_cache';
+            const cacheExpiry = 10 * 60 * 1000; // 10 分钟缓存
+
+            // 尝试从缓存读取
+            const cached = REOT.utils?.storage?.get(cacheKey, null);
+            if (cached && cached.timestamp && (Date.now() - cached.timestamp < cacheExpiry)) {
+                this.updateGitHubStatsUI(cached.data);
+                return;
+            }
+
+            try {
+                // 并行请求 repo 信息和 issues/PRs
+                const [repoResponse, issuesResponse, prsResponse] = await Promise.all([
+                    fetch(`https://api.github.com/repos/${owner}/${repo}`),
+                    fetch(`https://api.github.com/repos/${owner}/${repo}/issues?state=open&per_page=1`),
+                    fetch(`https://api.github.com/repos/${owner}/${repo}/pulls?state=open&per_page=1`)
+                ]);
+
+                if (!repoResponse.ok) throw new Error('Failed to fetch repo data');
+
+                const repoData = await repoResponse.json();
+
+                // 从 Link header 获取 issues 和 PRs 总数
+                const issuesCount = this.getCountFromLinkHeader(issuesResponse.headers.get('Link')) ||
+                    (await issuesResponse.json()).length || 0;
+                const prsCount = this.getCountFromLinkHeader(prsResponse.headers.get('Link')) ||
+                    (await prsResponse.json()).length || 0;
+
+                const stats = {
+                    stars: repoData.stargazers_count || 0,
+                    forks: repoData.forks_count || 0,
+                    issues: repoData.open_issues_count - prsCount, // open_issues_count 包含 PRs
+                    prs: prsCount
+                };
+
+                // 缓存数据
+                REOT.utils?.storage?.set(cacheKey, {
+                    data: stats,
+                    timestamp: Date.now()
+                });
+
+                this.updateGitHubStatsUI(stats);
+
+            } catch (error) {
+                console.warn('获取 GitHub 统计数据失败:', error);
+                // 静默失败，保持显示 "-"
+            }
+        },
+
+        /**
+         * 从 Link header 获取总数
+         */
+        getCountFromLinkHeader(linkHeader) {
+            if (!linkHeader) return null;
+            const match = linkHeader.match(/page=(\d+)>; rel="last"/);
+            return match ? parseInt(match[1], 10) : null;
+        },
+
+        /**
+         * 更新 GitHub 统计 UI
+         */
+        updateGitHubStatsUI(stats) {
+            const formatNumber = (num) => {
+                if (num >= 1000) {
+                    return (num / 1000).toFixed(1) + 'k';
+                }
+                return num.toString();
+            };
+
+            const starsEl = document.getElementById('github-stars');
+            const forksEl = document.getElementById('github-forks');
+            const issuesEl = document.getElementById('github-issues');
+            const prsEl = document.getElementById('github-prs');
+
+            if (starsEl) starsEl.textContent = formatNumber(stats.stars);
+            if (forksEl) forksEl.textContent = formatNumber(stats.forks);
+            if (issuesEl) issuesEl.textContent = formatNumber(stats.issues);
+            if (prsEl) prsEl.textContent = formatNumber(stats.prs);
         },
 
         /**

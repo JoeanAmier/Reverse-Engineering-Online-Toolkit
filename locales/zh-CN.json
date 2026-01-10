@@ -40,8 +40,30 @@
     "home": {
         "title": "逆向工程在线工具箱",
         "subtitle": "纯前端实现，数据不上传，保护您的隐私安全",
+        "badge": "纯前端 · 零服务器",
+        "exploreTools": "探索工具",
         "quickAccess": "快速访问",
         "allTools": "所有工具",
+        "stats": {
+            "tools": "实用工具",
+            "categories": "工具分类",
+            "privacy": "本地处理",
+            "latency": "网络延迟"
+        },
+        "editQuickAccess": "编辑",
+        "resetQuickAccess": "重置",
+        "quickAccessHint": "点击工具卡片上的星标来添加或移除快速访问",
+        "noQuickAccess": "还没有快速访问工具",
+        "addQuickAccessHint": "点击下方工具卡片的星标添加",
+        "browseByCategory": "按分类浏览",
+        "more": "更多",
+        "toolCount": "{count} 个工具",
+        "confirmReset": "确定要重置快速访问为默认设置吗？",
+        "addToQuickAccess": "添加到快速访问",
+        "removeFromQuickAccess": "从快速访问移除",
+        "inQuickAccess": "已在快速访问",
+        "addedToQuickAccess": "已添加到快速访问",
+        "removedFromQuickAccess": "已从快速访问移除",
         "features": {
             "local": {
                 "title": "本地计算",

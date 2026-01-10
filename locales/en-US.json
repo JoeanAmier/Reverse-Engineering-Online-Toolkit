@@ -40,8 +40,30 @@
     "home": {
         "title": "Reverse Engineering Online Toolkit",
         "subtitle": "Pure frontend implementation, data never uploaded, protecting your privacy",
+        "badge": "Pure Frontend · Zero Server",
+        "exploreTools": "Explore Tools",
         "quickAccess": "Quick Access",
         "allTools": "All Tools",
+        "stats": {
+            "tools": "Useful Tools",
+            "categories": "Categories",
+            "privacy": "Local Processing",
+            "latency": "Network Latency"
+        },
+        "editQuickAccess": "Edit",
+        "resetQuickAccess": "Reset",
+        "quickAccessHint": "Click the star on tool cards to add or remove from quick access",
+        "noQuickAccess": "No quick access tools yet",
+        "addQuickAccessHint": "Click the star on tools below to add",
+        "browseByCategory": "Browse by Category",
+        "more": "more",
+        "toolCount": "{count} tools",
+        "confirmReset": "Are you sure you want to reset quick access to default?",
+        "addToQuickAccess": "Add to Quick Access",
+        "removeFromQuickAccess": "Remove from Quick Access",
+        "inQuickAccess": "In Quick Access",
+        "addedToQuickAccess": "Added to Quick Access",
+        "removedFromQuickAccess": "Removed from Quick Access",
         "features": {
             "local": {
                 "title": "Local Computing",

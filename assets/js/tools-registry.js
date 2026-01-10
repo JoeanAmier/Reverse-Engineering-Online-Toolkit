@@ -18,6 +18,12 @@
         // 已注册的工具列表
         registry: [],
 
+        // 编辑模式
+        editMode: false,
+
+        // 所有工具是否折叠
+        allToolsCollapsed: true,
+
         // 分类配置
         categories: {
             encoding: {
@@ -167,15 +173,116 @@
             return this.registry.filter(tool => tool.category === category);
         },
 
+        // 默认快速访问工具列表（按使用频率排序）
+        defaultQuickAccessIds: [
+            'json',              // JSON 格式化 - 最常用
+            'base64',            // Base64 编解码
+            'curl-converter',    // cURL 转换器 - 开发者常用
+            'jwt',               // JWT 解析 - API 开发
+            'url-encode',        // URL 编解码
+            'hex-viewer',        // Hex 查看器 - 逆向工程
+            'regex',             // 正则表达式测试
+            'md5',               // MD5 哈希
+            'protobuf',          // Protobuf 解码 - 逆向工程
+            'aes',               // AES 加解密
+            'uuid',              // UUID 生成
+            'qrcode'             // 二维码生成
+        ],
+
         /**
-         * 获取热门工具
+         * 获取用户自定义的快速访问工具ID列表
+         * @returns {Array}
+         */
+        getQuickAccessIds() {
+            const saved = REOT.utils?.storage?.get('quickAccessTools', null);
+            if (saved && Array.isArray(saved)) {
+                return saved;
+            }
+            // 返回默认的快速访问列表（按使用频率排序）
+            return [...this.defaultQuickAccessIds];
+        },
+
+        /**
+         * 保存快速访问工具ID列表
+         * @param {Array} ids - 工具ID数组
+         */
+        saveQuickAccessIds(ids) {
+            REOT.utils?.storage?.set('quickAccessTools', ids);
+        },
+
+        /**
+         * 检查工具是否在快速访问中
+         * @param {string} toolId - 工具ID
+         * @returns {boolean}
+         */
+        isInQuickAccess(toolId) {
+            return this.getQuickAccessIds().includes(toolId);
+        },
+
+        /**
+         * 添加工具到快速访问
+         * @param {string} toolId - 工具ID
+         */
+        addToQuickAccess(toolId) {
+            const ids = this.getQuickAccessIds();
+            if (!ids.includes(toolId)) {
+                ids.push(toolId);
+                this.saveQuickAccessIds(ids);
+            }
+        },
+
+        /**
+         * 从快速访问移除工具
+         * @param {string} toolId - 工具ID
+         */
+        removeFromQuickAccess(toolId) {
+            const ids = this.getQuickAccessIds().filter(id => id !== toolId);
+            this.saveQuickAccessIds(ids);
+        },
+
+        /**
+         * 重置快速访问为默认
+         */
+        resetQuickAccess() {
+            REOT.utils?.storage?.remove('quickAccessTools');
+        },
+
+        /**
+         * 获取热门工具（现在基于用户自定义）
          * @param {number} limit - 数量限制
          * @returns {Array}
          */
-        getPopular(limit = 8) {
-            return this.registry
-                .filter(tool => tool.popular)
+        getPopular(limit = 12) {
+            const ids = this.getQuickAccessIds();
+            return ids
+                .map(id => this.getById(id))
+                .filter(Boolean)
                 .slice(0, limit);
+        },
+
+        /**
+         * 检查用户是否自定义过快速访问
+         * @returns {boolean}
+         */
+        hasCustomQuickAccess() {
+            return REOT.utils?.storage?.get('quickAccessTools', null) !== null;
+        },
+
+        /**
+         * 获取所有工具折叠状态
+         * @returns {boolean}
+         */
+        getAllToolsCollapsed() {
+            return REOT.utils?.storage?.get('allToolsCollapsed', true);
+        },
+
+        /**
+         * 保存所有工具折叠状态
+         * @param {boolean} collapsed
+         */
+        setAllToolsCollapsed(collapsed) {
+            this.allToolsCollapsed = collapsed;
+            REOT.utils?.storage?.set('allToolsCollapsed', collapsed);
         },
 
         /**
@@ -277,33 +384,265 @@
          * 初始化首页工具网格
          */
         initHomeGrid() {
-            // 热门工具
-            const popularGrid = document.getElementById('popular-tools');
-            if (popularGrid) {
-                const popularTools = this.getPopular();
-                popularGrid.innerHTML = popularTools.map(tool => this.createToolCard(tool)).join('');
+            // 更新首页统计数据
+            this.updateHomeStats();
+
+            // 初始化快速访问
+            this.renderQuickAccess();
+
+            // 初始化分类卡片
+            this.renderCategoryCards();
+
+            // 初始化所有工具（折叠状态）
+            this.renderAllTools();
+
+            // 初始化编辑模式按钮
+            this.initQuickAccessEdit();
+
+            // 初始化折叠功能
+            this.initAllToolsCollapse();
+        },
+
+        /**
+         * 更新首页统计数据（工具数量、分类数量）
+         */
+        updateHomeStats() {
+            // 更新工具数量
+            const toolCountEl = document.getElementById('stat-tools');
+            if (toolCountEl) {
+                toolCountEl.textContent = this.registry.length + '+';
             }
 
-            // 所有工具
-            const allGrid = document.getElementById('all-tools');
-            if (allGrid) {
-                allGrid.innerHTML = this.registry.map(tool => this.createToolCard(tool)).join('');
+            // 更新分类数量
+            const categoryCountEl = document.getElementById('stat-categories');
+            if (categoryCountEl) {
+                const categoriesWithTools = this.getCategories().filter(cat =>
+                    this.getByCategory(cat.id).length > 0
+                );
+                categoryCountEl.textContent = categoriesWithTools.length;
             }
+        },
+
+        /**
+         * 渲染快速访问区域
+         */
+        renderQuickAccess() {
+            const popularGrid = document.getElementById('popular-tools');
+            const emptyState = document.getElementById('quick-access-empty');
+            const resetBtn = document.getElementById('reset-quick-access');
+
+            if (!popularGrid) return;
+
+            const popularTools = this.getPopular();
+
+            if (popularTools.length === 0) {
+                popularGrid.style.display = 'none';
+                if (emptyState) emptyState.style.display = 'flex';
+            } else {
+                popularGrid.style.display = 'grid';
+                if (emptyState) emptyState.style.display = 'none';
+                popularGrid.innerHTML = popularTools.map(tool =>
+                    this.createToolCard(tool, { showStar: this.editMode, isStarred: true })
+                ).join('');
+            }
+
+            // 显示/隐藏重置按钮
+            if (resetBtn) {
+                resetBtn.style.display = this.hasCustomQuickAccess() ? 'inline-flex' : 'none';
+            }
+        },
+
+        /**
+         * 渲染分类卡片
+         */
+        renderCategoryCards() {
+            const container = document.getElementById('category-cards');
+            if (!container) return;
+
+            const categories = this.getCategories();
+
+            container.innerHTML = categories.map(category => {
+                const tools = this.getByCategory(category.id);
+                if (tools.length === 0) return '';
+
+                const categoryName = REOT.i18n?.t(`categories.${category.id}`) || category.id;
+
+                return `
+                    <div class="category-card" data-category="${category.id}">
+                        <div class="category-card__header">
+                            <span class="category-card__icon">${category.icon}</span>
+                            <span class="category-card__name">${categoryName}</span>
+                            <span class="category-card__count">${tools.length}</span>
+                        </div>
+                        <div class="category-card__tools">
+                            ${tools.map(tool => {
+                                const name = REOT.i18n?.t(tool.name) || tool.name;
+                                return `
+                                    <a href="${tool.path}" class="category-tool-link" data-route="${tool.path}" title="${name}">
+                                        <span class="category-tool-icon">${tool.icon}</span>
+                                        <span class="category-tool-name">${name}</span>
+                                    </a>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        },
+
+        /**
+         * 渲染所有工具区域
+         */
+        renderAllTools() {
+            const allGrid = document.getElementById('all-tools');
+            const toolCount = document.getElementById('tool-count');
+            const toggleBtn = document.getElementById('toggle-all-tools');
+
+            if (!allGrid) return;
+
+            // 设置工具数量
+            if (toolCount) {
+                const countText = REOT.i18n?.t('home.toolCount') || '{count} 个工具';
+                toolCount.textContent = countText.replace('{count}', this.registry.length);
+            }
+
+            // 渲染工具卡片
+            allGrid.innerHTML = this.registry.map(tool =>
+                this.createToolCard(tool, { showStar: this.editMode, isStarred: this.isInQuickAccess(tool.id) })
+            ).join('');
+
+            // 恢复折叠状态
+            this.allToolsCollapsed = this.getAllToolsCollapsed();
+            this.updateCollapseState();
+        },
+
+        /**
+         * 初始化快速访问编辑功能
+         */
+        initQuickAccessEdit() {
+            const editBtn = document.getElementById('edit-quick-access');
+            const resetBtn = document.getElementById('reset-quick-access');
+            const hint = document.getElementById('quick-access-hint');
+
+            if (editBtn) {
+                editBtn.addEventListener('click', () => {
+                    this.editMode = !this.editMode;
+                    editBtn.classList.toggle('active', this.editMode);
+                    if (hint) hint.style.display = this.editMode ? 'block' : 'none';
+
+                    // 重新渲染
+                    this.renderQuickAccess();
+                    this.renderAllTools();
+                });
+            }
+
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    if (confirm(REOT.i18n?.t('home.confirmReset') || '确定要重置快速访问为默认设置吗？')) {
+                        this.resetQuickAccess();
+                        this.renderQuickAccess();
+                        this.renderAllTools();
+                    }
+                });
+            }
+        },
+
+        /**
+         * 初始化所有工具折叠功能
+         */
+        initAllToolsCollapse() {
+            const header = document.getElementById('all-tools-header');
+            const toggleBtn = document.getElementById('toggle-all-tools');
+
+            if (header) {
+                header.addEventListener('click', () => {
+                    this.allToolsCollapsed = !this.allToolsCollapsed;
+                    this.setAllToolsCollapsed(this.allToolsCollapsed);
+                    this.updateCollapseState();
+                });
+            }
+        },
+
+        /**
+         * 更新折叠状态
+         */
+        updateCollapseState() {
+            const allGrid = document.getElementById('all-tools');
+            const toggleBtn = document.getElementById('toggle-all-tools');
+            const section = document.getElementById('all-tools-section');
+
+            if (allGrid) {
+                allGrid.classList.toggle('collapsed', this.allToolsCollapsed);
+            }
+            if (section) {
+                section.classList.toggle('collapsed', this.allToolsCollapsed);
+            }
+        },
+
+        /**
+         * 展开所有工具并滚动到指定分类
+         */
+        expandAllToolsAndScrollTo(categoryId) {
+            this.allToolsCollapsed = false;
+            this.setAllToolsCollapsed(false);
+            this.updateCollapseState();
+
+            // 滚动到所有工具区域
+            setTimeout(() => {
+                const section = document.getElementById('all-tools-section');
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        },
+
+        /**
+         * 处理星标点击
+         */
+        handleStarClick(toolId, e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (this.isInQuickAccess(toolId)) {
+                this.removeFromQuickAccess(toolId);
+            } else {
+                this.addToQuickAccess(toolId);
+            }
+
+            // 重新渲染
+            this.renderQuickAccess();
+            this.renderAllTools();
         },
 
         /**
          * 创建工具卡片HTML
          * @param {Object} tool - 工具配置
+         * @param {Object} options - 选项
          * @returns {string}
          */
-        createToolCard(tool) {
+        createToolCard(tool, options = {}) {
+            const { showStar = false, isStarred = false } = options;
             const name = REOT.i18n?.t(tool.name) || tool.name;
             const desc = REOT.i18n?.t(tool.description) || tool.description;
 
+            const starHtml = showStar ? `
+                <button class="tool-card__star ${isStarred ? 'starred' : ''}"
+                        onclick="REOT.tools.handleStarClick('${tool.id}', event)"
+                        title="${isStarred ?
+                            (REOT.i18n?.t('home.removeFromQuickAccess') || '从快速访问移除') :
+                            (REOT.i18n?.t('home.addToQuickAccess') || '添加到快速访问')}">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="${isStarred ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                </button>
+            ` : '';
+
             return `
                 <a href="${tool.path}"
-                   class="tool-card"
-                   data-route="${tool.path}">
+                   class="tool-card ${showStar ? 'tool-card--editable' : ''}"
+                   data-route="${tool.path}"
+                   data-tool-id="${tool.id}">
+                    ${starHtml}
                     <span class="tool-card__icon">${tool.icon}</span>
                     <span class="tool-card__name">${name}</span>
                     ${desc ? `<span class="tool-card__desc">${desc}</span>` : ''}
@@ -388,25 +727,62 @@
                 searchResults.innerHTML = results.map(tool => {
                     const name = REOT.i18n?.t(tool.name) || tool.name;
                     const categoryName = REOT.i18n?.t(`categories.${tool.category}`) || tool.category;
+                    const isStarred = this.isInQuickAccess(tool.id);
+                    const starTitle = isStarred ?
+                        (REOT.i18n?.t('home.removeFromQuickAccess') || '从快速访问移除') :
+                        (REOT.i18n?.t('home.addToQuickAccess') || '添加到快速访问');
 
                     return `
-                        <div class="search-result-item" data-path="${tool.path}">
+                        <div class="search-result-item" data-path="${tool.path}" data-tool-id="${tool.id}">
                             <span class="search-result-item__icon">${tool.icon}</span>
                             <div class="search-result-item__info">
                                 <div class="search-result-item__name">${name}</div>
                                 <div class="search-result-item__category">${categoryName}</div>
                             </div>
+                            <button class="search-result-item__star ${isStarred ? 'starred' : ''}"
+                                    data-tool-id="${tool.id}"
+                                    title="${starTitle}">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="${isStarred ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                </svg>
+                            </button>
                         </div>
                     `;
                 }).join('');
 
                 // 绑定点击事件
                 searchResults.querySelectorAll('.search-result-item').forEach(item => {
-                    item.addEventListener('click', () => {
+                    // 主区域点击跳转
+                    item.addEventListener('click', (e) => {
+                        // 如果点击的是星标按钮，不跳转
+                        if (e.target.closest('.search-result-item__star')) {
+                            return;
+                        }
                         const path = item.getAttribute('data-path');
                         REOT.router.navigate(path);
                         searchOverlay.style.display = 'none';
                         document.getElementById('search-input').value = '';
+                    });
+                });
+
+                // 绑定星标点击事件
+                searchResults.querySelectorAll('.search-result-item__star').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const toolId = btn.getAttribute('data-tool-id');
+                        this.toggleQuickAccess(toolId);
+
+                        // 更新按钮状态
+                        const isNowStarred = this.isInQuickAccess(toolId);
+                        btn.classList.toggle('starred', isNowStarred);
+                        btn.querySelector('svg').setAttribute('fill', isNowStarred ? 'currentColor' : 'none');
+                        btn.title = isNowStarred ?
+                            (REOT.i18n?.t('home.removeFromQuickAccess') || '从快速访问移除') :
+                            (REOT.i18n?.t('home.addToQuickAccess') || '添加到快速访问');
+
+                        // 显示提示
+                        this.showQuickAccessToast(toolId, isNowStarred);
                     });
                 });
             }
@@ -416,6 +792,140 @@
             // 更新国际化文本
             if (REOT.i18n) {
                 REOT.i18n.updatePageTexts();
+            }
+        },
+
+        /**
+         * 切换快速访问状态
+         * @param {string} toolId - 工具ID
+         */
+        toggleQuickAccess(toolId) {
+            if (this.isInQuickAccess(toolId)) {
+                this.removeFromQuickAccess(toolId);
+            } else {
+                this.addToQuickAccess(toolId);
+            }
+        },
+
+        /**
+         * 显示快速访问操作提示
+         * @param {string} toolId - 工具ID
+         * @param {boolean} added - 是否添加
+         */
+        showQuickAccessToast(toolId, added) {
+            const tool = this.getById(toolId);
+            if (!tool) return;
+
+            const name = REOT.i18n?.t(tool.name) || tool.name;
+            const message = added ?
+                (REOT.i18n?.t('home.addedToQuickAccess') || '已添加到快速访问').replace('{name}', name) :
+                (REOT.i18n?.t('home.removedFromQuickAccess') || '已从快速访问移除').replace('{name}', name);
+
+            // 创建或复用 toast 元素
+            let toast = document.getElementById('quick-access-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'quick-access-toast';
+                toast.className = 'quick-access-toast';
+                document.body.appendChild(toast);
+            }
+
+            toast.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="${added ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                <span>${message}</span>
+            `;
+
+            // 显示动画
+            toast.classList.remove('hide');
+            toast.classList.add('show');
+
+            // 3秒后隐藏
+            clearTimeout(toast._hideTimer);
+            toast._hideTimer = setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('hide');
+            }, 2500);
+        },
+
+        /**
+         * 在工具页面创建快速访问按钮
+         * @param {string} toolId - 工具ID
+         */
+        createToolPageQuickAccessBtn(toolId) {
+            const tool = this.getById(toolId);
+            if (!tool) return null;
+
+            const isStarred = this.isInQuickAccess(toolId);
+            const btn = document.createElement('button');
+            btn.className = `tool-page-quick-access ${isStarred ? 'starred' : ''}`;
+            btn.title = isStarred ?
+                (REOT.i18n?.t('home.removeFromQuickAccess') || '从快速访问移除') :
+                (REOT.i18n?.t('home.addToQuickAccess') || '添加到快速访问');
+
+            btn.innerHTML = `
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="${isStarred ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                <span>${isStarred ?
+                    (REOT.i18n?.t('home.inQuickAccess') || '已在快速访问') :
+                    (REOT.i18n?.t('home.addToQuickAccess') || '添加到快速访问')}</span>
+            `;
+
+            btn.addEventListener('click', () => {
+                this.toggleQuickAccess(toolId);
+                const isNowStarred = this.isInQuickAccess(toolId);
+
+                // 更新按钮状态
+                btn.classList.toggle('starred', isNowStarred);
+                btn.querySelector('svg').setAttribute('fill', isNowStarred ? 'currentColor' : 'none');
+                btn.querySelector('span').textContent = isNowStarred ?
+                    (REOT.i18n?.t('home.inQuickAccess') || '已在快速访问') :
+                    (REOT.i18n?.t('home.addToQuickAccess') || '添加到快速访问');
+                btn.title = isNowStarred ?
+                    (REOT.i18n?.t('home.removeFromQuickAccess') || '从快速访问移除') :
+                    (REOT.i18n?.t('home.addToQuickAccess') || '添加到快速访问');
+
+                // 显示提示
+                this.showQuickAccessToast(toolId, isNowStarred);
+            });
+
+            return btn;
+        },
+
+        /**
+         * 初始化当前工具页面的快速访问按钮
+         */
+        initToolPageQuickAccess() {
+            // 获取当前路径对应的工具
+            const currentPath = window.location.pathname;
+            const tool = this.getByPath(currentPath);
+
+            if (!tool) return;
+
+            // 查找工具页面的标题区域
+            const toolHeader = document.querySelector('.tool-header');
+            if (!toolHeader) return;
+
+            // 检查是否已经存在按钮
+            if (toolHeader.querySelector('.tool-page-quick-access')) return;
+
+            // 创建按钮并添加到标题区域
+            const btn = this.createToolPageQuickAccessBtn(tool.id);
+            if (btn) {
+                // 创建按钮容器
+                const container = document.createElement('div');
+                container.className = 'tool-header__actions';
+                container.appendChild(btn);
+
+                // 插入到标题后面
+                const title = toolHeader.querySelector('h1');
+                if (title) {
+                    title.parentNode.insertBefore(container, title.nextSibling);
+                } else {
+                    toolHeader.appendChild(container);
+                }
             }
         }
     };
@@ -1167,7 +1677,8 @@
             description: 'tools.protobuf.description',
             icon: '📦',
             path: '/tools/protocol/protobuf/',
-            keywords: ['protobuf', 'protocol buffers', 'google', 'binary', '解码', '二进制']
+            keywords: ['protobuf', 'protocol buffers', 'google', 'binary', '解码', '二进制'],
+            popular: true
         },
 
         // ========== 生成器（新增） ==========
@@ -1189,7 +1700,8 @@
             description: 'tools.curl-converter.description',
             icon: '🔄',
             path: '/tools/network/curl-converter/',
-            keywords: ['curl', 'convert', 'python', 'javascript', 'php', 'go', '转换', '代码']
+            keywords: ['curl', 'convert', 'python', 'javascript', 'php', 'go', '转换', '代码'],
+            popular: true
         },
 
         // ========== 加密工具（综合） ==========

@@ -41,6 +41,11 @@
     <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
     <link rel="apple-touch-icon" href="assets/images/logo.svg">
 
+    <!-- Google Fonts - Tech Startup & Developer -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
     <!-- Styles -->
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/themes/light.css" id="theme-light">
@@ -239,44 +244,235 @@
         <main class="app-main" id="main">
             <!-- 首页内容 -->
             <div class="home-content" id="home-content">
+                <!-- Hero Section with Gradient Background -->
                 <section class="hero">
-                    <h1 class="hero-title" data-i18n="home.title">逆向工程在线工具箱</h1>
-                    <p class="hero-subtitle" data-i18n="home.subtitle">纯前端实现，数据不上传，保护您的隐私安全</p>
+                    <div class="hero-glow"></div>
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                            <span data-i18n="home.badge">纯前端 · 零服务器</span>
+                        </div>
+                        <h1 class="hero-title" data-i18n="home.title">逆向工程在线工具箱</h1>
+                        <p class="hero-subtitle" data-i18n="home.subtitle">纯前端实现，数据不上传，保护您的隐私安全</p>
+                        <div class="hero-actions">
+                            <a href="#all-tools-section" class="hero-btn hero-btn--primary">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7"/>
+                                    <rect x="14" y="3" width="7" height="7"/>
+                                    <rect x="14" y="14" width="7" height="7"/>
+                                    <rect x="3" y="14" width="7" height="7"/>
+                                </svg>
+                                <span data-i18n="home.exploreTools">探索工具</span>
+                            </a>
+                            <a href="https://github.com/Evil0ctal/Reverse-Engineering-Online-Toolkit" target="_blank" rel="noopener noreferrer" class="hero-btn hero-btn--secondary">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                                </svg>
+                                <span>GitHub</span>
+                            </a>
+                        </div>
+                        <!-- GitHub Stats Badges -->
+                        <div class="github-stats">
+                            <a href="https://github.com/Evil0ctal/Reverse-Engineering-Online-Toolkit/stargazers" target="_blank" rel="noopener noreferrer" class="github-stat-badge" title="GitHub Stars">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                </svg>
+                                <span>Stars</span>
+                                <span class="github-stat-count" id="github-stars">-</span>
+                            </a>
+                            <a href="https://github.com/Evil0ctal/Reverse-Engineering-Online-Toolkit/issues" target="_blank" rel="noopener noreferrer" class="github-stat-badge" title="Open Issues">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="12" y1="8" x2="12" y2="12"/>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                                </svg>
+                                <span>Issues</span>
+                                <span class="github-stat-count" id="github-issues">-</span>
+                            </a>
+                            <a href="https://github.com/Evil0ctal/Reverse-Engineering-Online-Toolkit/pulls" target="_blank" rel="noopener noreferrer" class="github-stat-badge" title="Pull Requests">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="18" cy="18" r="3"/>
+                                    <circle cx="6" cy="6" r="3"/>
+                                    <path d="M13 6h3a2 2 0 0 1 2 2v7"/>
+                                    <line x1="6" y1="9" x2="6" y2="21"/>
+                                </svg>
+                                <span>PRs</span>
+                                <span class="github-stat-count" id="github-prs">-</span>
+                            </a>
+                            <a href="https://github.com/Evil0ctal/Reverse-Engineering-Online-Toolkit/network/members" target="_blank" rel="noopener noreferrer" class="github-stat-badge" title="Forks">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="18" r="3"/>
+                                    <circle cx="6" cy="6" r="3"/>
+                                    <circle cx="18" cy="6" r="3"/>
+                                    <path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/>
+                                    <line x1="12" y1="12" x2="12" y2="15"/>
+                                </svg>
+                                <span>Forks</span>
+                                <span class="github-stat-count" id="github-forks">-</span>
+                            </a>
+                        </div>
+                    </div>
                 </section>
 
+                <!-- Stats Section -->
+                <section class="stats-section">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7"/>
+                                    <rect x="14" y="3" width="7" height="7"/>
+                                    <rect x="14" y="14" width="7" height="7"/>
+                                    <rect x="3" y="14" width="7" height="7"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number" id="stat-tools">--</span>
+                                <span class="stat-label" data-i18n="home.stats.tools">实用工具</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number" id="stat-categories">--</span>
+                                <span class="stat-label" data-i18n="home.stats.categories">工具分类</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number">100%</span>
+                                <span class="stat-label" data-i18n="home.stats.privacy">本地处理</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number">0ms</span>
+                                <span class="stat-label" data-i18n="home.stats.latency">网络延迟</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Features Section with SVG Icons -->
                 <section class="features">
                     <div class="feature-card">
-                        <div class="feature-icon">🌐</div>
+                        <div class="feature-icon-wrapper">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                <line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                        </div>
                         <h3 class="feature-title" data-i18n="home.features.local.title">本地计算</h3>
                         <p class="feature-desc" data-i18n="home.features.local.desc">所有计算均在浏览器本地完成</p>
                     </div>
                     <div class="feature-card">
-                        <div class="feature-icon">🚀</div>
+                        <div class="feature-icon-wrapper">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
+                        </div>
                         <h3 class="feature-title" data-i18n="home.features.fast.title">即开即用</h3>
                         <p class="feature-desc" data-i18n="home.features.fast.desc">无需安装，打开浏览器即可使用</p>
                     </div>
                     <div class="feature-card">
-                        <div class="feature-icon">🔒</div>
+                        <div class="feature-icon-wrapper">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                        </div>
                         <h3 class="feature-title" data-i18n="home.features.secure.title">隐私安全</h3>
                         <p class="feature-desc" data-i18n="home.features.secure.desc">数据不会上传至服务器</p>
                     </div>
                     <div class="feature-card">
-                        <div class="feature-icon">📱</div>
+                        <div class="feature-icon-wrapper">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                                <line x1="12" y1="18" x2="12.01" y2="18"/>
+                            </svg>
+                        </div>
                         <h3 class="feature-title" data-i18n="home.features.responsive.title">响应式设计</h3>
                         <p class="feature-desc" data-i18n="home.features.responsive.desc">适配桌面端和移动端</p>
                     </div>
                 </section>
 
-                <section class="quick-access">
-                    <h2 class="section-title" data-i18n="home.quickAccess">快速访问</h2>
+                <!-- Quick Access Section with Customization -->
+                <section class="quick-access" id="quick-access-section">
+                    <div class="section-header">
+                        <h2 class="section-title" data-i18n="home.quickAccess">快速访问</h2>
+                        <div class="section-actions">
+                            <button class="section-action-btn" id="edit-quick-access" title="编辑快速访问">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                                <span data-i18n="home.editQuickAccess">编辑</span>
+                            </button>
+                            <button class="section-action-btn" id="reset-quick-access" title="重置为默认" style="display: none;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="1 4 1 10 7 10"/>
+                                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                                </svg>
+                                <span data-i18n="home.resetQuickAccess">重置</span>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="section-hint" id="quick-access-hint" style="display: none;" data-i18n="home.quickAccessHint">点击工具卡片上的星标来添加或移除快速访问</p>
                     <div class="tool-grid" id="popular-tools">
+                        <!-- 由 JavaScript 动态填充 -->
+                    </div>
+                    <div class="empty-state" id="quick-access-empty" style="display: none;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        <p data-i18n="home.noQuickAccess">还没有快速访问工具</p>
+                        <span data-i18n="home.addQuickAccessHint">点击下方工具卡片的星标添加</span>
+                    </div>
+                </section>
+
+                <!-- Category Tools Section -->
+                <section class="category-tools-section" id="category-tools-section">
+                    <div class="section-header">
+                        <h2 class="section-title" data-i18n="home.browseByCategory">按分类浏览</h2>
+                    </div>
+                    <div class="category-cards-grid" id="category-cards">
                         <!-- 由 JavaScript 动态填充 -->
                     </div>
                 </section>
 
-                <section class="all-tools">
-                    <h2 class="section-title" data-i18n="home.allTools">所有工具</h2>
-                    <div class="tool-grid" id="all-tools">
+                <!-- All Tools Section with Collapse -->
+                <section class="all-tools" id="all-tools-section">
+                    <div class="section-header section-header--collapsible" id="all-tools-header">
+                        <h2 class="section-title" data-i18n="home.allTools">所有工具</h2>
+                        <button class="collapse-toggle" id="toggle-all-tools">
+                            <span class="tool-count" id="tool-count"></span>
+                            <svg class="collapse-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="tool-grid collapsible" id="all-tools">
                         <!-- 由 JavaScript 动态填充 -->
                     </div>
                 </section>
