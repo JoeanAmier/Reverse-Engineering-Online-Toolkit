@@ -1,5 +1,9 @@
 # 贡献指南
 
+[English](./CONTRIBUTING_EN.md) | [简体中文](./CONTRIBUTING.md)
+
+---
+
 感谢您对 REOT (Reverse Engineering Online Toolkit) 的关注！我们欢迎所有形式的贡献，包括但不限于：
 
 - 提交 Bug 报告
