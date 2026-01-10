@@ -20,7 +20,6 @@
     <div class="tool-container">
         <header class="tool-header">
             <h1 data-i18n="tools.curl-converter.title">cURL 解析器</h1>
-            <p data-i18n="tools.curl-converter.description">解析、对比、编辑 cURL 命令并转换为多种编程语言代码</p>
         </header>
 
         <main class="tool-main">
@@ -33,6 +32,20 @@
 
             <!-- 解析功能区 -->
             <div id="parse-section" class="feature-section active">
+                <!-- 功能介绍 -->
+                <div class="feature-intro">
+                    <div class="feature-intro__icon">🔍</div>
+                    <div class="feature-intro__content">
+                        <h3 class="feature-intro__title" data-i18n="tools.curl-converter.intro.parse.title">解析 cURL 命令</h3>
+                        <p class="feature-intro__desc" data-i18n="tools.curl-converter.intro.parse.desc">将 cURL 命令解析为结构化数据，方便查看和编辑请求的各个部分。</p>
+                        <ul class="feature-intro__list">
+                            <li data-i18n="tools.curl-converter.intro.parse.feature1">📋 自动提取 URL、请求方法、请求头、请求体等信息</li>
+                            <li data-i18n="tools.curl-converter.intro.parse.feature2">📊 以表格形式展示查询参数、Headers 和 Cookies</li>
+                            <li data-i18n="tools.curl-converter.intro.parse.feature3">✏️ 支持编辑并重新生成 cURL 命令</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <section class="input-section">
                     <div class="input-header">
                         <label data-i18n="tools.curl-converter.curlCommand">cURL 命令</label>
@@ -205,6 +218,20 @@
 
             <!-- 对比功能区 -->
             <div id="compare-section" class="feature-section">
+                <!-- 功能介绍 -->
+                <div class="feature-intro">
+                    <div class="feature-intro__icon">⚖️</div>
+                    <div class="feature-intro__content">
+                        <h3 class="feature-intro__title" data-i18n="tools.curl-converter.intro.compare.title">对比 cURL 命令</h3>
+                        <p class="feature-intro__desc" data-i18n="tools.curl-converter.intro.compare.desc">并排对比两个 cURL 命令的差异，快速定位变化的参数。</p>
+                        <ul class="feature-intro__list">
+                            <li data-i18n="tools.curl-converter.intro.compare.feature1">🔄 对比 URL、查询参数、请求头和请求体的差异</li>
+                            <li data-i18n="tools.curl-converter.intro.compare.feature2">🎨 高亮显示新增、删除和修改的内容</li>
+                            <li data-i18n="tools.curl-converter.intro.compare.feature3">📈 生成差异摘要统计</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="compare-container">
                     <div class="compare-input">
                         <label data-i18n="tools.curl-converter.firstRequest">第一个请求</label>
@@ -293,6 +320,20 @@
 
             <!-- 代码生成功能区 -->
             <div id="generate-section" class="feature-section">
+                <!-- 功能介绍 -->
+                <div class="feature-intro">
+                    <div class="feature-intro__icon">💻</div>
+                    <div class="feature-intro__content">
+                        <h3 class="feature-intro__title" data-i18n="tools.curl-converter.intro.generate.title">生成多语言代码</h3>
+                        <p class="feature-intro__desc" data-i18n="tools.curl-converter.intro.generate.desc">将 cURL 命令转换为多种编程语言的 HTTP 请求代码。</p>
+                        <ul class="feature-intro__list">
+                            <li data-i18n="tools.curl-converter.intro.generate.feature1">🐍 Python (requests, httpx, aiohttp, FastAPI)</li>
+                            <li data-i18n="tools.curl-converter.intro.generate.feature2">🌐 JavaScript/Node.js (fetch, axios, XMLHttpRequest)</li>
+                            <li data-i18n="tools.curl-converter.intro.generate.feature3">🔧 Go, Java, C#, PHP, Ruby, Rust, Swift, Kotlin</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <section class="input-section">
                     <div class="input-header">
                         <label data-i18n="tools.curl-converter.curlCommand">cURL 命令</label>

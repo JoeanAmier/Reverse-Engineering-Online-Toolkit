@@ -468,7 +468,30 @@
         },
         "curl-converter": {
             "title": "cURL Parser",
-            "description": "Parse, compare, edit cURL commands and convert to various programming languages"
+            "description": "Parse, compare, edit cURL commands and convert to various programming languages",
+            "intro": {
+                "parse": {
+                    "title": "Parse cURL Commands",
+                    "desc": "Parse cURL commands into structured data for easy viewing and editing of request components.",
+                    "feature1": "📋 Extract URL, method, headers, body and other information automatically",
+                    "feature2": "📊 Display query params, headers and cookies in table format",
+                    "feature3": "✏️ Edit and regenerate cURL commands"
+                },
+                "compare": {
+                    "title": "Compare cURL Commands",
+                    "desc": "Side-by-side comparison of two cURL commands to quickly identify parameter changes.",
+                    "feature1": "🔄 Compare URL, query params, headers and body differences",
+                    "feature2": "🎨 Highlight added, removed and modified content",
+                    "feature3": "📈 Generate difference summary statistics"
+                },
+                "generate": {
+                    "title": "Generate Multi-Language Code",
+                    "desc": "Convert cURL commands into HTTP request code for various programming languages.",
+                    "feature1": "🐍 Python (requests, httpx, aiohttp, FastAPI)",
+                    "feature2": "🌐 JavaScript/Node.js (fetch, axios, XMLHttpRequest)",
+                    "feature3": "🔧 Go, Java, C#, PHP, Ruby, Rust, Swift, Kotlin"
+                }
+            }
         },
         "x509-certificate": {
             "title": "X.509 Certificate Tool",

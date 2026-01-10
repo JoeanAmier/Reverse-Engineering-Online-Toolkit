@@ -64,6 +64,102 @@
     display: block;
 }
 
+/* 功能介绍卡片 */
+.feature-intro {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-intro::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle at top right, rgba(var(--color-primary-rgb), 0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.feature-intro__icon {
+    font-size: 2.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border-radius: 12px;
+}
+
+.feature-intro__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.feature-intro__title {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.feature-intro__desc {
+    margin: 0 0 12px 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.feature-intro__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.feature-intro__list li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* 暗色主题适配 */
+[data-theme="dark"] .feature-intro {
+    background: linear-gradient(135deg, var(--bg-tertiary) 0%, rgba(255, 255, 255, 0.02) 100%);
+}
+
+[data-theme="dark"] .feature-intro__icon {
+    background: rgba(var(--color-primary-rgb), 0.15);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .feature-intro {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .feature-intro__icon {
+        width: 48px;
+        height: 48px;
+        font-size: 2rem;
+    }
+}
+
 /* 输入区域头部 */
 .input-header {
     display: flex;
