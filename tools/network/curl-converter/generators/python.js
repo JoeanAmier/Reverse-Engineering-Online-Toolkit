@@ -667,6 +667,253 @@
         return 'str';
     }
 
+    /**
+     * Python - curl_cffi 库 (同步)
+     * @see https://github.com/lexiforest/curl_cffi
+     */
+    function toPythonCurlCffi(parsed, options = {}) {
+        const opts = getDefaultOptions(options);
+        const i1 = makeIndent(1, opts);
+        const q = getQuote(opts);
+
+        let code = 'from curl_cffi.requests import Session\n\n';
+
+        // 处理 URL 和查询参数
+        if (opts.useParamsDict) {
+            const params = extractQueryParams(parsed.url);
+            const baseUrl = getBaseUrl(parsed.url);
+            code += `url = ${pyStr(baseUrl, opts)}\n\n`;
+
+            if (Object.keys(params).length > 0) {
+                code += 'params = {\n';
+                for (const [key, value] of Object.entries(params)) {
+                    code += `${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
+                }
+                code += '}\n\n';
+            }
+        } else {
+            code += `url = ${pyStr(parsed.url, opts)}\n\n`;
+        }
+
+        if (Object.keys(parsed.headers).length > 0) {
+            code += 'headers = {\n';
+            for (const [key, value] of Object.entries(parsed.headers)) {
+                code += `${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
+            }
+            code += '}\n\n';
+        }
+
+        if (parsed.data) {
+            code += `data = ${pyStr(parsed.data, opts)}\n\n`;
+        }
+
+        code += 'with Session() as session:\n';
+        code += `${i1}response = session.${parsed.method.toLowerCase()}(\n`;
+        code += `${i1}${i1}url,\n`;
+        code += `${i1}${i1}impersonate=${q}chrome${q},\n`;
+        if (opts.useParamsDict && Object.keys(extractQueryParams(parsed.url)).length > 0) {
+            code += `${i1}${i1}params=params,\n`;
+        }
+        if (Object.keys(parsed.headers).length > 0) {
+            code += `${i1}${i1}headers=headers,\n`;
+        }
+        if (parsed.data) {
+            code += `${i1}${i1}data=data,\n`;
+        }
+        code += `${i1})\n\n`;
+        code += `${i1}print(response.status_code)\n`;
+        code += `${i1}print(response.text)`;
+
+        return code;
+    }
+
+    /**
+     * Python - curl_cffi 库 (异步)
+     * @see https://github.com/lexiforest/curl_cffi
+     */
+    function toPythonCurlCffiAsync(parsed, options = {}) {
+        const opts = getDefaultOptions(options);
+        const i1 = makeIndent(1, opts);
+        const i2 = makeIndent(2, opts);
+        const q = getQuote(opts);
+
+        let code = 'from curl_cffi import AsyncSession\nimport asyncio\n\n';
+        code += 'async def main():\n';
+        code += `${i1}async with AsyncSession() as session:\n`;
+
+        // 处理 URL 和查询参数
+        if (opts.useParamsDict) {
+            const params = extractQueryParams(parsed.url);
+            const baseUrl = getBaseUrl(parsed.url);
+            code += `${i2}url = ${pyStr(baseUrl, opts)}\n\n`;
+
+            if (Object.keys(params).length > 0) {
+                code += `${i2}params = {\n`;
+                for (const [key, value] of Object.entries(params)) {
+                    code += `${i2}${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
+                }
+                code += `${i2}}\n\n`;
+            }
+        } else {
+            code += `${i2}url = ${pyStr(parsed.url, opts)}\n\n`;
+        }
+
+        if (Object.keys(parsed.headers).length > 0) {
+            code += `${i2}headers = {\n`;
+            for (const [key, value] of Object.entries(parsed.headers)) {
+                code += `${i2}${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
+            }
+            code += `${i2}}\n\n`;
+        }
+
+        if (parsed.data) {
+            code += `${i2}data = ${pyStr(parsed.data, opts)}\n\n`;
+        }
+
+        code += `${i2}response = await session.${parsed.method.toLowerCase()}(\n`;
+        code += `${i2}${i1}url,\n`;
+        code += `${i2}${i1}impersonate=${q}chrome${q},\n`;
+        if (opts.useParamsDict && Object.keys(extractQueryParams(parsed.url)).length > 0) {
+            code += `${i2}${i1}params=params,\n`;
+        }
+        if (Object.keys(parsed.headers).length > 0) {
+            code += `${i2}${i1}headers=headers,\n`;
+        }
+        if (parsed.data) {
+            code += `${i2}${i1}data=data,\n`;
+        }
+        code += `${i2})\n\n`;
+        code += `${i2}print(response.status_code)\n`;
+        code += `${i2}print(response.text)\n\n`;
+        code += 'asyncio.run(main())';
+
+        return code;
+    }
+
+    /**
+     * Python - rnet 库 (同步)
+     * @see https://github.com/0x676e67/rnet
+     */
+    function toPythonRnet(parsed, options = {}) {
+        const opts = getDefaultOptions(options);
+        const i1 = makeIndent(1, opts);
+        const q = getQuote(opts);
+
+        let code = 'from rnet import BlockingClient, Impersonate\n\n';
+
+        // 处理 URL 和查询参数
+        if (opts.useParamsDict) {
+            const params = extractQueryParams(parsed.url);
+            const baseUrl = getBaseUrl(parsed.url);
+            code += `url = ${pyStr(baseUrl, opts)}\n\n`;
+
+            if (Object.keys(params).length > 0) {
+                code += 'params = {\n';
+                for (const [key, value] of Object.entries(params)) {
+                    code += `${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
+                }
+                code += '}\n\n';
+            }
+        } else {
+            code += `url = ${pyStr(parsed.url, opts)}\n\n`;
+        }
+
+        if (Object.keys(parsed.headers).length > 0) {
+            code += 'headers = {\n';
+            for (const [key, value] of Object.entries(parsed.headers)) {
+                code += `${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
+            }
+            code += '}\n\n';
+        }
+
+        if (parsed.data) {
+            code += `data = ${pyStr(parsed.data, opts)}\n\n`;
+        }
+
+        code += '# 创建带有浏览器指纹模拟的客户端\n';
+        code += 'client = BlockingClient(impersonate=Impersonate.Chrome136)\n\n';
+
+        code += `response = client.${parsed.method.toLowerCase()}(\n`;
+        code += `${i1}url,\n`;
+        if (opts.useParamsDict && Object.keys(extractQueryParams(parsed.url)).length > 0) {
+            code += `${i1}params=params,\n`;
+        }
+        if (Object.keys(parsed.headers).length > 0) {
+            code += `${i1}headers=headers,\n`;
+        }
+        if (parsed.data) {
+            code += `${i1}body=data,\n`;
+        }
+        code += ')\n\n';
+        code += 'print(response.status_code)\n';
+        code += 'print(response.text())';
+
+        return code;
+    }
+
+    /**
+     * Python - rnet 库 (异步)
+     * @see https://github.com/0x676e67/rnet
+     */
+    function toPythonRnetAsync(parsed, options = {}) {
+        const opts = getDefaultOptions(options);
+        const i1 = makeIndent(1, opts);
+        const i2 = makeIndent(2, opts);
+        const q = getQuote(opts);
+
+        let code = 'from rnet import Client, Impersonate\nimport asyncio\n\n';
+        code += 'async def main():\n';
+        code += `${i1}# 创建带有浏览器指纹模拟的客户端\n`;
+        code += `${i1}client = Client(impersonate=Impersonate.Chrome136)\n\n`;
+
+        // 处理 URL 和查询参数
+        if (opts.useParamsDict) {
+            const params = extractQueryParams(parsed.url);
+            const baseUrl = getBaseUrl(parsed.url);
+            code += `${i1}url = ${pyStr(baseUrl, opts)}\n\n`;
+
+            if (Object.keys(params).length > 0) {
+                code += `${i1}params = {\n`;
+                for (const [key, value] of Object.entries(params)) {
+                    code += `${i1}${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
+                }
+                code += `${i1}}\n\n`;
+            }
+        } else {
+            code += `${i1}url = ${pyStr(parsed.url, opts)}\n\n`;
+        }
+
+        if (Object.keys(parsed.headers).length > 0) {
+            code += `${i1}headers = {\n`;
+            for (const [key, value] of Object.entries(parsed.headers)) {
+                code += `${i1}${i1}${pyStr(key, opts)}: ${pyStr(value, opts)},\n`;
+            }
+            code += `${i1}}\n\n`;
+        }
+
+        if (parsed.data) {
+            code += `${i1}data = ${pyStr(parsed.data, opts)}\n\n`;
+        }
+
+        code += `${i1}response = await client.${parsed.method.toLowerCase()}(\n`;
+        code += `${i1}${i1}url,\n`;
+        if (opts.useParamsDict && Object.keys(extractQueryParams(parsed.url)).length > 0) {
+            code += `${i1}${i1}params=params,\n`;
+        }
+        if (Object.keys(parsed.headers).length > 0) {
+            code += `${i1}${i1}headers=headers,\n`;
+        }
+        if (parsed.data) {
+            code += `${i1}${i1}body=data,\n`;
+        }
+        code += `${i1})\n\n`;
+        code += `${i1}print(response.status_code)\n`;
+        code += `${i1}print(await response.text())\n\n`;
+        code += 'asyncio.run(main())';
+
+        return code;
+    }
+
     // 注册生成器
     window.CurlGenerators.python = {
         'python-requests': {
@@ -680,6 +927,22 @@
         'python-httpx-async': {
             name: 'Python - httpx (异步)',
             generate: toPythonHttpxAsync
+        },
+        'python-curl-cffi': {
+            name: 'Python - curl_cffi (同步)',
+            generate: toPythonCurlCffi
+        },
+        'python-curl-cffi-async': {
+            name: 'Python - curl_cffi (异步)',
+            generate: toPythonCurlCffiAsync
+        },
+        'python-rnet': {
+            name: 'Python - rnet (同步)',
+            generate: toPythonRnet
+        },
+        'python-rnet-async': {
+            name: 'Python - rnet (异步)',
+            generate: toPythonRnetAsync
         },
         'python-aiohttp': {
             name: 'Python - aiohttp',

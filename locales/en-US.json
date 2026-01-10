@@ -487,7 +487,7 @@
                 "generate": {
                     "title": "Generate Multi-Language Code",
                     "desc": "Convert cURL commands into HTTP request code for various programming languages.",
-                    "feature1": "🐍 Python (requests, httpx, aiohttp, FastAPI)",
+                    "feature1": "🐍 Python (requests, httpx, curl_cffi, rnet, aiohttp, FastAPI)",
                     "feature2": "🌐 JavaScript/Node.js (fetch, axios, XMLHttpRequest)",
                     "feature3": "🔧 Go, Java, C#, PHP, Ruby, Rust, Swift, Kotlin"
                 }
