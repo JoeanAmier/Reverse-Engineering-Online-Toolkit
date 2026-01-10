@@ -327,6 +327,29 @@
     }
 
     /**
+     * 将参数名转换为有效的 Python 变量名
+     * @param {string} name - 原始参数名
+     * @returns {string} 有效的 Python 变量名
+     */
+    function toPythonVarName(name) {
+        // 替换无效字符为下划线
+        let varName = name.replace(/[^a-zA-Z0-9_]/g, '_');
+        // 如果以数字开头，添加下划线前缀
+        if (/^[0-9]/.test(varName)) {
+            varName = '_' + varName;
+        }
+        // 处理 Python 关键字
+        const pythonKeywords = ['False', 'None', 'True', 'and', 'as', 'assert', 'async', 'await',
+            'break', 'class', 'continue', 'def', 'del', 'elif', 'else', 'except', 'finally',
+            'for', 'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'nonlocal', 'not',
+            'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield'];
+        if (pythonKeywords.includes(varName)) {
+            varName = varName + '_';
+        }
+        return varName;
+    }
+
+    /**
      * Python - FastAPI + httpx 异步 API
      */
     function toPythonFastAPIHttpx(parsed, options = {}) {
@@ -334,23 +357,51 @@
         const i1 = makeIndent(1, opts);
         const i2 = makeIndent(2, opts);
 
-        // 从 URL 提取路径作为 API 端点
+        // 从 URL 提取完整路径作为 API 端点
         let apiPath = '/proxy';
+        let targetBaseUrl = '';
         try {
             const urlObj = new URL(parsed.url);
-            // 使用最后一段路径作为端点名
-            const pathParts = urlObj.pathname.split('/').filter(p => p);
-            if (pathParts.length > 0) {
-                apiPath = '/' + pathParts[pathParts.length - 1];
-            }
+            apiPath = urlObj.pathname || '/proxy';
+            targetBaseUrl = `${urlObj.protocol}//${urlObj.host}`;
         } catch (e) {}
 
-        let code = 'from fastapi import FastAPI, HTTPException\n';
-        code += 'from pydantic import BaseModel\n';
+        // 提取查询参数
+        const queryParams = extractQueryParams(parsed.url);
+        const hasQueryParams = Object.keys(queryParams).length > 0;
+
+        // 生成参数名映射（原始名 -> Python 变量名）
+        const paramNameMap = {};
+        for (const key of Object.keys(queryParams)) {
+            paramNameMap[key] = toPythonVarName(key);
+        }
+
+        let code = 'from fastapi import FastAPI, HTTPException, Depends\n';
+        code += 'from pydantic import BaseModel, Field\n';
         code += 'import httpx\n';
         code += 'from typing import Optional, Any\n\n';
 
         code += 'app = FastAPI()\n\n';
+
+        // 生成查询参数 Pydantic 模型
+        if (hasQueryParams) {
+            code += '# 查询参数模型\n';
+            code += 'class QueryParams(BaseModel):\n';
+            for (const [key, value] of Object.entries(queryParams)) {
+                const varName = paramNameMap[key];
+                const escapedValue = escapeString(value, 'python');
+                // 如果变量名与原始参数名不同，使用 Field 的 alias
+                if (varName !== key) {
+                    code += `${i1}${varName}: str = Field(default='${escapedValue}', alias='${escapeString(key, 'python')}')\n`;
+                } else {
+                    code += `${i1}${varName}: str = '${escapedValue}'\n`;
+                }
+            }
+            code += '\n';
+            code += `${i1}class Config:\n`;
+            code += `${i2}populate_by_name = True\n`;
+            code += '\n';
+        }
 
         // 如果有请求体，生成 Pydantic 模型
         if (parsed.data && parsed.dataType === 'json') {
@@ -360,7 +411,7 @@
                 const jsonData = JSON.parse(parsed.data);
                 for (const [key, value] of Object.entries(jsonData)) {
                     const pyType = getPythonType(value);
-                    code += `${i1}${key}: ${pyType}\n`;
+                    code += `${i1}${toPythonVarName(key)}: ${pyType}\n`;
                 }
             } catch (e) {
                 code += `${i1}data: str\n`;
@@ -377,31 +428,32 @@
         const methodDecorator = parsed.method.toLowerCase();
         code += `@app.${methodDecorator}("${apiPath}", response_model=ProxyResponse)\n`;
 
-        if (parsed.data && parsed.dataType === 'json') {
-            code += `async def proxy_request(body: RequestBody):\n`;
-        } else {
-            code += `async def proxy_request():\n`;
+        // 构建函数签名
+        let funcParams = [];
+        if (hasQueryParams) {
+            funcParams.push('params: QueryParams = Depends()');
         }
+        if (parsed.data && parsed.dataType === 'json') {
+            funcParams.push('body: RequestBody');
+        }
+        code += `async def proxy_request(${funcParams.join(', ')}):\n`;
 
         code += `${i1}"""\n`;
         code += `${i1}代理请求到目标 API\n`;
         code += `${i1}"""\n`;
 
-        // URL
-        if (opts.useParamsDict) {
-            const params = extractQueryParams(parsed.url);
-            const baseUrl = getBaseUrl(parsed.url);
-            code += `${i1}url = '${escapeString(baseUrl, 'python')}'\n\n`;
+        // 目标 URL
+        code += `${i1}url = '${escapeString(targetBaseUrl + apiPath, 'python')}'\n\n`;
 
-            if (Object.keys(params).length > 0) {
-                code += `${i1}params = {\n`;
-                for (const [key, value] of Object.entries(params)) {
-                    code += `${i2}'${escapeString(key, 'python')}': '${escapeString(value, 'python')}',\n`;
-                }
-                code += `${i1}}\n\n`;
+        // 将 Pydantic 模型转换为请求参数字典
+        if (hasQueryParams) {
+            code += `${i1}# 将查询参数模型转换为字典\n`;
+            code += `${i1}query_params = {\n`;
+            for (const [key, value] of Object.entries(queryParams)) {
+                const varName = paramNameMap[key];
+                code += `${i2}'${escapeString(key, 'python')}': params.${varName},\n`;
             }
-        } else {
-            code += `${i1}url = '${escapeString(parsed.url, 'python')}'\n\n`;
+            code += `${i1}}\n\n`;
         }
 
         // Headers
@@ -417,8 +469,8 @@
         code += `${i2}try:\n`;
         code += `${i2}${i1}response = await client.${parsed.method.toLowerCase()}(\n`;
         code += `${i2}${i2}url,\n`;
-        if (opts.useParamsDict && Object.keys(extractQueryParams(parsed.url)).length > 0) {
-            code += `${i2}${i2}params=params,\n`;
+        if (hasQueryParams) {
+            code += `${i2}${i2}params=query_params,\n`;
         }
         if (Object.keys(parsed.headers).length > 0) {
             code += `${i2}${i2}headers=headers,\n`;
