@@ -540,7 +540,7 @@
                 copyToClipboard(path);
                 break;
             case 'copy-key':
-                copyToClipboard(key);
+                copyToClipboard(String(key));
                 break;
             case 'copy-python-strict':
                 copyToClipboard(toPythonStrict(path));
@@ -588,6 +588,7 @@
      * 复制到剪贴板
      */
     async function copyToClipboard(text) {
+        if (!text) return;
         const success = await REOT.utils?.copyToClipboard(text);
         if (success) {
             REOT.utils?.showNotification(REOT.i18n?.t('common.copied') || '已复制', 'success');
