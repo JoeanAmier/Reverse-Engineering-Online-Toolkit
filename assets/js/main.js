@@ -70,10 +70,14 @@
                 window.addEventListener('localechange', () => {
                     REOT.tools.initSidebar();
                     REOT.tools.initHomeGrid();
+                    this.updateChangelogLink();
                 });
 
                 // 获取 GitHub 统计数据
                 this.fetchGitHubStats();
+
+                // 初始化更新日志链接
+                this.updateChangelogLink();
 
                 this.initialized = true;
                 console.log('REOT 初始化完成');
@@ -100,16 +104,18 @@
             }
 
             try {
-                // 并行请求 repo 信息和 issues/PRs
-                const [repoResponse, issuesResponse, prsResponse] = await Promise.all([
+                // 并行请求 repo 信息、issues/PRs 和 tags
+                const [repoResponse, issuesResponse, prsResponse, tagsResponse] = await Promise.all([
                     fetch(`https://api.github.com/repos/${owner}/${repo}`),
                     fetch(`https://api.github.com/repos/${owner}/${repo}/issues?state=open&per_page=1`),
-                    fetch(`https://api.github.com/repos/${owner}/${repo}/pulls?state=open&per_page=1`)
+                    fetch(`https://api.github.com/repos/${owner}/${repo}/pulls?state=open&per_page=1`),
+                    fetch(`https://api.github.com/repos/${owner}/${repo}/tags?per_page=1`)
                 ]);
 
                 if (!repoResponse.ok) throw new Error('Failed to fetch repo data');
 
                 const repoData = await repoResponse.json();
+                const tagsData = tagsResponse.ok ? await tagsResponse.json() : [];
 
                 // 从 Link header 获取 issues 和 PRs 总数
                 const issuesCount = this.getCountFromLinkHeader(issuesResponse.headers.get('Link')) ||
@@ -121,7 +127,8 @@
                     stars: repoData.stargazers_count || 0,
                     forks: repoData.forks_count || 0,
                     issues: repoData.open_issues_count - prsCount, // open_issues_count 包含 PRs
-                    prs: prsCount
+                    prs: prsCount,
+                    version: tagsData.length > 0 ? tagsData[0].name : null
                 };
 
                 // 缓存数据
@@ -162,11 +169,27 @@
             const forksEl = document.getElementById('github-forks');
             const issuesEl = document.getElementById('github-issues');
             const prsEl = document.getElementById('github-prs');
+            const versionEl = document.getElementById('github-version');
 
             if (starsEl) starsEl.textContent = formatNumber(stats.stars);
             if (forksEl) forksEl.textContent = formatNumber(stats.forks);
             if (issuesEl) issuesEl.textContent = formatNumber(stats.issues);
             if (prsEl) prsEl.textContent = formatNumber(stats.prs);
+            if (versionEl && stats.version) versionEl.textContent = stats.version;
+        },
+
+        /**
+         * 更新更新日志链接（根据当前语言）
+         */
+        updateChangelogLink() {
+            const changelogLink = document.getElementById('changelog-link');
+            if (!changelogLink) return;
+
+            const currentLocale = REOT.i18n?.currentLocale || 'zh-CN';
+            const isEnglish = currentLocale === 'en-US';
+            const changelogFile = isEnglish ? 'CHANGELOG_EN.md' : 'CHANGELOG.md';
+
+            changelogLink.href = `https://github.com/Evil0ctal/Reverse-Engineering-Online-Toolkit/blob/main/${changelogFile}`;
         },
 
         /**

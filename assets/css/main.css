@@ -663,6 +663,36 @@ ol {
     text-align: center;
 }
 
+.github-stat-badge--version {
+    border-color: var(--color-success);
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.github-stat-badge--version:hover {
+    border-color: var(--color-success);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.github-stat-badge--version #github-version {
+    font-weight: 600;
+    font-family: var(--font-mono);
+    color: var(--color-success);
+}
+
+.github-stat-badge--changelog {
+    border-color: var(--color-primary);
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.github-stat-badge--changelog:hover {
+    border-color: var(--color-primary);
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.github-stats--secondary {
+    margin-top: var(--spacing-sm);
+}
+
 /* Tools Section */
 .section-title {
     display: flex;

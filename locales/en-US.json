@@ -64,6 +64,7 @@
         "inQuickAccess": "In Quick Access",
         "addedToQuickAccess": "Added to Quick Access",
         "removedFromQuickAccess": "Removed from Quick Access",
+        "changelog": "Changelog",
         "features": {
             "local": {
                 "title": "Local Computing",

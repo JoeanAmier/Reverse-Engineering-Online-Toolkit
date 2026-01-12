@@ -64,6 +64,7 @@
         "inQuickAccess": "已在快速访问",
         "addedToQuickAccess": "已添加到快速访问",
         "removedFromQuickAccess": "已从快速访问移除",
+        "changelog": "更新日志",
         "features": {
             "local": {
                 "title": "本地计算",
