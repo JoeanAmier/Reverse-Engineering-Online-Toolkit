@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.timestamp-guesser.title">时间戳格式猜测 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="timestamp-guesser.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.timestamp-guesser.title">时间戳格式猜测</h1>
+            <p data-i18n="tools.timestamp-guesser.description">自动识别时间戳格式：秒、毫秒、微秒、纳秒、Excel、LDAP 等</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 输入区域 -->
+            <section class="input-section">
+                <label data-i18n="tools.timestamp-guesser.inputLabel">输入时间戳或数值</label>
+                <input type="text" id="timestamp-input" placeholder="1704067200, 1704067200000, 45292, ...">
+                <div class="input-hint" data-i18n="tools.timestamp-guesser.inputHint">支持多种格式：Unix 秒/毫秒/微秒/纳秒、Excel 日期、LDAP/FILETIME 等</div>
+            </section>
+
+            <section class="action-section">
+                <button id="analyze-btn" class="btn btn--primary" data-i18n="tools.timestamp-guesser.analyze">分析</button>
+                <button id="clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+                <button id="now-btn" class="btn btn--outline" data-i18n="tools.timestamp-guesser.useNow">使用当前时间</button>
+            </section>
+
+            <!-- 结果区域 -->
+            <section class="results-section" id="results-section" style="display: none;">
+                <h3 data-i18n="tools.timestamp-guesser.possibleFormats">可能的格式</h3>
+                <div id="results-list" class="results-list">
+                    <!-- 动态生成 -->
+                </div>
+            </section>
+
+            <!-- 快速参考 -->
+            <section class="reference-section">
+                <h3 data-i18n="tools.timestamp-guesser.quickReference">快速参考</h3>
+                <div class="reference-grid">
+                    <div class="reference-item">
+                        <span class="reference-format">Unix (秒)</span>
+                        <span class="reference-range">10 位数字</span>
+                        <span class="reference-example">1704067200</span>
+                    </div>
+                    <div class="reference-item">
+                        <span class="reference-format">Unix (毫秒)</span>
+                        <span class="reference-range">13 位数字</span>
+                        <span class="reference-example">1704067200000</span>
+                    </div>
+                    <div class="reference-item">
+                        <span class="reference-format">Unix (微秒)</span>
+                        <span class="reference-range">16 位数字</span>
+                        <span class="reference-example">1704067200000000</span>
+                    </div>
+                    <div class="reference-item">
+                        <span class="reference-format">Unix (纳秒)</span>
+                        <span class="reference-range">19 位数字</span>
+                        <span class="reference-example">1704067200000000000</span>
+                    </div>
+                    <div class="reference-item">
+                        <span class="reference-format">Excel/OLE</span>
+                        <span class="reference-range">5 位数字 (小数)</span>
+                        <span class="reference-example">45292.5</span>
+                    </div>
+                    <div class="reference-item">
+                        <span class="reference-format">LDAP/FILETIME</span>
+                        <span class="reference-range">18 位数字</span>
+                        <span class="reference-example">133484736000000000</span>
+                    </div>
+                    <div class="reference-item">
+                        <span class="reference-format">Mac HFS+</span>
+                        <span class="reference-range">10 位数字</span>
+                        <span class="reference-example">3786825600</span>
+                    </div>
+                    <div class="reference-item">
+                        <span class="reference-format">WebKit/Chrome</span>
+                        <span class="reference-range">17 位数字</span>
+                        <span class="reference-example">13349473600000000</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 信息卡片 -->
+            <section class="info-card">
+                <h3 data-i18n="tools.timestamp-guesser.aboutTool">关于时间戳格式</h3>
+                <p data-i18n="tools.timestamp-guesser.toolInfo">不同系统和应用使用不同的时间戳格式。Unix 时间戳以 1970-01-01 为纪元，Excel 以 1899-12-30 为纪元，LDAP/Windows FILETIME 以 1601-01-01 为纪元。此工具可以帮助您识别未知数值可能代表的时间格式。</p>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="timestamp-guesser.js"></script>
+</body>
+</html>

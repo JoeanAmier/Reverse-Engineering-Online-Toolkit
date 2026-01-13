@@ -9,6 +9,38 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 并且本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.0.10] - 2026-01-12
+
+### 修复
+- **密钥派生函数 (KDF)** - 修复 bcrypt 库在 SPA 模式下无法加载的问题，改为动态按需加载
+- **新增工具** - 修复 KDF、ULID、ObjectID 工具选项参数竖向排列的问题，改为横向 Flex 布局
+- **新增工具** - 修复标签页切换高亮效果反转的问题，统一使用正确的 CSS 变量名 `--color-primary`
+
+---
+
+## [1.0.9] - 2026-01-12
+
+### 新增
+- **密钥派生函数 (KDF)** - PBKDF2 与 bcrypt 密码哈希工具
+  - PBKDF2 支持 SHA-1/SHA-256/SHA-384/SHA-512 算法
+  - 可配置迭代次数和密钥长度
+  - bcrypt 支持哈希生成和密码验证
+  - bcrypt 哈希解析显示版本、成本因子、盐值和哈希值
+- **ULID 生成器** - 生成和解析 ULID (Universally Unique Lexicographically Sortable Identifier)
+  - 支持批量生成和自定义时间
+  - 解析显示时间戳、随机部分、二进制和 UUID 格式
+  - 可视化 ULID 结构
+- **MongoDB ObjectID** - 生成和解析 MongoDB ObjectID
+  - 支持批量生成和自定义时间
+  - 解析显示时间戳、机器标识、进程 ID 和计数器
+  - 可视化 ObjectID 结构
+- **时间戳格式猜测** - 自动识别时间戳格式
+  - 支持 Unix 秒/毫秒/微秒/纳秒
+  - 支持 Excel/OLE 日期、LDAP/FILETIME、WebKit/Chrome、Mac HFS+、Cocoa/NSDate 等格式
+  - 显示可信度评分和转换结果
+
+---
+
 ## [1.0.8] - 2026-01-12
 
 ### 新增

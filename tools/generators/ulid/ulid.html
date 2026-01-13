@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.ulid.title">ULID 生成器 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="ulid.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.ulid.title">ULID 生成器</h1>
+            <p data-i18n="tools.ulid.description">生成和解析 ULID (Universally Unique Lexicographically Sortable Identifier)</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 模式选择标签页 -->
+            <div class="mode-tabs">
+                <button class="mode-tab active" data-mode="generate" data-i18n="tools.ulid.generateMode">生成 ULID</button>
+                <button class="mode-tab" data-mode="parse" data-i18n="tools.ulid.parseMode">解析 ULID</button>
+            </div>
+
+            <!-- 生成面板 -->
+            <div id="generate-panel" class="mode-panel active">
+                <section class="options-section">
+                    <div class="options-grid">
+                        <div class="option-group">
+                            <label data-i18n="tools.ulid.count">生成数量</label>
+                            <input type="number" id="gen-count" value="1" min="1" max="100">
+                        </div>
+                        <div class="option-group">
+                            <label data-i18n="tools.ulid.outputCase">输出格式</label>
+                            <select id="gen-case">
+                                <option value="upper" selected data-i18n="tools.ulid.uppercase">大写</option>
+                                <option value="lower" data-i18n="tools.ulid.lowercase">小写</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label data-i18n="tools.ulid.customTime">自定义时间 (可选)</label>
+                            <input type="datetime-local" id="gen-time">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="action-section">
+                    <button id="gen-btn" class="btn btn--primary" data-i18n="common.generate">生成</button>
+                    <button id="gen-clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+                </section>
+
+                <section class="output-section">
+                    <label data-i18n="tools.ulid.generatedULIDs">生成的 ULID</label>
+                    <textarea id="gen-output" rows="8" readonly placeholder="点击生成按钮..."></textarea>
+                    <div class="output-actions">
+                        <button id="gen-copy-btn" class="btn btn--sm btn--outline" data-i18n="common.copy">复制</button>
+                        <button id="gen-download-btn" class="btn btn--sm btn--outline" data-i18n="common.download">下载</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 解析面板 -->
+            <div id="parse-panel" class="mode-panel">
+                <section class="input-section">
+                    <label data-i18n="tools.ulid.inputULID">输入 ULID</label>
+                    <input type="text" id="parse-input" placeholder="01ARZ3NDEKTSV4RRFFQ69G5FAV">
+                </section>
+
+                <section class="action-section">
+                    <button id="parse-btn" class="btn btn--primary" data-i18n="tools.ulid.parse">解析</button>
+                    <button id="parse-clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+                </section>
+
+                <section class="result-section" id="parse-result" style="display: none;">
+                    <h3 data-i18n="tools.ulid.parseResult">解析结果</h3>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <span class="result-label" data-i18n="tools.ulid.ulid">ULID</span>
+                            <span class="result-value" id="result-ulid">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label" data-i18n="tools.ulid.timestamp">时间戳 (ms)</span>
+                            <span class="result-value" id="result-timestamp">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label" data-i18n="tools.ulid.datetime">日期时间</span>
+                            <span class="result-value" id="result-datetime">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label" data-i18n="tools.ulid.randomness">随机部分</span>
+                            <span class="result-value" id="result-random">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label" data-i18n="tools.ulid.binary">二进制</span>
+                            <span class="result-value result-value--mono" id="result-binary">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label" data-i18n="tools.ulid.uuid">UUID 格式</span>
+                            <span class="result-value result-value--mono" id="result-uuid">-</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="visual-section" id="visual-section" style="display: none;">
+                    <h3 data-i18n="tools.ulid.structure">ULID 结构</h3>
+                    <div class="ulid-visual">
+                        <div class="visual-part visual-part--time">
+                            <span class="visual-label" data-i18n="tools.ulid.timePart">时间戳 (48 bits)</span>
+                            <span class="visual-value" id="visual-time">01ARZ3NDEK</span>
+                        </div>
+                        <div class="visual-part visual-part--random">
+                            <span class="visual-label" data-i18n="tools.ulid.randomPart">随机数 (80 bits)</span>
+                            <span class="visual-value" id="visual-random">TSV4RRFFQ69G5FAV</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ULID 信息卡片 -->
+            <section class="info-card">
+                <h3 data-i18n="tools.ulid.aboutULID">关于 ULID</h3>
+                <p data-i18n="tools.ulid.ulidInfo">ULID (Universally Unique Lexicographically Sortable Identifier) 是一种 128 位标识符，由 48 位时间戳和 80 位随机数组成。相比 UUID，ULID 具有可排序、更短、更易读的特点。使用 Crockford's Base32 编码，生成 26 个字符的字符串。</p>
+                <div class="info-features">
+                    <div class="info-feature">
+                        <span class="feature-icon">📅</span>
+                        <span data-i18n="tools.ulid.feature1">毫秒级时间精度</span>
+                    </div>
+                    <div class="info-feature">
+                        <span class="feature-icon">🔤</span>
+                        <span data-i18n="tools.ulid.feature2">字典序可排序</span>
+                    </div>
+                    <div class="info-feature">
+                        <span class="feature-icon">🔒</span>
+                        <span data-i18n="tools.ulid.feature3">80 位加密随机数</span>
+                    </div>
+                    <div class="info-feature">
+                        <span class="feature-icon">📝</span>
+                        <span data-i18n="tools.ulid.feature4">26 字符，大小写不敏感</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <script src="ulid.js"></script>
+</body>
+</html>

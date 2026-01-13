@@ -1,0 +1,12 @@
+{
+    "tools.timestamp-guesser.title": "Timestamp Format Guesser",
+    "tools.timestamp-guesser.description": "Auto-detect timestamp formats: seconds, milliseconds, microseconds, nanoseconds, Excel, LDAP, etc.",
+    "tools.timestamp-guesser.inputLabel": "Enter timestamp or numeric value",
+    "tools.timestamp-guesser.inputHint": "Supports multiple formats: Unix seconds/ms/μs/ns, Excel date, LDAP/FILETIME, etc.",
+    "tools.timestamp-guesser.analyze": "Analyze",
+    "tools.timestamp-guesser.useNow": "Use Current Time",
+    "tools.timestamp-guesser.possibleFormats": "Possible Formats",
+    "tools.timestamp-guesser.quickReference": "Quick Reference",
+    "tools.timestamp-guesser.aboutTool": "About Timestamp Formats",
+    "tools.timestamp-guesser.toolInfo": "Different systems and applications use different timestamp formats. Unix timestamps use 1970-01-01 as epoch, Excel uses 1899-12-30, and LDAP/Windows FILETIME uses 1601-01-01. This tool helps identify what time format an unknown numeric value might represent."
+}

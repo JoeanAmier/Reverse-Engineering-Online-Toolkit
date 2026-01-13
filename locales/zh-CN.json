@@ -572,6 +572,22 @@
         "plist": {
             "title": "Plist 解析",
             "description": "Apple Property List 解析（支持 XML 和二进制格式）"
+        },
+        "kdf": {
+            "title": "密钥派生函数",
+            "description": "PBKDF2、bcrypt 密码哈希与密钥派生"
+        },
+        "ulid": {
+            "title": "ULID 生成器",
+            "description": "生成和解析 ULID (可排序唯一标识符)"
+        },
+        "objectid": {
+            "title": "MongoDB ObjectID",
+            "description": "生成和解析 MongoDB ObjectID"
+        },
+        "timestamp-guesser": {
+            "title": "时间戳格式猜测",
+            "description": "自动识别时间戳格式"
         }
     }
 }

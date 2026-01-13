@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tools.kdf.title">密钥派生函数 - REOT</title>
+    <script>
+        (function() {
+            if (!window.REOT && window.location.pathname.startsWith('/tools/')) {
+                window.location.href = '/?path=' + encodeURIComponent(window.location.pathname);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="../../../assets/css/themes/dark.css" id="theme-dark">
+    <link rel="stylesheet" href="kdf.css">
+</head>
+<body>
+    <div class="tool-container">
+        <header class="tool-header">
+            <h1 data-i18n="tools.kdf.title">密钥派生函数</h1>
+            <p data-i18n="tools.kdf.description">PBKDF2、bcrypt 密码哈希与密钥派生</p>
+        </header>
+
+        <main class="tool-main">
+            <!-- 算法选择标签页 -->
+            <div class="algorithm-tabs">
+                <button class="algorithm-tab active" data-algorithm="pbkdf2">PBKDF2</button>
+                <button class="algorithm-tab" data-algorithm="bcrypt">bcrypt</button>
+            </div>
+
+            <!-- PBKDF2 面板 -->
+            <div id="pbkdf2-panel" class="algorithm-panel active">
+                <section class="options-section">
+                    <div class="options-grid">
+                        <div class="option-group">
+                            <label data-i18n="tools.kdf.hashAlgorithm">哈希算法</label>
+                            <select id="pbkdf2-hash">
+                                <option value="SHA-1">SHA-1</option>
+                                <option value="SHA-256" selected>SHA-256</option>
+                                <option value="SHA-384">SHA-384</option>
+                                <option value="SHA-512">SHA-512</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label data-i18n="tools.kdf.iterations">迭代次数</label>
+                            <input type="number" id="pbkdf2-iterations" value="100000" min="1" max="10000000">
+                        </div>
+                        <div class="option-group">
+                            <label data-i18n="tools.kdf.keyLength">密钥长度 (字节)</label>
+                            <input type="number" id="pbkdf2-keylength" value="32" min="1" max="512">
+                        </div>
+                        <div class="option-group">
+                            <label data-i18n="tools.kdf.outputFormat">输出格式</label>
+                            <select id="pbkdf2-output-format">
+                                <option value="hex" selected>Hex</option>
+                                <option value="base64">Base64</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="input-section">
+                    <label data-i18n="tools.kdf.password">密码</label>
+                    <input type="text" id="pbkdf2-password" placeholder="输入密码...">
+                </section>
+
+                <section class="input-section">
+                    <div class="input-header">
+                        <label data-i18n="tools.kdf.salt">盐值</label>
+                        <button id="pbkdf2-gen-salt" class="btn btn--sm btn--outline" data-i18n="tools.kdf.generateSalt">生成随机盐</button>
+                    </div>
+                    <input type="text" id="pbkdf2-salt" placeholder="输入盐值 (Hex 格式)...">
+                </section>
+
+                <section class="action-section">
+                    <button id="pbkdf2-derive-btn" class="btn btn--primary" data-i18n="tools.kdf.derive">派生密钥</button>
+                    <button id="pbkdf2-clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+                </section>
+
+                <section class="output-section">
+                    <label data-i18n="tools.kdf.derivedKey">派生密钥</label>
+                    <div class="result-row">
+                        <input type="text" id="pbkdf2-output" readonly>
+                        <button id="pbkdf2-copy-btn" class="btn btn--sm btn--outline" data-i18n="common.copy">复制</button>
+                    </div>
+                </section>
+
+                <!-- PBKDF2 信息卡片 -->
+                <section class="info-card">
+                    <h3 data-i18n="tools.kdf.aboutPBKDF2">关于 PBKDF2</h3>
+                    <p data-i18n="tools.kdf.pbkdf2Info">PBKDF2 (Password-Based Key Derivation Function 2) 是一种基于密码的密钥派生函数，通过多次迭代哈希来增加暴力破解的难度。推荐迭代次数：SHA-256 至少 100,000 次。</p>
+                </section>
+            </div>
+
+            <!-- bcrypt 面板 -->
+            <div id="bcrypt-panel" class="algorithm-panel">
+                <section class="options-section">
+                    <div class="options-grid">
+                        <div class="option-group">
+                            <label data-i18n="tools.kdf.costFactor">成本因子 (4-31)</label>
+                            <input type="number" id="bcrypt-cost" value="10" min="4" max="31">
+                        </div>
+                        <div class="option-group">
+                            <label data-i18n="tools.kdf.mode">模式</label>
+                            <select id="bcrypt-mode">
+                                <option value="hash" selected data-i18n="tools.kdf.hashMode">生成哈希</option>
+                                <option value="verify" data-i18n="tools.kdf.verifyMode">验证密码</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="input-section">
+                    <label data-i18n="tools.kdf.password">密码</label>
+                    <input type="text" id="bcrypt-password" placeholder="输入密码...">
+                </section>
+
+                <section class="input-section bcrypt-verify-section" style="display: none;">
+                    <label data-i18n="tools.kdf.hashToVerify">待验证的哈希</label>
+                    <input type="text" id="bcrypt-hash-input" placeholder="输入 bcrypt 哈希值...">
+                </section>
+
+                <section class="action-section">
+                    <button id="bcrypt-action-btn" class="btn btn--primary" data-i18n="tools.kdf.generateHash">生成哈希</button>
+                    <button id="bcrypt-clear-btn" class="btn btn--outline" data-i18n="common.clear">清除</button>
+                </section>
+
+                <section class="output-section">
+                    <label data-i18n="tools.kdf.result">结果</label>
+                    <div class="result-row">
+                        <input type="text" id="bcrypt-output" readonly>
+                        <button id="bcrypt-copy-btn" class="btn btn--sm btn--outline" data-i18n="common.copy">复制</button>
+                    </div>
+                </section>
+
+                <!-- bcrypt 哈希解析 -->
+                <section class="bcrypt-analysis" id="bcrypt-analysis" style="display: none;">
+                    <h3 data-i18n="tools.kdf.hashAnalysis">哈希解析</h3>
+                    <div class="analysis-grid">
+                        <div class="analysis-item">
+                            <span class="analysis-label" data-i18n="tools.kdf.version">版本</span>
+                            <span class="analysis-value" id="bcrypt-version">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label" data-i18n="tools.kdf.costFactor">成本因子</span>
+                            <span class="analysis-value" id="bcrypt-cost-display">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label" data-i18n="tools.kdf.salt">盐值</span>
+                            <span class="analysis-value" id="bcrypt-salt-display">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label" data-i18n="tools.kdf.hash">哈希</span>
+                            <span class="analysis-value" id="bcrypt-hash-display">-</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- bcrypt 信息卡片 -->
+                <section class="info-card">
+                    <h3 data-i18n="tools.kdf.aboutBcrypt">关于 bcrypt</h3>
+                    <p data-i18n="tools.kdf.bcryptInfo">bcrypt 是一种自适应密码哈希函数，内置盐值生成，通过成本因子控制计算复杂度。成本因子每增加 1，计算时间翻倍。推荐成本因子：10-12。</p>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="../../../assets/js/i18n.js"></script>
+    <!-- bcrypt 库在 kdf.js 中动态加载 -->
+    <script src="kdf.js"></script>
+</body>
+</html>

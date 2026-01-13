@@ -1,0 +1,12 @@
+{
+    "tools.timestamp-guesser.title": "时间戳格式猜测",
+    "tools.timestamp-guesser.description": "自动识别时间戳格式：秒、毫秒、微秒、纳秒、Excel、LDAP 等",
+    "tools.timestamp-guesser.inputLabel": "输入时间戳或数值",
+    "tools.timestamp-guesser.inputHint": "支持多种格式：Unix 秒/毫秒/微秒/纳秒、Excel 日期、LDAP/FILETIME 等",
+    "tools.timestamp-guesser.analyze": "分析",
+    "tools.timestamp-guesser.useNow": "使用当前时间",
+    "tools.timestamp-guesser.possibleFormats": "可能的格式",
+    "tools.timestamp-guesser.quickReference": "快速参考",
+    "tools.timestamp-guesser.aboutTool": "关于时间戳格式",
+    "tools.timestamp-guesser.toolInfo": "不同系统和应用使用不同的时间戳格式。Unix 时间戳以 1970-01-01 为纪元，Excel 以 1899-12-30 为纪元，LDAP/Windows FILETIME 以 1601-01-01 为纪元。此工具可以帮助您识别未知数值可能代表的时间格式。"
+}

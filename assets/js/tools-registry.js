@@ -1818,6 +1818,33 @@
             path: '/tools/generators/snowflake/',
             keywords: ['snowflake', 'id', 'twitter', 'discord', '雪花', '分布式', 'unique', '时间戳']
         },
+        {
+            id: 'ulid',
+            category: 'generators',
+            name: 'tools.ulid.title',
+            description: 'tools.ulid.description',
+            icon: '🆔',
+            path: '/tools/generators/ulid/',
+            keywords: ['ulid', 'id', 'unique', 'sortable', '标识符', '可排序', 'uuid']
+        },
+        {
+            id: 'objectid',
+            category: 'generators',
+            name: 'tools.objectid.title',
+            description: 'tools.objectid.description',
+            icon: '🍃',
+            path: '/tools/generators/objectid/',
+            keywords: ['objectid', 'mongodb', 'bson', 'id', '标识符', '数据库']
+        },
+        {
+            id: 'timestamp-guesser',
+            category: 'generators',
+            name: 'tools.timestamp-guesser.title',
+            description: 'tools.timestamp-guesser.description',
+            icon: '🔮',
+            path: '/tools/generators/timestamp-guesser/',
+            keywords: ['timestamp', 'guess', 'format', 'unix', 'excel', 'ldap', 'filetime', '时间戳', '格式', '猜测']
+        },
 
         // ========== 协议解析（扩展） ==========
         {
@@ -1839,6 +1866,15 @@
             icon: '🔍',
             path: '/tools/hashing/hash-identifier/',
             keywords: ['hash', 'identifier', 'detect', 'md5', 'sha', 'bcrypt', 'argon2', '哈希', '识别', '检测']
+        },
+        {
+            id: 'kdf',
+            category: 'hashing',
+            name: 'tools.kdf.title',
+            description: 'tools.kdf.description',
+            icon: '🔑',
+            path: '/tools/hashing/kdf/',
+            keywords: ['kdf', 'pbkdf2', 'bcrypt', 'password', 'key', 'derivation', '密钥派生', '密码哈希', '派生函数']
         },
 
         // ========== 协议解析（扩展） ==========

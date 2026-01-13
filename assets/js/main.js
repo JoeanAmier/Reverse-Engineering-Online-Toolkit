@@ -16,7 +16,7 @@
      */
     REOT.app = {
         // 应用版本
-        version: '1.0.0',
+        version: '1.0.10',
 
         // 是否已初始化
         initialized: false,

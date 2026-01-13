@@ -1,0 +1,367 @@
+/**
+ * MongoDB ObjectID 工具样式
+ */
+
+/* 模式标签页 */
+.mode-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.mode-tab {
+    padding: 10px 24px;
+    border: none;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.mode-tab:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.mode-tab.active {
+    background: #10b981;
+    color: white;
+}
+
+/* 模式面板 */
+.mode-panel {
+    display: none;
+}
+
+.mode-panel.active {
+    display: block;
+}
+
+/* 选项区域 */
+.options-section {
+    margin-bottom: 20px;
+}
+
+.options-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.options-grid .option-group {
+    min-width: 150px;
+    flex: 1;
+}
+
+.option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.option-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.option-group select,
+.option-group input {
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.option-group select:focus,
+.option-group input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+/* 输入区域 */
+.input-section {
+    margin-bottom: 20px;
+}
+
+.input-section label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.input-section input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 16px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    letter-spacing: 1px;
+    transition: border-color 0.2s ease;
+}
+
+.input-section input[type="text"]:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+/* 操作按钮区域 */
+.action-section {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+/* 输出区域 */
+.output-section {
+    margin-bottom: 20px;
+}
+
+.output-section label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.output-section textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+.output-section textarea:focus {
+    outline: none;
+}
+
+.output-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* 结果区域 */
+.result-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.result-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.result-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.result-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.result-value {
+    font-size: 14px;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    word-break: break-all;
+}
+
+.result-value--mono {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+/* 可视化区域 */
+.visual-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.visual-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.objectid-visual {
+    display: flex;
+    gap: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.visual-part {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 20px;
+}
+
+.visual-part--time {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    flex: 0 0 auto;
+}
+
+.visual-part--random {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    flex: 1;
+}
+
+.visual-part--counter {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    flex: 0 0 auto;
+}
+
+.visual-label {
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 6px;
+    white-space: nowrap;
+}
+
+.visual-value {
+    font-size: 16px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* 信息卡片 */
+.info-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 24px;
+}
+
+.info-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.info-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.info-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.info-feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-primary);
+}
+
+.feature-icon {
+    font-size: 16px;
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+    .mode-tabs {
+        flex-wrap: wrap;
+    }
+
+    .mode-tab {
+        flex: 1;
+        text-align: center;
+        padding: 10px 16px;
+    }
+
+    .options-grid {
+        flex-direction: column;
+    }
+
+    .options-grid .option-group {
+        width: 100%;
+    }
+
+    .action-section {
+        flex-direction: column;
+    }
+
+    .action-section .btn {
+        width: 100%;
+    }
+
+    .result-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .objectid-visual {
+        flex-direction: column;
+    }
+
+    .visual-value {
+        font-size: 14px;
+    }
+
+    .info-features {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .output-actions {
+        flex-direction: column;
+    }
+
+    .output-actions .btn {
+        width: 100%;
+    }
+}

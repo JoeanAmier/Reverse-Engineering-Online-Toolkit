@@ -572,6 +572,22 @@
         "plist": {
             "title": "Plist Parser",
             "description": "Apple Property List parser (supports XML and binary formats)"
+        },
+        "kdf": {
+            "title": "Key Derivation Function",
+            "description": "PBKDF2, bcrypt password hashing and key derivation"
+        },
+        "ulid": {
+            "title": "ULID Generator",
+            "description": "Generate and parse ULID (Sortable Unique Identifier)"
+        },
+        "objectid": {
+            "title": "MongoDB ObjectID",
+            "description": "Generate and parse MongoDB ObjectID"
+        },
+        "timestamp-guesser": {
+            "title": "Timestamp Format Guesser",
+            "description": "Auto-detect timestamp formats"
         }
     }
 }
