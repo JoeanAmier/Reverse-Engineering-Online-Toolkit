@@ -530,8 +530,38 @@
                         result.cookies = parseCookies(value);
                     }
                 }
-            } else if (token === '-d' || token === '--data' || token === '--data-raw' || token === '--data-binary' || token === '--data-urlencode') {
-                result.data = tokens[++i] || '';
+            } else if (token === '-d' || token === '--data' || token === '--data-raw' || token === '--data-binary') {
+                // 处理普通 data 参数，多个参数需要拼接
+                const newData = tokens[++i] || '';
+                if (result.data) {
+                    result.data += '&' + newData;
+                } else {
+                    result.data = newData;
+                }
+                if (result.method === 'GET') {
+                    result.method = 'POST';
+                }
+            } else if (token === '--data-urlencode') {
+                // 处理 --data-urlencode 参数
+                // 根据 curl 文档：name=value 形式中，name 不编码，value 编码
+                // 纯 value 形式中，整个值都编码
+                const rawValue = tokens[++i] || '';
+                let encodedPart;
+                const eqIndex = rawValue.indexOf('=');
+                if (eqIndex !== -1) {
+                    const name = rawValue.substring(0, eqIndex);
+                    const value = rawValue.substring(eqIndex + 1);
+                    // name 部分不编码（假设已经是合法的），value 部分编码
+                    encodedPart = name + '=' + encodeURIComponent(value);
+                } else {
+                    // 整个值都要编码
+                    encodedPart = encodeURIComponent(rawValue);
+                }
+                if (result.data) {
+                    result.data += '&' + encodedPart;
+                } else {
+                    result.data = encodedPart;
+                }
                 if (result.method === 'GET') {
                     result.method = 'POST';
                 }
