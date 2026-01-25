@@ -9,6 +9,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.15] - 2026-01-25
+
+### Added
+- **Cookie Parser** - New Cookie comparison feature
+  - Support comparing multiple Cookies (unlimited), default 2, click add button for more
+  - Use CodeMirror syntax highlighting editor
+  - Horizontal grid layout, adaptive to screen width
+  - Click to copy values in diff table
+  - Show diff statistics (identical, different, partial)
+  - Support "Copy Diff" and "Copy All" as JSON
+
+### Enhanced
+- **cURL Converter** - Enhanced multi-cURL comparison feature
+  - Support comparing multiple cURLs (unlimited), default 2, click add button for more
+  - Auto-collapse inputs after comparison, click expand button to view full content
+  - Added "Copy Diff" and "Copy All" buttons to diff cards
+  - Removed "(empty)" display for empty values, keeping interface clean
+
+### Fixed
+- **cURL Converter** - Fixed uneven table column width when comparing 3+ requests
+  - Parameter name column and status column are sticky for horizontal scrolling
+  - Added Shift+scroll horizontal scrolling support
+  - Optimized scrollbar styling, added scroll hint
+
+---
+
 ## [1.0.14] - 2026-01-24
 
 ### Fixed
