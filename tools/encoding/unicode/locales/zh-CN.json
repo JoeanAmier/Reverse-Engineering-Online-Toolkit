@@ -4,5 +4,8 @@
     "format": "格式",
     "uppercase": "大写",
     "encodeAll": "编码所有字符",
-    "inputPlaceholder": "请输入文本或 Unicode 编码..."
+    "inputPlaceholder": "请输入文本或 Unicode 编码...",
+    "error": "错误",
+    "encodeSuccess": "编码完成",
+    "decodeSuccess": "解码完成"
 }

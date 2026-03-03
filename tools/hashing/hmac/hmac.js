@@ -91,12 +91,12 @@
         const format = outputFormatSelect.value;
 
         if (!key) {
-            outputEl.value = '请输入密钥';
+            outputEl.value = REOT.i18n?.t('tools.hmac.errorNoKey') || '请输入密钥';
             return;
         }
 
         if (!message) {
-            outputEl.value = '请输入消息';
+            outputEl.value = REOT.i18n?.t('tools.hmac.errorNoMessage') || '请输入消息';
             return;
         }
 
@@ -104,7 +104,7 @@
             const result = await calculateHMAC(message, key, algorithm);
             outputEl.value = formatOutput(result, format);
         } catch (error) {
-            outputEl.value = '计算失败: ' + error.message;
+            outputEl.value = (REOT.i18n?.t('tools.hmac.calcFailed') || '计算失败: ') + error.message;
         }
     }
 

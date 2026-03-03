@@ -10,5 +10,7 @@
     "localTime": "Local Time",
     "utcTime": "UTC Time",
     "isoFormat": "ISO 8601",
-    "now": "Now"
+    "now": "Now",
+    "invalidTimestamp": "Invalid timestamp",
+    "invalidDatetime": "Invalid date/time"
 }

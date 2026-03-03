@@ -12,5 +12,20 @@
     "inputPlaceholder": "请输入要加密/解密的内容...",
     "encrypt": "加密",
     "decrypt": "解密",
-    "deriveKey": "派生共享密钥"
+    "deriveKey": "派生共享密钥",
+    "keyGenSuccess": "密钥对生成成功",
+    "keyGenFailed": "密钥生成失败",
+    "encryptSuccess": "加密成功",
+    "encryptFailed": "加密失败",
+    "decryptSuccess": "解密成功",
+    "decryptFailed": "解密失败",
+    "deriveSuccess": "共享密钥派生成功",
+    "deriveFailed": "密钥派生失败",
+    "enterContent": "请输入要加密的内容",
+    "enterPeerKey": "请输入对方公钥",
+    "enterDecryptContent": "请输入要解密的内容",
+    "enterPrivateKey": "请先生成或输入私钥",
+    "enterKeyPair": "请先生成密钥对",
+    "publicKeyCopied": "公钥已复制",
+    "privateKeyCopied": "私钥已复制"
 }

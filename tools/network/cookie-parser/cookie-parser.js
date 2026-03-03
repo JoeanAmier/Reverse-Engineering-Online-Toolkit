@@ -420,9 +420,9 @@
             if (input) {
                 input.value = document.cookie;
             }
-            REOT.utils?.showNotification('已获取当前页面的 Cookie', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.cookie-parser.gotBrowserCookie') || '已获取当前页面的 Cookie', 'success');
         } else {
-            REOT.utils?.showNotification('当前页面没有 Cookie', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.cookie-parser.noBrowserCookie') || '当前页面没有 Cookie', 'warning');
         }
     }
 
@@ -448,7 +448,7 @@
         if (target.id === 'parse-btn' || target.closest('#parse-btn')) {
             const input = document.getElementById('input');
             if (!input.value.trim()) {
-                REOT.utils?.showNotification('请输入 Cookie', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.cookie-parser.errorEmpty') || '请输入 Cookie', 'warning');
                 return;
             }
 
@@ -457,14 +457,16 @@
 
             if (cookies.length > 0) {
                 const formatMap = {
-                    'json': 'JSON 格式',
-                    'netscape': 'Netscape 格式',
-                    'string': '字符串格式'
+                    'json': REOT.i18n?.t('tools.cookie-parser.formatJson') || 'JSON 格式',
+                    'netscape': REOT.i18n?.t('tools.cookie-parser.formatNetscape') || 'Netscape 格式',
+                    'string': REOT.i18n?.t('tools.cookie-parser.formatString') || '字符串格式'
                 };
-                const formatMsg = `(${formatMap[inputFormat] || '未知格式'})`;
-                REOT.utils?.showNotification(`成功解析 ${cookies.length} 个 Cookie ${formatMsg}`, 'success');
+                const formatMsg = formatMap[inputFormat] || (REOT.i18n?.t('tools.cookie-parser.formatUnknown') || '未知格式');
+                const msg = (REOT.i18n?.t('tools.cookie-parser.parseSuccess') || '成功解析 {count} 个 Cookie ({format})')
+                    .replace('{count}', cookies.length).replace('{format}', formatMsg);
+                REOT.utils?.showNotification(msg, 'success');
             } else {
-                REOT.utils?.showNotification('未找到有效的 Cookie', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.cookie-parser.parseNoResult') || '未找到有效的 Cookie', 'warning');
             }
         }
 
@@ -476,7 +478,7 @@
         // 转为字符串
         if (target.id === 'to-string-btn' || target.closest('#to-string-btn')) {
             if (cookies.length === 0) {
-                REOT.utils?.showNotification('请先解析 Cookie', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.cookie-parser.parseFirst') || '请先解析 Cookie', 'warning');
                 return;
             }
 
@@ -536,7 +538,7 @@
         // 转为 JSON 列表
         if (target.id === 'to-json-btn' || target.closest('#to-json-btn')) {
             if (cookies.length === 0) {
-                REOT.utils?.showNotification('请先解析 Cookie', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.cookie-parser.parseFirst') || '请先解析 Cookie', 'warning');
                 return;
             }
 
@@ -556,7 +558,7 @@
         // 转为 JSON 对象
         if (target.id === 'to-json-object-btn' || target.closest('#to-json-object-btn')) {
             if (cookies.length === 0) {
-                REOT.utils?.showNotification('请先解析 Cookie', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.cookie-parser.parseFirst') || '请先解析 Cookie', 'warning');
                 return;
             }
 
@@ -576,7 +578,7 @@
         // 转为 Netscape 格式
         if (target.id === 'to-netscape-btn' || target.closest('#to-netscape-btn')) {
             if (cookies.length === 0) {
-                REOT.utils?.showNotification('请先解析 Cookie', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.cookie-parser.parseFirst') || '请先解析 Cookie', 'warning');
                 return;
             }
 
@@ -596,13 +598,13 @@
         // 导出 JSON（复制到剪贴板）
         if (target.id === 'export-json-btn' || target.closest('#export-json-btn')) {
             if (cookies.length === 0) {
-                REOT.utils?.showNotification('没有可导出的 Cookie', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.cookie-parser.noExportData') || '没有可导出的 Cookie', 'warning');
                 return;
             }
 
             const json = cookiesToJson(cookies);
             copyToClipboard(json);
-            REOT.utils?.showNotification('JSON 已复制到剪贴板', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.cookie-parser.jsonCopied') || 'JSON 已复制到剪贴板', 'success');
         }
 
         // 复制单个 Cookie
@@ -679,7 +681,7 @@
 
         const toggleBtn = document.createElement('button');
         toggleBtn.className = 'compare-input-toggle';
-        toggleBtn.title = '折叠';
+        toggleBtn.title = REOT.i18n?.t('tools.cookie-parser.collapseTitle') || '折叠';
         toggleBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>';
 
         const label = document.createElement('span');
@@ -697,7 +699,7 @@
         const removeBtn = document.createElement('button');
         removeBtn.className = 'compare-input-remove';
         removeBtn.dataset.removeId = id;
-        removeBtn.title = '移除';
+        removeBtn.title = REOT.i18n?.t('tools.cookie-parser.removeTitle') || '移除';
         removeBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
 
         header.appendChild(leftGroup);
@@ -726,7 +728,7 @@
                     readOnly: false,
                     theme: theme,
                     lineWrapping: true,
-                    placeholder: '粘贴第 ' + index + ' 个 Cookie...'
+                    placeholder: (REOT.i18n?.t('tools.cookie-parser.comparePlaceholder') || '粘贴第 {index} 个 Cookie...').replace('{index}', index)
                 });
             }
         } catch (e) {
@@ -735,7 +737,7 @@
             editorDiv.remove();
             const textarea = document.createElement('textarea');
             textarea.className = 'form-input form-textarea form-textarea--code compare-textarea';
-            textarea.placeholder = '粘贴第 ' + index + ' 个 Cookie...';
+            textarea.placeholder = (REOT.i18n?.t('tools.cookie-parser.comparePlaceholder') || '粘贴第 {index} 个 Cookie...').replace('{index}', index);
             textarea.dataset.id = id;
             body.appendChild(textarea);
         }
@@ -761,7 +763,7 @@
 
         // 至少保留2个
         if (compareInputs.length <= 2) {
-            REOT.utils?.showNotification('至少需要保留 2 个对比输入框', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.cookie-parser.minCompareInputs') || '至少需要保留 2 个对比输入框', 'warning');
             return;
         }
 
@@ -832,7 +834,7 @@
     function updateCompareInputsUI() {
         const badge = document.getElementById('cookie-compare-count-badge');
         if (badge) {
-            badge.textContent = compareInputs.length + ' 个 Cookie';
+            badge.textContent = (REOT.i18n?.t('tools.cookie-parser.compareBadge') || '{count} 个 Cookie').replace('{count}', compareInputs.length);
         }
 
         // 更新删除按钮显示状态
@@ -969,9 +971,9 @@
             statsDiv.textContent = '';
 
             const stats = [
-                { className: 'diff-stat--identical', value: diff.stats.identical, label: '相同' },
-                { className: 'diff-stat--different', value: diff.stats.different, label: '不同' },
-                { className: 'diff-stat--partial', value: diff.stats.partial, label: '部分存在' }
+                { className: 'diff-stat--identical', value: diff.stats.identical, label: REOT.i18n?.t('tools.cookie-parser.diffIdentical') || '相同' },
+                { className: 'diff-stat--different', value: diff.stats.different, label: REOT.i18n?.t('tools.cookie-parser.diffDifferent') || '不同' },
+                { className: 'diff-stat--partial', value: diff.stats.partial, label: REOT.i18n?.t('tools.cookie-parser.diffPartial') || '部分存在' }
             ];
 
             stats.forEach(stat => {
@@ -1015,7 +1017,7 @@
         // 生成表头
         const headerRow = document.createElement('tr');
         const nameHeader = document.createElement('th');
-        nameHeader.textContent = '名称';
+        nameHeader.textContent = REOT.i18n?.t('tools.cookie-parser.diffHeaderName') || '名称';
         headerRow.appendChild(nameHeader);
 
         for (let i = 1; i <= count; i++) {
@@ -1025,7 +1027,7 @@
         }
 
         const statusHeader = document.createElement('th');
-        statusHeader.textContent = '状态';
+        statusHeader.textContent = REOT.i18n?.t('tools.cookie-parser.diffHeaderStatus') || '状态';
         headerRow.appendChild(statusHeader);
         thead.appendChild(headerRow);
 
@@ -1035,7 +1037,7 @@
             const emptyCell = document.createElement('td');
             emptyCell.setAttribute('colspan', count + 2);
             emptyCell.className = 'empty-cell';
-            emptyCell.textContent = '无差异';
+            emptyCell.textContent = REOT.i18n?.t('tools.cookie-parser.diffNoData') || '无差异';
             emptyRow.appendChild(emptyCell);
             tbody.appendChild(emptyRow);
             return;
@@ -1064,9 +1066,9 @@
             });
 
             const statusLabels = {
-                identical: '相同',
-                different: '不同',
-                partial: '部分'
+                identical: REOT.i18n?.t('tools.cookie-parser.statusIdentical') || '相同',
+                different: REOT.i18n?.t('tools.cookie-parser.statusDifferent') || '不同',
+                partial: REOT.i18n?.t('tools.cookie-parser.statusPartial') || '部分'
             };
             const statusCell = document.createElement('td');
             statusCell.className = 'diff-status diff-status--' + item.status;
@@ -1192,7 +1194,7 @@
             const cookieStrings = compareInputs.map(input => getCompareEditorValue(input)).filter(v => v.trim());
 
             if (cookieStrings.length < 2) {
-                REOT.utils?.showNotification('请至少输入 2 个 Cookie 进行对比', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.cookie-parser.compareMinWarning') || '请至少输入 2 个 Cookie 进行对比', 'warning');
                 return;
             }
 
@@ -1200,7 +1202,7 @@
             renderCompareResult(diff);
             collapseAllCompareInputs();
 
-            REOT.utils?.showNotification('对比完成：' + diff.stats.different + ' 个不同，' + diff.stats.partial + ' 个部分存在', 'success');
+            REOT.utils?.showNotification((REOT.i18n?.t('tools.cookie-parser.compareSuccess') || '对比完成：{different} 个不同，{partial} 个部分存在').replace('{different}', diff.stats.different).replace('{partial}', diff.stats.partial), 'success');
         }
 
         // 示例按钮

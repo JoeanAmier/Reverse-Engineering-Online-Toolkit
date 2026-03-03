@@ -16,5 +16,20 @@
     "ivHex": "Hex",
     "inputPlaceholder": "Enter content to encrypt/decrypt...",
     "aboutSm4": "About SM4",
-    "aboutDesc": "SM4 is a block cipher algorithm published by the Chinese State Cryptography Administration for wireless LAN products. It is a symmetric encryption algorithm with both key length and block length of 128 bits. SM4 has high security and is widely used in finance, government, and other fields."
+    "aboutDesc": "SM4 is a block cipher algorithm published by the Chinese State Cryptography Administration for wireless LAN products. It is a symmetric encryption algorithm with both key length and block length of 128 bits. SM4 has high security and is widely used in finance, government, and other fields.",
+    "encryptSuccess": "Encryption successful",
+    "decryptSuccess": "Decryption successful",
+    "errorPrefix": "Error",
+    "enterKey": "Please enter key",
+    "errorKeyLength": "Key must be 16 bytes",
+    "enterIV": "Please enter IV",
+    "errorIVLength": "IV must be 16 bytes",
+    "enterContent": "Please enter content to encrypt",
+    "enterDecryptContent": "Please enter content to decrypt",
+    "errorInvalidPKCS7": "Invalid PKCS7 padding",
+    "errorNoPaddingLength": "No-padding mode requires input length to be a multiple of 16",
+    "errorCiphertextLength": "Ciphertext length must be a multiple of 16",
+    "errorHexLength": "Hex string length must be even",
+    "keyGenerated": "Key generated",
+    "ivGenerated": "IV generated"
 }

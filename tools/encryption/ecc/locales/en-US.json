@@ -12,5 +12,20 @@
     "inputPlaceholder": "Enter content to encrypt/decrypt...",
     "encrypt": "Encrypt",
     "decrypt": "Decrypt",
-    "deriveKey": "Derive Shared Key"
+    "deriveKey": "Derive Shared Key",
+    "keyGenSuccess": "Key pair generated successfully",
+    "keyGenFailed": "Key generation failed",
+    "encryptSuccess": "Encryption successful",
+    "encryptFailed": "Encryption failed",
+    "decryptSuccess": "Decryption successful",
+    "decryptFailed": "Decryption failed",
+    "deriveSuccess": "Shared key derived successfully",
+    "deriveFailed": "Key derivation failed",
+    "enterContent": "Please enter content to encrypt",
+    "enterPeerKey": "Please enter peer public key",
+    "enterDecryptContent": "Please enter content to decrypt",
+    "enterPrivateKey": "Please generate or enter private key first",
+    "enterKeyPair": "Please generate key pair first",
+    "publicKeyCopied": "Public key copied",
+    "privateKeyCopied": "Private key copied"
 }

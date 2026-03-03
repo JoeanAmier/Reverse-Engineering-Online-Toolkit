@@ -13,5 +13,19 @@
     "counterHint": "通常为 0，用于断点续传场景",
     "inputPlaceholder": "请输入要加密/解密的内容...",
     "aboutChaCha20": "关于 ChaCha20",
-    "aboutDesc": "ChaCha20 是由 Daniel J. Bernstein 设计的流加密算法，是 Salsa20 的改进版本。它在软件实现上比 AES 更快（尤其在没有硬件加速的平台上），并且被广泛用于 TLS 1.3、WireGuard VPN 等场景。ChaCha20-Poly1305 是带认证的加密 (AEAD) 变体，提供完整性保护。"
+    "aboutDesc": "ChaCha20 是由 Daniel J. Bernstein 设计的流加密算法，是 Salsa20 的改进版本。它在软件实现上比 AES 更快（尤其在没有硬件加速的平台上），并且被广泛用于 TLS 1.3、WireGuard VPN 等场景。ChaCha20-Poly1305 是带认证的加密 (AEAD) 变体，提供完整性保护。",
+    "enterContent": "请输入要加密的内容",
+    "enterKey": "请输入密钥",
+    "enterNonce": "请输入 Nonce",
+    "encryptSuccess": "加密成功",
+    "encryptFailed": "加密失败",
+    "decryptSuccess": "解密成功",
+    "decryptFailed": "解密失败",
+    "enterDecryptContent": "请输入要解密的内容",
+    "errorPrefix": "错误",
+    "errorKeyLength": "密钥必须是 32 字节",
+    "errorNonceLength": "Nonce 必须是 12 字节",
+    "errorPoly1305KeyLength": "Poly1305 密钥必须是 32 字节",
+    "errorCiphertextShort": "密文太短",
+    "errorAuthFailed": "认证失败：标签不匹配"
 }

@@ -360,9 +360,9 @@
                 if (publicKeyEl) publicKeyEl.value = publicKeyPEM;
                 if (privateKeyEl) privateKeyEl.value = privateKeyPEM;
 
-                REOT.utils?.showNotification('密钥对生成成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.ecc.keyGenSuccess') || '密钥对生成成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('密钥生成失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.ecc.keyGenFailed') || '密钥生成失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -375,12 +375,12 @@
                 const format = getOutputFormat();
 
                 if (!inputEl?.value) {
-                    REOT.utils?.showNotification('请输入要加密的内容', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ecc.enterContent') || '请输入要加密的内容', 'warning');
                     return;
                 }
 
                 if (!peerKeyEl?.value.trim()) {
-                    REOT.utils?.showNotification('请输入对方公钥', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ecc.enterPeerKey') || '请输入对方公钥', 'warning');
                     return;
                 }
 
@@ -393,9 +393,9 @@
                         : arrayBufferToBase64(encrypted);
                 }
 
-                REOT.utils?.showNotification('加密成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.ecc.encryptSuccess') || '加密成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('加密失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.ecc.encryptFailed') || '加密失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -408,12 +408,12 @@
                 const format = getOutputFormat();
 
                 if (!inputEl?.value) {
-                    REOT.utils?.showNotification('请输入要解密的内容', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ecc.enterDecryptContent') || '请输入要解密的内容', 'warning');
                     return;
                 }
 
                 if (!privateKeyEl?.value.trim()) {
-                    REOT.utils?.showNotification('请先生成或输入私钥', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ecc.enterPrivateKey') || '请先生成或输入私钥', 'warning');
                     return;
                 }
 
@@ -441,9 +441,9 @@
                     }
                 }
 
-                REOT.utils?.showNotification('解密成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.ecc.decryptSuccess') || '解密成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('解密失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.ecc.decryptFailed') || '解密失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -456,12 +456,12 @@
                 const format = getOutputFormat();
 
                 if (!peerKeyEl?.value.trim()) {
-                    REOT.utils?.showNotification('请输入对方公钥', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ecc.enterPeerKey') || '请输入对方公钥', 'warning');
                     return;
                 }
 
                 if (!privateKeyEl?.value.trim() && !currentKeyPair) {
-                    REOT.utils?.showNotification('请先生成密钥对', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ecc.enterKeyPair') || '请先生成密钥对', 'warning');
                     return;
                 }
 
@@ -482,9 +482,9 @@
                         : arrayBufferToBase64(sharedSecret);
                 }
 
-                REOT.utils?.showNotification('共享密钥派生成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.ecc.deriveSuccess') || '共享密钥派生成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('密钥派生失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.ecc.deriveFailed') || '密钥派生失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -494,7 +494,7 @@
             if (publicKeyEl?.value) {
                 const success = await REOT.utils?.copyToClipboard(publicKeyEl.value);
                 if (success) {
-                    REOT.utils?.showNotification('公钥已复制', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ecc.publicKeyCopied') || '公钥已复制', 'success');
                 }
             }
         }
@@ -505,7 +505,7 @@
             if (privateKeyEl?.value) {
                 const success = await REOT.utils?.copyToClipboard(privateKeyEl.value);
                 if (success) {
-                    REOT.utils?.showNotification('私钥已复制', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ecc.privateKeyCopied') || '私钥已复制', 'success');
                 }
             }
         }

@@ -24,5 +24,8 @@
     "success": "Key derived successfully",
     "error": "Derivation failed: ",
     "errorNoIkm": "Please enter input keying material (IKM)",
-    "errorInvalidLength": "Invalid key length"
+    "errorInvalidLength": "Invalid key length",
+    "errorInvalidHex": "Invalid hex string",
+    "errorKeyTooLong": "Requested key length too long, max is {max} bytes",
+    "bytesInfo": "{bytes} bytes ({bits} bits)"
 }

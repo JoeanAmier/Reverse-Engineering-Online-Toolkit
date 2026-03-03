@@ -21,5 +21,8 @@
     "outputXor": "Output XOR",
     "yes": "Yes",
     "no": "No",
-    "calcFailed": "Calculation failed"
+    "calcFailed": "Calculation failed",
+    "errorNoInput": "Please enter data to calculate",
+    "calcComplete": "Calculation complete",
+    "calcError": "Calculation failed: "
 }

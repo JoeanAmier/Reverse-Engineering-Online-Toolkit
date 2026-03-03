@@ -23,7 +23,7 @@
     function dottedToDecimal(ip) {
         const parts = ip.split('.').map(Number);
         if (parts.length !== 4 || parts.some(p => isNaN(p) || p < 0 || p > 255)) {
-            throw new Error('无效的 IP 地址');
+            throw new Error(REOT.i18n?.t('tools.ip-converter.errorInvalidIp') || '无效的 IP 地址');
         }
         return ((parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]) >>> 0;
     }
@@ -54,7 +54,7 @@
         hex = hex.replace(/^0x/i, '');
         const num = parseInt(hex, 16);
         if (isNaN(num) || num < 0 || num > 0xFFFFFFFF) {
-            throw new Error('无效的十六进制');
+            throw new Error(REOT.i18n?.t('tools.ip-converter.errorInvalidHex') || '无效的十六进制');
         }
         return num;
     }
@@ -77,7 +77,7 @@
     function binaryToDecimal(binary) {
         const parts = binary.split('.').map(b => parseInt(b, 2));
         if (parts.length !== 4 || parts.some(p => isNaN(p) || p < 0 || p > 255)) {
-            throw new Error('无效的二进制');
+            throw new Error(REOT.i18n?.t('tools.ip-converter.errorInvalidBinary') || '无效的二进制');
         }
         return ((parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]) >>> 0;
     }
@@ -101,21 +101,22 @@
         const firstOctet = (num >>> 24) & 255;
         const secondOctet = (num >>> 16) & 255;
 
+        const t = (key, fallback) => REOT.i18n?.t(`tools.ip-converter.${key}`) || fallback;
         // 私有地址
-        if (firstOctet === 10) return '私有地址 (A 类)';
-        if (firstOctet === 172 && secondOctet >= 16 && secondOctet <= 31) return '私有地址 (B 类)';
-        if (firstOctet === 192 && secondOctet === 168) return '私有地址 (C 类)';
+        if (firstOctet === 10) return t('privateA', '私有地址 (A 类)');
+        if (firstOctet === 172 && secondOctet >= 16 && secondOctet <= 31) return t('privateB', '私有地址 (B 类)');
+        if (firstOctet === 192 && secondOctet === 168) return t('privateC', '私有地址 (C 类)');
 
         // 回环地址
-        if (firstOctet === 127) return '回环地址';
+        if (firstOctet === 127) return t('loopback', '回环地址');
 
         // 链路本地
-        if (firstOctet === 169 && secondOctet === 254) return '链路本地地址';
+        if (firstOctet === 169 && secondOctet === 254) return t('linkLocal', '链路本地地址');
 
         // 广播
-        if (num === 0xFFFFFFFF) return '广播地址';
+        if (num === 0xFFFFFFFF) return t('broadcast', '广播地址');
 
-        return '公网地址';
+        return t('publicAddr', '公网地址');
     }
 
     /**

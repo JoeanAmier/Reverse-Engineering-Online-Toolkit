@@ -180,7 +180,7 @@
         } else if (exponentValue === 0 && allMantissaZeros) {
             specialValue = signBit ? '-0' : '+0';
         } else if (exponentValue === 0) {
-            specialValue = '非规格化数 (Denormalized)';
+            specialValue = REOT.i18n?.t('tools.ieee754.denormalized') || '非规格化数 (Denormalized)';
         }
 
         // 计算实际指数
@@ -276,7 +276,7 @@
         const specialTextEl = document.getElementById('special-text');
 
         if (!inputEl?.value.trim()) {
-            throw new Error('请输入数值');
+            throw new Error(REOT.i18n?.t('tools.ieee754.enterValue') || '请输入数值');
         }
 
         let value;
@@ -293,7 +293,7 @@
             default: // decimal
                 value = parseFloat(input);
                 if (isNaN(value) && input.toLowerCase() !== 'nan') {
-                    throw new Error('无效的数值');
+                    throw new Error(REOT.i18n?.t('tools.ieee754.invalidValue') || '无效的数值');
                 }
                 // Handle special inputs
                 if (input.toLowerCase() === 'infinity' || input === '+Infinity') {
@@ -317,15 +317,17 @@
 
         // 符号位
         if (signValueEl) signValueEl.textContent = analysis.signBit.toString();
-        if (signDescEl) signDescEl.textContent = analysis.signBit === 0 ? '正数 (+)' : '负数 (-)';
+        if (signDescEl) signDescEl.textContent = analysis.signBit === 0
+            ? (REOT.i18n?.t('tools.ieee754.positive') || '正数 (+)')
+            : (REOT.i18n?.t('tools.ieee754.negative') || '负数 (-)');
 
         // 指数
         if (exponentValueEl) exponentValueEl.textContent = `${analysis.exponentBits.join('')}₂ = ${analysis.exponentValue}`;
         if (exponentDescEl) {
             if (analysis.actualExponent !== undefined) {
-                exponentDescEl.textContent = `实际指数: ${analysis.exponentValue} - ${analysis.bias} = ${analysis.actualExponent}`;
+                exponentDescEl.textContent = `${REOT.i18n?.t('tools.ieee754.actualExponent') || '实际指数'}: ${analysis.exponentValue} - ${analysis.bias} = ${analysis.actualExponent}`;
             } else {
-                exponentDescEl.textContent = '特殊值';
+                exponentDescEl.textContent = REOT.i18n?.t('tools.ieee754.specialValue') || '特殊值';
             }
         }
 
@@ -337,7 +339,7 @@
                 : mantissaStr;
         }
         if (mantissaDescEl) {
-            mantissaDescEl.textContent = `有效值: ${(1 + analysis.mantissaValue).toFixed(10)}`;
+            mantissaDescEl.textContent = `${REOT.i18n?.t('tools.ieee754.effectiveValue') || '有效值'}: ${(1 + analysis.mantissaValue).toFixed(10)}`;
         }
 
         // 公式
@@ -367,7 +369,7 @@
         if (target.id === 'convert-btn' || target.closest('#convert-btn')) {
             try {
                 convert();
-                REOT.utils?.showNotification('转换成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.ieee754.convertSuccess') || '转换成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -423,9 +425,9 @@
             // 更新 placeholder
             if (e.target.id === 'input-mode') {
                 const placeholders = {
-                    'decimal': '请输入浮点数，如 3.14, -2.5, Infinity, NaN...',
-                    'hex': '请输入十六进制，如 40490FDB (float32) 或 400921FB54442D18 (float64)',
-                    'binary': '请输入二进制位...'
+                    'decimal': REOT.i18n?.t('tools.ieee754.decimalPlaceholder') || '请输入浮点数，如 3.14, -2.5, Infinity, NaN...',
+                    'hex': REOT.i18n?.t('tools.ieee754.hexPlaceholder') || '请输入十六进制，如 40490FDB (float32) 或 400921FB54442D18 (float64)',
+                    'binary': REOT.i18n?.t('tools.ieee754.binaryPlaceholder') || '请输入二进制位...'
                 };
                 if (inputEl) {
                     inputEl.placeholder = placeholders[e.target.value] || placeholders['decimal'];

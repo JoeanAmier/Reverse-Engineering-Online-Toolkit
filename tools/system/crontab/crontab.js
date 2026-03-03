@@ -127,14 +127,14 @@
             if (expanded && expanded !== '@reboot') {
                 return parseCron(expanded);
             }
-            return { valid: false, error: '无效的特殊表达式' };
+            return { valid: false, error: REOT.i18n?.t('tools.crontab.invalidSpecial') || '无效的特殊表达式' };
         }
 
         const parts = expr.split(/\s+/);
 
         // 标准 cron 是 5 个字段
         if (parts.length !== 5) {
-            return { valid: false, error: `需要 5 个字段，但得到 ${parts.length} 个` };
+            return { valid: false, error: (REOT.i18n?.t('tools.crontab.needFields') || '需要 5 个字段，但得到 {0} 个').replace('{0}', parts.length) };
         }
 
         try {
@@ -150,7 +150,7 @@
                 raw: { minute, hour, dayOfMonth, month, dayOfWeek }
             };
         } catch (e) {
-            return { valid: false, error: '解析错误: ' + e.message };
+            return { valid: false, error: (REOT.i18n?.t('tools.crontab.parseError') || '解析错误') + ': ' + e.message };
         }
     }
 
@@ -160,8 +160,10 @@
      * @returns {string} - 人类可读描述
      */
     function generateDescription(parsed) {
+        const t = (key, fallback) => REOT.i18n?.t(`tools.crontab.${key}`) || fallback;
+
         if (parsed.special === 'reboot') {
-            return '系统启动时执行';
+            return t('descReboot', '系统启动时执行');
         }
 
         const { raw } = parsed;
@@ -169,43 +171,43 @@
 
         // 时间部分
         if (raw.minute === '*' && raw.hour === '*') {
-            parts.push('每分钟');
+            parts.push(t('descEveryMinute', '每分钟'));
         } else if (raw.minute.includes('/')) {
             const step = raw.minute.split('/')[1];
-            parts.push(`每 ${step} 分钟`);
+            parts.push((t('descEveryNMinutes', '每 {0} 分钟')).replace('{0}', step));
         } else if (raw.hour === '*') {
-            parts.push(`在每小时的第 ${raw.minute} 分钟`);
+            parts.push((t('descAtMinute', '在每小时的第 {0} 分钟')).replace('{0}', raw.minute));
         } else if (raw.minute === '0' && !raw.hour.includes('/') && !raw.hour.includes(',') && !raw.hour.includes('-')) {
-            parts.push(`在 ${raw.hour}:00`);
+            parts.push((t('descAtTime', '在 {0}')).replace('{0}', `${raw.hour}:00`));
         } else if (raw.hour.includes('/')) {
             const step = raw.hour.split('/')[1];
-            parts.push(`每 ${step} 小时，在第 ${raw.minute} 分钟`);
+            parts.push((t('descEveryNHoursAtMinute', '每 {0} 小时，在第 {1} 分钟')).replace('{0}', step).replace('{1}', raw.minute));
         } else if (raw.hour.includes('-')) {
             const [start, end] = raw.hour.split('-');
-            parts.push(`从 ${start}:${raw.minute.padStart(2, '0')} 到 ${end}:${raw.minute.padStart(2, '0')}`);
+            parts.push((t('descFromTo', '从 {0} 到 {1}')).replace('{0}', `${start}:${raw.minute.padStart(2, '0')}`).replace('{1}', `${end}:${raw.minute.padStart(2, '0')}`));
         } else if (raw.hour.includes(',')) {
             const hours = raw.hour.split(',');
-            parts.push(`在 ${hours.map(h => `${h}:${raw.minute.padStart(2, '0')}`).join(', ')}`);
+            parts.push((t('descAtTime', '在 {0}')).replace('{0}', hours.map(h => `${h}:${raw.minute.padStart(2, '0')}`).join(', ')));
         } else {
-            parts.push(`在 ${raw.hour}:${raw.minute.padStart(2, '0')}`);
+            parts.push((t('descAtTime', '在 {0}')).replace('{0}', `${raw.hour}:${raw.minute.padStart(2, '0')}`));
         }
 
         // 日期部分
         if (raw.dayOfMonth === '*' && raw.month === '*' && raw.dayOfWeek === '*') {
-            parts.push('每天');
+            parts.push(t('descEveryDay', '每天'));
         } else {
             // 星期
             if (raw.dayOfWeek !== '*') {
                 if (raw.dayOfWeek === '1-5') {
-                    parts.push('工作日');
+                    parts.push(t('descWeekdays', '工作日'));
                 } else if (raw.dayOfWeek === '0,6' || raw.dayOfWeek === '6,0') {
-                    parts.push('周末');
+                    parts.push(t('descWeekend', '周末'));
                 } else if (raw.dayOfWeek.includes('-')) {
                     const [start, end] = raw.dayOfWeek.split('-').map(d => parseInt(d, 10));
-                    parts.push(`从${WEEKDAYS[start]}到${WEEKDAYS[end]}`);
+                    parts.push((t('descFromDayToDay', '从{0}到{1}')).replace('{0}', WEEKDAYS[start]).replace('{1}', WEEKDAYS[end]));
                 } else if (raw.dayOfWeek.includes(',')) {
                     const days = raw.dayOfWeek.split(',').map(d => WEEKDAYS[parseInt(d, 10)]);
-                    parts.push(days.join('、'));
+                    parts.push(days.join(REOT.i18n?.currentLocale === 'en-US' ? ', ' : '、'));
                 } else {
                     const day = parseInt(raw.dayOfWeek, 10);
                     parts.push(WEEKDAYS[day]);
@@ -216,12 +218,12 @@
             if (raw.dayOfMonth !== '*') {
                 if (raw.dayOfMonth.includes(',')) {
                     const days = raw.dayOfMonth.split(',');
-                    parts.push(`每月 ${days.join('、')} 号`);
+                    parts.push((t('descMonthDays', '每月 {0} 号')).replace('{0}', days.join(REOT.i18n?.currentLocale === 'en-US' ? ', ' : '、')));
                 } else if (raw.dayOfMonth.includes('-')) {
                     const [start, end] = raw.dayOfMonth.split('-');
-                    parts.push(`每月 ${start} 到 ${end} 号`);
+                    parts.push((t('descMonthDayRange', '每月 {0} 到 {1} 号')).replace('{0}', start).replace('{1}', end));
                 } else {
-                    parts.push(`每月 ${raw.dayOfMonth} 号`);
+                    parts.push((t('descMonthDay', '每月 {0} 号')).replace('{0}', raw.dayOfMonth));
                 }
             }
 
@@ -229,17 +231,17 @@
             if (raw.month !== '*') {
                 if (raw.month.includes(',')) {
                     const months = raw.month.split(',').map(m => MONTHS[parseInt(m, 10)]);
-                    parts.push(`在 ${months.join('、')}`);
+                    parts.push((t('descInMonths', '在 {0}')).replace('{0}', months.join(REOT.i18n?.currentLocale === 'en-US' ? ', ' : '、')));
                 } else if (raw.month.includes('-')) {
                     const [start, end] = raw.month.split('-').map(m => parseInt(m, 10));
-                    parts.push(`从 ${MONTHS[start]} 到 ${MONTHS[end]}`);
+                    parts.push((t('descFromMonth', '从 {0} 到 {1}')).replace('{0}', MONTHS[start]).replace('{1}', MONTHS[end]));
                 } else {
-                    parts.push(`在 ${MONTHS[parseInt(raw.month, 10)]}`);
+                    parts.push((t('descInMonth', '在 {0}')).replace('{0}', MONTHS[parseInt(raw.month, 10)]));
                 }
             }
         }
 
-        return parts.join('，');
+        return parts.join(t('descJoiner', '，'));
     }
 
     /**
@@ -298,14 +300,15 @@
         const hours = Math.floor(minutes / 60);
         const days = Math.floor(hours / 24);
 
+        const t = (key, fallback) => REOT.i18n?.t(`tools.crontab.${key}`) || fallback;
         if (days > 0) {
-            return `${days} 天后`;
+            return (t('descDaysLater', '{0} 天后')).replace('{0}', days);
         } else if (hours > 0) {
-            return `${hours} 小时后`;
+            return (t('descHoursLater', '{0} 小时后')).replace('{0}', hours);
         } else if (minutes > 0) {
-            return `${minutes} 分钟后`;
+            return (t('descMinutesLater', '{0} 分钟后')).replace('{0}', minutes);
         } else {
-            return '即将执行';
+            return t('descImminent', '即将执行');
         }
     }
 
@@ -344,8 +347,8 @@
         if (!parsed.valid) {
             resultCardEl.classList.add('error');
             resultTextEl.classList.add('error');
-            resultTextEl.textContent = '错误: ' + parsed.error;
-            nextRunsListEl.innerHTML = '<div class="placeholder-text">无法计算执行时间</div>';
+            resultTextEl.textContent = (REOT.i18n?.t('tools.crontab.error') || '错误') + ': ' + parsed.error;
+            nextRunsListEl.innerHTML = '<div class="placeholder-text">' + (REOT.i18n?.t('tools.crontab.cannotCalc') || '无法计算执行时间') + '</div>';
             return;
         }
 

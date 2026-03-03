@@ -9,5 +9,6 @@
     "sentences": "Sentences",
     "paragraphs": "Paragraphs",
     "bytes": "Bytes (UTF-8)",
-    "cjk": "CJK Characters"
+    "cjk": "CJK Characters",
+    "sampleText": "REOT - Reverse Engineering Online Toolkit\n\nA pure frontend online toolkit where all computations run locally in your browser.\n\nFeatures:\n- Encoding & Decoding\n- Encryption & Decryption\n- Text Processing\n- And more...\n\nHello, World! 你好，世界！こんにちは！"
 }

@@ -41,7 +41,7 @@
             };
             script.onerror = () => {
                 exifrLoadingPromise = null;
-                reject(new Error('无法加载 exifr 库'));
+                reject(new Error(REOT.i18n?.t('tools.exif-viewer.loadError') || '无法加载 exifr 库'));
             };
             document.head.appendChild(script);
         });
@@ -139,50 +139,66 @@
             case 'ISO':
                 return `ISO ${value}`;
 
-            case 'Flash':
-                const flashModes = {
-                    0: '未闪光',
-                    1: '闪光',
-                    5: '闪光，无返回光',
-                    7: '闪光，有返回光',
-                    9: '闪光，强制',
-                    13: '闪光，强制，无返回光',
-                    15: '闪光，强制，有返回光',
-                    16: '未闪光，强制禁用',
-                    24: '未闪光，自动',
-                    25: '闪光，自动',
-                    29: '闪光，自动，无返回光',
-                    31: '闪光，自动，有返回光'
+            case 'Flash': {
+                const isEn = REOT.i18n?.currentLocale === 'en-US';
+                const flashModes = isEn ? {
+                    0: 'No Flash', 1: 'Flash', 5: 'Flash, No Return', 7: 'Flash, Return',
+                    9: 'Flash, Forced', 13: 'Flash, Forced, No Return', 15: 'Flash, Forced, Return',
+                    16: 'No Flash, Forced Off', 24: 'No Flash, Auto', 25: 'Flash, Auto',
+                    29: 'Flash, Auto, No Return', 31: 'Flash, Auto, Return'
+                } : {
+                    0: '未闪光', 1: '闪光', 5: '闪光，无返回光', 7: '闪光，有返回光',
+                    9: '闪光，强制', 13: '闪光，强制，无返回光', 15: '闪光，强制，有返回光',
+                    16: '未闪光，强制禁用', 24: '未闪光，自动', 25: '闪光，自动',
+                    29: '闪光，自动，无返回光', 31: '闪光，自动，有返回光'
                 };
                 return flashModes[value] || `${value}`;
+            }
 
-            case 'MeteringMode':
-                const meteringModes = {
+            case 'MeteringMode': {
+                const isEn = REOT.i18n?.currentLocale === 'en-US';
+                const meteringModes = isEn ? {
+                    0: 'Unknown', 1: 'Average', 2: 'Center-weighted', 3: 'Spot',
+                    4: 'Multi-spot', 5: 'Matrix', 6: 'Partial'
+                } : {
                     0: '未知', 1: '平均测光', 2: '中央重点', 3: '点测光',
                     4: '多点测光', 5: '矩阵测光', 6: '局部测光'
                 };
                 return meteringModes[value] || `${value}`;
+            }
 
-            case 'ExposureProgram':
-                const programs = {
+            case 'ExposureProgram': {
+                const isEn = REOT.i18n?.currentLocale === 'en-US';
+                const programs = isEn ? {
+                    0: 'Undefined', 1: 'Manual', 2: 'Program Auto', 3: 'Aperture Priority',
+                    4: 'Shutter Priority', 5: 'Creative', 6: 'Action', 7: 'Portrait', 8: 'Landscape'
+                } : {
                     0: '未定义', 1: '手动', 2: '程序自动', 3: '光圈优先',
                     4: '快门优先', 5: '创意', 6: '动作', 7: '人像', 8: '风景'
                 };
                 return programs[value] || `${value}`;
+            }
 
-            case 'Orientation':
-                const orientations = {
+            case 'Orientation': {
+                const isEn = REOT.i18n?.currentLocale === 'en-US';
+                const orientations = isEn ? {
+                    1: 'Normal', 2: 'Flipped Horizontal', 3: 'Rotated 180°', 4: 'Flipped Vertical',
+                    5: 'CW 90°+Flip H', 6: 'CW 90°', 7: 'CCW 90°+Flip H', 8: 'CCW 90°'
+                } : {
                     1: '正常', 2: '水平翻转', 3: '旋转180°', 4: '垂直翻转',
                     5: '顺时针90°+水平翻转', 6: '顺时针90°',
                     7: '逆时针90°+水平翻转', 8: '逆时针90°'
                 };
                 return orientations[value] || `${value}`;
+            }
 
             case 'ColorSpace':
                 return value === 1 ? 'sRGB' : (value === 65535 ? 'Uncalibrated' : `${value}`);
 
-            case 'WhiteBalance':
-                return value === 0 ? '自动' : '手动';
+            case 'WhiteBalance': {
+                const isEn = REOT.i18n?.currentLocale === 'en-US';
+                return value === 0 ? (isEn ? 'Auto' : '自动') : (isEn ? 'Manual' : '手动');
+            }
 
             case 'latitude':
             case 'longitude':

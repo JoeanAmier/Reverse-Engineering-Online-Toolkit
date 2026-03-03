@@ -8,5 +8,15 @@
     "binary": "二进制",
     "ipInfo": "IP 地址信息",
     "type": "类型:",
-    "networkType": "网络类别:"
+    "networkType": "网络类别:",
+    "errorInvalidIp": "无效的 IP 地址",
+    "errorInvalidHex": "无效的十六进制",
+    "errorInvalidBinary": "无效的二进制",
+    "privateA": "私有地址 (A 类)",
+    "privateB": "私有地址 (B 类)",
+    "privateC": "私有地址 (C 类)",
+    "loopback": "回环地址",
+    "linkLocal": "链路本地地址",
+    "broadcast": "广播地址",
+    "publicAddr": "公网地址"
 }

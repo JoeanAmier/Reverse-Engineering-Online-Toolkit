@@ -593,7 +593,7 @@ body {
                 value: '',
                 readOnly: false,
                 theme: theme,
-                placeholder: '请输入 CSS 代码...'
+                placeholder: REOT.i18n?.t('tools.css.inputPlaceholder') || '请输入 CSS 代码...'
             });
 
             outputEditor = await REOT.CodeEditor.create('#output-editor', {
@@ -629,9 +629,9 @@ body {
                 const options = getOptions();
                 const result = formatCss(getInputValue(), options);
                 setOutputValue(result);
-                REOT.utils?.showNotification('格式化成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.css.formatSuccess') || '格式化成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('格式化失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.css.formatFailed') || '格式化失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -640,9 +640,9 @@ body {
             try {
                 const result = minifyCss(getInputValue());
                 setOutputValue(result);
-                REOT.utils?.showNotification('压缩成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.css.minifySuccess') || '压缩成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('压缩失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.css.minifyFailed') || '压缩失败') + ': ' + error.message, 'error');
             }
         }
 

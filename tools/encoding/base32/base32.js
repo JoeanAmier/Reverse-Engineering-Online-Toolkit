@@ -74,7 +74,7 @@
             const index = ALPHABET.indexOf(char);
 
             if (index === -1) {
-                throw new Error(`无效的 Base32 字符: ${char}`);
+                throw new Error(`${REOT.i18n?.t('tools.base32.invalidChar') || '无效的 Base32 字符'}: ${char}`);
             }
 
             value = (value << 5) | index;
@@ -94,7 +94,7 @@
      * @param {string} message
      */
     function showError(message) {
-        outputEl.value = `错误: ${message}`;
+        outputEl.value = `${REOT.i18n?.t('tools.base32.error') || '错误'}: ${message}`;
         if (window.REOT?.utils?.showNotification) {
             window.REOT.utils.showNotification(message, 'error');
         }

@@ -6,5 +6,6 @@
     "decimalEntities": "Decimal Entities",
     "hexEntities": "Hexadecimal Entities",
     "encodeAll": "Encode All Characters",
-    "inputPlaceholder": "Enter HTML text..."
+    "inputPlaceholder": "Enter HTML text...",
+    "error": "Error"
 }

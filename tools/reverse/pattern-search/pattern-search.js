@@ -25,14 +25,14 @@
     function parseHexString(str) {
         str = str.replace(/\s+/g, '').toUpperCase();
         if (str.length % 2 !== 0) {
-            throw new Error('无效的十六进制字符串：长度必须为偶数');
+            throw new Error(REOT.i18n?.t('tools.pattern-search.invalidHexLen') || '无效的十六进制字符串：长度必须为偶数');
         }
 
         const bytes = [];
         for (let i = 0; i < str.length; i += 2) {
             const hex = str.substr(i, 2);
             if (!/^[0-9A-F]{2}$/.test(hex)) {
-                throw new Error(`无效的十六进制字符：${hex}`);
+                throw new Error(`${REOT.i18n?.t('tools.pattern-search.invalidHexChar') || '无效的十六进制字符'}: ${hex}`);
             }
             bytes.push(parseInt(hex, 16));
         }
@@ -65,7 +65,7 @@
     function parseHexPattern(str) {
         str = str.replace(/\s+/g, '').toUpperCase();
         if (str.length % 2 !== 0) {
-            throw new Error('无效的模式：长度必须为偶数');
+            throw new Error(REOT.i18n?.t('tools.pattern-search.invalidPatternLen') || '无效的模式：长度必须为偶数');
         }
 
         const pattern = [];
@@ -80,7 +80,7 @@
                 pattern.push(parseInt(hex, 16));
                 mask.push(0xFF);
             } else {
-                throw new Error(`无效的模式字符：${hex}`);
+                throw new Error(`${REOT.i18n?.t('tools.pattern-search.invalidPatternChar') || '无效的模式字符'}: ${hex}`);
             }
         }
 
@@ -192,11 +192,11 @@
         const showContext = document.getElementById('show-context')?.checked;
 
         if (!currentData || currentData.length === 0) {
-            throw new Error('请先加载数据');
+            throw new Error(REOT.i18n?.t('tools.pattern-search.loadData') || '请先加载数据');
         }
 
         if (!patternInput) {
-            throw new Error('请输入搜索模式');
+            throw new Error(REOT.i18n?.t('tools.pattern-search.enterPattern') || '请输入搜索模式');
         }
 
         let results = [];
@@ -245,12 +245,12 @@
         if (!resultsSection || !resultsList || !resultsCount) return;
 
         resultsSection.style.display = 'block';
-        resultsCount.textContent = `找到 ${results.length} 个匹配`;
+        resultsCount.textContent = REOT.i18n?.t('tools.pattern-search.foundMatches')?.replace('{0}', results.length) || `找到 ${results.length} 个匹配`;
 
         if (results.length === 0) {
             resultsList.innerHTML = `
                 <div class="no-results">
-                    <p>未找到匹配的模式</p>
+                    <p>${REOT.i18n?.t('tools.pattern-search.noMatchFound') || '未找到匹配的模式'}</p>
                 </div>
             `;
             return;
@@ -293,7 +293,7 @@
 
             html += `
                 <div class="result-item" data-offset="${offset}">
-                    <span class="result-offset">偏移: 0x${offset.toString(16).toUpperCase().padStart(8, '0')} (${offset})</span>
+                    <span class="result-offset">${REOT.i18n?.t('tools.pattern-search.offsetLabel') || '偏移'}: 0x${offset.toString(16).toUpperCase().padStart(8, '0')} (${offset})</span>
                     ${contextHtml}
                 </div>
             `;
@@ -312,7 +312,7 @@
                 currentData = new Uint8Array(e.target.result);
                 resolve(currentData);
             };
-            reader.onerror = () => reject(new Error('文件读取失败'));
+            reader.onerror = () => reject(new Error(REOT.i18n?.t('tools.pattern-search.fileReadFailed') || '文件读取失败'));
             reader.readAsArrayBuffer(file);
         });
     }
@@ -330,7 +330,7 @@
         try {
             currentData = parseHexString(hexInput.replace(/\s+/g, ''));
         } catch (error) {
-            throw new Error('十六进制解析失败: ' + error.message);
+            throw new Error((REOT.i18n?.t('tools.pattern-search.hexParseFailed') || '十六进制解析失败') + ': ' + error.message);
         }
     }
 
@@ -348,7 +348,7 @@
                     loadFromHexInput();
                 }
                 performSearch(false);
-                REOT.utils?.showNotification('搜索完成', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.pattern-search.searchDone') || '搜索完成', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -361,7 +361,7 @@
                     loadFromHexInput();
                 }
                 performSearch(true);
-                REOT.utils?.showNotification('搜索完成', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.pattern-search.searchDone') || '搜索完成', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -396,7 +396,7 @@
                     if (fileInfo) {
                         fileInfo.textContent = `${file.name} (${currentData.length} 字节)`;
                     }
-                    REOT.utils?.showNotification(`已加载: ${file.name}`, 'success');
+                    REOT.utils?.showNotification(`${REOT.i18n?.t('tools.pattern-search.loaded') || '已加载'}: ${file.name}`, 'success');
                 } catch (error) {
                     REOT.utils?.showNotification(error.message, 'error');
                 }
@@ -437,7 +437,7 @@
                     if (fileInfo) {
                         fileInfo.textContent = `${file.name} (${currentData.length} 字节)`;
                     }
-                    REOT.utils?.showNotification(`已加载: ${file.name}`, 'success');
+                    REOT.utils?.showNotification(`${REOT.i18n?.t('tools.pattern-search.loaded') || '已加载'}: ${file.name}`, 'success');
                 } catch (error) {
                     REOT.utils?.showNotification(error.message, 'error');
                 }

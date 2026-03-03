@@ -587,7 +587,7 @@ fetchData('https://api.example.com/data')
                 value: '',
                 readOnly: false,
                 theme: theme,
-                placeholder: '请输入 JavaScript 代码...'
+                placeholder: REOT.i18n?.t('tools.javascript.inputPlaceholder') || '请输入 JavaScript 代码...'
             });
 
             // 创建输出编辑器（只读）
@@ -625,9 +625,9 @@ fetchData('https://api.example.com/data')
                 const options = getOptions();
                 const result = formatJs(getInputValue(), options);
                 setOutputValue(result);
-                REOT.utils?.showNotification('格式化成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.javascript.formatSuccess') || '格式化成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('格式化失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.javascript.formatFailed') || '格式化失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -636,9 +636,9 @@ fetchData('https://api.example.com/data')
             try {
                 const result = minifyJs(getInputValue());
                 setOutputValue(result);
-                REOT.utils?.showNotification('压缩成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.javascript.minifySuccess') || '压缩成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('压缩失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.javascript.minifyFailed') || '压缩失败') + ': ' + error.message, 'error');
             }
         }
 

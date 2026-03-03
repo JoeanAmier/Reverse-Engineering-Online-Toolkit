@@ -47,7 +47,7 @@
         if (dataType === 'hex') {
             input = input.replace(/\s/g, '').replace(/^0x/i, '');
             if (!/^[0-9a-fA-F]*$/.test(input)) {
-                throw new Error('无效的十六进制字符串');
+                throw new Error(REOT.i18n?.t('tools.byte-order.invalidHex') || '无效的十六进制字符串');
             }
             // 确保偶数长度
             if (input.length % 2 !== 0) {
@@ -257,7 +257,7 @@
         const leDecimal = document.getElementById('le-decimal');
 
         if (!inputEl?.value.trim()) {
-            throw new Error('请输入数值');
+            throw new Error(REOT.i18n?.t('tools.byte-order.enterValue') || '请输入数值');
         }
 
         // 解析输入
@@ -295,7 +295,7 @@
         const inputFormat = document.getElementById('input-format')?.value || 'decimal';
 
         if (!inputEl?.value.trim()) {
-            REOT.utils?.showNotification('请先输入数值', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.byte-order.enterValueFirst') || '请先输入数值', 'warning');
             return;
         }
 
@@ -331,7 +331,7 @@
         if (target.id === 'convert-btn' || target.closest('#convert-btn')) {
             try {
                 convert();
-                REOT.utils?.showNotification('转换成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.byte-order.convertSuccess') || '转换成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }

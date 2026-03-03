@@ -55,18 +55,19 @@
      * 生成人类可读格式
      */
     function toHumanReadable(ms) {
-        if (ms === 0) return '0 毫秒';
+        const t = (key, fallback) => REOT.i18n?.t(`tools.time-unit.${key}`) || fallback;
+        if (ms === 0) return '0 ' + t('unitMs', '毫秒');
 
         const parts = [];
         let remaining = Math.abs(ms);
 
         const units = [
-            { name: '年', ms: UNITS.y },
-            { name: '天', ms: UNITS.d },
-            { name: '小时', ms: UNITS.h },
-            { name: '分钟', ms: UNITS.min },
-            { name: '秒', ms: UNITS.s },
-            { name: '毫秒', ms: 1 }
+            { name: t('unitYear', '年'), ms: UNITS.y },
+            { name: t('unitDay', '天'), ms: UNITS.d },
+            { name: t('unitHour', '小时'), ms: UNITS.h },
+            { name: t('unitMinute', '分钟'), ms: UNITS.min },
+            { name: t('unitSecond', '秒'), ms: UNITS.s },
+            { name: t('unitMs', '毫秒'), ms: 1 }
         ];
 
         for (const unit of units) {

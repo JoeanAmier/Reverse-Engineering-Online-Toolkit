@@ -198,7 +198,7 @@
             try {
                 outputEl.value = encodeDomain(inputEl.value);
             } catch (error) {
-                outputEl.value = '编码失败: ' + error.message;
+                outputEl.value = (REOT.i18n?.t('tools.punycode.encodeFailed') || '编码失败') + ': ' + error.message;
             }
         });
     }
@@ -208,7 +208,7 @@
             try {
                 outputEl.value = decodeDomain(inputEl.value);
             } catch (error) {
-                outputEl.value = '解码失败: ' + error.message;
+                outputEl.value = (REOT.i18n?.t('tools.punycode.decodeFailed') || '解码失败') + ': ' + error.message;
             }
         });
     }
@@ -241,7 +241,7 @@
 
     // 设置默认示例
     if (inputEl && !inputEl.value) {
-        inputEl.value = '中国.com';
+        inputEl.value = REOT.i18n?.t('tools.punycode.sampleDomain') || '中国.com';
     }
 
     // 导出到全局

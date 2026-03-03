@@ -14,5 +14,10 @@
     "validationResult": "Validation Result",
     "validYaml": "YAML is valid",
     "invalidYaml": "YAML is invalid",
-    "emptyInput": "Input is empty"
+    "emptyInput": "Input is empty",
+    "loadError": "Failed to load js-yaml library, please check network",
+    "loadFailed": "js-yaml library failed to load",
+    "yamlParseError": "YAML parse error",
+    "parseFailed": "Parse failed",
+    "jsonParseError": "JSON parse error"
 }

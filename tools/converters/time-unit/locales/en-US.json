@@ -9,5 +9,11 @@
     "d": "Days (d)",
     "w": "Weeks (w)",
     "mo": "Months (30 days)",
-    "y": "Years (365 days)"
+    "y": "Years (365 days)",
+    "unitYear": "years",
+    "unitDay": "days",
+    "unitHour": "hours",
+    "unitMinute": "minutes",
+    "unitSecond": "seconds",
+    "unitMs": "ms"
 }

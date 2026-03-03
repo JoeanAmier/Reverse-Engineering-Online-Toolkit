@@ -23,5 +23,8 @@
     "copyValueFormatted": "Copy Value (Formatted)",
     "copyValueMinified": "Copy Value (Minified)",
     "expandChildren": "Expand Children",
-    "collapseChildren": "Collapse Children"
+    "collapseChildren": "Collapse Children",
+    "pythonParseError": "Failed to parse after Python Dict conversion",
+    "jsonParseError": "JSON parse error",
+    "enterValidJson": "Please enter valid JSON first"
 }

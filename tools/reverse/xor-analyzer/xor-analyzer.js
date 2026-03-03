@@ -22,7 +22,7 @@
     function hexToBytes(hex) {
         hex = hex.replace(/[\s\n\r,;]/g, '').replace(/^0x/i, '');
         if (!/^[0-9a-fA-F]*$/.test(hex)) {
-            throw new Error('无效的十六进制字符串');
+            throw new Error(REOT.i18n?.t('tools.xor-analyzer.invalidHex') || '无效的十六进制字符串');
         }
         if (hex.length % 2 !== 0) {
             hex = '0' + hex;
@@ -178,7 +178,7 @@
      */
     function hammingDistance(a, b) {
         if (a.length !== b.length) {
-            throw new Error('数组长度不一致');
+            throw new Error(REOT.i18n?.t('tools.xor-analyzer.arrayLengthMismatch') || '数组长度不一致');
         }
         let distance = 0;
         for (let i = 0; i < a.length; i++) {
@@ -395,8 +395,8 @@
         const dataInput = document.getElementById('data-input')?.value.trim();
         const keyInput = document.getElementById('key-input')?.value.trim();
 
-        if (!dataInput) throw new Error('请输入数据');
-        if (!keyInput) throw new Error('请输入密钥');
+        if (!dataInput) throw new Error(REOT.i18n?.t('tools.xor-analyzer.enterData') || '请输入数据');
+        if (!keyInput) throw new Error(REOT.i18n?.t('tools.xor-analyzer.enterKey') || '请输入密钥');
 
         // 解析数据
         let data;
@@ -448,7 +448,7 @@
         const input = document.getElementById('bruteforce-input')?.value.trim();
         const knownPlaintext = document.getElementById('known-plaintext')?.value || '';
 
-        if (!input) throw new Error('请输入密文');
+        if (!input) throw new Error(REOT.i18n?.t('tools.xor-analyzer.enterCiphertext') || '请输入密文');
 
         const ciphertext = hexToBytes(input);
         const results = bruteforceSingleByteXor(ciphertext, knownPlaintext);
@@ -481,7 +481,7 @@
         const input = document.getElementById('keydetect-input')?.value.trim();
         const maxKeyLength = parseInt(document.getElementById('max-key-length')?.value || '20', 10);
 
-        if (!input) throw new Error('请输入密文');
+        if (!input) throw new Error(REOT.i18n?.t('tools.xor-analyzer.enterCiphertext') || '请输入密文');
 
         const ciphertext = hexToBytes(input);
         const results = detectKeyLength(ciphertext, maxKeyLength);
@@ -513,11 +513,11 @@
             const isLikely = index < 3;
 
             // 显示详细信息
-            const detailTitle = `汉明距离: ${r.hammingDist.toFixed(4)}\n重合指数: ${r.ioc.toFixed(4)}\n重复率: ${(r.repeatRatio * 100).toFixed(1)}%\n完整块数: ${r.blocks}`;
+            const detailTitle = `${REOT.i18n?.t('tools.xor-analyzer.hammingDist') || '汉明距离'}: ${r.hammingDist.toFixed(4)}\n${REOT.i18n?.t('tools.xor-analyzer.ioc') || '重合指数'}: ${r.ioc.toFixed(4)}\n${REOT.i18n?.t('tools.xor-analyzer.repeatRate') || '重复率'}: ${(r.repeatRatio * 100).toFixed(1)}%\n${REOT.i18n?.t('tools.xor-analyzer.fullBlocks') || '完整块数'}: ${r.blocks}`;
 
             return `
                 <div class="keydetect-bar" title="${detailTitle}">
-                    <span class="keydetect-label">长度 ${r.keyLength}</span>
+                    <span class="keydetect-label">${REOT.i18n?.t('tools.xor-analyzer.length') || '长度'} ${r.keyLength}</span>
                     <div class="keydetect-bar-container">
                         <div class="keydetect-bar-fill ${isLikely ? 'likely' : ''}" style="width: ${barWidth}%"></div>
                     </div>
@@ -528,7 +528,7 @@
 
         // 更新提示文本
         if (hintEl) {
-            hintEl.innerHTML = '提示：综合得分越低越可能是正确的密钥长度。将鼠标悬停在条形图上查看详细指标。';
+            hintEl.textContent = REOT.i18n?.t('tools.xor-analyzer.keyLengthDetailHint') || '提示：综合得分越低越可能是正确的密钥长度。将鼠标悬停在条形图上查看详细指标。';
         }
 
         resultSection.style.display = 'block';
@@ -543,7 +543,7 @@
         const keyLengthInput = document.getElementById('multi-key-length')?.value.trim();
         const autoDetect = document.getElementById('auto-detect-length')?.checked;
 
-        if (!input) throw new Error('请输入密文');
+        if (!input) throw new Error(REOT.i18n?.t('tools.xor-analyzer.enterCiphertext') || '请输入密文');
 
         const ciphertext = hexToBytes(input);
 
@@ -562,14 +562,14 @@
         }
 
         if (keyLengths.length === 0) {
-            throw new Error('请指定密钥长度或启用自动检测');
+            throw new Error(REOT.i18n?.t('tools.xor-analyzer.specifyKeyLength') || '请指定密钥长度或启用自动检测');
         }
 
         // 执行多字节暴力破解
         const results = bruteforceMultipleLengths(ciphertext, keyLengths, knownPlaintext);
 
         if (results.length === 0) {
-            throw new Error('无法生成结果，请检查输入');
+            throw new Error(REOT.i18n?.t('tools.xor-analyzer.cannotGenerate') || '无法生成结果，请检查输入');
         }
 
         // 渲染结果
@@ -679,7 +679,7 @@
         if (target.id === 'xor-btn' || target.closest('#xor-btn')) {
             try {
                 doXor();
-                REOT.utils?.showNotification('XOR 操作完成', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.xor-analyzer.xorDone') || 'XOR 操作完成', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -689,7 +689,7 @@
         if (target.id === 'bruteforce-btn' || target.closest('#bruteforce-btn')) {
             try {
                 doBruteforce();
-                REOT.utils?.showNotification('暴力破解完成', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.xor-analyzer.bruteForceDone') || '暴力破解完成', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -699,7 +699,7 @@
         if (target.id === 'keydetect-btn' || target.closest('#keydetect-btn')) {
             try {
                 doKeyDetect();
-                REOT.utils?.showNotification('检测完成', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.xor-analyzer.detectDone') || '检测完成', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -709,7 +709,7 @@
         if (target.id === 'multibruteforce-btn' || target.closest('#multibruteforce-btn')) {
             try {
                 doMultiBruteforce();
-                REOT.utils?.showNotification('多字节暴力破解完成', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.xor-analyzer.multiByteDone') || '多字节暴力破解完成', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }

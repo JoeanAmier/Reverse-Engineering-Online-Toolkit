@@ -33,7 +33,7 @@
         const bytes = keySize / 8;
         const i18nKey = `tools.aes.keyHint${keySize}`;
         keyHint.setAttribute('data-i18n', i18nKey);
-        keyHint.textContent = `需要 ${bytes} 字节 (${keySize} bit)`;
+        keyHint.textContent = REOT.i18n?.t(`tools.aes.keyHint${keySize}`) || `需要 ${bytes} 字节 (${keySize} bit)`;
 
         // 触发 i18n 更新
         if (window.REOT?.i18n?.updateElement) {
@@ -256,7 +256,7 @@
      * @param {string} message
      */
     function showError(message) {
-        outputEl.value = `错误: ${message}`;
+        outputEl.value = (REOT.i18n?.t('tools.aes.errorPrefix') || '错误') + ': ' + message;
         if (window.REOT?.utils?.showNotification) {
             window.REOT.utils.showNotification(message, 'error');
         }
@@ -287,15 +287,15 @@
             try {
                 const input = inputEl.value;
                 if (!input) {
-                    showError('请输入要加密的内容');
+                    showError(REOT.i18n?.t('tools.aes.enterContent') || '请输入要加密的内容');
                     return;
                 }
                 if (!keyInput.value.trim()) {
-                    showError('请输入密钥');
+                    showError(REOT.i18n?.t('tools.aes.enterKey') || '请输入密钥');
                     return;
                 }
                 if (!ivInput.value.trim()) {
-                    showError('请输入 IV 向量');
+                    showError(REOT.i18n?.t('tools.aes.enterIV') || '请输入 IV 向量');
                     return;
                 }
 
@@ -312,22 +312,22 @@
             try {
                 const input = inputEl.value;
                 if (!input) {
-                    showError('请输入要解密的内容');
+                    showError(REOT.i18n?.t('tools.aes.enterDecryptContent') || '请输入要解密的内容');
                     return;
                 }
                 if (!keyInput.value.trim()) {
-                    showError('请输入密钥');
+                    showError(REOT.i18n?.t('tools.aes.enterKey') || '请输入密钥');
                     return;
                 }
                 if (!ivInput.value.trim()) {
-                    showError('请输入 IV 向量');
+                    showError(REOT.i18n?.t('tools.aes.enterIV') || '请输入 IV 向量');
                     return;
                 }
 
                 const result = await decrypt(input);
                 outputEl.value = result;
             } catch (error) {
-                showError('解密失败: ' + error.message);
+                showError((REOT.i18n?.t('tools.aes.decryptFailed') || '解密失败') + ': ' + error.message);
             }
         });
     }

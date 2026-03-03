@@ -51,5 +51,14 @@
     "tip2": "搜索支持十六进制 (如 \"FF 00 AB\") 和 ASCII 文本两种模式",
     "tip3": "使用 \"填充\" 按钮可以将选中范围填充为指定字节值",
     "tip4": "跳转偏移量支持十进制 (如 \"256\") 和十六进制 (如 \"0x100\") 格式",
-    "tip5": "所有更改都可以撤销/重做 (最多 100 步操作)"
+    "tip5": "所有更改都可以撤销/重做 (最多 100 步操作)",
+    "fileLoaded": "文件加载成功",
+    "fileSaved": "文件已保存",
+    "invalidSearch": "无效的搜索模式",
+    "invalidReplace": "无效的替换模式",
+    "invalidPattern": "无效的模式",
+    "replacedCount": "已替换 {count} 处",
+    "selectRange": "请先选择一个范围",
+    "byteInserted": "已插入字节",
+    "byteDeleted": "已删除字节"
 }

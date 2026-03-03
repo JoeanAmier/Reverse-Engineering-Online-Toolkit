@@ -8,5 +8,8 @@
     "customBase": "Custom Base",
     "inputValue": "Input Value",
     "fromBase": "From Base",
-    "toBase": "To Base"
+    "toBase": "To Base",
+    "convertFailed": "Conversion failed",
+    "error": "Error",
+    "baseRange": "Base must be between 2 and 36"
 }

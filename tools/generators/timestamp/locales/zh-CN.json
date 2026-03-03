@@ -10,5 +10,7 @@
     "localTime": "本地时间",
     "utcTime": "UTC 时间",
     "isoFormat": "ISO 8601",
-    "now": "现在"
+    "now": "现在",
+    "invalidTimestamp": "无效的时间戳",
+    "invalidDatetime": "无效的日期时间"
 }

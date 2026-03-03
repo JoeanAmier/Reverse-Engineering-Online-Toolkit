@@ -12,5 +12,16 @@
     "ratio": "压缩率",
     "fastest": "最快",
     "balanced": "平衡",
-    "best": "最佳"
+    "best": "最佳",
+    "compressSuccess": "压缩成功",
+    "decompressSuccess": "解压成功",
+    "errorNoInput": "请输入要压缩的内容",
+    "errorNoDecompressInput": "请输入要解压的内容或上传文件",
+    "errorInvalidFormat": "输入格式无效",
+    "errorDecompressFailed": "解压失败: 数据格式无效或已损坏",
+    "noDownloadContent": "没有可下载的内容",
+    "fileLoaded": "文件已加载: ",
+    "errorLoadLib": "无法加载 pako 库，请检查网络连接",
+    "errorLibNotLoaded": "pako 库加载失败",
+    "sampleText": "这是一段示例文本，用于演示 GZIP 压缩功能。\n\nGZIP 是一种广泛使用的数据压缩格式，特别是在 Web 传输中。它使用 DEFLATE 算法来压缩数据，可以显著减少文件大小。\n\n主要特点：\n1. 高压缩率 - 对于文本文件通常可以达到 70-90% 的压缩率\n2. 广泛支持 - 几乎所有浏览器和服务器都支持 GZIP\n3. 快速解压 - 解压速度非常快，适合实时传输\n\nThis is sample text for demonstrating GZIP compression.\nGZIP uses the DEFLATE algorithm to compress data."
 }

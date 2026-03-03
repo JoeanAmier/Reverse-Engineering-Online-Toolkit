@@ -47,13 +47,13 @@
                                 brotliWasm = await window.__brotliWasmPromise;
                                 resolve(brotliWasm);
                             } else {
-                                reject(new Error('brotli-wasm 加载失败'));
+                                reject(new Error(REOT.i18n?.t('tools.brotli.errorLoadLib') || 'brotli-wasm 加载失败'));
                             }
                         } catch (err) {
                             reject(err);
                         }
                     };
-                    script.onerror = () => reject(new Error('brotli-wasm 脚本加载失败'));
+                    script.onerror = () => reject(new Error(REOT.i18n?.t('tools.brotli.errorScriptLoad') || 'brotli-wasm 脚本加载失败'));
                     document.head.appendChild(script);
                 });
             }
@@ -159,7 +159,7 @@
     function downloadResult() {
         const output = document.getElementById('output');
         if (!output || !output.value) {
-            REOT.utils?.showNotification('没有可下载的内容', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.brotli.noDownloadContent') || '没有可下载的内容', 'warning');
             return;
         }
 
@@ -218,7 +218,7 @@
                 }
 
                 if (input) {
-                    input.value = `[文件已加载: ${file.name}]`;
+                    input.value = `[${REOT.i18n?.t('tools.brotli.fileLoaded') || '文件已加载: '}${file.name}]`;
                     input.disabled = true;
                 }
             };
@@ -247,11 +247,11 @@
                 }
 
                 if (!data || (typeof data === 'string' && !data.trim())) {
-                    REOT.utils?.showNotification('请输入要压缩的内容', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.brotli.errorNoInput') || '请输入要压缩的内容', 'warning');
                     return;
                 }
 
-                REOT.utils?.showNotification('正在加载 Brotli 库并压缩...', 'info');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.brotli.loadingCompress') || '正在加载 Brotli 库并压缩...', 'info');
 
                 const inputData = typeof data === 'string' ? stringToUint8Array(data) : data;
                 const compressed = await compress(data);
@@ -263,7 +263,7 @@
                         : uint8ArrayToHex(compressed);
                 }
 
-                REOT.utils?.showNotification('压缩成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.brotli.compressSuccess') || '压缩成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -287,14 +287,14 @@
                             compressedData = hexToUint8Array(input.value.trim());
                         }
                     } catch (e) {
-                        throw new Error('输入格式无效');
+                        throw new Error(REOT.i18n?.t('tools.brotli.errorInvalidFormat') || '输入格式无效');
                     }
                 } else {
-                    REOT.utils?.showNotification('请输入要解压的内容或上传文件', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.brotli.errorNoDecompressInput') || '请输入要解压的内容或上传文件', 'warning');
                     return;
                 }
 
-                REOT.utils?.showNotification('正在加载 Brotli 库并解压...', 'info');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.brotli.loadingDecompress') || '正在加载 Brotli 库并解压...', 'info');
 
                 const decompressed = await decompress(compressedData);
                 updateStats(decompressed.length, compressedData.length);
@@ -307,7 +307,7 @@
                     }
                 }
 
-                REOT.utils?.showNotification('解压成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.brotli.decompressSuccess') || '解压成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message || '解压失败', 'error');
             }
@@ -360,7 +360,7 @@
     // 设置默认示例数据
     const defaultInput = document.getElementById('input');
     if (defaultInput && !defaultInput.value) {
-        const sampleText = `这是一段示例文本，用于演示 Brotli 压缩功能。
+        const sampleText = REOT.i18n?.t('tools.brotli.sampleText') || `这是一段示例文本，用于演示 Brotli 压缩功能。
 
 Brotli 是 Google 开发的通用无损压缩算法，结合了 LZ77、霍夫曼编码和二阶上下文建模。
 

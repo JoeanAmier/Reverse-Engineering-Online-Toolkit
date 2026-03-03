@@ -10,5 +10,12 @@
     "inputPlaceholder": "Enter content to encrypt/decrypt...",
     "process": "Encrypt/Decrypt",
     "howItWorks": "How It Works",
-    "howItWorksDesc": "RC4 is a stream cipher that generates a pseudo-random byte stream from the key, then XORs it with the plaintext. Due to the properties of XOR, encryption and decryption use exactly the same operation."
+    "howItWorksDesc": "RC4 is a stream cipher that generates a pseudo-random byte stream from the key, then XORs it with the plaintext. Due to the properties of XOR, encryption and decryption use exactly the same operation.",
+    "processSuccess": "Processing successful",
+    "errorPrefix": "Error",
+    "enterContent": "Please enter content to process",
+    "enterKey": "Please enter key",
+    "errorEmptyKey": "Key cannot be empty",
+    "errorKeyTooLong": "Key length cannot exceed 256 bytes",
+    "errorInvalidHex": "Invalid hex string"
 }

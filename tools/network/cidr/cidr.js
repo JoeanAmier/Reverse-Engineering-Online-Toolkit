@@ -118,21 +118,22 @@
 
         // 私有地址范围
         // 10.0.0.0 - 10.255.255.255
-        if (firstOctet === 10) return '私有 (Class A)';
+        const t = (key, fallback) => REOT.i18n?.t(`tools.cidr.${key}`) || fallback;
+        if (firstOctet === 10) return t('privateA', '私有 (Class A)');
         // 172.16.0.0 - 172.31.255.255
-        if (firstOctet === 172 && secondOctet >= 16 && secondOctet <= 31) return '私有 (Class B)';
+        if (firstOctet === 172 && secondOctet >= 16 && secondOctet <= 31) return t('privateB', '私有 (Class B)');
         // 192.168.0.0 - 192.168.255.255
-        if (firstOctet === 192 && secondOctet === 168) return '私有 (Class C)';
+        if (firstOctet === 192 && secondOctet === 168) return t('privateC', '私有 (Class C)');
         // 127.0.0.0 - 127.255.255.255
-        if (firstOctet === 127) return '本地回环';
+        if (firstOctet === 127) return t('loopback', '本地回环');
         // 169.254.0.0 - 169.254.255.255
-        if (firstOctet === 169 && secondOctet === 254) return '链路本地';
+        if (firstOctet === 169 && secondOctet === 254) return t('linkLocal', '链路本地');
         // 224.0.0.0 - 239.255.255.255
-        if (firstOctet >= 224 && firstOctet <= 239) return '组播';
+        if (firstOctet >= 224 && firstOctet <= 239) return t('multicast', '组播');
         // 240.0.0.0 - 255.255.255.255
-        if (firstOctet >= 240) return '保留';
+        if (firstOctet >= 240) return t('reserved', '保留');
 
-        return '公有';
+        return t('public', '公有');
     }
 
     /**
@@ -246,7 +247,7 @@
         if (!match) {
             checkResultEl.className = 'check-result out-of-range';
             checkResultEl.style.display = 'block';
-            document.getElementById('check-result-text').textContent = '无效的 IP 地址格式';
+            document.getElementById('check-result-text').textContent = REOT.i18n?.t('tools.cidr.invalidIpFormat') || '无效的 IP 地址格式';
             return;
         }
 
@@ -254,7 +255,7 @@
         if (parts.some(p => p < 0 || p > 255)) {
             checkResultEl.className = 'check-result out-of-range';
             checkResultEl.style.display = 'block';
-            document.getElementById('check-result-text').textContent = '无效的 IP 地址';
+            document.getElementById('check-result-text').textContent = REOT.i18n?.t('tools.cidr.invalidIpAddress') || '无效的 IP 地址';
             return;
         }
 
@@ -285,7 +286,14 @@
         const newPrefix = currentNetwork.prefix + bitsNeeded;
 
         if (newPrefix > 32) {
-            subnetResultsEl.innerHTML = '<div class="subnet-item"><span style="color: #ef4444;">无法划分：子网掩码超过 /32</span></div>';
+            subnetResultsEl.textContent = '';
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'subnet-item';
+            const errorSpan = document.createElement('span');
+            errorSpan.style.color = '#ef4444';
+            errorSpan.textContent = REOT.i18n?.t('tools.cidr.cannotDivide') || '无法划分：子网掩码超过 /32';
+            errorDiv.appendChild(errorSpan);
+            subnetResultsEl.appendChild(errorDiv);
             subnetResultsEl.style.display = 'block';
             return;
         }

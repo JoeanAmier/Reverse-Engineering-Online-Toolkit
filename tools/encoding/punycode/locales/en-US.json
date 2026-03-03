@@ -1,5 +1,8 @@
 {
     "title": "Punycode Encoder/Decoder",
     "description": "Internationalized domain name Punycode encoding and decoding",
-    "examples": "Examples"
+    "examples": "Examples",
+    "encodeFailed": "Encoding failed",
+    "decodeFailed": "Decoding failed",
+    "sampleDomain": "中国.com"
 }

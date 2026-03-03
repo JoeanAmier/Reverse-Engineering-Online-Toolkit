@@ -33,5 +33,16 @@
     "buildingNet": "Building network",
     "classC": "Class C network",
     "classB": "Class B network",
-    "classA": "Class A network"
+    "classA": "Class A network",
+    "invalidIpFormat": "Invalid IP address format",
+    "invalidIpAddress": "Invalid IP address",
+    "cannotDivide": "Cannot divide: subnet mask exceeds /32",
+    "privateA": "Private (Class A)",
+    "privateB": "Private (Class B)",
+    "privateC": "Private (Class C)",
+    "loopback": "Loopback",
+    "linkLocal": "Link-local",
+    "multicast": "Multicast",
+    "reserved": "Reserved",
+    "public": "Public"
 }

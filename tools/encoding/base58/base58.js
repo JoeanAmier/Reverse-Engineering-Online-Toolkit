@@ -105,7 +105,7 @@
         for (let i = 0; i < input.length; i++) {
             const char = input[i];
             if (!(char in alphabetMap)) {
-                throw new Error(`无效的 Base58 字符: ${char}`);
+                throw new Error(`${REOT.i18n?.t('tools.base58.invalidChar') || '无效的 Base58 字符'}: ${char}`);
             }
 
             let carry = alphabetMap[char];
@@ -134,7 +134,7 @@
      * @param {string} message
      */
     function showError(message) {
-        outputEl.value = `错误: ${message}`;
+        outputEl.value = `${REOT.i18n?.t('tools.base58.error') || '错误'}: ${message}`;
         if (window.REOT?.utils?.showNotification) {
             window.REOT.utils.showNotification(message, 'error');
         }

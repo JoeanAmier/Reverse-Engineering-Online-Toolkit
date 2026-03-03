@@ -87,7 +87,7 @@
 
         let timestamp = parseInt(input, 10);
         if (isNaN(timestamp)) {
-            localDatetimeEl.value = '无效的时间戳';
+            localDatetimeEl.value = REOT.i18n?.t('tools.timestamp.invalidTimestamp') || '无效的时间戳';
             utcDatetimeEl.value = '';
             isoDatetimeEl.value = '';
             return;
@@ -101,7 +101,7 @@
         const date = new Date(timestamp);
 
         if (isNaN(date.getTime())) {
-            localDatetimeEl.value = '无效的时间戳';
+            localDatetimeEl.value = REOT.i18n?.t('tools.timestamp.invalidTimestamp') || '无效的时间戳';
             utcDatetimeEl.value = '';
             isoDatetimeEl.value = '';
             return;
@@ -124,7 +124,7 @@
         const date = new Date(input);
 
         if (isNaN(date.getTime())) {
-            resultSecondsEl.value = '无效的日期时间';
+            resultSecondsEl.value = REOT.i18n?.t('tools.timestamp.invalidDatetime') || '无效的日期时间';
             resultMillisEl.value = '';
             return;
         }
@@ -194,7 +194,17 @@
 
     // 每秒更新当前时间
     updateCurrentTime();
-    setInterval(updateCurrentTime, 1000);
+    let clockInterval = setInterval(updateCurrentTime, 1000);
+
+    // 路由变更时清除定时器防止内存泄漏
+    window.addEventListener('routeChange', function onRouteChange(e) {
+        const newPath = e.detail?.path;
+        if (newPath && !newPath.includes('/tools/generators/timestamp/')) {
+            clearInterval(clockInterval);
+            clockInterval = null;
+            window.removeEventListener('routeChange', onRouteChange);
+        }
+    });
 
     // 初始化日期输入为当前时间
     setNow();

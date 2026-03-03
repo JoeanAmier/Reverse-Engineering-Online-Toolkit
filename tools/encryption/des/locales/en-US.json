@@ -13,5 +13,18 @@
     "iv": "IV Vector",
     "ivPlaceholder": "Enter IV vector...",
     "ivHint": "Requires 8 bytes (64 bit)",
-    "inputPlaceholder": "Enter content to encrypt/decrypt..."
+    "inputPlaceholder": "Enter content to encrypt/decrypt...",
+    "enterContent": "Please enter content to encrypt",
+    "enterDecryptContent": "Please enter content to decrypt",
+    "enterKey": "Please enter key",
+    "enterIV": "Please enter IV vector",
+    "encryptSuccess": "Encryption successful",
+    "decryptSuccess": "Decryption successful",
+    "decryptFailed": "Decryption failed",
+    "errorPrefix": "Error",
+    "errorLoadCryptoJS": "Failed to load CryptoJS library",
+    "errorCryptoJSFailed": "CryptoJS library failed to load",
+    "errorDecryptCheck": "Decryption failed, please check key and IV",
+    "generating3DESHint": "3DES requires 24-byte key",
+    "generatingDESHint": "DES requires 8-byte key"
 }

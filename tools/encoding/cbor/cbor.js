@@ -41,7 +41,7 @@
             };
             script.onerror = () => {
                 cborLoadingPromise = null;
-                reject(new Error('无法加载 CBOR 库'));
+                reject(new Error(REOT.i18n?.t('tools.cbor.loadError') || '无法加载 CBOR 库'));
             };
             document.head.appendChild(script);
         });
@@ -200,7 +200,7 @@
             try {
                 data = JSON.parse(jsonStr);
             } catch (e) {
-                throw new Error('无效的 JSON 格式: ' + e.message);
+                throw new Error((REOT.i18n?.t('tools.cbor.invalidJson') || '无效的 JSON 格式') + ': ' + e.message);
             }
 
             // 编码为 CBOR
@@ -244,7 +244,7 @@
      */
     async function copyEncodeResult() {
         const output = encodeOutput.value;
-        if (output && !output.startsWith('请') && !output.startsWith('错误')) {
+        if (output && !output.startsWith('Please') && !output.startsWith('请') && !output.startsWith('Error') && !output.startsWith('错误')) {
             const success = await REOT.utils?.copyToClipboard(output);
             if (success) {
                 REOT.utils?.showNotification(REOT.i18n?.t('common.copied') || '已复制', 'success');
@@ -296,12 +296,12 @@
 
             if (format === 'base64') {
                 if (!isValidBase64(input)) {
-                    throw new Error('无效的 Base64 格式');
+                    throw new Error(REOT.i18n?.t('tools.cbor.invalidBase64') || '无效的 Base64 格式');
                 }
                 buffer = base64ToArrayBuffer(input);
             } else {
                 if (!isValidHex(input)) {
-                    throw new Error('无效的 Hex 格式');
+                    throw new Error(REOT.i18n?.t('tools.cbor.invalidHex') || '无效的 Hex 格式');
                 }
                 buffer = hexToArrayBuffer(input);
             }
@@ -338,7 +338,7 @@
      */
     async function copyDecodeResult() {
         const output = decodeOutput.value;
-        if (output && !output.startsWith('请') && !output.startsWith('错误')) {
+        if (output && !output.startsWith('Please') && !output.startsWith('请') && !output.startsWith('Error') && !output.startsWith('错误')) {
             const success = await REOT.utils?.copyToClipboard(output);
             if (success) {
                 REOT.utils?.showNotification(REOT.i18n?.t('common.copied') || '已复制', 'success');

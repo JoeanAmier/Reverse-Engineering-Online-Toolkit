@@ -36,7 +36,7 @@
             await loadScript('https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js');
         } catch (e) {
             console.error('加载依赖库失败:', e);
-            alert('加载依赖库失败，请检查网络连接');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.qrcode.loadFailed') || '加载依赖库失败，请检查网络连接', 'error');
             return;
         }
 
@@ -67,21 +67,24 @@
         const barcodeHeight = document.getElementById('barcode-height');
         const barcodeShowText = document.getElementById('barcode-show-text');
 
-        // 条形码格式信息
+        // 条形码格式信息 desc: [zh, en]
         const BARCODE_INFO = {
-            'CODE128': { name: 'CODE 128', desc: '通用条形码，支持ASCII字符', example: 'ABC-123' },
-            'CODE39': { name: 'CODE 39', desc: '支持数字、大写字母和特殊字符', example: 'CODE39' },
-            'CODE93': { name: 'CODE 93', desc: 'CODE 39的改进版，更紧凑', example: 'CODE93' },
-            'EAN13': { name: 'EAN-13', desc: '国际商品条码，13位数字', example: '5901234123457', validate: /^\d{12,13}$/ },
-            'EAN8': { name: 'EAN-8', desc: '短版商品条码，8位数字', example: '96385074', validate: /^\d{7,8}$/ },
-            'UPC': { name: 'UPC-A', desc: '美国商品条码，12位数字', example: '123456789012', validate: /^\d{11,12}$/ },
-            'UPCE': { name: 'UPC-E', desc: '压缩版UPC，8位数字', example: '01234565', validate: /^\d{6,8}$/ },
-            'ITF14': { name: 'ITF-14', desc: '物流条码，14位数字', example: '10012345678902', validate: /^\d{14}$/ },
-            'ITF': { name: 'ITF', desc: '交叉25码，偶数位数字', example: '123456', validate: /^\d+$/ },
-            'pharmacode': { name: 'Pharmacode', desc: '药品条码，数字3-131070', example: '1234', validate: /^\d+$/ },
-            'MSI': { name: 'MSI', desc: '库存管理条码', example: '1234567' },
-            'codabar': { name: 'Codabar', desc: '图书馆/血库常用', example: 'A12345B' }
+            'CODE128': { name: 'CODE 128', desc: ['通用条形码，支持ASCII字符', 'Universal barcode, supports ASCII'], example: 'ABC-123' },
+            'CODE39': { name: 'CODE 39', desc: ['支持数字、大写字母和特殊字符', 'Supports digits, uppercase & special chars'], example: 'CODE39' },
+            'CODE93': { name: 'CODE 93', desc: ['CODE 39的改进版，更紧凑', 'Improved CODE 39, more compact'], example: 'CODE93' },
+            'EAN13': { name: 'EAN-13', desc: ['国际商品条码，13位数字', 'International product barcode, 13 digits'], example: '5901234123457', validate: /^\d{12,13}$/ },
+            'EAN8': { name: 'EAN-8', desc: ['短版商品条码，8位数字', 'Short product barcode, 8 digits'], example: '96385074', validate: /^\d{7,8}$/ },
+            'UPC': { name: 'UPC-A', desc: ['美国商品条码，12位数字', 'US product barcode, 12 digits'], example: '123456789012', validate: /^\d{11,12}$/ },
+            'UPCE': { name: 'UPC-E', desc: ['压缩版UPC，8位数字', 'Compressed UPC, 8 digits'], example: '01234565', validate: /^\d{6,8}$/ },
+            'ITF14': { name: 'ITF-14', desc: ['物流条码，14位数字', 'Logistics barcode, 14 digits'], example: '10012345678902', validate: /^\d{14}$/ },
+            'ITF': { name: 'ITF', desc: ['交叉25码，偶数位数字', 'Interleaved 2 of 5, even-length digits'], example: '123456', validate: /^\d+$/ },
+            'pharmacode': { name: 'Pharmacode', desc: ['药品条码，数字3-131070', 'Pharmaceutical barcode, 3-131070'], example: '1234', validate: /^\d+$/ },
+            'MSI': { name: 'MSI', desc: ['库存管理条码', 'Inventory management barcode'], example: '1234567' },
+            'codabar': { name: 'Codabar', desc: ['图书馆/血库常用', 'Libraries / blood banks'], example: 'A12345B' }
         };
+
+        const _isEn = () => REOT.i18n?.getLocale?.()?.startsWith('en') || false;
+        const _barcodeDesc = (info) => _isEn() ? info.desc[1] : info.desc[0];
 
         /**
          * 切换类型
@@ -100,11 +103,11 @@
 
             // 更新占位符
             if (type === 'qrcode') {
-                inputText.placeholder = '输入要编码的文本或URL...';
+                inputText.placeholder = REOT.i18n?.t('tools.qrcode.inputPlaceholder') || '输入要编码的文本或URL...';
             } else {
                 const format = barcodeFormat.value;
                 const info = BARCODE_INFO[format];
-                inputText.placeholder = `示例: ${info.example}`;
+                inputText.placeholder = `${REOT.i18n?.t('tools.qrcode.examplePrefix') || '示例'}: ${info.example}`;
             }
 
             // 隐藏SVG下载按钮（条形码支持SVG，QR码也支持）
@@ -170,13 +173,23 @@
             // 计算版本号 (版本 = (模块数 - 21) / 4 + 1)
             const version = Math.floor((moduleCount - 21) / 4) + 1;
 
-            // 显示格式信息
-            formatInfo.innerHTML = `
-                <p><strong>类型:</strong> QR码</p>
-                <p><strong>纠错级别:</strong> ${errorLevel} (${{'L':'7%','M':'15%','Q':'25%','H':'30%'}[errorLevel]})</p>
-                <p><strong>版本:</strong> ${version}</p>
-                <p><strong>模块数:</strong> ${moduleCount} x ${moduleCount}</p>
-            `;
+            // 显示格式信息（使用 DOM 方法）
+            formatInfo.textContent = '';
+            const _t = (key, fallback) => REOT.i18n?.t(`tools.qrcode.${key}`) || fallback;
+            const qrInfoItems = [
+                [_t('infoType', '类型'), _t('infoQRCode', 'QR码')],
+                [_t('infoErrorLevel', '纠错级别'), `${errorLevel} (${{'L':'7%','M':'15%','Q':'25%','H':'30%'}[errorLevel]})`],
+                [_t('infoVersion', '版本'), String(version)],
+                [_t('infoModules', '模块数'), `${moduleCount} x ${moduleCount}`]
+            ];
+            qrInfoItems.forEach(([label, value]) => {
+                const p = document.createElement('p');
+                const strong = document.createElement('strong');
+                strong.textContent = label + ':';
+                p.appendChild(strong);
+                p.appendChild(document.createTextNode(' ' + value));
+                formatInfo.appendChild(p);
+            });
 
             return canvas;
         }
@@ -193,7 +206,10 @@
 
             // 验证输入
             if (info.validate && !info.validate.test(text)) {
-                throw new Error(`${info.name} 格式要求: ${info.desc}\n示例: ${info.example}`);
+                const desc = _barcodeDesc(info);
+                const formatReq = _isEn() ? 'Format requirement' : '格式要求';
+                const exampleLabel = _isEn() ? 'Example' : '示例';
+                throw new Error(`${info.name} ${formatReq}: ${desc}\n${exampleLabel}: ${info.example}`);
             }
 
             // 创建SVG元素
@@ -211,19 +227,29 @@
                     lineColor: '#000000'
                 });
             } catch (e) {
-                throw new Error(`生成失败: ${e.message}\n${info.name} 示例: ${info.example}`);
+                throw new Error(`${REOT.i18n?.t('tools.qrcode.generateFailed') || '生成失败'}: ${e.message}`);
             }
 
             // 清空预览区并添加SVG
             codePreview.innerHTML = '';
             codePreview.appendChild(svg);
 
-            // 显示格式信息
-            formatInfo.innerHTML = `
-                <p><strong>类型:</strong> ${info.name}</p>
-                <p><strong>描述:</strong> ${info.desc}</p>
-                <p><strong>数据:</strong> ${text}</p>
-            `;
+            // 显示格式信息（使用 DOM 方法）
+            formatInfo.textContent = '';
+            const _tB = (key, fallback) => REOT.i18n?.t(`tools.qrcode.${key}`) || fallback;
+            const barcodeInfoItems = [
+                [_tB('infoType', '类型'), info.name],
+                [_tB('infoDescription', '描述'), _barcodeDesc(info)],
+                [_tB('infoData', '数据'), text]
+            ];
+            barcodeInfoItems.forEach(([label, value]) => {
+                const p = document.createElement('p');
+                const strong = document.createElement('strong');
+                strong.textContent = label + ':';
+                p.appendChild(strong);
+                p.appendChild(document.createTextNode(' ' + value));
+                formatInfo.appendChild(p);
+            });
 
             return svg;
         }
@@ -234,7 +260,7 @@
         function generate() {
             const text = inputText.value.trim();
             if (!text) {
-                alert('请输入要编码的内容');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.qrcode.enterContent') || '请输入要编码的内容', 'warning');
                 return;
             }
 
@@ -249,7 +275,7 @@
                 downloadBtn.disabled = false;
                 downloadSvgBtn.disabled = false;
             } catch (e) {
-                alert(e.message);
+                REOT.utils?.showNotification(e.message, 'error');
                 console.error(e);
             }
         }
@@ -366,7 +392,7 @@
         // 条形码格式变化时更新占位符
         barcodeFormat.addEventListener('change', () => {
             const info = BARCODE_INFO[barcodeFormat.value];
-            inputText.placeholder = `示例: ${info.example}`;
+            inputText.placeholder = `${REOT.i18n?.t('tools.qrcode.examplePrefix') || '示例'}: ${info.example}`;
         });
 
         // 回车键生成

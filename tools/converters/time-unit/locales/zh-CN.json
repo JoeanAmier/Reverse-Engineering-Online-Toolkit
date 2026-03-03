@@ -9,5 +9,11 @@
     "d": "天 (d)",
     "w": "周 (w)",
     "mo": "月 (30天)",
-    "y": "年 (365天)"
+    "y": "年 (365天)",
+    "unitYear": "年",
+    "unitDay": "天",
+    "unitHour": "小时",
+    "unitMinute": "分钟",
+    "unitSecond": "秒",
+    "unitMs": "毫秒"
 }

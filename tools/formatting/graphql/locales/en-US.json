@@ -30,5 +30,6 @@
     "operationTypes": "Operation Types",
     "features": "Key Features",
     "fbApiSupport": "FB/IG API Support",
-    "usageNote": "Usage tip: Supports standard GraphQL syntax formatting and Facebook/Instagram API URL-encoded request parsing."
+    "usageNote": "Usage tip: Supports standard GraphQL syntax formatting and Facebook/Instagram API URL-encoded request parsing.",
+    "none": "None"
 }

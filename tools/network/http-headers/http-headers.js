@@ -11,86 +11,96 @@
     let inputFormat = 'text'; // 'text' | 'json' - 记录输入格式
     let parsedHeaders = null; // 缓存解析结果
 
-    // 常见 HTTP 头部说明
+    // 常见 HTTP 头部说明 [zh, en]
     const HEADER_DESCRIPTIONS = {
         // 通用头
-        'cache-control': '控制缓存行为',
-        'connection': '连接管理',
-        'date': '消息创建时间',
-        'pragma': 'HTTP/1.0 缓存控制',
-        'trailer': '报文尾部的头字段',
-        'transfer-encoding': '传输编码方式',
-        'upgrade': '协议升级',
-        'via': '代理服务器信息',
-        'warning': '警告信息',
+        'cache-control': ['控制缓存行为', 'Cache behavior control'],
+        'connection': ['连接管理', 'Connection management'],
+        'date': ['消息创建时间', 'Message creation time'],
+        'pragma': ['HTTP/1.0 缓存控制', 'HTTP/1.0 cache control'],
+        'trailer': ['报文尾部的头字段', 'Trailer header fields'],
+        'transfer-encoding': ['传输编码方式', 'Transfer encoding'],
+        'upgrade': ['协议升级', 'Protocol upgrade'],
+        'via': ['代理服务器信息', 'Proxy server info'],
+        'warning': ['警告信息', 'Warning info'],
 
         // 请求头
-        'accept': '可接受的内容类型',
-        'accept-charset': '可接受的字符集',
-        'accept-encoding': '可接受的编码方式',
-        'accept-language': '可接受的语言',
-        'authorization': '认证信息',
-        'cookie': 'Cookie 数据',
-        'expect': '期望服务器行为',
-        'from': '请求发起者邮箱',
-        'host': '请求的主机名',
-        'if-match': '条件请求（ETag 匹配）',
-        'if-modified-since': '条件请求（修改时间）',
-        'if-none-match': '条件请求（ETag 不匹配）',
-        'if-range': '条件范围请求',
-        'if-unmodified-since': '条件请求（未修改）',
-        'max-forwards': '最大转发次数',
-        'proxy-authorization': '代理认证信息',
-        'range': '请求资源范围',
-        'referer': '来源页面 URL',
-        'te': '可接受的传输编码',
-        'user-agent': '客户端标识',
+        'accept': ['可接受的内容类型', 'Acceptable content types'],
+        'accept-charset': ['可接受的字符集', 'Acceptable charsets'],
+        'accept-encoding': ['可接受的编码方式', 'Acceptable encodings'],
+        'accept-language': ['可接受的语言', 'Acceptable languages'],
+        'authorization': ['认证信息', 'Authentication credentials'],
+        'cookie': ['Cookie 数据', 'Cookie data'],
+        'expect': ['期望服务器行为', 'Expected server behavior'],
+        'from': ['请求发起者邮箱', 'Requester email'],
+        'host': ['请求的主机名', 'Request host'],
+        'if-match': ['条件请求（ETag 匹配）', 'Conditional (ETag match)'],
+        'if-modified-since': ['条件请求（修改时间）', 'Conditional (modified since)'],
+        'if-none-match': ['条件请求（ETag 不匹配）', 'Conditional (ETag mismatch)'],
+        'if-range': ['条件范围请求', 'Conditional range request'],
+        'if-unmodified-since': ['条件请求（未修改）', 'Conditional (unmodified since)'],
+        'max-forwards': ['最大转发次数', 'Max forward hops'],
+        'proxy-authorization': ['代理认证信息', 'Proxy auth credentials'],
+        'range': ['请求资源范围', 'Resource byte range'],
+        'referer': ['来源页面 URL', 'Referring page URL'],
+        'te': ['可接受的传输编码', 'Acceptable transfer encodings'],
+        'user-agent': ['客户端标识', 'Client identifier'],
 
         // 响应头
-        'accept-ranges': '支持的范围请求类型',
-        'age': '资源在代理缓存中的时间',
-        'etag': '资源标识符',
-        'location': '重定向目标 URL',
-        'proxy-authenticate': '代理认证方式',
-        'retry-after': '重试等待时间',
-        'server': '服务器软件信息',
-        'vary': '缓存变体依据',
-        'www-authenticate': '认证方式',
+        'accept-ranges': ['支持的范围请求类型', 'Supported range types'],
+        'age': ['资源在代理缓存中的时间', 'Cache age in proxy'],
+        'etag': ['资源标识符', 'Resource identifier'],
+        'location': ['重定向目标 URL', 'Redirect target URL'],
+        'proxy-authenticate': ['代理认证方式', 'Proxy auth method'],
+        'retry-after': ['重试等待时间', 'Retry wait time'],
+        'server': ['服务器软件信息', 'Server software info'],
+        'vary': ['缓存变体依据', 'Cache variant criteria'],
+        'www-authenticate': ['认证方式', 'Auth method'],
 
         // 实体头
-        'allow': '允许的 HTTP 方法',
-        'content-encoding': '内容编码方式',
-        'content-language': '内容语言',
-        'content-length': '内容长度（字节）',
-        'content-location': '内容的备用地址',
-        'content-md5': '内容的 MD5 校验',
-        'content-range': '部分内容的范围',
-        'content-type': '内容的 MIME 类型',
-        'expires': '资源过期时间',
-        'last-modified': '资源最后修改时间',
+        'allow': ['允许的 HTTP 方法', 'Allowed HTTP methods'],
+        'content-encoding': ['内容编码方式', 'Content encoding'],
+        'content-language': ['内容语言', 'Content language'],
+        'content-length': ['内容长度（字节）', 'Content length (bytes)'],
+        'content-location': ['内容的备用地址', 'Alternate content location'],
+        'content-md5': ['内容的 MD5 校验', 'Content MD5 checksum'],
+        'content-range': ['部分内容的范围', 'Partial content range'],
+        'content-type': ['内容的 MIME 类型', 'Content MIME type'],
+        'expires': ['资源过期时间', 'Resource expiration time'],
+        'last-modified': ['资源最后修改时间', 'Last modification time'],
 
         // 安全相关
-        'strict-transport-security': 'HSTS 策略',
-        'content-security-policy': '内容安全策略',
-        'x-content-type-options': '禁止 MIME 嗅探',
-        'x-frame-options': '点击劫持防护',
-        'x-xss-protection': 'XSS 防护',
-        'access-control-allow-origin': 'CORS 允许的源',
-        'access-control-allow-methods': 'CORS 允许的方法',
-        'access-control-allow-headers': 'CORS 允许的头',
-        'access-control-expose-headers': 'CORS 暴露的头',
-        'access-control-max-age': 'CORS 预检缓存时间',
-        'access-control-allow-credentials': 'CORS 允许凭证',
+        'strict-transport-security': ['HSTS 策略', 'HSTS policy'],
+        'content-security-policy': ['内容安全策略', 'Content security policy'],
+        'x-content-type-options': ['禁止 MIME 嗅探', 'Disable MIME sniffing'],
+        'x-frame-options': ['点击劫持防护', 'Clickjacking protection'],
+        'x-xss-protection': ['XSS 防护', 'XSS protection'],
+        'access-control-allow-origin': ['CORS 允许的源', 'CORS allowed origins'],
+        'access-control-allow-methods': ['CORS 允许的方法', 'CORS allowed methods'],
+        'access-control-allow-headers': ['CORS 允许的头', 'CORS allowed headers'],
+        'access-control-expose-headers': ['CORS 暴露的头', 'CORS exposed headers'],
+        'access-control-max-age': ['CORS 预检缓存时间', 'CORS preflight cache age'],
+        'access-control-allow-credentials': ['CORS 允许凭证', 'CORS allow credentials'],
 
         // 其他常见头
-        'x-powered-by': '服务器技术栈',
-        'x-request-id': '请求追踪 ID',
-        'x-forwarded-for': '客户端原始 IP',
-        'x-forwarded-proto': '原始协议',
-        'x-forwarded-host': '原始主机',
-        'x-real-ip': '真实客户端 IP',
-        'set-cookie': '设置 Cookie'
+        'x-powered-by': ['服务器技术栈', 'Server technology'],
+        'x-request-id': ['请求追踪 ID', 'Request trace ID'],
+        'x-forwarded-for': ['客户端原始 IP', 'Client original IP'],
+        'x-forwarded-proto': ['原始协议', 'Original protocol'],
+        'x-forwarded-host': ['原始主机', 'Original host'],
+        'x-real-ip': ['真实客户端 IP', 'Real client IP'],
+        'set-cookie': ['设置 Cookie', 'Set Cookie']
     };
+
+    /**
+     * 获取头部描述（根据当前语言）
+     */
+    function getHeaderDesc(nameLower) {
+        const desc = HEADER_DESCRIPTIONS[nameLower];
+        if (!desc) return '';
+        const isEn = REOT.i18n?.getLocale?.()?.startsWith('en') || false;
+        return isEn ? desc[1] : desc[0];
+    }
 
     // HTTP 方法列表
     const HTTP_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS', 'TRACE', 'CONNECT'];
@@ -165,7 +175,7 @@
                     result.headers.push({
                         name: name,
                         value: String(value),
-                        description: HEADER_DESCRIPTIONS[nameLower] || ''
+                        description: getHeaderDesc(nameLower)
                     });
                 }
             } else if (typeof parsed === 'object') {
@@ -175,7 +185,7 @@
                     result.headers.push({
                         name: name,
                         value: String(value),
-                        description: HEADER_DESCRIPTIONS[nameLower] || ''
+                        description: getHeaderDesc(nameLower)
                     });
                 }
             }
@@ -243,7 +253,7 @@
      */
     function parseHeaders(input) {
         if (!input.trim()) {
-            throw new Error('输入为空');
+            throw new Error(REOT.i18n?.t('tools.http-headers.errorEmpty') || '输入为空');
         }
 
         // 检测输入格式
@@ -269,7 +279,7 @@
         };
 
         if (lines.length === 0) {
-            throw new Error('输入为空');
+            throw new Error(REOT.i18n?.t('tools.http-headers.errorEmpty') || '输入为空');
         }
 
         const headerType = document.getElementById('header-type')?.value || 'auto';
@@ -317,7 +327,7 @@
             result.headers.push({
                 name: name,
                 value: value,
-                description: HEADER_DESCRIPTIONS[nameLower] || ''
+                description: getHeaderDesc(nameLower)
             });
         }
 
@@ -370,37 +380,48 @@
         // 渲染状态行
         if (parsed.statusLine) {
             statusLineSection.style.display = 'block';
+            const t = (key, fallback) => REOT.i18n?.t('tools.http-headers.' + key) || fallback;
             if (parsed.type === 'request') {
-                statusLineInfo.innerHTML = `
-                    <div class="status-item">
-                        <span class="label">方法</span>
-                        <span class="value method-${parsed.statusLine.method.toLowerCase()}">${parsed.statusLine.method}</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="label">路径</span>
-                        <span class="value">${escapeHtml(parsed.statusLine.path)}</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="label">版本</span>
-                        <span class="value">${parsed.statusLine.version}</span>
-                    </div>
-                `;
+                statusLineInfo.textContent = '';
+                const items = [
+                    { label: t('labelMethod', '方法'), value: parsed.statusLine.method, className: 'method-' + parsed.statusLine.method.toLowerCase() },
+                    { label: t('labelPath', '路径'), value: parsed.statusLine.path },
+                    { label: t('labelVersion', '版本'), value: parsed.statusLine.version }
+                ];
+                items.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'status-item';
+                    const labelSpan = document.createElement('span');
+                    labelSpan.className = 'label';
+                    labelSpan.textContent = item.label;
+                    const valueSpan = document.createElement('span');
+                    valueSpan.className = 'value' + (item.className ? ' ' + item.className : '');
+                    valueSpan.textContent = item.value;
+                    div.appendChild(labelSpan);
+                    div.appendChild(valueSpan);
+                    statusLineInfo.appendChild(div);
+                });
             } else {
                 const statusClass = getStatusClass(parsed.statusLine.statusCode);
-                statusLineInfo.innerHTML = `
-                    <div class="status-item">
-                        <span class="label">版本</span>
-                        <span class="value">${parsed.statusLine.version}</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="label">状态码</span>
-                        <span class="value status-code ${statusClass}">${parsed.statusLine.statusCode}</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="label">状态文本</span>
-                        <span class="value">${escapeHtml(parsed.statusLine.statusText)}</span>
-                    </div>
-                `;
+                statusLineInfo.textContent = '';
+                const items = [
+                    { label: t('labelVersion', '版本'), value: parsed.statusLine.version },
+                    { label: t('labelStatusCode', '状态码'), value: String(parsed.statusLine.statusCode), className: 'status-code ' + statusClass },
+                    { label: t('labelStatusText', '状态文本'), value: parsed.statusLine.statusText }
+                ];
+                items.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'status-item';
+                    const labelSpan = document.createElement('span');
+                    labelSpan.className = 'label';
+                    labelSpan.textContent = item.label;
+                    const valueSpan = document.createElement('span');
+                    valueSpan.className = 'value' + (item.className ? ' ' + item.className : '');
+                    valueSpan.textContent = item.value;
+                    div.appendChild(labelSpan);
+                    div.appendChild(valueSpan);
+                    statusLineInfo.appendChild(div);
+                });
             }
         } else {
             statusLineSection.style.display = 'none';
@@ -417,20 +438,25 @@
 
         // 渲染统计信息
         const stats = calculateStats(parsed);
-        statsGrid.innerHTML = `
-            <div class="stat-item">
-                <span class="stat-value">${stats.headerCount}</span>
-                <span class="stat-label">头部字段数</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-value">${stats.totalSize}</span>
-                <span class="stat-label">总大小</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-value">${stats.type}</span>
-                <span class="stat-label">类型</span>
-            </div>
-        `;
+        statsGrid.textContent = '';
+        const statItems = [
+            { value: stats.headerCount, label: REOT.i18n?.t('tools.http-headers.statHeaderCount') || '头部字段数' },
+            { value: stats.totalSize, label: REOT.i18n?.t('tools.http-headers.statTotalSize') || '总大小' },
+            { value: stats.type, label: REOT.i18n?.t('tools.http-headers.statType') || '类型' }
+        ];
+        statItems.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'stat-item';
+            const valueSpan = document.createElement('span');
+            valueSpan.className = 'stat-value';
+            valueSpan.textContent = item.value;
+            const labelSpan = document.createElement('span');
+            labelSpan.className = 'stat-label';
+            labelSpan.textContent = item.label;
+            div.appendChild(valueSpan);
+            div.appendChild(labelSpan);
+            statsGrid.appendChild(div);
+        });
 
         // 更新输出
         if (output) {
@@ -444,15 +470,15 @@
     function calculateStats(parsed) {
         const totalBytes = parsed.raw.length;
         const typeMap = {
-            'request': '请求',
-            'response': '响应',
-            'headers-only': '头部'
+            'request': REOT.i18n?.t('tools.http-headers.typeRequest') || '请求',
+            'response': REOT.i18n?.t('tools.http-headers.typeResponse') || '响应',
+            'headers-only': REOT.i18n?.t('tools.http-headers.typeHeadersOnly') || '头部'
         };
 
         return {
             headerCount: parsed.headers.length,
             totalSize: formatSize(totalBytes),
-            type: typeMap[parsed.type] || '未知'
+            type: typeMap[parsed.type] || (REOT.i18n?.t('tools.http-headers.typeUnknown') || '未知')
         };
     }
 
@@ -547,15 +573,17 @@ Set-Cookie: session_id=xyz789; Path=/; HttpOnly; Secure; SameSite=Strict`;
         if (target.id === 'parse-btn' || target.closest('#parse-btn')) {
             const input = document.getElementById('input');
             if (!input.value.trim()) {
-                REOT.utils?.showNotification('请输入 HTTP 头部内容', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.http-headers.errorInputEmpty') || '请输入 HTTP 头部内容', 'warning');
                 return;
             }
 
             try {
                 parsedHeaders = parseHeaders(input.value);
                 renderResult(parsedHeaders);
-                const formatMsg = inputFormat === 'json' ? '(JSON 格式)' : '(多行格式)';
-                REOT.utils?.showNotification(`解析成功 ${formatMsg}`, 'success');
+                const formatMsg = inputFormat === 'json'
+                    ? (REOT.i18n?.t('tools.http-headers.parseSuccessJson') || '解析成功 (JSON 格式)')
+                    : (REOT.i18n?.t('tools.http-headers.parseSuccessText') || '解析成功 (多行格式)');
+                REOT.utils?.showNotification(formatMsg, 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -567,7 +595,7 @@ Set-Cookie: session_id=xyz789; Path=/; HttpOnly; Secure; SameSite=Strict`;
             const output = document.getElementById('output');
 
             if (!input.value.trim()) {
-                REOT.utils?.showNotification('请输入 HTTP 头部内容', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.http-headers.errorInputEmpty') || '请输入 HTTP 头部内容', 'warning');
                 return;
             }
 
@@ -579,7 +607,7 @@ Set-Cookie: session_id=xyz789; Path=/; HttpOnly; Secure; SameSite=Strict`;
                 if (output) {
                     output.value = json;
                 }
-                REOT.utils?.showNotification('已转换为 JSON 对象格式', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.http-headers.convertedToJsonObject') || '已转换为 JSON 对象格式', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -591,7 +619,7 @@ Set-Cookie: session_id=xyz789; Path=/; HttpOnly; Secure; SameSite=Strict`;
             const output = document.getElementById('output');
 
             if (!input.value.trim()) {
-                REOT.utils?.showNotification('请输入 HTTP 头部内容', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.http-headers.errorInputEmpty') || '请输入 HTTP 头部内容', 'warning');
                 return;
             }
 
@@ -603,7 +631,7 @@ Set-Cookie: session_id=xyz789; Path=/; HttpOnly; Secure; SameSite=Strict`;
                 if (output) {
                     output.value = json;
                 }
-                REOT.utils?.showNotification('已转换为 JSON 数组格式', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.http-headers.convertedToJsonArray') || '已转换为 JSON 数组格式', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -615,7 +643,7 @@ Set-Cookie: session_id=xyz789; Path=/; HttpOnly; Secure; SameSite=Strict`;
             const output = document.getElementById('output');
 
             if (!input.value.trim()) {
-                REOT.utils?.showNotification('请输入 HTTP 头部内容', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.http-headers.errorInputEmpty') || '请输入 HTTP 头部内容', 'warning');
                 return;
             }
 
@@ -627,7 +655,7 @@ Set-Cookie: session_id=xyz789; Path=/; HttpOnly; Secure; SameSite=Strict`;
                 if (output) {
                     output.value = text;
                 }
-                REOT.utils?.showNotification('已转换为多行文本格式', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.http-headers.convertedToText') || '已转换为多行文本格式', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -638,7 +666,7 @@ Set-Cookie: session_id=xyz789; Path=/; HttpOnly; Secure; SameSite=Strict`;
             const input = document.getElementById('input');
             const output = document.getElementById('output');
             if (!input.value.trim()) {
-                REOT.utils?.showNotification('请输入 HTTP 头部内容', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.http-headers.errorInputEmpty') || '请输入 HTTP 头部内容', 'warning');
                 return;
             }
 
@@ -648,7 +676,7 @@ Set-Cookie: session_id=xyz789; Path=/; HttpOnly; Secure; SameSite=Strict`;
                 if (output) {
                     output.value = formatted;
                 }
-                REOT.utils?.showNotification('格式化成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.http-headers.formatSuccess') || '格式化成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -680,7 +708,7 @@ Set-Cookie: session_id=xyz789; Path=/; HttpOnly; Secure; SameSite=Strict`;
             if (input) {
                 input.value = SAMPLE_REQUEST;
                 parsedHeaders = null;
-                REOT.utils?.showNotification('已加载示例请求', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.http-headers.sampleRequestLoaded') || '已加载示例请求', 'success');
             }
         }
 
@@ -690,7 +718,7 @@ Set-Cookie: session_id=xyz789; Path=/; HttpOnly; Secure; SameSite=Strict`;
             if (input) {
                 input.value = SAMPLE_RESPONSE;
                 parsedHeaders = null;
-                REOT.utils?.showNotification('已加载示例响应', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.http-headers.sampleResponseLoaded') || '已加载示例响应', 'success');
             }
         }
     });

@@ -332,7 +332,7 @@
      */
     function downloadCSV() {
         if (!parsedData || parsedData.length === 0) {
-            REOT.utils?.showNotification('没有可下载的数据', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.csv.noDownloadData') || '没有可下载的数据', 'warning');
             return;
         }
 
@@ -386,7 +386,7 @@
         if (target.id === 'parse-btn' || target.closest('#parse-btn')) {
             const inputValue = getInputValue();
             if (!inputValue.trim()) {
-                REOT.utils?.showNotification('请输入 CSV 内容', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.csv.enterCsv') || '请输入 CSV 内容', 'warning');
                 return;
             }
 
@@ -395,9 +395,9 @@
                 parsedData = parseCSV(inputValue, delimiter);
                 updateStats(parsedData);
                 renderTable(parsedData);
-                REOT.utils?.showNotification('解析成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.csv.parseSuccess') || '解析成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('解析失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.csv.parseFailed') || '解析失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -407,7 +407,7 @@
             const jsonSection = document.getElementById('json-output-section');
 
             if (!inputValue.trim()) {
-                REOT.utils?.showNotification('请输入 CSV 内容', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.csv.enterCsv') || '请输入 CSV 内容', 'warning');
                 return;
             }
 
@@ -423,9 +423,9 @@
 
                 updateStats(parsedData);
                 renderTable(parsedData);
-                REOT.utils?.showNotification('转换成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.csv.convertSuccess') || '转换成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('转换失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.csv.convertFailed') || '转换失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -433,7 +433,7 @@
         if (target.id === 'from-json-btn' || target.closest('#from-json-btn')) {
             const inputValue = getInputValue();
             if (!inputValue.trim()) {
-                REOT.utils?.showNotification('请输入 JSON 内容', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.csv.enterJson') || '请输入 JSON 内容', 'warning');
                 return;
             }
 
@@ -444,9 +444,9 @@
 
                 updateStats(parsedData);
                 renderTable(parsedData);
-                REOT.utils?.showNotification('转换成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.csv.convertSuccess') || '转换成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('JSON 解析失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.csv.jsonParseFailed') || 'JSON 解析失败') + ': ' + error.message, 'error');
             }
         }
 

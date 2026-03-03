@@ -11,5 +11,16 @@
     "inputPlaceholder": "请输入要压缩/解压的内容...",
     "originalSize": "原始大小",
     "compressedSize": "压缩后大小",
-    "ratio": "压缩率"
+    "ratio": "压缩率",
+    "compressSuccess": "压缩成功",
+    "decompressSuccess": "解压成功",
+    "errorNoInput": "请输入要压缩的内容",
+    "errorNoDecompressInput": "请输入要解压的内容或上传文件",
+    "errorInvalidFormat": "输入格式无效",
+    "errorDecompressFailed": "解压失败: 数据格式无效或已损坏",
+    "noDownloadContent": "没有可下载的内容",
+    "fileLoaded": "文件已加载: ",
+    "errorInvalidMagic": "无效的 LZ4 格式：Magic Number 不匹配",
+    "errorInvalidOffset": "无效的 LZ4 数据：偏移量为 0",
+    "sampleText": "这是一段示例文本，用于演示 LZ4 压缩功能。\n\nLZ4 是一种极速压缩算法，专注于压缩和解压速度。\n\n主要特点：\n1. 解压速度极快（~5 GB/s）\n2. 压缩速度高（~780 MB/s）\n3. 两种模式：快速模式和高压缩模式\n4. 广泛应用于实时数据处理\n\nThis is sample text for demonstrating LZ4 compression.\nLZ4 provides extremely fast compression and decompression speeds."
 }

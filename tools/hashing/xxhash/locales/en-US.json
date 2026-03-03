@@ -20,5 +20,9 @@
     "batchSuccess": "Batch calculation complete",
     "success": "Calculation successful",
     "error": "Calculation failed: ",
-    "errorNoInput": "Please enter data"
+    "errorNoInput": "Please enter data",
+    "errorLoadLib": "Failed to load xxHash library",
+    "errorInvalidHex": "Invalid hex string",
+    "errorInvalidSeed": "Invalid seed value",
+    "errorLibNotLoaded": "xxHash library not loaded"
 }

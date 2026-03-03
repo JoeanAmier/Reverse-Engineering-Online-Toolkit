@@ -16,7 +16,7 @@
      */
     REOT.app = {
         // 应用版本
-        version: '1.0.10',
+        version: '1.0.15',
 
         // 是否已初始化
         initialized: false,
@@ -44,7 +44,7 @@
                 // 检查是否有重定向路径参数（从工具页面刷新后重定向过来）
                 const urlParams = new URLSearchParams(window.location.search);
                 const redirectPath = urlParams.get('path');
-                if (redirectPath) {
+                if (redirectPath && redirectPath !== REOT.router.currentRoute) {
                     // 清除 URL 参数
                     window.history.replaceState({}, '', redirectPath);
                     // 导航到目标路径
@@ -126,7 +126,7 @@
                 const stats = {
                     stars: repoData.stargazers_count || 0,
                     forks: repoData.forks_count || 0,
-                    issues: repoData.open_issues_count - prsCount, // open_issues_count 包含 PRs
+                    issues: Math.max(0, repoData.open_issues_count - prsCount), // open_issues_count 包含 PRs
                     prs: prsCount,
                     version: tagsData.length > 0 ? tagsData[0].name : null
                 };

@@ -1,6 +1,6 @@
 {
     "title": "HKDF 密钥派生",
-    "description": "HMAC-based Key Derivation Function (RFC 5869)",
+    "description": "基于 HMAC 的密钥派生函数 (RFC 5869)",
     "hashAlgorithm": "哈希算法",
     "keyLength": "密钥长度 (字节)",
     "outputFormat": "输出格式",
@@ -24,5 +24,8 @@
     "success": "密钥派生成功",
     "error": "派生失败: ",
     "errorNoIkm": "请输入密钥材料 (IKM)",
-    "errorInvalidLength": "密钥长度无效"
+    "errorInvalidLength": "密钥长度无效",
+    "errorInvalidHex": "无效的 Hex 字符串",
+    "errorKeyTooLong": "请求的密钥长度过长，最大为 {max} 字节",
+    "bytesInfo": "{bytes} 字节 ({bits} bits)"
 }

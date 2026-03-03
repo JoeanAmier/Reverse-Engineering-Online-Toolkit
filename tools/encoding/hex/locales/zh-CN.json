@@ -6,5 +6,7 @@
     "withPrefix": "0x 前缀",
     "inputPlaceholder": "请输入文本或十六进制字符串...",
     "textToHex": "文本转十六进制",
-    "hexToText": "十六进制转文本"
+    "hexToText": "十六进制转文本",
+    "error": "错误",
+    "invalidHex": "无效的十六进制字符串"
 }

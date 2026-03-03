@@ -33,5 +33,16 @@
     "buildingNet": "建筑网络",
     "classC": "C 类网络",
     "classB": "B 类网络",
-    "classA": "A 类网络"
+    "classA": "A 类网络",
+    "invalidIpFormat": "无效的 IP 地址格式",
+    "invalidIpAddress": "无效的 IP 地址",
+    "cannotDivide": "无法划分：子网掩码超过 /32",
+    "privateA": "私有 (Class A)",
+    "privateB": "私有 (Class B)",
+    "privateC": "私有 (Class C)",
+    "loopback": "本地回环",
+    "linkLocal": "链路本地",
+    "multicast": "组播",
+    "reserved": "保留",
+    "public": "公有"
 }

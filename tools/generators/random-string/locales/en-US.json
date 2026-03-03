@@ -7,5 +7,6 @@
     "lowercase": "Lowercase (a-z)",
     "numbers": "Numbers (0-9)",
     "symbols": "Symbols (!@#$...)",
-    "customChars": "Custom Characters"
+    "customChars": "Custom Characters",
+    "selectCharType": "Please select at least one character type"
 }

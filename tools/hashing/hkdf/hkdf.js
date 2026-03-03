@@ -76,7 +76,7 @@
         if (isHex) {
             const cleaned = value.replace(/\s/g, '');
             if (!/^[0-9a-fA-F]*$/.test(cleaned) || cleaned.length % 2 !== 0) {
-                throw new Error('无效的 Hex 字符串');
+                throw new Error(REOT.i18n?.t('tools.hkdf.errorInvalidHex') || '无效的 Hex 字符串');
             }
             return hexToBytes(cleaned);
         }
@@ -145,7 +145,7 @@
 
         // 检查请求的长度是否有效
         if (length > 255 * hashLength) {
-            throw new Error(`请求的密钥长度过长，最大为 ${255 * hashLength} 字节`);
+            throw new Error((REOT.i18n?.t('tools.hkdf.errorKeyTooLong') || '请求的密钥长度过长，最大为 {max} 字节').replace('{max}', 255 * hashLength));
         }
 
         // 导入 PRK 作为 HMAC 密钥
@@ -230,7 +230,7 @@
             detailsSection.style.display = 'block';
             detailPrk.textContent = bytesToHex(prk);
             detailHash.textContent = hash;
-            detailLength.textContent = `${keyLength} 字节 (${keyLength * 8} bits)`;
+            detailLength.textContent = (REOT.i18n?.t('tools.hkdf.bytesInfo') || '{bytes} 字节 ({bits} bits)').replace('{bytes}', keyLength).replace('{bits}', keyLength * 8);
 
             REOT.utils?.showNotification(REOT.i18n?.t('tools.hkdf.success') || '密钥派生成功', 'success');
 
@@ -257,7 +257,7 @@
      */
     async function copyResult() {
         const output = outputEl.value;
-        if (output && !output.startsWith('请') && !output.startsWith('正在') && !output.startsWith('派生失败')) {
+        if (output && !output.startsWith('Please') && !output.startsWith('请') && !output.startsWith('Deriv') && !output.startsWith('正在') && !output.startsWith('派生失败')) {
             const success = await REOT.utils?.copyToClipboard(output);
             if (success) {
                 REOT.utils?.showNotification(REOT.i18n?.t('common.copied') || '已复制', 'success');

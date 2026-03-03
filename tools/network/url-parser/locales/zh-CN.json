@@ -15,5 +15,10 @@
     "queryParams": "查询参数",
     "paramName": "参数名",
     "paramValue": "参数值",
-    "actions": "操作"
+    "actions": "操作",
+    "errorInvalidUrl": "无效的 URL 格式",
+    "defaultPort": "(默认)",
+    "noValue": "(无)",
+    "paramCount": "{count} 个参数",
+    "fileSaved": "已保存: {filename}"
 }

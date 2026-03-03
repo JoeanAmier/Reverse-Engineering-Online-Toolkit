@@ -192,7 +192,7 @@
             updateFileInfo();
             renderEditor();
             showStatusBar(true);
-            REOT.utils?.showNotification('File loaded successfully', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.binary-editor.fileLoaded') || '文件加载成功', 'success');
         };
         reader.readAsArrayBuffer(file);
     }
@@ -212,7 +212,7 @@
 
         originalData = new Uint8Array(fileData);
         setModified(false);
-        REOT.utils?.showNotification('File saved', 'success');
+        REOT.utils?.showNotification(REOT.i18n?.t('tools.binary-editor.fileSaved') || '文件已保存', 'success');
     }
 
     function updateFileInfo() {
@@ -505,7 +505,7 @@
 
         const pattern = parseSearchPattern(searchInput.value, searchType?.value || 'hex');
         if (!pattern) {
-            REOT.utils?.showNotification('Invalid search pattern', 'error');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.binary-editor.invalidSearch') || '无效的搜索模式', 'error');
             return;
         }
 
@@ -557,7 +557,7 @@
 
         const replacement = parseSearchPattern(replaceInput.value, searchType?.value || 'hex');
         if (!replacement) {
-            REOT.utils?.showNotification('Invalid replacement pattern', 'error');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.binary-editor.invalidReplace') || '无效的替换模式', 'error');
             return;
         }
 
@@ -583,7 +583,7 @@
         const replacement = parseSearchPattern(replaceInput.value, searchType?.value || 'hex');
 
         if (!pattern || !replacement) {
-            REOT.utils?.showNotification('Invalid pattern', 'error');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.binary-editor.invalidPattern') || '无效的模式', 'error');
             return;
         }
 
@@ -612,7 +612,7 @@
         if (searchResultEl) {
             searchResultEl.textContent = `Replaced ${count} occurrences`;
         }
-        REOT.utils?.showNotification(`Replaced ${count} occurrences`, 'success');
+        REOT.utils?.showNotification(REOT.i18n?.t('tools.binary-editor.replacedCount') ? REOT.i18n.t('tools.binary-editor.replacedCount').replace('{count}', count) : `已替换 ${count} 处`, 'success');
     }
 
     // ========== Navigation ==========
@@ -693,7 +693,7 @@
 
     function showFillModal() {
         if (selectionStart === -1 || selectionEnd === -1) {
-            REOT.utils?.showNotification('Please select a range first', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.binary-editor.selectRange') || '请先选择一个范围', 'warning');
             return;
         }
 
@@ -807,7 +807,7 @@
         if (target.id === 'insert-btn' || target.closest('#insert-btn')) {
             if (fileData) {
                 insertByte(cursorOffset + 1, 0);
-                REOT.utils?.showNotification('Byte inserted', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.binary-editor.byteInserted') || '已插入字节', 'success');
             }
         }
 
@@ -815,7 +815,7 @@
         if (target.id === 'delete-btn' || target.closest('#delete-btn')) {
             if (fileData) {
                 deleteByte(cursorOffset);
-                REOT.utils?.showNotification('Byte deleted', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.binary-editor.byteDeleted') || '已删除字节', 'success');
             }
         }
 

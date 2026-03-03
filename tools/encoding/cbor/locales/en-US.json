@@ -1,5 +1,5 @@
 {
-    "title": "CBOR Codec",
+    "title": "CBOR Encoder/Decoder",
     "description": "Concise Binary Object Representation binary data format encoder/decoder",
     "encodeMode": "Encode (JSON → CBOR)",
     "decodeMode": "Decode (CBOR → JSON)",
@@ -25,5 +25,9 @@
     "fileError": "File read failed",
     "error": "Error: ",
     "errorNoInput": "Please enter data",
-    "errorNoData": "No data to download"
+    "errorNoData": "No data to download",
+    "loadError": "Failed to load CBOR library",
+    "invalidJson": "Invalid JSON format",
+    "invalidBase64": "Invalid Base64 format",
+    "invalidHex": "Invalid Hex format"
 }

@@ -6,5 +6,8 @@
     "originalPlaceholder": "输入原始文本...",
     "modifiedPlaceholder": "输入修改后的文本...",
     "compare": "对比",
-    "result": "对比结果"
+    "result": "对比结果",
+    "added": "新增",
+    "deleted": "删除",
+    "equal": "相同"
 }

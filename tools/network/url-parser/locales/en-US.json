@@ -15,5 +15,10 @@
     "queryParams": "Query Parameters",
     "paramName": "Parameter Name",
     "paramValue": "Parameter Value",
-    "actions": "Actions"
+    "actions": "Actions",
+    "errorInvalidUrl": "Invalid URL format",
+    "defaultPort": "(default)",
+    "noValue": "(none)",
+    "paramCount": "{count} parameters",
+    "fileSaved": "Saved: {filename}"
 }

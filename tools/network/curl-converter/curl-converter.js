@@ -46,8 +46,8 @@
             } else {
                 // 备用路径检测
                 basePath = '/tools/network/curl-converter/';
-                if (window.REOT?.router?.basePath) {
-                    basePath = window.REOT.router.basePath + basePath;
+                if (window.REOT?.router?.pathPrefix) {
+                    basePath = window.REOT.router.pathPrefix + basePath;
                 }
             }
 
@@ -128,76 +128,87 @@
 
     // ==================== 常量定义 ====================
 
-    // 常见 HTTP 请求头说明
+    // 常见 HTTP 请求头说明 tag: [zh, en], desc: [zh, en]
     const HEADER_DESCRIPTIONS = {
-        'accept': { tag: '内容协商', desc: '指定客户端能够接收的内容类型' },
-        'accept-encoding': { tag: '压缩', desc: '指定客户端支持的压缩编码' },
-        'accept-language': { tag: '国际化', desc: '指定客户端偏好的语言' },
-        'authorization': { tag: '认证', desc: '包含用于验证用户身份的凭据' },
-        'cache-control': { tag: '缓存', desc: '指定请求/响应的缓存机制' },
-        'content-type': { tag: '内容类型', desc: '指定请求体的 MIME 类型' },
-        'content-length': { tag: '内容长度', desc: '请求体的字节长度' },
-        'cookie': { tag: 'Cookie', desc: '发送存储的 Cookie 到服务器' },
-        'host': { tag: '主机', desc: '指定请求的目标主机和端口' },
-        'origin': { tag: '跨域', desc: '标识请求的来源，用于 CORS' },
-        'referer': { tag: '来源', desc: '标识请求的来源页面 URL' },
-        'user-agent': { tag: '客户端', desc: '标识发起请求的客户端信息' },
-        'x-requested-with': { tag: 'AJAX', desc: '标识 AJAX 请求，常用值为 XMLHttpRequest' },
-        'x-csrf-token': { tag: '安全', desc: 'CSRF 防护令牌' },
-        'x-xsrf-token': { tag: '安全', desc: 'XSRF 防护令牌' },
-        'sec-ch-ua': { tag: '客户端提示', desc: '浏览器品牌和版本信息' },
-        'sec-ch-ua-mobile': { tag: '客户端提示', desc: '是否为移动设备' },
-        'sec-ch-ua-platform': { tag: '客户端提示', desc: '操作系统平台' },
-        'sec-fetch-dest': { tag: '安全', desc: '请求的目标类型' },
-        'sec-fetch-mode': { tag: '安全', desc: '请求的模式' },
-        'sec-fetch-site': { tag: '安全', desc: '请求与资源的关系' },
-        'if-none-match': { tag: '缓存', desc: '条件请求，比较 ETag' },
-        'if-modified-since': { tag: '缓存', desc: '条件请求，比较修改时间' },
-        'pragma': { tag: '缓存', desc: 'HTTP/1.0 缓存控制' },
-        'connection': { tag: '连接', desc: '控制网络连接的状态' },
-        'upgrade-insecure-requests': { tag: '安全', desc: '请求升级到 HTTPS' },
-        'dnt': { tag: '隐私', desc: 'Do Not Track 请求' },
-        'x-forwarded-for': { tag: '代理', desc: '标识客户端原始 IP' },
-        'x-real-ip': { tag: '代理', desc: '客户端真实 IP' },
-        'x-api-key': { tag: '认证', desc: 'API 密钥' },
-        'x-auth-token': { tag: '认证', desc: '认证令牌' }
+        'accept': { tag: ['内容协商', 'Content'], desc: ['指定客户端能够接收的内容类型', 'Acceptable content types'] },
+        'accept-encoding': { tag: ['压缩', 'Compress'], desc: ['指定客户端支持的压缩编码', 'Supported compression encodings'] },
+        'accept-language': { tag: ['国际化', 'i18n'], desc: ['指定客户端偏好的语言', 'Preferred language'] },
+        'authorization': { tag: ['认证', 'Auth'], desc: ['包含用于验证用户身份的凭据', 'User authentication credentials'] },
+        'cache-control': { tag: ['缓存', 'Cache'], desc: ['指定请求/响应的缓存机制', 'Request/response caching mechanism'] },
+        'content-type': { tag: ['内容类型', 'Content'], desc: ['指定请求体的 MIME 类型', 'Request body MIME type'] },
+        'content-length': { tag: ['内容长度', 'Length'], desc: ['请求体的字节长度', 'Request body byte length'] },
+        'cookie': { tag: ['Cookie', 'Cookie'], desc: ['发送存储的 Cookie 到服务器', 'Send stored cookies to server'] },
+        'host': { tag: ['主机', 'Host'], desc: ['指定请求的目标主机和端口', 'Target host and port'] },
+        'origin': { tag: ['跨域', 'CORS'], desc: ['标识请求的来源，用于 CORS', 'Request origin for CORS'] },
+        'referer': { tag: ['来源', 'Referer'], desc: ['标识请求的来源页面 URL', 'Referring page URL'] },
+        'user-agent': { tag: ['客户端', 'Client'], desc: ['标识发起请求的客户端信息', 'Client identification'] },
+        'x-requested-with': { tag: ['AJAX', 'AJAX'], desc: ['标识 AJAX 请求，常用值为 XMLHttpRequest', 'Identifies AJAX request'] },
+        'x-csrf-token': { tag: ['安全', 'Security'], desc: ['CSRF 防护令牌', 'CSRF protection token'] },
+        'x-xsrf-token': { tag: ['安全', 'Security'], desc: ['XSRF 防护令牌', 'XSRF protection token'] },
+        'sec-ch-ua': { tag: ['客户端提示', 'Client Hint'], desc: ['浏览器品牌和版本信息', 'Browser brand and version'] },
+        'sec-ch-ua-mobile': { tag: ['客户端提示', 'Client Hint'], desc: ['是否为移动设备', 'Whether mobile device'] },
+        'sec-ch-ua-platform': { tag: ['客户端提示', 'Client Hint'], desc: ['操作系统平台', 'OS platform'] },
+        'sec-fetch-dest': { tag: ['安全', 'Security'], desc: ['请求的目标类型', 'Request destination type'] },
+        'sec-fetch-mode': { tag: ['安全', 'Security'], desc: ['请求的模式', 'Request mode'] },
+        'sec-fetch-site': { tag: ['安全', 'Security'], desc: ['请求与资源的关系', 'Request-resource relationship'] },
+        'if-none-match': { tag: ['缓存', 'Cache'], desc: ['条件请求，比较 ETag', 'Conditional request, compare ETag'] },
+        'if-modified-since': { tag: ['缓存', 'Cache'], desc: ['条件请求，比较修改时间', 'Conditional, compare modified time'] },
+        'pragma': { tag: ['缓存', 'Cache'], desc: ['HTTP/1.0 缓存控制', 'HTTP/1.0 cache control'] },
+        'connection': { tag: ['连接', 'Connection'], desc: ['控制网络连接的状态', 'Network connection state'] },
+        'upgrade-insecure-requests': { tag: ['安全', 'Security'], desc: ['请求升级到 HTTPS', 'Request upgrade to HTTPS'] },
+        'dnt': { tag: ['隐私', 'Privacy'], desc: ['Do Not Track 请求', 'Do Not Track request'] },
+        'x-forwarded-for': { tag: ['代理', 'Proxy'], desc: ['标识客户端原始 IP', 'Client original IP'] },
+        'x-real-ip': { tag: ['代理', 'Proxy'], desc: ['客户端真实 IP', 'Client real IP'] },
+        'x-api-key': { tag: ['认证', 'Auth'], desc: ['API 密钥', 'API key'] },
+        'x-auth-token': { tag: ['认证', 'Auth'], desc: ['认证令牌', 'Auth token'] }
     };
 
-    // 常见查询参数说明
+    function _curlIsEn() {
+        return REOT.i18n?.getLocale?.()?.startsWith('en') || false;
+    }
+
+    function getCurlHeaderInfo(lowerKey) {
+        const info = HEADER_DESCRIPTIONS[lowerKey];
+        if (!info) return { tag: '', desc: '' };
+        const idx = _curlIsEn() ? 1 : 0;
+        return { tag: info.tag[idx], desc: info.desc[idx] };
+    }
+
+    // 常见查询参数说明 [zh, en]
     const PARAM_HINTS = {
-        'page': '分页 - 当前页码',
-        'pagenum': '分页 - 当前页码',
-        'pagesize': '分页 - 每页数量',
-        'limit': '分页 - 返回数量限制',
-        'offset': '分页 - 数据偏移量',
-        'cursor': '分页 - 游标位置',
-        'sort': '排序字段',
-        'order': '排序方向 (asc/desc)',
-        'orderby': '排序字段',
-        'q': '搜索关键词',
-        'query': '搜索关键词',
-        'search': '搜索关键词',
-        'keyword': '搜索关键词',
-        'filter': '过滤条件',
-        'id': '资源唯一标识符',
-        'uid': '用户 ID',
-        'userid': '用户 ID',
-        'token': '认证令牌',
-        'access_token': 'OAuth 访问令牌',
-        'refresh_token': 'OAuth 刷新令牌',
-        'timestamp': '时间戳',
-        't': '时间戳',
-        'ts': '时间戳',
-        '_': '缓存破坏参数',
-        'callback': 'JSONP 回调函数名',
-        'format': '响应格式 (json/xml)',
-        'lang': '语言代码',
-        'locale': '语言区域设置',
-        'version': 'API 版本',
-        'v': 'API 版本',
-        'sign': '签名参数',
-        'signature': '签名参数',
-        'nonce': '随机数/防重放'
+        'page': ['分页 - 当前页码', 'Pagination - current page'],
+        'pagenum': ['分页 - 当前页码', 'Pagination - page number'],
+        'pagesize': ['分页 - 每页数量', 'Pagination - page size'],
+        'limit': ['分页 - 返回数量限制', 'Pagination - result limit'],
+        'offset': ['分页 - 数据偏移量', 'Pagination - data offset'],
+        'cursor': ['分页 - 游标位置', 'Pagination - cursor position'],
+        'sort': ['排序字段', 'Sort field'],
+        'order': ['排序方向 (asc/desc)', 'Sort direction (asc/desc)'],
+        'orderby': ['排序字段', 'Sort field'],
+        'q': ['搜索关键词', 'Search keyword'],
+        'query': ['搜索关键词', 'Search keyword'],
+        'search': ['搜索关键词', 'Search keyword'],
+        'keyword': ['搜索关键词', 'Search keyword'],
+        'filter': ['过滤条件', 'Filter condition'],
+        'id': ['资源唯一标识符', 'Resource unique ID'],
+        'uid': ['用户 ID', 'User ID'],
+        'userid': ['用户 ID', 'User ID'],
+        'token': ['认证令牌', 'Auth token'],
+        'access_token': ['OAuth 访问令牌', 'OAuth access token'],
+        'refresh_token': ['OAuth 刷新令牌', 'OAuth refresh token'],
+        'timestamp': ['时间戳', 'Timestamp'],
+        't': ['时间戳', 'Timestamp'],
+        'ts': ['时间戳', 'Timestamp'],
+        '_': ['缓存破坏参数', 'Cache buster'],
+        'callback': ['JSONP 回调函数名', 'JSONP callback name'],
+        'format': ['响应格式 (json/xml)', 'Response format (json/xml)'],
+        'lang': ['语言代码', 'Language code'],
+        'locale': ['语言区域设置', 'Language locale'],
+        'version': ['API 版本', 'API version'],
+        'v': ['API 版本', 'API version'],
+        'sign': ['签名参数', 'Signature parameter'],
+        'signature': ['签名参数', 'Signature parameter'],
+        'nonce': ['随机数/防重放', 'Nonce / anti-replay']
     };
 
     // ==================== 选项面板控制 ====================
@@ -899,9 +910,10 @@
      */
     function getParamHint(paramName) {
         const lowerName = paramName.toLowerCase();
+        const idx = _curlIsEn() ? 1 : 0;
         for (const [key, hint] of Object.entries(PARAM_HINTS)) {
             if (lowerName === key || lowerName.includes(key)) {
-                return hint;
+                return hint[idx];
             }
         }
         return '';
@@ -1021,7 +1033,7 @@
         keys.forEach(key => {
             const value = headers[key];
             const lowerKey = key.toLowerCase();
-            const info = HEADER_DESCRIPTIONS[lowerKey] || { tag: '', desc: '' };
+            const info = getCurlHeaderInfo(lowerKey);
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -1193,7 +1205,7 @@
 
         const toggleBtn = document.createElement('button');
         toggleBtn.className = 'compare-input-toggle';
-        toggleBtn.title = '折叠';
+        toggleBtn.title = REOT.i18n?.t('tools.curl-converter.collapseTitle') || '折叠';
         toggleBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>';
 
         const label = document.createElement('span');
@@ -1202,7 +1214,7 @@
         numSpan.className = 'compare-input-number';
         numSpan.textContent = index;
         label.appendChild(numSpan);
-        label.appendChild(document.createTextNode(' 请求 ' + index));
+        label.appendChild(document.createTextNode(' ' + (REOT.i18n?.t('tools.curl-converter.requestLabel') || '请求 {index}').replace('{index}', index).replace(/^\d+ /, '')));
 
         leftGroup.appendChild(toggleBtn);
         leftGroup.appendChild(label);
@@ -1211,7 +1223,7 @@
         const removeBtn = document.createElement('button');
         removeBtn.className = 'compare-input-remove';
         removeBtn.dataset.removeId = id;
-        removeBtn.title = '移除';
+        removeBtn.title = REOT.i18n?.t('tools.curl-converter.removeTitle') || '移除';
         removeBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
 
         header.appendChild(leftGroup);
@@ -1239,7 +1251,7 @@
                     readOnly: false,
                     theme: theme,
                     lineWrapping: true,
-                    placeholder: '粘贴第 ' + index + ' 个 cURL 命令...'
+                    placeholder: (REOT.i18n?.t('tools.curl-converter.comparePlaceholder') || '粘贴第 {index} 个 cURL 命令...').replace('{index}', index)
                 });
             }
         } catch (e) {
@@ -1262,7 +1274,7 @@
 
         // 至少保留2个
         if (compareEditors.length <= 2) {
-            REOT.utils?.showNotification('至少需要保留 2 个对比输入框', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.minCompareInputs') || '至少需要保留 2 个对比输入框', 'warning');
             return;
         }
 
@@ -1292,7 +1304,7 @@
                 numSpan.className = 'compare-input-number';
                 numSpan.textContent = newIndex;
                 label.appendChild(numSpan);
-                label.appendChild(document.createTextNode(' 请求 ' + newIndex));
+                label.appendChild(document.createTextNode(' ' + (REOT.i18n?.t('tools.curl-converter.requestLabel') || '请求 {index}').replace('{index}', newIndex).replace(/^\d+ /, '')));
             }
         });
     }
@@ -1304,7 +1316,7 @@
         const count = compareEditors.length;
         const badge = document.getElementById('compare-count-badge');
         if (badge) {
-            badge.textContent = count + ' 个请求';
+            badge.textContent = (REOT.i18n?.t('tools.curl-converter.requestBadge') || '{count} 个请求').replace('{count}', count);
         }
 
         // 更新删除按钮状态
@@ -1371,7 +1383,7 @@
             editorInfo.element.classList.add('collapsed');
             const toggleBtn = editorInfo.element.querySelector('.compare-input-toggle');
             if (toggleBtn) {
-                toggleBtn.title = '展开';
+                toggleBtn.title = REOT.i18n?.t('tools.curl-converter.expandTitle') || '展开';
             }
         });
     }
@@ -1383,7 +1395,7 @@
      */
     function compareMultipleCurls(curls) {
         if (curls.length < 2) {
-            throw new Error('至少需要 2 个 cURL 命令进行对比');
+            throw new Error(REOT.i18n?.t('tools.curl-converter.minCompareWarning') || '至少需要填写 2 个 cURL 命令');
         }
 
         const parsedList = curls.map(curl => parseCurl(curl));
@@ -1572,10 +1584,24 @@
         stats.innerHTML = '';
         const differentStat = document.createElement('div');
         differentStat.className = 'diff-stat changed';
-        differentStat.innerHTML = '<span class="stat-value">' + diff.stats.different + '</span><span class="stat-label">有差异</span>';
+        const diffValSpan = document.createElement('span');
+        diffValSpan.className = 'stat-value';
+        diffValSpan.textContent = diff.stats.different;
+        const diffLabelSpan = document.createElement('span');
+        diffLabelSpan.className = 'stat-label';
+        diffLabelSpan.textContent = REOT.i18n?.t('tools.curl-converter.diffHasDifference') || '有差异';
+        differentStat.appendChild(diffValSpan);
+        differentStat.appendChild(diffLabelSpan);
         const sameStat = document.createElement('div');
         sameStat.className = 'diff-stat same';
-        sameStat.innerHTML = '<span class="stat-value">' + diff.stats.same + '</span><span class="stat-label">完全相同</span>';
+        const sameValSpan = document.createElement('span');
+        sameValSpan.className = 'stat-value';
+        sameValSpan.textContent = diff.stats.same;
+        const sameLabelSpan = document.createElement('span');
+        sameLabelSpan.className = 'stat-label';
+        sameLabelSpan.textContent = REOT.i18n?.t('tools.curl-converter.diffSame') || '完全相同';
+        sameStat.appendChild(sameValSpan);
+        sameStat.appendChild(sameLabelSpan);
         stats.appendChild(differentStat);
         stats.appendChild(sameStat);
 
@@ -1593,7 +1619,7 @@
             item.className = 'diff-url-item' + (allUrlsSame ? ' url-same' : ' url-different');
             const labelSpan = document.createElement('span');
             labelSpan.className = 'url-label';
-            labelSpan.textContent = '请求 ' + urlInfo.index;
+            labelSpan.textContent = (REOT.i18n?.t('tools.curl-converter.requestLabel') || '请求 {index}').replace('{index}', urlInfo.index);
             const valueSpan = document.createElement('span');
             valueSpan.className = 'url-value clickable-cell';
             valueSpan.dataset.copy = urlInfo.url || '';
@@ -1619,9 +1645,9 @@
      */
     function addCopyJsonButtons() {
         const sections = [
-            { id: 'diff-query', type: 'query', label: '查询参数' },
-            { id: 'diff-headers', type: 'headers', label: '请求头' },
-            { id: 'diff-body', type: 'body', label: '请求体' }
+            { id: 'diff-query', type: 'query', label: REOT.i18n?.t('tools.curl-converter.sectionQueryParams') || '查询参数' },
+            { id: 'diff-headers', type: 'headers', label: REOT.i18n?.t('tools.curl-converter.sectionHeaders') || '请求头' },
+            { id: 'diff-body', type: 'body', label: REOT.i18n?.t('tools.curl-converter.sectionBody') || '请求体' }
         ];
 
         sections.forEach(section => {
@@ -1655,8 +1681,8 @@
             copyDiffBtn.className = 'btn btn--sm btn--outline';
             copyDiffBtn.dataset.copyType = section.type;
             copyDiffBtn.dataset.copyMode = 'different';
-            copyDiffBtn.textContent = '复制差异';
-            copyDiffBtn.title = '复制有差异的参数为 JSON';
+            copyDiffBtn.textContent = REOT.i18n?.t('tools.curl-converter.copyDiff') || '复制差异';
+            copyDiffBtn.title = REOT.i18n?.t('tools.curl-converter.copyDiffTitle') || '复制有差异的参数为 JSON';
             btnContainer.appendChild(copyDiffBtn);
 
             // 复制全部按钮
@@ -1664,8 +1690,8 @@
             copyAllBtn.className = 'btn btn--sm btn--outline';
             copyAllBtn.dataset.copyType = section.type;
             copyAllBtn.dataset.copyMode = 'all';
-            copyAllBtn.textContent = '复制全部';
-            copyAllBtn.title = '复制全部参数为 JSON';
+            copyAllBtn.textContent = REOT.i18n?.t('tools.curl-converter.copyAll') || '复制全部';
+            copyAllBtn.title = REOT.i18n?.t('tools.curl-converter.copyAllTitle') || '复制全部参数为 JSON';
             btnContainer.appendChild(copyAllBtn);
         });
     }
@@ -1675,13 +1701,13 @@
      */
     function copyDiffAsJson(type, mode) {
         if (!currentMultiDiff) {
-            REOT.utils?.showNotification('没有可复制的数据', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.noCopyData') || '没有可复制的数据', 'warning');
             return;
         }
 
         let items = currentMultiDiff[type];
         if (!items || items.length === 0) {
-            REOT.utils?.showNotification('没有可复制的数据', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.noCopyData') || '没有可复制的数据', 'warning');
             return;
         }
 
@@ -1691,27 +1717,28 @@
         }
 
         if (items.length === 0) {
-            REOT.utils?.showNotification('没有差异数据', 'info');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.noDiffData') || '没有差异数据', 'info');
             return;
         }
 
         // 构建每个请求的参数对象
         const result = {};
+        const requestKeyPrefix = (REOT.i18n?.t('tools.curl-converter.requestLabel') || '请求 {index}').replace(' {index}', '');
         for (let i = 0; i < currentMultiDiff.count; i++) {
-            result['请求' + (i + 1)] = {};
+            result[requestKeyPrefix + (i + 1)] = {};
         }
 
         items.forEach(item => {
             item.values.forEach((val, i) => {
                 if (val !== undefined && val !== '') {
-                    result['请求' + (i + 1)][item.key] = val;
+                    result[requestKeyPrefix + (i + 1)][item.key] = val;
                 }
             });
         });
 
         const jsonStr = JSON.stringify(result, null, 2);
         REOT.utils?.copyToClipboard(jsonStr);
-        REOT.utils?.showNotification('已复制 ' + items.length + ' 个参数', 'success');
+        REOT.utils?.showNotification((REOT.i18n?.t('tools.curl-converter.copiedParams') || '已复制 {count} 个参数').replace('{count}', items.length), 'success');
     }
 
     /**
@@ -1744,18 +1771,18 @@
         // 创建表头
         const headerRow = document.createElement('tr');
         const keyTh = document.createElement('th');
-        keyTh.textContent = '参数名';
+        keyTh.textContent = REOT.i18n?.t('tools.curl-converter.diffParamName') || '参数名';
         headerRow.appendChild(keyTh);
 
         for (let i = 1; i <= count; i++) {
             const th = document.createElement('th');
             th.className = 'value-col';
-            th.textContent = '请求 ' + i;
+            th.textContent = (REOT.i18n?.t('tools.curl-converter.requestLabel') || '请求 {index}').replace('{index}', i);
             headerRow.appendChild(th);
         }
 
         const statusTh = document.createElement('th');
-        statusTh.textContent = '状态';
+        statusTh.textContent = REOT.i18n?.t('tools.curl-converter.diffStatus') || '状态';
         headerRow.appendChild(statusTh);
         thead.appendChild(headerRow);
 
@@ -1766,7 +1793,7 @@
             emptyTd.colSpan = count + 2;
             emptyTd.style.textAlign = 'center';
             emptyTd.style.color = 'var(--text-muted)';
-            emptyTd.textContent = '无数据';
+            emptyTd.textContent = REOT.i18n?.t('tools.curl-converter.diffNoData') || '无数据';
             emptyRow.appendChild(emptyTd);
             tbody.appendChild(emptyRow);
             return;
@@ -1807,7 +1834,7 @@
             statusTd.className = 'diff-status';
             const badge = document.createElement('span');
             badge.className = 'status-badge ' + (item.allSame ? 'same' : 'changed');
-            badge.textContent = item.allSame ? '相同' : '不同';
+            badge.textContent = item.allSame ? (REOT.i18n?.t('tools.curl-converter.diffStatusSame') || '相同') : (REOT.i18n?.t('tools.curl-converter.diffStatusDifferent') || '不同');
             statusTd.appendChild(badge);
             tr.appendChild(statusTd);
 
@@ -1825,22 +1852,25 @@
         // 统计摘要
         const stats = document.getElementById('diff-stats');
         stats.innerHTML = '';
-        const changedStat = document.createElement('div');
-        changedStat.className = 'diff-stat changed';
-        changedStat.innerHTML = '<span class="stat-value">' + diff.stats.changed + '</span><span class="stat-label">已改变</span>';
-        const addedStat = document.createElement('div');
-        addedStat.className = 'diff-stat added';
-        addedStat.innerHTML = '<span class="stat-value">' + diff.stats.added + '</span><span class="stat-label">新增</span>';
-        const removedStat = document.createElement('div');
-        removedStat.className = 'diff-stat removed';
-        removedStat.innerHTML = '<span class="stat-value">' + diff.stats.removed + '</span><span class="stat-label">移除</span>';
-        const sameStat = document.createElement('div');
-        sameStat.className = 'diff-stat same';
-        sameStat.innerHTML = '<span class="stat-value">' + diff.stats.same + '</span><span class="stat-label">相同</span>';
-        stats.appendChild(changedStat);
-        stats.appendChild(addedStat);
-        stats.appendChild(removedStat);
-        stats.appendChild(sameStat);
+        const statItems = [
+            { key: 'changed', value: diff.stats.changed, label: REOT.i18n?.t('tools.curl-converter.diffChanged') || '已改变' },
+            { key: 'added', value: diff.stats.added, label: REOT.i18n?.t('tools.curl-converter.diffAdded') || '新增' },
+            { key: 'removed', value: diff.stats.removed, label: REOT.i18n?.t('tools.curl-converter.diffRemoved') || '移除' },
+            { key: 'same', value: diff.stats.same, label: REOT.i18n?.t('tools.curl-converter.statusSame') || '相同' }
+        ];
+        statItems.forEach(item => {
+            const statDiv = document.createElement('div');
+            statDiv.className = 'diff-stat ' + item.key;
+            const valSpan = document.createElement('span');
+            valSpan.className = 'stat-value';
+            valSpan.textContent = item.value;
+            const labelSpan = document.createElement('span');
+            labelSpan.className = 'stat-label';
+            labelSpan.textContent = item.label;
+            statDiv.appendChild(valSpan);
+            statDiv.appendChild(labelSpan);
+            stats.appendChild(statDiv);
+        });
 
         // URL 差异
         const urlContent = document.querySelector('#diff-url .diff-content');
@@ -1848,16 +1878,16 @@
         if (diff.url.status !== 'same') {
             const div1 = document.createElement('div');
             div1.style.color = '#ef4444';
-            div1.textContent = '- ' + (diff.url.val1 || '(空)');
+            div1.textContent = '- ' + (diff.url.val1 || (REOT.i18n?.t('tools.curl-converter.urlEmpty') || '(空)'));
             const div2 = document.createElement('div');
             div2.style.color = '#10b981';
-            div2.textContent = '+ ' + (diff.url.val2 || '(空)');
+            div2.textContent = '+ ' + (diff.url.val2 || (REOT.i18n?.t('tools.curl-converter.urlEmpty') || '(空)'));
             urlContent.appendChild(div1);
             urlContent.appendChild(div2);
         } else {
             const div = document.createElement('div');
             div.style.color = 'var(--text-muted)';
-            div.textContent = 'URL 相同';
+            div.textContent = REOT.i18n?.t('tools.curl-converter.urlSame') || 'URL 相同';
             urlContent.appendChild(div);
         }
 
@@ -1888,7 +1918,7 @@
             td.colSpan = 4;
             td.style.textAlign = 'center';
             td.style.color = 'var(--text-muted)';
-            td.textContent = '无数据';
+            td.textContent = REOT.i18n?.t('tools.curl-converter.diffNoData') || '无数据';
             tr.appendChild(td);
             tbody.appendChild(tr);
             return;
@@ -1942,10 +1972,10 @@
      */
     function getStatusText(status) {
         const texts = {
-            added: '新增',
-            removed: '移除',
-            changed: '改变',
-            same: '相同'
+            added: REOT.i18n?.t('tools.curl-converter.statusAdded') || '新增',
+            removed: REOT.i18n?.t('tools.curl-converter.statusRemoved') || '移除',
+            changed: REOT.i18n?.t('tools.curl-converter.statusChanged') || '改变',
+            same: REOT.i18n?.t('tools.curl-converter.statusSame') || '相同'
         };
         return texts[status] || status;
     }
@@ -1993,12 +2023,12 @@
         const parsed = parseCurl(curlCommand);
 
         if (!parsed.url) {
-            throw new Error('未找到有效的 URL');
+            throw new Error(REOT.i18n?.t('tools.curl-converter.errorNoUrl') || '未找到有效的 URL');
         }
 
         // 检查生成器模块是否已加载
         if (!window.CurlGenerators || !window.CurlGenerators.generateCode) {
-            throw new Error('代码生成器模块未加载，请刷新页面重试');
+            throw new Error(REOT.i18n?.t('tools.curl-converter.errorGeneratorNotLoaded') || '代码生成器模块未加载，请刷新页面重试');
         }
 
         // 获取选项（如未传入则从 UI 读取）
@@ -2162,7 +2192,7 @@
                     readOnly: false,
                     theme: theme,
                     lineWrapping: true,
-                    placeholder: '粘贴 cURL 命令...'
+                    placeholder: REOT.i18n?.t('tools.curl-converter.inputPlaceholder') || '粘贴 cURL 命令...'
                 });
             }
 
@@ -2190,7 +2220,7 @@
                     readOnly: false,
                     theme: theme,
                     lineWrapping: true,
-                    placeholder: '粘贴 cURL 命令...'
+                    placeholder: REOT.i18n?.t('tools.curl-converter.inputPlaceholder') || '粘贴 cURL 命令...'
                 });
             }
 
@@ -2260,14 +2290,14 @@
         if (target.id === 'parse-btn' || target.closest('#parse-btn')) {
             const input = getEditorValue(inputEditor, 'input');
             if (!input.trim()) {
-                REOT.utils?.showNotification('请输入 cURL 命令', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.errorEmpty') || '请输入 cURL 命令', 'warning');
                 return;
             }
             try {
                 const parsed = parseCurl(input);
-                if (!parsed.url) throw new Error('未找到有效的 URL');
+                if (!parsed.url) throw new Error(REOT.i18n?.t('tools.curl-converter.errorNoUrl') || '未找到有效的 URL');
                 renderParseResult(parsed);
-                REOT.utils?.showNotification('解析成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.parseSuccess') || '解析成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -2293,7 +2323,7 @@
             const json = copyAsJson(dataTarget);
             if (json) {
                 await REOT.utils?.copyToClipboard(json);
-                REOT.utils?.showNotification('已复制 JSON', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.copiedJson') || '已复制 JSON', 'success');
             }
         }
 
@@ -2303,7 +2333,7 @@
             const str = copyAsString(dataTarget);
             if (str) {
                 await REOT.utils?.copyToClipboard(str);
-                REOT.utils?.showNotification('已复制', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('common.copied') || '已复制', 'success');
             }
         }
 
@@ -2320,7 +2350,7 @@
             const curl = getEditorValue(exportedCurlEditor, 'exported-curl');
             if (curl) {
                 await REOT.utils?.copyToClipboard(curl);
-                REOT.utils?.showNotification('已复制 cURL 命令', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.copiedCurl') || '已复制 cURL 命令', 'success');
             }
         }
 
@@ -2328,7 +2358,7 @@
         if (target.id === 'add-compare-btn' || target.closest('#add-compare-btn')) {
             const newIndex = compareEditors.length + 1;
             await createCompareInput(newIndex);
-            REOT.utils?.showNotification('已添加第 ' + newIndex + ' 个对比输入', 'success');
+            REOT.utils?.showNotification((REOT.i18n?.t('tools.curl-converter.addedCompareInput') || '已添加第 {index} 个对比输入').replace('{index}', newIndex), 'success');
             return;
         }
 
@@ -2349,7 +2379,7 @@
             if (card) {
                 card.classList.toggle('collapsed');
                 const isCollapsed = card.classList.contains('collapsed');
-                toggleBtn.title = isCollapsed ? '展开' : '折叠';
+                toggleBtn.title = isCollapsed ? (REOT.i18n?.t('tools.curl-converter.expandTitle') || '展开') : (REOT.i18n?.t('tools.curl-converter.collapseTitle') || '折叠');
                 toggleBtn.querySelector('svg').style.transform = isCollapsed ? 'rotate(-90deg)' : '';
             }
             return;
@@ -2369,7 +2399,7 @@
         // 清除全部按钮
         if (target.id === 'compare-clear-btn' || target.closest('#compare-clear-btn')) {
             clearAllCompareInputs();
-            REOT.utils?.showNotification('已清除全部内容', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.clearedAll') || '已清除全部内容', 'success');
             return;
         }
 
@@ -2396,13 +2426,13 @@
             });
 
             if (curls.length < 2) {
-                REOT.utils?.showNotification('至少需要填写 2 个 cURL 命令', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.minCompareWarning') || '至少需要填写 2 个 cURL 命令', 'warning');
                 return;
             }
 
             if (hasEmpty && curls.length < compareEditors.length) {
                 // 有空的输入框，但有足够的非空输入
-                REOT.utils?.showNotification('部分输入框为空，将只对比已填写的 ' + curls.length + ' 个请求', 'info');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.curl-converter.comparePartialEmpty') || '部分输入框为空，将只对比已填写的 {count} 个请求').replace('{count}', curls.length), 'info');
             }
 
             try {
@@ -2410,7 +2440,7 @@
                 renderMultiCompareResult(diff);
                 // 对比完成后折叠所有输入框
                 collapseAllCompareInputs();
-                REOT.utils?.showNotification('对比完成，共 ' + curls.length + ' 个请求', 'success');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.curl-converter.compareSuccess') || '对比完成，共 {count} 个请求').replace('{count}', curls.length), 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -2455,7 +2485,7 @@
         if (target.id === 'gen-code-btn' || target.closest('#gen-code-btn')) {
             const input = getEditorValue(genInputEditor, 'gen-input');
             if (!input.trim()) {
-                REOT.utils?.showNotification('请输入 cURL 命令', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.errorEmpty') || '请输入 cURL 命令', 'warning');
                 return;
             }
             const selectEl = document.getElementById('code-language-select');
@@ -2472,9 +2502,9 @@
                 await recreateCodeOutputEditor(language);
                 const code = await generateCode(input, language);
                 setEditorValue(codeOutputEditor, 'code-output', code);
-                REOT.utils?.showNotification('代码生成成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.codeGenSuccess') || '代码生成成功', 'success');
             } catch (error) {
-                setEditorValue(codeOutputEditor, 'code-output', '错误: ' + error.message);
+                setEditorValue(codeOutputEditor, 'code-output', (REOT.i18n?.t('tools.curl-converter.errorPrefix') || '错误: ') + error.message);
                 REOT.utils?.showNotification(error.message, 'error');
             }
             return;
@@ -2500,7 +2530,7 @@
             const code = getEditorValue(codeOutputEditor, 'code-output');
             if (code) {
                 await REOT.utils?.copyToClipboard(code);
-                REOT.utils?.showNotification('代码已复制', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.copiedCode') || '代码已复制', 'success');
             }
             return;
         }
@@ -2509,7 +2539,7 @@
         if (target.id === 'save-code-btn' || target.closest('#save-code-btn')) {
             const code = getEditorValue(codeOutputEditor, 'code-output');
             if (!code || !code.trim()) {
-                REOT.utils?.showNotification('没有可保存的代码', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.curl-converter.noCodeToSave') || '没有可保存的代码', 'warning');
                 return;
             }
 
@@ -2531,7 +2561,7 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
 
-            REOT.utils?.showNotification('代码已保存: ' + filename, 'success');
+            REOT.utils?.showNotification((REOT.i18n?.t('tools.curl-converter.codeSaved') || '代码已保存: {filename}').replace('{filename}', filename), 'success');
             return;
         }
 
@@ -2556,7 +2586,7 @@
                 // 添加复制成功的视觉反馈
                 clickableCell.classList.add('copied');
                 setTimeout(() => clickableCell.classList.remove('copied'), 500);
-                REOT.utils?.showNotification('已复制', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('common.copied') || '已复制', 'success');
             }
         }
     });
@@ -2584,7 +2614,7 @@
                     const code = await generateCode(input, language);
                     setEditorValue(codeOutputEditor, 'code-output', code);
                 } catch (error) {
-                    setEditorValue(codeOutputEditor, 'code-output', '错误: ' + error.message);
+                    setEditorValue(codeOutputEditor, 'code-output', (REOT.i18n?.t('tools.curl-converter.errorPrefix') || '错误: ') + error.message);
                 }
             }
         }
@@ -2603,7 +2633,7 @@
                     const code = await generateCode(input, language);
                     setEditorValue(codeOutputEditor, 'code-output', code);
                 } catch (error) {
-                    setEditorValue(codeOutputEditor, 'code-output', '错误: ' + error.message);
+                    setEditorValue(codeOutputEditor, 'code-output', (REOT.i18n?.t('tools.curl-converter.errorPrefix') || '错误: ') + error.message);
                 }
             }
         }

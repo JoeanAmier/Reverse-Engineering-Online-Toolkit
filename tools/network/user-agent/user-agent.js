@@ -281,8 +281,12 @@
         document.getElementById('device-model').textContent = result.device.model || '-';
 
         // 其他信息
-        document.getElementById('is-bot').textContent = result.isBot ? `是 (${result.botName})` : '否';
-        document.getElementById('is-mobile').textContent = result.isMobile ? '是' : '否';
+        const isBotYes = REOT.i18n?.t('tools.user-agent.isBotYes') || '是';
+        const isBotNo = REOT.i18n?.t('tools.user-agent.isBotNo') || '否';
+        const isMobileYes = REOT.i18n?.t('tools.user-agent.isMobileYes') || '是';
+        const isMobileNo = REOT.i18n?.t('tools.user-agent.isMobileNo') || '否';
+        document.getElementById('is-bot').textContent = result.isBot ? `${isBotYes} (${result.botName})` : isBotNo;
+        document.getElementById('is-mobile').textContent = result.isMobile ? isMobileYes : isMobileNo;
         document.getElementById('cpu-arch').textContent = result.cpu.architecture || '-';
 
         // JSON 输出
@@ -316,16 +320,16 @@
         if (target.id === 'parse-btn' || target.closest('#parse-btn')) {
             const input = document.getElementById('input');
             if (!input.value.trim()) {
-                REOT.utils?.showNotification('请输入 User-Agent 字符串', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.user-agent.errorEmpty') || '请输入 User-Agent 字符串', 'warning');
                 return;
             }
 
             const result = parseUserAgent(input.value.trim());
             if (result) {
                 displayResult(result);
-                REOT.utils?.showNotification('解析成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.user-agent.parseSuccess') || '解析成功', 'success');
             } else {
-                REOT.utils?.showNotification('解析失败', 'error');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.user-agent.parseFailed') || '解析失败', 'error');
             }
         }
 
@@ -334,7 +338,7 @@
             const input = document.getElementById('input');
             if (input) {
                 input.value = navigator.userAgent;
-                REOT.utils?.showNotification('已获取当前浏览器的 User-Agent', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.user-agent.getBrowserSuccess') || '已获取当前浏览器的 User-Agent', 'success');
             }
         }
 

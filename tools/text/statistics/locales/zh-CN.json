@@ -9,5 +9,6 @@
     "sentences": "句子数",
     "paragraphs": "段落数",
     "bytes": "字节数(UTF-8)",
-    "cjk": "中日韩字符"
+    "cjk": "中日韩字符",
+    "sampleText": "REOT - 逆向工程在线工具箱\n\n这是一个纯前端实现的在线工具箱，所有计算都在本地浏览器中完成。\n\nFeatures:\n- Encoding & Decoding\n- Encryption & Decryption\n- Text Processing\n- And more...\n\n你好，世界！Hello, World! こんにちは！"
 }

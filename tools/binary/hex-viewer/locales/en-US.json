@@ -16,5 +16,9 @@
     "searchPlaceholder": "Search Hex or ASCII...",
     "loadMore": "Load More",
     "loadAll": "Load All",
-    "dataLoaded": "All data loaded"
+    "dataLoaded": "All data loaded",
+    "allDataLoaded": "All data loaded",
+    "enterTextOrUpload": "Please enter text or upload file",
+    "hexGenerated": "Hex view generated",
+    "loadAllWarning": "About to load {0} of data. This may cause the page to freeze or become unresponsive.\n\nAre you sure you want to continue?"
 }

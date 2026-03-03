@@ -9,5 +9,8 @@
     "keyPlaceholder": "输入密钥...",
     "message": "消息",
     "messagePlaceholder": "输入要计算 HMAC 的内容...",
-    "calculate": "计算 HMAC"
+    "calculate": "计算 HMAC",
+    "errorNoKey": "请输入密钥",
+    "errorNoMessage": "请输入消息",
+    "calcFailed": "计算失败: "
 }

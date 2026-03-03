@@ -68,7 +68,7 @@
         // 解析十六进制
         hexString = hexString.replace(/[\s\n\r,;]/g, '').replace(/^0x/i, '');
         if (!/^[0-9a-fA-F]*$/.test(hexString)) {
-            throw new Error('无效的十六进制字符串');
+            throw new Error(REOT.i18n?.t('tools.frequency-analyzer.invalidHex') || '无效的十六进制字符串');
         }
         if (hexString.length % 2 !== 0) {
             hexString = '0' + hexString;
@@ -145,7 +145,7 @@
         const ngramSize = parseInt(document.getElementById('ngram-size')?.value || '2', 10);
 
         if (!input || !input.trim()) {
-            throw new Error('请输入要分析的内容');
+            throw new Error(REOT.i18n?.t('tools.frequency-analyzer.enterContent') || '请输入要分析的内容');
         }
 
         let result;
@@ -192,7 +192,7 @@
             // 计算柱状条高度（最大 110px）
             const height = maxPercentage > 0 ? Math.max(4, Math.round(item.percentage / maxPercentage * 110)) : 4;
             return `
-                <div class="chart-bar" title="${displayChar(item.char)}: ${item.count} 次 (${item.frequency}%)">
+                <div class="chart-bar" title="${displayChar(item.char)}: ${item.count} ${REOT.i18n?.t('tools.frequency-analyzer.times') || '次'} (${item.frequency}%)">
                     <div class="chart-bar-fill" style="height: ${height}px;"></div>
                     <span class="chart-bar-label">${escapeHtml(displayChar(item.char))}</span>
                 </div>
@@ -231,7 +231,7 @@
      */
     function compareWithEnglish() {
         if (!analysisResult) {
-            REOT.utils?.showNotification('请先进行分析', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.frequency-analyzer.analyzeFirst') || '请先进行分析', 'warning');
             return;
         }
 
@@ -319,7 +319,7 @@
         if (target.id === 'analyze-btn' || target.closest('#analyze-btn')) {
             try {
                 analyze();
-                REOT.utils?.showNotification('分析完成', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.frequency-analyzer.analyzeDone') || '分析完成', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }

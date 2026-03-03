@@ -55,16 +55,16 @@
         const keySize = getKeySize('keypair-size');
 
         try {
-            REOT.utils?.showNotification('正在生成密钥对...', 'info');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.generatingKeypair') || '正在生成密钥对...', 'info');
 
             const result = await X509.keypair(keyType, keySize);
 
             document.getElementById('keypair-private').value = result.private_key;
             document.getElementById('keypair-public').value = result.public_key;
 
-            REOT.utils?.showNotification('密钥对生成成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.keypairSuccess') || '密钥对生成成功', 'success');
         } catch (error) {
-            console.error('密钥生成错误:', error);
+            console.error('Key generation error:', error);
             REOT.utils?.showNotification(error.message, 'error');
         }
     }
@@ -76,12 +76,12 @@
         const cn = document.getElementById('csr-cn')?.value?.trim();
 
         if (!cn) {
-            REOT.utils?.showNotification('请输入通用名称 (CN)', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.enterCN') || '请输入通用名称 (CN)', 'warning');
             return;
         }
 
         try {
-            REOT.utils?.showNotification('正在生成 CSR...', 'info');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.generatingCSR') || '正在生成 CSR...', 'info');
 
             // 构建主体信息
             const subject = X509.X509Name(cn);
@@ -113,9 +113,9 @@
             document.getElementById('csr-public').value = result.public_key;
             document.getElementById('csr-output').value = result.csr;
 
-            REOT.utils?.showNotification('CSR 生成成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.csrSuccess') || 'CSR 生成成功', 'success');
         } catch (error) {
-            console.error('CSR 生成错误:', error);
+            console.error('CSR generation error:', error);
             REOT.utils?.showNotification(error.message, 'error');
         }
     }
@@ -129,12 +129,12 @@
         const cn = document.getElementById('selfsign-cn')?.value?.trim();
 
         if (!cn) {
-            REOT.utils?.showNotification('请输入通用名称 (CN)', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.enterCN') || '请输入通用名称 (CN)', 'warning');
             return;
         }
 
         try {
-            REOT.utils?.showNotification('正在生成自签名证书...', 'info');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.generatingSelfSigned') || '正在生成自签名证书...', 'info');
 
             // 构建主体信息
             const subject = X509.X509Name(cn);
@@ -163,9 +163,9 @@
             document.getElementById('selfsign-public').value = result.public_key;
             document.getElementById('selfsign-cert').value = result.cer;
 
-            REOT.utils?.showNotification('自签名证书生成成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.selfSignedSuccess') || '自签名证书生成成功', 'success');
         } catch (error) {
-            console.error('自签名证书生成错误:', error);
+            console.error('Self-signed certificate error:', error);
             REOT.utils?.showNotification(error.message, 'error');
         }
     }
@@ -179,12 +179,12 @@
         const isCa = document.getElementById('issue-isca')?.checked || false;
 
         if (!csrPem || !caCertPem || !caKeyPem) {
-            REOT.utils?.showNotification('请填写 CSR、CA 证书和 CA 私钥', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.fillCSRAndCA') || '请填写 CSR、CA 证书和 CA 私钥', 'warning');
             return;
         }
 
         try {
-            REOT.utils?.showNotification('正在签发证书...', 'info');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.issuingCert') || '正在签发证书...', 'info');
 
             // 解析 CSR 获取主体信息
             const csrInfo = await X509.parse(csrPem);
@@ -198,9 +198,9 @@
 
             document.getElementById('issue-output').value = result.cer;
 
-            REOT.utils?.showNotification('证书签发成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.issueSuccess') || '证书签发成功', 'success');
         } catch (error) {
-            console.error('证书签发错误:', error);
+            console.error('Certificate issuance error:', error);
             REOT.utils?.showNotification(error.message, 'error');
         }
     }
@@ -211,12 +211,12 @@
         const outputEl = document.getElementById('parse-output');
 
         if (!input) {
-            REOT.utils?.showNotification('请输入 PEM 内容', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.enterPEM') || '请输入 PEM 内容', 'warning');
             return;
         }
 
         try {
-            REOT.utils?.showNotification('正在解析...', 'info');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.parsing') || '正在解析...', 'info');
 
             const result = await X509.parse(input);
 
@@ -234,14 +234,14 @@
                     html = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
                 }
             } else {
-                html = '<div class="parse-message">解析完成，但无法识别的格式</div>';
+                html = `<div class="parse-message">${REOT.i18n?.t('tools.x509-certificate.unknownFormat') || '解析完成，但无法识别的格式'}</div>`;
             }
 
             outputEl.innerHTML = html;
-            REOT.utils?.showNotification('解析成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.parseSuccess') || '解析成功', 'success');
         } catch (error) {
-            console.error('解析错误:', error);
-            outputEl.innerHTML = `<div class="parse-error">解析失败: ${error.message}</div>`;
+            console.error('Parse error:', error);
+            outputEl.innerHTML = `<div class="parse-error">${REOT.i18n?.t('tools.x509-certificate.parseFailed') || '解析失败'}: ${error.message}</div>`;
             REOT.utils?.showNotification(error.message, 'error');
         }
     }
@@ -253,7 +253,7 @@
         // 主体信息
         if (info.subject) {
             html += '<div class="info-section">';
-            html += '<h4>主体信息 (Subject)</h4>';
+            html += `<h4>${REOT.i18n?.t('tools.x509-certificate.subjectLabel') || '主体信息 (Subject)'}</h4>`;
             html += '<table class="info-table">';
             const subjectData = info.subject.all ? info.subject.all() : info.subject;
             for (const [key, value] of Object.entries(subjectData)) {
@@ -267,7 +267,7 @@
         // 签发者信息
         if (info.issuer) {
             html += '<div class="info-section">';
-            html += '<h4>签发者信息 (Issuer)</h4>';
+            html += `<h4>${REOT.i18n?.t('tools.x509-certificate.issuerLabel') || '签发者信息 (Issuer)'}</h4>`;
             html += '<table class="info-table">';
             const issuerData = info.issuer.all ? info.issuer.all() : info.issuer;
             for (const [key, value] of Object.entries(issuerData)) {
@@ -281,7 +281,7 @@
         // 有效期
         if (info.notBefore || info.notAfter) {
             html += '<div class="info-section">';
-            html += '<h4>有效期 (Validity)</h4>';
+            html += `<h4>${REOT.i18n?.t('tools.x509-certificate.validityLabel') || '有效期 (Validity)'}</h4>`;
             html += '<table class="info-table">';
             if (info.notBefore) {
                 html += `<tr><td class="info-key">Not Before</td><td class="info-value">${formatDate(info.notBefore)}</td></tr>`;
@@ -297,7 +297,7 @@
             const sanList = info.subjectAltNames.all ? info.subjectAltNames.all() : [];
             if (sanList.length > 0) {
                 html += '<div class="info-section">';
-                html += '<h4>备用名称 (Subject Alternative Names)</h4>';
+                html += `<h4>${REOT.i18n?.t('tools.x509-certificate.sanLabel') || '备用名称 (Subject Alternative Names)'}</h4>`;
                 html += '<ul class="san-list">';
                 sanList.forEach(san => {
                     html += `<li>${escapeHtml(san)}</li>`;
@@ -309,7 +309,7 @@
         // 公钥
         if (info.publicKeyPem) {
             html += '<div class="info-section">';
-            html += '<h4>公钥 (Public Key)</h4>';
+            html += `<h4>${REOT.i18n?.t('tools.x509-certificate.publicKeyLabel') || '公钥 (Public Key)'}</h4>`;
             html += `<pre class="pem-block">${escapeHtml(info.publicKeyPem)}</pre>`;
             html += '</div>';
         }
@@ -317,7 +317,7 @@
         // 签名算法
         if (info.signatureAlgorithm) {
             html += '<div class="info-section">';
-            html += '<h4>签名算法</h4>';
+            html += `<h4>${REOT.i18n?.t('tools.x509-certificate.signatureAlg') || '签名算法'}</h4>`;
             html += `<p class="info-value">${escapeHtml(info.signatureAlgorithm)}</p>`;
             html += '</div>';
         }
@@ -330,21 +330,21 @@
     function renderKeyInfo(keyObj) {
         let html = '<div class="cert-info">';
         html += '<div class="info-section">';
-        html += '<h4>密钥信息</h4>';
+        html += `<h4>${REOT.i18n?.t('tools.x509-certificate.keyInfo') || '密钥信息'}</h4>`;
         html += '<table class="info-table">';
 
         if (keyObj.algorithm) {
-            html += `<tr><td class="info-key">算法</td><td class="info-value">${escapeHtml(keyObj.algorithm.name || '')}</td></tr>`;
+            html += `<tr><td class="info-key">${REOT.i18n?.t('tools.x509-certificate.algorithm') || '算法'}</td><td class="info-value">${escapeHtml(keyObj.algorithm.name || '')}</td></tr>`;
             if (keyObj.algorithm.namedCurve) {
-                html += `<tr><td class="info-key">曲线</td><td class="info-value">${escapeHtml(keyObj.algorithm.namedCurve)}</td></tr>`;
+                html += `<tr><td class="info-key">${REOT.i18n?.t('tools.x509-certificate.curve') || '曲线'}</td><td class="info-value">${escapeHtml(keyObj.algorithm.namedCurve)}</td></tr>`;
             }
             if (keyObj.algorithm.modulusLength) {
-                html += `<tr><td class="info-key">模数长度</td><td class="info-value">${keyObj.algorithm.modulusLength} bits</td></tr>`;
+                html += `<tr><td class="info-key">${REOT.i18n?.t('tools.x509-certificate.modulusLength') || '模数长度'}</td><td class="info-value">${keyObj.algorithm.modulusLength} bits</td></tr>`;
             }
         }
 
         html += '</table></div>';
-        html += '<div class="parse-message">密钥已成功解析并导入</div>';
+        html += `<div class="parse-message">${REOT.i18n?.t('tools.x509-certificate.keyParsed') || '密钥已成功解析并导入'}</div>`;
         html += '</div>';
         return html;
     }
@@ -380,7 +380,7 @@
     // 加载示例证书 - 使用工具自动生成
     async function loadSampleCertificate() {
         try {
-            REOT.utils?.showNotification('正在生成示例证书...', 'info');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.generatingSample') || '正在生成示例证书...', 'info');
 
             // 使用 X509 库生成一个示例自签名证书
             const subject = X509.X509Name('Example Certificate');
@@ -397,9 +397,9 @@
             const result = await X509.selfSignedCertificate('ECC', 'P-256', certInfo);
 
             document.getElementById('parse-input').value = result.cer;
-            REOT.utils?.showNotification('示例证书已生成', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.sampleGenerated') || '示例证书已生成', 'success');
         } catch (error) {
-            console.error('生成示例证书失败:', error);
+            console.error('Sample certificate generation failed:', error);
             // 回退到静态示例 CSR
             const sampleCSR = `-----BEGIN CERTIFICATE REQUEST-----
 MIHoMIGPAgEAMBMxETAPBgNVBAMMCGV4YW1wbGUwWTATBgcqhkjOPQIBBggqhkjO
@@ -410,7 +410,7 @@ h4wFd+6pPfgUZu3A6u8UjQIgRkLt7DWN5dq5TfXHKPl+mN9q5RtJ1o7dRqPqgYKC
 1Yg=
 -----END CERTIFICATE REQUEST-----`;
             document.getElementById('parse-input').value = sampleCSR;
-            REOT.utils?.showNotification('已加载示例 CSR', 'info');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.x509-certificate.sampleCSRLoaded') || '已加载示例 CSR', 'info');
         }
     }
 
@@ -511,7 +511,7 @@ h4wFd+6pPfgUZu3A6u8UjQIgRkLt7DWN5dq5TfXHKPl+mN9q5RtJ1o7dRqPqgYKC
                 if (content) {
                     const success = await REOT.utils?.copyToClipboard(content);
                     if (success) {
-                        REOT.utils?.showNotification('已复制到剪贴板', 'success');
+                        REOT.utils?.showNotification(REOT.i18n?.t('common.copied') || '已复制', 'success');
                     }
                 }
             }

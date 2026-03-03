@@ -87,12 +87,12 @@
 
     function blake2b(data, key = null, outlen = 32) {
         if (outlen < 1 || outlen > 64) {
-            throw new Error('BLAKE2b 输出长度必须在 1-64 字节之间');
+            throw new Error(REOT.i18n?.t('tools.blake2.errorB2bOutputLen') || 'BLAKE2b 输出长度必须在 1-64 字节之间');
         }
 
         const keylen = key ? key.length : 0;
         if (keylen > 64) {
-            throw new Error('BLAKE2b 密钥长度不能超过 64 字节');
+            throw new Error(REOT.i18n?.t('tools.blake2.errorB2bKeyLen') || 'BLAKE2b 密钥长度不能超过 64 字节');
         }
 
         // 初始化状态
@@ -198,12 +198,12 @@
 
     function blake2s(data, key = null, outlen = 32) {
         if (outlen < 1 || outlen > 32) {
-            throw new Error('BLAKE2s 输出长度必须在 1-32 字节之间');
+            throw new Error(REOT.i18n?.t('tools.blake2.errorB2sOutputLen') || 'BLAKE2s 输出长度必须在 1-32 字节之间');
         }
 
         const keylen = key ? key.length : 0;
         if (keylen > 32) {
-            throw new Error('BLAKE2s 密钥长度不能超过 32 字节');
+            throw new Error(REOT.i18n?.t('tools.blake2.errorB2sKeyLen') || 'BLAKE2s 密钥长度不能超过 32 字节');
         }
 
         // 初始化状态
@@ -341,7 +341,7 @@
 
         } catch (error) {
             const outputLower = document.getElementById('output-lower');
-            if (outputLower) outputLower.value = '错误: ' + error.message;
+            if (outputLower) outputLower.value = (REOT.i18n?.t('tools.blake2.error') || '错误: ') + error.message;
             REOT.utils?.showNotification(error.message, 'error');
         }
     }
@@ -376,7 +376,7 @@
                 }
 
                 if (input) {
-                    input.value = `[文件已加载: ${file.name}]`;
+                    input.value = `[${REOT.i18n?.t('tools.blake2.fileLoaded') || '文件已加载: '}${file.name}]`;
                     input.disabled = true;
                 }
 
@@ -442,7 +442,7 @@
         // 哈希按钮
         if (target.id === 'hash-btn' || target.closest('#hash-btn')) {
             updateOutput();
-            REOT.utils?.showNotification('哈希计算完成', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.blake2.hashComplete') || '哈希计算完成', 'success');
         }
 
         // 清除按钮

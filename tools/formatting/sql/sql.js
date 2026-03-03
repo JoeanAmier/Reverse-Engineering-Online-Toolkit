@@ -473,7 +473,7 @@ UPDATE users SET last_login = NOW(), login_count = login_count + 1 WHERE id = 1;
                 value: '',
                 readOnly: false,
                 theme: theme,
-                placeholder: '请输入 SQL 语句...'
+                placeholder: REOT.i18n?.t('tools.sql.inputPlaceholder') || '请输入 SQL 语句...'
             });
 
             outputEditor = await REOT.CodeEditor.create('#output-editor', {
@@ -508,9 +508,9 @@ UPDATE users SET last_login = NOW(), login_count = login_count + 1 WHERE id = 1;
                 const options = getOptions();
                 const result = formatSql(getInputValue(), options);
                 setOutputValue(result);
-                REOT.utils?.showNotification('格式化成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.sql.formatSuccess') || '格式化成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('格式化失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.sql.formatFailed') || '格式化失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -518,9 +518,9 @@ UPDATE users SET last_login = NOW(), login_count = login_count + 1 WHERE id = 1;
             try {
                 const result = minifySql(getInputValue());
                 setOutputValue(result);
-                REOT.utils?.showNotification('压缩成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.sql.minifySuccess') || '压缩成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('压缩失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.sql.minifyFailed') || '压缩失败') + ': ' + error.message, 'error');
             }
         }
 

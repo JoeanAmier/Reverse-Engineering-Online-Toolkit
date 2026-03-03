@@ -10,5 +10,16 @@
     "uploadFile": "Upload File",
     "originalSize": "Original Size",
     "compressedSize": "Compressed Size",
-    "compressionRatio": "Compression Ratio"
+    "compressionRatio": "Compression Ratio",
+    "compressSuccess": "Compression successful",
+    "decompressSuccess": "Decompression successful",
+    "errorNoInput": "Please enter content to compress",
+    "errorNoDecompressInput": "Please enter content to decompress or upload a file",
+    "errorInvalidFormat": "Invalid input format",
+    "errorDecompressFailed": "Decompression failed: invalid or corrupted data",
+    "noDownloadContent": "No content to download",
+    "fileLoaded": "File loaded: ",
+    "errorLoadLib": "Failed to load pako library, please check network connection",
+    "errorLibNotLoaded": "pako library failed to load",
+    "sampleText": "This is sample text for demonstrating Deflate compression.\n\nDeflate is a lossless data compression algorithm that combines LZ77 and Huffman coding. It is the foundation for GZIP, ZLIB, and PNG formats.\n\nKey features:\n1. Efficient compression - typically achieves 60-80% compression ratio for text\n2. Widely used - ZIP files, HTTP compression all use Deflate\n3. Raw format - optional zlib header support\n\nThis is sample text for demonstrating Deflate compression.\nDeflate combines LZ77 and Huffman coding algorithms."
 }

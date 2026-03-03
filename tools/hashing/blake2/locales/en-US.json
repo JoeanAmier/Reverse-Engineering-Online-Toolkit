@@ -9,5 +9,12 @@
     "hashLower": "Hash (lowercase)",
     "hashUpper": "Hash (uppercase)",
     "aboutBlake2": "About BLAKE2",
-    "aboutDesc": "BLAKE2 is a fast and secure cryptographic hash function designed by Jean-Philippe Aumasson and others. It is faster than MD5 and SHA-2 while providing higher security. BLAKE2b is optimized for 64-bit platforms with up to 64 bytes output; BLAKE2s is optimized for 32-bit platforms with up to 32 bytes output."
+    "aboutDesc": "BLAKE2 is a fast and secure cryptographic hash function designed by Jean-Philippe Aumasson and others. It is faster than MD5 and SHA-2 while providing higher security. BLAKE2b is optimized for 64-bit platforms with up to 64 bytes output; BLAKE2s is optimized for 32-bit platforms with up to 32 bytes output.",
+    "error": "Error: ",
+    "hashComplete": "Hash calculation complete",
+    "fileLoaded": "File loaded: ",
+    "errorB2bOutputLen": "BLAKE2b output length must be between 1-64 bytes",
+    "errorB2bKeyLen": "BLAKE2b key length cannot exceed 64 bytes",
+    "errorB2sOutputLen": "BLAKE2s output length must be between 1-32 bytes",
+    "errorB2sKeyLen": "BLAKE2s key length cannot exceed 32 bytes"
 }

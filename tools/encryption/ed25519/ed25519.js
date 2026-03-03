@@ -66,7 +66,7 @@
             currentKeyPair = keyPair;
             return keyPair;
         } catch (error) {
-            throw new Error('您的浏览器不支持 Ed25519，请使用最新版本的 Chrome、Edge 或 Firefox');
+            throw new Error(REOT.i18n?.t('tools.ed25519.browserNotSupported') || '您的浏览器不支持 Ed25519，请使用最新版本的 Chrome、Edge 或 Firefox');
         }
     }
 
@@ -288,7 +288,7 @@
                 }
 
                 hideResult();
-                REOT.utils?.showNotification('密钥对生成成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.ed25519.keyGenSuccess') || '密钥对生成成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -304,12 +304,12 @@
                 const outputFormat = getOutputFormat();
 
                 if (!inputEl?.value) {
-                    REOT.utils?.showNotification('请输入要签名的消息', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ed25519.enterMessage') || '请输入要签名的消息', 'warning');
                     return;
                 }
 
                 if (!privateKeyEl?.value.trim()) {
-                    REOT.utils?.showNotification('请先生成或输入私钥', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ed25519.enterPrivateKey') || '请先生成或输入私钥', 'warning');
                     return;
                 }
 
@@ -333,9 +333,9 @@
                 }
 
                 hideResult();
-                REOT.utils?.showNotification('签名成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.ed25519.signSuccess') || '签名成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('签名失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.ed25519.signFailed') || '签名失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -349,17 +349,17 @@
                 const outputFormat = getOutputFormat();
 
                 if (!inputEl?.value) {
-                    REOT.utils?.showNotification('请输入原始消息', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ed25519.enterOriginalMessage') || '请输入原始消息', 'warning');
                     return;
                 }
 
                 if (!outputEl?.value) {
-                    REOT.utils?.showNotification('请输入签名', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ed25519.enterSignature') || '请输入签名', 'warning');
                     return;
                 }
 
                 if (!publicKeyEl?.value.trim()) {
-                    REOT.utils?.showNotification('请输入公钥', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ed25519.enterPublicKey') || '请输入公钥', 'warning');
                     return;
                 }
 
@@ -386,13 +386,13 @@
                 showResult(valid);
 
                 if (valid) {
-                    REOT.utils?.showNotification('签名验证成功', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ed25519.verifySuccess') || '签名验证成功', 'success');
                 } else {
-                    REOT.utils?.showNotification('签名验证失败', 'error');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ed25519.verifyFailed') || '签名验证失败', 'error');
                 }
             } catch (error) {
                 showResult(false);
-                REOT.utils?.showNotification('验证失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.ed25519.verifyError') || '验证失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -402,7 +402,7 @@
             if (publicKeyEl?.value) {
                 const success = await REOT.utils?.copyToClipboard(publicKeyEl.value);
                 if (success) {
-                    REOT.utils?.showNotification('公钥已复制', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ed25519.publicKeyCopied') || '公钥已复制', 'success');
                 }
             }
         }
@@ -413,7 +413,7 @@
             if (privateKeyEl?.value) {
                 const success = await REOT.utils?.copyToClipboard(privateKeyEl.value);
                 if (success) {
-                    REOT.utils?.showNotification('私钥已复制', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.ed25519.privateKeyCopied') || '私钥已复制', 'success');
                 }
             }
         }

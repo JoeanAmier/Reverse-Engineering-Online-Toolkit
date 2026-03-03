@@ -16,5 +16,20 @@
     "ivHex": "十六进制",
     "inputPlaceholder": "请输入要加密/解密的内容...",
     "aboutSm4": "关于 SM4",
-    "aboutDesc": "SM4 是中国国家密码管理局发布的分组密码算法，用于无线局域网产品。它是一种对称加密算法，密钥长度和分组长度均为 128 位。SM4 算法安全性高，已被广泛应用于金融、政务等领域。"
+    "aboutDesc": "SM4 是中国国家密码管理局发布的分组密码算法，用于无线局域网产品。它是一种对称加密算法，密钥长度和分组长度均为 128 位。SM4 算法安全性高，已被广泛应用于金融、政务等领域。",
+    "encryptSuccess": "加密成功",
+    "decryptSuccess": "解密成功",
+    "errorPrefix": "错误",
+    "enterKey": "请输入密钥",
+    "errorKeyLength": "密钥长度必须为16字节",
+    "enterIV": "请输入IV初始向量",
+    "errorIVLength": "IV长度必须为16字节",
+    "enterContent": "请输入要加密的内容",
+    "enterDecryptContent": "请输入要解密的内容",
+    "errorInvalidPKCS7": "无效的PKCS7填充",
+    "errorNoPaddingLength": "无填充模式要求输入长度为16的倍数",
+    "errorCiphertextLength": "密文长度必须是16的倍数",
+    "errorHexLength": "十六进制字符串长度必须为偶数",
+    "keyGenerated": "密钥已生成",
+    "ivGenerated": "IV已生成"
 }

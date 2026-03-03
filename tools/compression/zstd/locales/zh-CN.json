@@ -9,5 +9,22 @@
     "inputPlaceholder": "请输入要压缩/解压的内容...",
     "originalSize": "原始大小",
     "compressedSize": "压缩后大小",
-    "ratio": "压缩率"
+    "ratio": "压缩率",
+    "compressSuccess": "压缩成功",
+    "decompressSuccess": "解压成功",
+    "errorNoInput": "请输入要压缩的内容",
+    "errorNoDecompressInput": "请输入要解压的内容或上传文件",
+    "errorInvalidFormat": "输入格式无效",
+    "errorDecompressFailed": "解压失败: 数据格式无效或已损坏",
+    "noDownloadContent": "没有可下载的内容",
+    "fileLoaded": "文件已加载: ",
+    "errorLoadLib": "无法加载 ZSTD 解压库",
+    "errorDecompressZstd": "ZSTD 解压失败: ",
+    "errorInvalidCompressFormat": "无效的压缩格式：既不是 ZSTD 也不是本工具的压缩格式",
+    "compressSuccessCustom": "压缩成功 (本工具格式)",
+    "decompressing": "正在解压...",
+    "fileTypeBinary": "二进制文件",
+    "fileTypeZstd": "ZSTD 压缩文件",
+    "fileTypeCustom": "本工具压缩文件",
+    "sampleText": "这是一段示例文本，用于演示压缩功能。\n\nZSTD (Zstandard) 是由 Facebook 开发的快速压缩算法。\n\n主要特点：\n1. 压缩比高，速度快\n2. 可调节压缩级别 (1-22)\n3. 支持字典压缩\n4. 广泛应用于数据存储和传输\n\n提示：\n- 上传 .zst 文件可以解压真实的 ZSTD 压缩文件\n- 本工具的压缩功能使用简化算法，仅供演示\n\nThis is sample text for demonstrating compression."
 }

@@ -142,8 +142,16 @@
             const previousRoute = this.currentRoute;
             this.currentRoute = path;
 
-            // 添加到历史
+            // 添加到历史（限制大小防止内存泄漏）
             this.history.push(path);
+            if (this.history.length > 100) {
+                this.history.shift();
+            }
+
+            // 派发路由变更事件（供工具监听清理/重新初始化）
+            window.dispatchEvent(new CustomEvent('routeChange', {
+                detail: { path, previousRoute }
+            }));
 
             // 通知所有监听器
             this.listeners.forEach(callback => {

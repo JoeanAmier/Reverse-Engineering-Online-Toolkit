@@ -233,7 +233,7 @@
         }
 
         if (!base64) {
-            throw new Error('无法找到有效的证书数据');
+            throw new Error(REOT.i18n?.t('tools.x509.errorNoCertData') || '无法找到有效的证书数据');
         }
 
         return base64ToBytes(base64);
@@ -266,7 +266,7 @@
             };
 
             if (!this.asn1?.children?.[0]?.children) {
-                throw new Error('无效的证书结构');
+                throw new Error(REOT.i18n?.t('tools.x509.errorInvalidCert') || '无效的证书结构');
             }
 
             const tbsCert = this.asn1.children[0];
@@ -582,13 +582,26 @@
         return parts.join(', ');
     }
 
+    function escapeHtml(str) {
+        if (str === null || str === undefined) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    // 使用 escapeHtml 防止证书字段值注入 XSS
     function renderInfoGrid(container, data) {
-        container.innerHTML = data.map(([label, value, copyable]) => `
-            <div class="info-item">
-                <span class="info-label">${label}</span>
-                <span class="info-value ${copyable ? 'copyable' : ''}" ${copyable ? `data-copy="${value}"` : ''}>${value}</span>
-            </div>
-        `).join('');
+        container.innerHTML = data.map(([label, value, copyable]) => {
+            const safeLabel = escapeHtml(label);
+            const safeValue = escapeHtml(value);
+            return `<div class="info-item">
+                <span class="info-label">${safeLabel}</span>
+                <span class="info-value ${copyable ? 'copyable' : ''}" ${copyable ? `data-copy="${safeValue}"` : ''}>${safeValue}</span>
+            </div>`;
+        }).join('');
     }
 
     function displayCertificate(cert) {
@@ -597,9 +610,9 @@
 
         // 基本信息
         renderInfoGrid(document.getElementById('basic-info'), [
-            ['版本', `v${cert.version}`],
-            ['序列号', cert.serialNumber, true],
-            ['签名算法', cert.signatureAlgorithm]
+            [REOT.i18n?.t('tools.x509.labelVersion') || '版本', `v${cert.version}`],
+            [REOT.i18n?.t('tools.x509.labelSerialNumber') || '序列号', cert.serialNumber, true],
+            [REOT.i18n?.t('tools.x509.labelSignatureAlg') || '签名算法', cert.signatureAlgorithm]
         ]);
 
         // 主题
@@ -620,21 +633,21 @@
         const now = new Date();
         const daysRemaining = Math.ceil((cert.validity.notAfter - now) / (1000 * 60 * 60 * 24));
         renderInfoGrid(document.getElementById('validity-info'), [
-            ['生效时间', formatDate(cert.validity.notBefore)],
-            ['过期时间', formatDate(cert.validity.notAfter)],
-            ['剩余天数', cert.isExpired ? '已过期' : (cert.isNotYetValid ? '尚未生效' : `${daysRemaining} 天`)]
+            [REOT.i18n?.t('tools.x509.labelNotBefore') || '生效时间', formatDate(cert.validity.notBefore)],
+            [REOT.i18n?.t('tools.x509.labelNotAfter') || '过期时间', formatDate(cert.validity.notAfter)],
+            [REOT.i18n?.t('tools.x509.labelDaysRemaining') || '剩余天数', cert.isExpired ? (REOT.i18n?.t('tools.x509.alreadyExpired') || '已过期') : (cert.isNotYetValid ? (REOT.i18n?.t('tools.x509.certNotYetValid') || '尚未生效') : (REOT.i18n?.t('tools.x509.daysUnit') || '{days} 天').replace('{days}', daysRemaining))]
         ]);
 
         // 公钥信息
         const pubkeyInfo = [
-            ['算法', cert.publicKey.algorithm],
-            ['密钥长度', `${cert.publicKey.keySize} bits`]
+            [REOT.i18n?.t('tools.x509.labelAlgorithm') || '算法', cert.publicKey.algorithm],
+            [REOT.i18n?.t('tools.x509.labelKeySize') || '密钥长度', `${cert.publicKey.keySize} bits`]
         ];
         if (cert.publicKey.curve) {
-            pubkeyInfo.push(['曲线', cert.publicKey.curve]);
+            pubkeyInfo.push([REOT.i18n?.t('tools.x509.labelCurve') || '曲线', cert.publicKey.curve]);
         }
         if (cert.publicKey.exponent) {
-            pubkeyInfo.push(['指数', cert.publicKey.exponent]);
+            pubkeyInfo.push([REOT.i18n?.t('tools.x509.labelExponent') || '指数', cert.publicKey.exponent]);
         }
         renderInfoGrid(document.getElementById('pubkey-info'), pubkeyInfo);
 
@@ -678,13 +691,13 @@
         const indicator = document.getElementById('status-indicator');
         if (cert.isValid) {
             indicator.className = 'status-indicator valid';
-            indicator.innerHTML = '<span class="status-icon">✓</span><span class="status-text">证书有效</span>';
+            indicator.innerHTML = `<span class="status-icon">✓</span><span class="status-text">${REOT.i18n?.t('tools.x509.certValid') || '证书有效'}</span>`;
         } else if (cert.isExpired) {
             indicator.className = 'status-indicator expired';
-            indicator.innerHTML = '<span class="status-icon">✗</span><span class="status-text">证书已过期</span>';
+            indicator.innerHTML = `<span class="status-icon">✗</span><span class="status-text">${REOT.i18n?.t('tools.x509.certExpired') || '证书已过期'}</span>`;
         } else {
             indicator.className = 'status-indicator not-valid';
-            indicator.innerHTML = '<span class="status-icon">!</span><span class="status-text">证书尚未生效</span>';
+            indicator.innerHTML = `<span class="status-icon">!</span><span class="status-text">${REOT.i18n?.t('tools.x509.certNotYetValid') || '证书尚未生效'}</span>`;
         }
 
         resultSection.style.display = 'block';
@@ -733,7 +746,7 @@ SIb3DQEBCwUAA4IBAQBRandomSignature0Data0Here0For0Testing
         if (target.id === 'parse-btn' || target.closest('#parse-btn')) {
             const input = document.getElementById('input');
             if (!input?.value.trim()) {
-                REOT.utils?.showNotification('请输入证书内容', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.x509.errorNoInput') || '请输入证书内容', 'warning');
                 return;
             }
 
@@ -749,9 +762,9 @@ SIb3DQEBCwUAA4IBAQBRandomSignature0Data0Here0For0Testing
                 const parser = new X509Parser(derData);
                 const cert = await parser.parse();
                 displayCertificate(cert);
-                REOT.utils?.showNotification('证书解析成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.x509.parseSuccess') || '证书解析成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('解析失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.x509.parseFailed') || '解析失败: {error}').replace('{error}', error.message), 'error');
                 console.error(error);
             }
         }

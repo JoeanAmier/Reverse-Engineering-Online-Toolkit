@@ -4,5 +4,6 @@
     "algorithm": "算法",
     "inputPlaceholder": "请输入要计算哈希的内容...",
     "hashLower": "哈希值 (小写)",
-    "hashUpper": "哈希值 (大写)"
+    "hashUpper": "哈希值 (大写)",
+    "calcFailed": "哈希计算失败: "
 }

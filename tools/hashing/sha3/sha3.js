@@ -40,7 +40,7 @@
 
             script.onerror = () => {
                 sha3LoadPromise = null;
-                reject(new Error('无法加载 js-sha3 库，请检查网络连接'));
+                reject(new Error(REOT.i18n?.t('tools.sha3.errorLoadLib') || '无法加载 js-sha3 库，请检查网络连接'));
             };
 
             document.head.appendChild(script);
@@ -57,7 +57,7 @@
             await loadSha3();
         }
         if (!window.sha3_256) {
-            throw new Error('js-sha3 库加载失败');
+            throw new Error(REOT.i18n?.t('tools.sha3.errorLibNotLoaded') || 'js-sha3 库加载失败');
         }
     }
 
@@ -128,7 +128,7 @@
     function calculateHash(data, algorithm) {
         const hashFunc = getAlgorithmFunc(algorithm);
         if (!hashFunc) {
-            throw new Error(`不支持的算法: ${algorithm}`);
+            throw new Error((REOT.i18n?.t('tools.sha3.errorUnsupportedAlg') || '不支持的算法: ') + algorithm);
         }
 
         if (data instanceof Uint8Array) {
@@ -154,7 +154,7 @@
         }
 
         if (!data || (typeof data === 'string' && !data)) {
-            REOT.utils?.showNotification('请输入要计算哈希的内容', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.sha3.errorNoInput') || '请输入要计算哈希的内容', 'warning');
             return;
         }
 
@@ -170,7 +170,7 @@
             document.getElementById('single-output-section').style.display = 'block';
             document.getElementById('all-output-section').style.display = 'none';
 
-            REOT.utils?.showNotification('哈希计算完成', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.sha3.hashComplete') || '哈希计算完成', 'success');
         } catch (error) {
             REOT.utils?.showNotification(error.message, 'error');
         }
@@ -192,7 +192,7 @@
         }
 
         if (!data || (typeof data === 'string' && !data)) {
-            REOT.utils?.showNotification('请输入要计算哈希的内容', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.sha3.errorNoInput') || '请输入要计算哈希的内容', 'warning');
             return;
         }
 
@@ -224,7 +224,7 @@
             document.getElementById('single-output-section').style.display = 'none';
             document.getElementById('all-output-section').style.display = 'block';
 
-            REOT.utils?.showNotification('所有哈希计算完成', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.sha3.allHashComplete') || '所有哈希计算完成', 'success');
         } catch (error) {
             REOT.utils?.showNotification(error.message, 'error');
         }
@@ -273,7 +273,7 @@
                 }
 
                 if (input) {
-                    input.value = `[文件已加载: ${file.name}]`;
+                    input.value = `[${REOT.i18n?.t('tools.sha3.fileLoaded') || '文件已加载: '}${file.name}]`;
                     input.disabled = true;
                 }
             };

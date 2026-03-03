@@ -56,7 +56,7 @@
      */
     function decode(token) {
         if (!token) {
-            throw new Error('请输入 JWT Token');
+            throw new Error(REOT.i18n?.t('tools.jwt.errorNoToken') || '请输入 JWT Token');
         }
 
         // 清理输入
@@ -71,7 +71,7 @@
         const parts = token.split('.');
 
         if (parts.length !== 3) {
-            throw new Error('无效的 JWT 格式：JWT 应包含三个由点号分隔的部分');
+            throw new Error(REOT.i18n?.t('tools.jwt.errorInvalidFormat') || '无效的 JWT 格式：JWT 应包含三个由点号分隔的部分');
         }
 
         try {
@@ -97,7 +97,7 @@
                 }
             };
         } catch (e) {
-            throw new Error('JWT 解析失败：' + e.message);
+            throw new Error((REOT.i18n?.t('tools.jwt.errorParseFailed') || 'JWT 解析失败：') + e.message);
         }
     }
 
@@ -160,13 +160,13 @@
             const now = Math.floor(Date.now() / 1000);
             const statusEl = document.getElementById('jwt-exp-status');
             if (payload.exp < now) {
-                statusEl.textContent = '(已过期)';
+                statusEl.textContent = REOT.i18n?.t('tools.jwt.expired') || '(已过期)';
                 statusEl.className = 'jwt-time-status expired';
             } else {
                 const remaining = payload.exp - now;
                 const hours = Math.floor(remaining / 3600);
                 const minutes = Math.floor((remaining % 3600) / 60);
-                statusEl.textContent = `(剩余 ${hours}h ${minutes}m)`;
+                statusEl.textContent = (REOT.i18n?.t('tools.jwt.remaining') || '(剩余 {hours}h {minutes}m)').replace('{hours}', hours).replace('{minutes}', minutes);
                 statusEl.className = 'jwt-time-status valid';
             }
             hasTime = true;

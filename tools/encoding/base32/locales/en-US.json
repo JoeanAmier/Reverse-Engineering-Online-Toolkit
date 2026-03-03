@@ -1,5 +1,7 @@
 {
     "title": "Base32 Encoder/Decoder",
     "description": "Base32 encoding and decoding",
-    "inputPlaceholder": "Enter content to encode/decode..."
+    "inputPlaceholder": "Enter content to encode/decode...",
+    "error": "Error",
+    "invalidChar": "Invalid Base32 character"
 }

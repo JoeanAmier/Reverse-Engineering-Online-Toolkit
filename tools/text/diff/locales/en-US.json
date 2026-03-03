@@ -6,5 +6,8 @@
     "originalPlaceholder": "Enter original text...",
     "modifiedPlaceholder": "Enter modified text...",
     "compare": "Compare",
-    "result": "Diff Result"
+    "result": "Diff Result",
+    "added": "added",
+    "deleted": "deleted",
+    "equal": "equal"
 }

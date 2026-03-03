@@ -348,10 +348,10 @@
         if (warningBox && warningText) {
             if (result.matched && result.ext && ext && ext !== result.ext) {
                 warningBox.style.display = 'flex';
-                warningText.textContent = `文件扩展名 (.${ext}) 与检测到的真实类型 (.${result.ext}) 不匹配！这可能是文件被重命名或伪装。`;
+                warningText.textContent = REOT.i18n?.currentLocale === 'en-US' ? `File extension (.${ext}) does not match detected type (.${result.ext})! The file may have been renamed or disguised.` : `文件扩展名 (.${ext}) 与检测到的真实类型 (.${result.ext}) 不匹配！这可能是文件被重命名或伪装。`;
             } else if (!result.matched) {
                 warningBox.style.display = 'flex';
-                warningText.textContent = '无法识别此文件类型。文件可能是纯文本、损坏的二进制文件或不在支持列表中的格式。';
+                warningText.textContent = REOT.i18n?.t('tools.file-type.unknownType') || '无法识别此文件类型。文件可能是纯文本、损坏的二进制文件或不在支持列表中的格式。';
             } else {
                 warningBox.style.display = 'none';
             }

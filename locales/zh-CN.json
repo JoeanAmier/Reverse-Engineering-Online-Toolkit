@@ -595,7 +595,7 @@
         },
         "hkdf": {
             "title": "HKDF 密钥派生",
-            "description": "HMAC-based Key Derivation Function (RFC 5869)"
+            "description": "基于 HMAC 的密钥派生函数 (RFC 5869)"
         },
         "xxhash": {
             "title": "xxHash 哈希",

@@ -147,11 +147,11 @@
     function pkcs7Unpad(data) {
         const padLen = data[data.length - 1];
         if (padLen > 16 || padLen === 0) {
-            throw new Error('无效的PKCS7填充');
+            throw new Error(REOT.i18n?.t('tools.sm4.errorInvalidPKCS7') || '无效的PKCS7填充');
         }
         for (let i = data.length - padLen; i < data.length; i++) {
             if (data[i] !== padLen) {
-                throw new Error('无效的PKCS7填充');
+                throw new Error(REOT.i18n?.t('tools.sm4.errorInvalidPKCS7') || '无效的PKCS7填充');
             }
         }
         return data.slice(0, data.length - padLen);
@@ -194,7 +194,7 @@
             data = zeroPad(plaintext);
         } else {
             if (plaintext.length % 16 !== 0) {
-                throw new Error('无填充模式要求输入长度为16的倍数');
+                throw new Error(REOT.i18n?.t('tools.sm4.errorNoPaddingLength') || '无填充模式要求输入长度为16的倍数');
             }
             data = plaintext;
         }
@@ -212,7 +212,7 @@
     // ECB 解密
     function decryptECB(ciphertext, key, padding) {
         if (ciphertext.length % 16 !== 0) {
-            throw new Error('密文长度必须是16的倍数');
+            throw new Error(REOT.i18n?.t('tools.sm4.errorCiphertextLength') || '密文长度必须是16的倍数');
         }
 
         const rk = keyExpansion(key);
@@ -243,7 +243,7 @@
             data = zeroPad(plaintext);
         } else {
             if (plaintext.length % 16 !== 0) {
-                throw new Error('无填充模式要求输入长度为16的倍数');
+                throw new Error(REOT.i18n?.t('tools.sm4.errorNoPaddingLength') || '无填充模式要求输入长度为16的倍数');
             }
             data = plaintext;
         }
@@ -265,7 +265,7 @@
     // CBC 解密
     function decryptCBC(ciphertext, key, iv, padding) {
         if (ciphertext.length % 16 !== 0) {
-            throw new Error('密文长度必须是16的倍数');
+            throw new Error(REOT.i18n?.t('tools.sm4.errorCiphertextLength') || '密文长度必须是16的倍数');
         }
 
         const rk = keyExpansion(key);
@@ -293,7 +293,7 @@
     function hexToBytes(hex) {
         hex = hex.replace(/\s/g, '');
         if (hex.length % 2 !== 0) {
-            throw new Error('十六进制字符串长度必须为偶数');
+            throw new Error(REOT.i18n?.t('tools.sm4.errorHexLength') || '十六进制字符串长度必须为偶数');
         }
         const bytes = new Uint8Array(hex.length / 2);
         for (let i = 0; i < bytes.length; i++) {
@@ -347,7 +347,7 @@
         const keyValue = keyInput?.value || '';
 
         if (!keyValue) {
-            throw new Error('请输入密钥');
+            throw new Error(REOT.i18n?.t('tools.sm4.enterKey') || '请输入密钥');
         }
 
         let key;
@@ -358,7 +358,7 @@
         }
 
         if (key.length !== 16) {
-            throw new Error('密钥长度必须为16字节');
+            throw new Error(REOT.i18n?.t('tools.sm4.errorKeyLength') || '密钥长度必须为16字节');
         }
 
         return key;
@@ -373,7 +373,7 @@
         const ivValue = ivInput?.value || '';
 
         if (!ivValue) {
-            throw new Error('请输入IV初始向量');
+            throw new Error(REOT.i18n?.t('tools.sm4.enterIV') || '请输入IV初始向量');
         }
 
         let iv;
@@ -384,7 +384,7 @@
         }
 
         if (iv.length !== 16) {
-            throw new Error('IV长度必须为16字节');
+            throw new Error(REOT.i18n?.t('tools.sm4.errorIVLength') || 'IV长度必须为16字节');
         }
 
         return iv;
@@ -394,7 +394,7 @@
         try {
             const input = document.getElementById('input')?.value || '';
             if (!input.trim()) {
-                throw new Error('请输入要加密的内容');
+                throw new Error(REOT.i18n?.t('tools.sm4.enterContent') || '请输入要加密的内容');
             }
 
             const key = getKey();
@@ -421,11 +421,11 @@
                 }
             }
 
-            REOT.utils?.showNotification('加密成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.sm4.encryptSuccess') || '加密成功', 'success');
 
         } catch (error) {
             const output = document.getElementById('output');
-            if (output) output.value = '错误: ' + error.message;
+            if (output) output.value = (REOT.i18n?.t('tools.sm4.errorPrefix') || '错误') + ': ' + error.message;
             REOT.utils?.showNotification(error.message, 'error');
         }
     }
@@ -434,7 +434,7 @@
         try {
             const input = document.getElementById('input')?.value || '';
             if (!input.trim()) {
-                throw new Error('请输入要解密的内容');
+                throw new Error(REOT.i18n?.t('tools.sm4.enterDecryptContent') || '请输入要解密的内容');
             }
 
             const key = getKey();
@@ -463,11 +463,11 @@
                 output.value = bytesToString(plaintext);
             }
 
-            REOT.utils?.showNotification('解密成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.sm4.decryptSuccess') || '解密成功', 'success');
 
         } catch (error) {
             const output = document.getElementById('output');
-            if (output) output.value = '错误: ' + error.message;
+            if (output) output.value = (REOT.i18n?.t('tools.sm4.errorPrefix') || '错误') + ': ' + error.message;
             REOT.utils?.showNotification(error.message, 'error');
         }
     }
@@ -522,7 +522,7 @@
                     keyInput.value = result;
                 }
             }
-            REOT.utils?.showNotification('密钥已生成', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.sm4.keyGenerated') || '密钥已生成', 'success');
         }
 
         // 生成IV按钮
@@ -543,7 +543,7 @@
                     ivInput.value = result;
                 }
             }
-            REOT.utils?.showNotification('IV已生成', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.sm4.ivGenerated') || 'IV已生成', 'success');
         }
 
         // 清除按钮

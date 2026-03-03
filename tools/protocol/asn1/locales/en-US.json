@@ -6,5 +6,14 @@
     "parse": "Parse",
     "sample": "Sample Data",
     "aboutAsn1": "About ASN.1",
-    "aboutDesc": "ASN.1 (Abstract Syntax Notation One) is a standard for describing data structures, widely used in communication protocols and security. DER (Distinguished Encoding Rules) and BER (Basic Encoding Rules) are two encoding rules for ASN.1, commonly used in X.509 certificates, PKCS standards, etc."
+    "aboutDesc": "ASN.1 (Abstract Syntax Notation One) is a standard for describing data structures, widely used in communication protocols and security. DER (Distinguished Encoding Rules) and BER (Basic Encoding Rules) are two encoding rules for ASN.1, commonly used in X.509 certificates, PKCS standards, etc.",
+    "emptyState": "Enter ASN.1 data",
+    "errorHexLength": "Hex string length must be even",
+    "errorInvalidHexChar": "Invalid hex character: {char}",
+    "errorDataIncomplete": "Incomplete data",
+    "errorDataIncompleteDetail": "Incomplete data: need {need} bytes, only {have} bytes available",
+    "errorInvalidPem": "Invalid PEM format",
+    "parseInfo": "Parsed {bytes} bytes of data",
+    "parseSuccess": "Parse successful",
+    "parseError": "Parse error: {error}"
 }

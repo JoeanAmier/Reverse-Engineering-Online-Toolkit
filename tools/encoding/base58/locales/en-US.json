@@ -5,5 +5,7 @@
     "alphabet": "Alphabet",
     "bitcoin": "Bitcoin",
     "ripple": "Ripple",
-    "flickr": "Flickr"
+    "flickr": "Flickr",
+    "error": "Error",
+    "invalidChar": "Invalid Base58 character"
 }

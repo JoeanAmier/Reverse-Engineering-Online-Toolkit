@@ -325,7 +325,7 @@
 
     function sm2Decrypt(ciphertext, privateKey) {
         if (ciphertext[0] !== 0x04) {
-            throw new Error('无效的密文格式');
+            throw new Error(REOT.i18n?.t('tools.sm2.invalidCiphertext') || '无效的密文格式');
         }
 
         // 解析 C1
@@ -357,7 +357,7 @@
         const C3Check = sm3(new Uint8Array([...x2, ...M, ...y2]));
         for (let i = 0; i < 32; i++) {
             if (C3[i] !== C3Check[i]) {
-                throw new Error('密文验证失败');
+                throw new Error(REOT.i18n?.t('tools.sm2.ciphertextVerifyFailed') || '密文验证失败');
             }
         }
 
@@ -564,7 +564,7 @@
             const y = bytesToBigInt(bytes.slice(33, 65));
             return new ECPoint(x, y);
         }
-        throw new Error('无效的公钥格式');
+        throw new Error(REOT.i18n?.t('tools.sm2.invalidPublicKey') || '无效的公钥格式');
     }
 
     function parsePrivateKey(str) {
@@ -634,9 +634,9 @@
                 if (publicKeyEl) publicKeyEl.value = formatPublicKey(keyPair.publicKey);
                 if (privateKeyEl) privateKeyEl.value = formatPrivateKey(keyPair.privateKey);
 
-                REOT.utils?.showNotification('密钥对生成成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.keyGenSuccess') || '密钥对生成成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('密钥生成失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.sm2.keyGenFailed') || '密钥生成失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -649,12 +649,12 @@
                 const format = getOutputFormat();
 
                 if (!inputEl?.value) {
-                    REOT.utils?.showNotification('请输入要加密的内容', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.enterContent') || '请输入要加密的内容', 'warning');
                     return;
                 }
 
                 if (!publicKeyEl?.value.trim()) {
-                    REOT.utils?.showNotification('请输入公钥', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.enterPublicKey') || '请输入公钥', 'warning');
                     return;
                 }
 
@@ -667,9 +667,9 @@
                         : arrayBufferToBase64(encrypted);
                 }
 
-                REOT.utils?.showNotification('加密成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.encryptSuccess') || '加密成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('加密失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.sm2.encryptFailed') || '加密失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -682,12 +682,12 @@
                 const format = getOutputFormat();
 
                 if (!inputEl?.value) {
-                    REOT.utils?.showNotification('请输入要解密的内容', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.enterDecryptContent') || '请输入要解密的内容', 'warning');
                     return;
                 }
 
                 if (!privateKeyEl?.value.trim()) {
-                    REOT.utils?.showNotification('请输入私钥', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.enterPrivateKey') || '请输入私钥', 'warning');
                     return;
                 }
 
@@ -709,9 +709,9 @@
                     }
                 }
 
-                REOT.utils?.showNotification('解密成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.decryptSuccess') || '解密成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('解密失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.sm2.decryptFailed') || '解密失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -725,12 +725,12 @@
                 const format = getOutputFormat();
 
                 if (!inputEl?.value) {
-                    REOT.utils?.showNotification('请输入要签名的内容', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.enterSignContent') || '请输入要签名的内容', 'warning');
                     return;
                 }
 
                 if (!privateKeyEl?.value.trim()) {
-                    REOT.utils?.showNotification('请输入私钥', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.enterPrivateKey') || '请输入私钥', 'warning');
                     return;
                 }
 
@@ -746,9 +746,9 @@
                         : arrayBufferToBase64(sigBytes);
                 }
 
-                REOT.utils?.showNotification('签名成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.signSuccess') || '签名成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('签名失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.sm2.signFailed') || '签名失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -762,17 +762,17 @@
                 const format = getOutputFormat();
 
                 if (!inputEl?.value) {
-                    REOT.utils?.showNotification('请输入原始消息', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.enterOriginalMessage') || '请输入原始消息', 'warning');
                     return;
                 }
 
                 if (!outputEl?.value) {
-                    REOT.utils?.showNotification('请输入签名', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.enterSignature') || '请输入签名', 'warning');
                     return;
                 }
 
                 if (!publicKeyEl?.value.trim()) {
-                    REOT.utils?.showNotification('请输入公钥', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.enterPublicKey') || '请输入公钥', 'warning');
                     return;
                 }
 
@@ -794,14 +794,14 @@
                 const valid = sm2Verify(inputEl.value, signature, publicKey, userId);
 
                 if (valid) {
-                    REOT.utils?.showNotification('签名验证成功', 'success');
-                    outputEl.value = '验证结果: 签名有效';
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.verifySuccess') || '签名验证成功', 'success');
+                    outputEl.value = REOT.i18n?.t('tools.sm2.verifyResultValid') || '验证结果: 签名有效';
                 } else {
-                    REOT.utils?.showNotification('签名验证失败', 'error');
-                    outputEl.value = '验证结果: 签名无效';
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.verifyFailed') || '签名验证失败', 'error');
+                    outputEl.value = REOT.i18n?.t('tools.sm2.verifyResultInvalid') || '验证结果: 签名无效';
                 }
             } catch (error) {
-                REOT.utils?.showNotification('验签失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.sm2.verifyError') || '验签失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -811,7 +811,7 @@
             if (publicKeyEl?.value) {
                 const success = await REOT.utils?.copyToClipboard(publicKeyEl.value);
                 if (success) {
-                    REOT.utils?.showNotification('公钥已复制', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.publicKeyCopied') || '公钥已复制', 'success');
                 }
             }
         }
@@ -822,7 +822,7 @@
             if (privateKeyEl?.value) {
                 const success = await REOT.utils?.copyToClipboard(privateKeyEl.value);
                 if (success) {
-                    REOT.utils?.showNotification('私钥已复制', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.sm2.privateKeyCopied') || '私钥已复制', 'success');
                 }
             }
         }

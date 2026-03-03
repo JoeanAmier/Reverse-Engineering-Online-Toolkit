@@ -51,5 +51,14 @@
     "tip2": "Search supports both Hex (e.g., \"FF 00 AB\") and ASCII text",
     "tip3": "Use \"Fill\" button to fill selected range with a specific byte value",
     "tip4": "Go to offset supports both decimal (e.g., \"256\") and hex (e.g., \"0x100\") format",
-    "tip5": "All changes can be undone/redone (up to 100 operations)"
+    "tip5": "All changes can be undone/redone (up to 100 operations)",
+    "fileLoaded": "File loaded successfully",
+    "fileSaved": "File saved",
+    "invalidSearch": "Invalid search pattern",
+    "invalidReplace": "Invalid replacement pattern",
+    "invalidPattern": "Invalid pattern",
+    "replacedCount": "Replaced {count} occurrences",
+    "selectRange": "Please select a range first",
+    "byteInserted": "Byte inserted",
+    "byteDeleted": "Byte deleted"
 }

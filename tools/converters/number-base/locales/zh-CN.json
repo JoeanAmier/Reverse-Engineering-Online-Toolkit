@@ -8,5 +8,8 @@
     "customBase": "自定义进制",
     "inputValue": "输入值",
     "fromBase": "源进制",
-    "toBase": "目标进制"
+    "toBase": "目标进制",
+    "convertFailed": "转换失败",
+    "error": "错误",
+    "baseRange": "进制必须在 2-36 之间"
 }

@@ -19,5 +19,13 @@
     "isBot": "机器人",
     "isMobile": "移动端",
     "cpu": "CPU 架构",
-    "jsonOutput": "JSON 输出"
+    "jsonOutput": "JSON 输出",
+    "errorEmpty": "请输入 User-Agent 字符串",
+    "parseSuccess": "解析成功",
+    "parseFailed": "解析失败",
+    "getBrowserSuccess": "已获取当前浏览器的 User-Agent",
+    "isBotYes": "是",
+    "isBotNo": "否",
+    "isMobileYes": "是",
+    "isMobileNo": "否"
 }

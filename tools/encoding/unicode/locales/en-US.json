@@ -4,5 +4,8 @@
     "format": "Format",
     "uppercase": "Uppercase",
     "encodeAll": "Encode All Characters",
-    "inputPlaceholder": "Enter text or Unicode encoding..."
+    "inputPlaceholder": "Enter text or Unicode encoding...",
+    "error": "Error",
+    "encodeSuccess": "Encoding complete",
+    "decodeSuccess": "Decoding complete"
 }

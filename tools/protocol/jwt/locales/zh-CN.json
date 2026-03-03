@@ -5,5 +5,10 @@
     "header": "头部 (Header)",
     "payload": "载荷 (Payload)",
     "signature": "签名 (Signature)",
-    "signatureNote": "注意：签名验证需要提供密钥，此工具仅解析不验证签名"
+    "signatureNote": "注意：签名验证需要提供密钥，此工具仅解析不验证签名",
+    "errorNoToken": "请输入 JWT Token",
+    "errorInvalidFormat": "无效的 JWT 格式：JWT 应包含三个由点号分隔的部分",
+    "errorParseFailed": "JWT 解析失败：",
+    "expired": "(已过期)",
+    "remaining": "(剩余 {hours}h {minutes}m)"
 }

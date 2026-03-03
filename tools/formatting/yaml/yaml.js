@@ -94,7 +94,7 @@
 
             script.onerror = () => {
                 jsyamlLoadPromise = null; // 允许重试
-                reject(new Error('无法加载 js-yaml 库，请检查网络连接'));
+                reject(new Error(REOT.i18n?.t('tools.yaml.loadError') || '无法加载 js-yaml 库，请检查网络连接'));
             };
 
             document.head.appendChild(script);
@@ -112,7 +112,7 @@
         }
         // 再次确认
         if (!window.jsyaml) {
-            throw new Error('js-yaml 库加载失败');
+            throw new Error(REOT.i18n?.t('tools.yaml.loadFailed') || 'js-yaml 库加载失败');
         }
     }
 
@@ -160,7 +160,7 @@
         try {
             return window.jsyaml.load(yamlString);
         } catch (error) {
-            throw new Error(`YAML 解析错误: ${error.message}`);
+            throw new Error(`${REOT.i18n?.t('tools.yaml.yamlParseError') || 'YAML 解析错误'}: ${error.message}`);
         }
     }
 
@@ -182,7 +182,7 @@
             try {
                 data = JSON.parse(input);
             } catch (e2) {
-                throw new Error(`解析失败: ${e.message}`);
+                throw new Error(`${REOT.i18n?.t('tools.yaml.parseFailed') || '解析失败'}: ${e.message}`);
             }
         }
 
@@ -229,7 +229,7 @@
         try {
             data = JSON.parse(jsonString);
         } catch (error) {
-            throw new Error(`JSON 解析错误: ${error.message}`);
+            throw new Error(`${REOT.i18n?.t('tools.yaml.jsonParseError') || 'JSON 解析错误'}: ${error.message}`);
         }
 
         const sortKeys = document.getElementById('sort-keys')?.checked;
@@ -249,12 +249,12 @@
      */
     function validateYAML(yamlString) {
         if (!yamlString.trim()) {
-            return { valid: false, message: '输入为空' };
+            return { valid: false, message: REOT.i18n?.t('tools.yaml.emptyInput') || '输入为空' };
         }
 
         try {
             window.jsyaml.load(yamlString);
-            return { valid: true, message: 'YAML 格式正确' };
+            return { valid: true, message: REOT.i18n?.t('tools.yaml.validYaml') || 'YAML 格式正确' };
         } catch (error) {
             return { valid: false, message: error.message };
         }

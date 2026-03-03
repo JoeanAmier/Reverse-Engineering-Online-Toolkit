@@ -3,7 +3,7 @@
     "description": "Scan QR codes and various barcodes",
     "cameraScan": "📷 Camera Scan",
     "fileUpload": "📁 File Upload",
-    "selectCamera": "Select Camera",
+    "selectCamera": "Please select a camera",
     "loading": "Loading...",
     "startScan": "Start Scan",
     "stopScan": "Stop Scan",
@@ -14,5 +14,17 @@
     "scanResult": "Scan Result",
     "copyContent": "Copy Content",
     "openLink": "Open Link",
-    "scanHistory": "Scan History"
+    "scanHistory": "Scan History",
+    "loadFailed": "Failed to load scanner library, please check network",
+    "cameraFailed": "Failed to start camera",
+    "selectValidImage": "Please select a valid image file",
+    "selectImage": "Please select an image first",
+    "noBarcode": "Unable to detect barcode in image. Ensure image is clear and contains a valid barcode",
+    "getCameraFailed": "Failed to get cameras",
+    "copied": "Copied!",
+    "noHistory": "No scan history",
+    "scanning": "Scanning...",
+    "cameraLabel": "Camera",
+    "noCameraDetected": "No cameras detected",
+    "formatLabel": "Format"
 }

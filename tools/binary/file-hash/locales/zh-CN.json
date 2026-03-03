@@ -16,5 +16,15 @@
     "lowercase": "小写",
     "uppercase": "大写",
     "verifyHash": "验证哈希",
-    "verifyPlaceholder": "输入要验证的哈希值..."
+    "verifyPlaceholder": "输入要验证的哈希值...",
+    "loadError": "无法加载 SparkMD5 库",
+    "md5Failed": "MD5 计算失败",
+    "calcFailed": "计算失败",
+    "selectAlgo": "请至少选择一种哈希算法",
+    "invalidHashLen": "无效的哈希长度",
+    "noCopyResults": "没有可复制的结果",
+    "selectFile": "请先选择文件",
+    "enterHash": "请输入要验证的哈希值",
+    "calcComplete": "计算完成",
+    "notCalculated": "未计算"
 }

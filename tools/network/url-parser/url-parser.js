@@ -145,7 +145,7 @@
                 searchParams: url.searchParams
             };
         } catch (error) {
-            throw new Error('无效的 URL 格式');
+            throw new Error(REOT.i18n?.t('tools.url-parser.errorInvalidUrl') || '无效的 URL 格式');
         }
     }
 
@@ -156,10 +156,10 @@
         // 更新 URL 组成部分
         updateUrlPart('protocol', result.protocol);
         updateUrlPart('hostname', result.hostname);
-        updateUrlPart('port', result.port || '(默认)');
+        updateUrlPart('port', result.port || (REOT.i18n?.t('tools.url-parser.defaultPort') || '(默认)'));
         updateUrlPart('pathname', result.pathname);
-        updateUrlPart('search', result.search || '(无)');
-        updateUrlPart('hash', result.hash || '(无)');
+        updateUrlPart('search', result.search || (REOT.i18n?.t('tools.url-parser.noValue') || '(无)'));
+        updateUrlPart('hash', result.hash || (REOT.i18n?.t('tools.url-parser.noValue') || '(无)'));
         updateUrlPart('origin', result.origin);
 
         resultSection.style.display = 'block';
@@ -269,7 +269,7 @@
      * 渲染查询参数表格
      */
     function renderQueryParams(params) {
-        paramsCount.textContent = `${params.length} 个参数`;
+        paramsCount.textContent = (REOT.i18n?.t('tools.url-parser.paramCount') || '{count} 个参数').replace('{count}', params.length);
 
         queryParamsBody.innerHTML = params.map(({ key, value, decoded }) => {
             const typeInfo = detectValueType(decoded);
@@ -595,7 +595,7 @@
             if (content) {
                 const success = await REOT.utils?.copyToClipboard(content);
                 if (success) {
-                    REOT.utils?.showNotification('已复制', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('common.copied') || '已复制', 'success');
                 }
             }
         });
@@ -610,7 +610,7 @@
                 const ext = getExportExtension(format);
                 const filename = `url_params.${ext}`;
                 saveFile(content, filename);
-                REOT.utils?.showNotification(`已保存: ${filename}`, 'success');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.url-parser.fileSaved') || '已保存: {filename}').replace('{filename}', filename), 'success');
             }
         });
     }
@@ -625,7 +625,7 @@
                 if (value && value !== '-' && value !== '(默认)' && value !== '(无)') {
                     const success = await REOT.utils?.copyToClipboard(value);
                     if (success) {
-                        REOT.utils?.showNotification('已复制', 'success');
+                        REOT.utils?.showNotification(REOT.i18n?.t('common.copied') || '已复制', 'success');
                     }
                 }
             }

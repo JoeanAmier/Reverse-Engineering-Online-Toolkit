@@ -3,7 +3,7 @@
     "description": "扫描QR码和各种条形码",
     "cameraScan": "📷 摄像头扫描",
     "fileUpload": "📁 图片上传",
-    "selectCamera": "选择摄像头",
+    "selectCamera": "请选择摄像头",
     "loading": "加载中...",
     "startScan": "开始扫描",
     "stopScan": "停止扫描",
@@ -14,5 +14,17 @@
     "scanResult": "扫描结果",
     "copyContent": "复制内容",
     "openLink": "打开链接",
-    "scanHistory": "扫描历史"
+    "scanHistory": "扫描历史",
+    "loadFailed": "加载扫描库失败，请检查网络连接",
+    "cameraFailed": "启动摄像头失败",
+    "selectValidImage": "请选择有效的图片文件",
+    "selectImage": "请先选择图片",
+    "noBarcode": "未能识别图片中的条码，请确保图片清晰且包含有效条码",
+    "getCameraFailed": "获取摄像头失败",
+    "copied": "已复制!",
+    "noHistory": "暂无扫描历史",
+    "scanning": "扫描中...",
+    "cameraLabel": "摄像头",
+    "noCameraDetected": "未检测到摄像头",
+    "formatLabel": "格式"
 }

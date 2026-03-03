@@ -23,5 +23,8 @@
     "copyValueFormatted": "复制值 (格式化)",
     "copyValueMinified": "复制值 (压缩)",
     "expandChildren": "展开子节点",
-    "collapseChildren": "折叠子节点"
+    "collapseChildren": "折叠子节点",
+    "pythonParseError": "Python Dict 转换后解析失败",
+    "jsonParseError": "JSON 解析错误",
+    "enterValidJson": "请先输入有效的 JSON"
 }

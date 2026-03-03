@@ -198,7 +198,7 @@
         if (currentText) {
             navigator.clipboard.writeText(currentText).then(() => {
                 const originalText = copyBtn.textContent;
-                copyBtn.textContent = '已复制!';
+                copyBtn.textContent = REOT.i18n?.t('tools.lorem-ipsum.copied') || '已复制!';
                 setTimeout(() => {
                     copyBtn.textContent = originalText;
                 }, 1500);

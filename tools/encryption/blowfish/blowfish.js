@@ -39,7 +39,7 @@
 
             script.onerror = () => {
                 cryptoJsLoadPromise = null;
-                reject(new Error('无法加载 CryptoJS 库'));
+                reject(new Error(REOT.i18n?.t('tools.blowfish.errorLoadCryptoJS') || '无法加载 CryptoJS 库'));
             };
 
             document.head.appendChild(script);
@@ -56,7 +56,7 @@
             await loadCryptoJS();
         }
         if (!window.CryptoJS || !window.CryptoJS.Blowfish) {
-            throw new Error('CryptoJS Blowfish 模块加载失败');
+            throw new Error(REOT.i18n?.t('tools.blowfish.errorCryptoJSFailed') || 'CryptoJS Blowfish 模块加载失败');
         }
     }
 
@@ -162,16 +162,16 @@
         const outputFormat = document.getElementById('output-format')?.value || 'base64';
 
         if (!keyInput.trim()) {
-            throw new Error('请输入密钥');
+            throw new Error(REOT.i18n?.t('tools.blowfish.enterKey') || '请输入密钥');
         }
 
         // 验证密钥长度
         const keyBytes = keyInput.trim();
         if (keyBytes.length < 4) {
-            throw new Error('密钥太短，至少需要 4 字节');
+            throw new Error(REOT.i18n?.t('tools.blowfish.errorKeyTooShort') || '密钥太短，至少需要 4 字节');
         }
         if (keyBytes.length > 56) {
-            throw new Error('密钥太长，最多 56 字节');
+            throw new Error(REOT.i18n?.t('tools.blowfish.errorKeyTooLong') || '密钥太长，最多 56 字节');
         }
 
         const key = parseKey(keyInput);
@@ -183,7 +183,7 @@
 
         if (config.needsIv) {
             if (!ivInput.trim()) {
-                throw new Error('请输入 IV 向量');
+                throw new Error(REOT.i18n?.t('tools.blowfish.enterIV') || '请输入 IV 向量');
             }
             options.iv = parseIv(ivInput);
         }
@@ -210,7 +210,7 @@
         const outputFormat = document.getElementById('output-format')?.value || 'base64';
 
         if (!keyInput.trim()) {
-            throw new Error('请输入密钥');
+            throw new Error(REOT.i18n?.t('tools.blowfish.enterKey') || '请输入密钥');
         }
 
         const key = parseKey(keyInput);
@@ -222,7 +222,7 @@
 
         if (config.needsIv) {
             if (!ivInput.trim()) {
-                throw new Error('请输入 IV 向量');
+                throw new Error(REOT.i18n?.t('tools.blowfish.enterIV') || '请输入 IV 向量');
             }
             options.iv = parseIv(ivInput);
         }
@@ -241,7 +241,7 @@
 
         const result = decrypted.toString(CryptoJS.enc.Utf8);
         if (!result) {
-            throw new Error('解密失败，请检查密钥和 IV');
+            throw new Error(REOT.i18n?.t('tools.blowfish.errorDecryptCheck') || '解密失败，请检查密钥和 IV');
         }
 
         return result;
@@ -283,17 +283,17 @@
             const outputEl = document.getElementById('output');
 
             if (!inputEl?.value) {
-                REOT.utils?.showNotification('请输入要加密的内容', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.blowfish.enterContent') || '请输入要加密的内容', 'warning');
                 return;
             }
 
             try {
                 const result = await encrypt(inputEl.value);
                 if (outputEl) outputEl.value = result;
-                REOT.utils?.showNotification('加密成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.blowfish.encryptSuccess') || '加密成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
-                if (outputEl) outputEl.value = '错误: ' + error.message;
+                if (outputEl) outputEl.value = (REOT.i18n?.t('tools.blowfish.errorPrefix') || '错误') + ': ' + error.message;
             }
         }
 
@@ -303,17 +303,17 @@
             const outputEl = document.getElementById('output');
 
             if (!inputEl?.value) {
-                REOT.utils?.showNotification('请输入要解密的内容', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.blowfish.enterDecryptContent') || '请输入要解密的内容', 'warning');
                 return;
             }
 
             try {
                 const result = await decrypt(inputEl.value);
                 if (outputEl) outputEl.value = result;
-                REOT.utils?.showNotification('解密成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.blowfish.decryptSuccess') || '解密成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('解密失败: ' + error.message, 'error');
-                if (outputEl) outputEl.value = '错误: ' + error.message;
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.blowfish.decryptFailed') || '解密失败') + ': ' + error.message, 'error');
+                if (outputEl) outputEl.value = (REOT.i18n?.t('tools.blowfish.errorPrefix') || '错误') + ': ' + error.message;
             }
         }
 

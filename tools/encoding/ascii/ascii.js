@@ -98,7 +98,7 @@
         }
 
         if (codes.length === 0) {
-            throw new Error('无法解析输入的 ASCII 码');
+            throw new Error(REOT.i18n?.t('tools.ascii.parseError') || '无法解析输入的 ASCII 码');
         }
 
         return String.fromCharCode(...codes);
@@ -109,7 +109,7 @@
      * @param {string} message
      */
     function showError(message) {
-        outputEl.value = `错误: ${message}`;
+        outputEl.value = `${REOT.i18n?.t('tools.ascii.error') || '错误'}: ${message}`;
         if (window.REOT?.utils?.showNotification) {
             window.REOT.utils.showNotification(message, 'error');
         }

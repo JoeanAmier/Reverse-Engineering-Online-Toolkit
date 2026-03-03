@@ -6,5 +6,11 @@
     "publicKey": "Public Key",
     "privateKey": "Private Key",
     "securityNote": "Security Notice",
-    "securityDesc": "Keys are generated entirely in your browser and are never uploaded to any server. Please keep your private key secure and never share it. For production environments, consider using Hardware Security Modules (HSM) or professional key management systems."
+    "securityDesc": "Keys are generated entirely in your browser and are never uploaded to any server. Please keep your private key secure and never share it. For production environments, consider using Hardware Security Modules (HSM) or professional key management systems.",
+    "generating": "Generating key pair...",
+    "generateSuccess": "Key pair generated successfully",
+    "error": "Error",
+    "publicKeyCopied": "Public key copied",
+    "privateKeyCopied": "Private key copied",
+    "ed25519NotSupported": "Your browser does not support Ed25519. Please use the latest version of Chrome or Edge"
 }

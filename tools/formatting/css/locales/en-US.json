@@ -1,11 +1,15 @@
 {
-    "tools.css.title": "CSS Formatter",
-    "tools.css.description": "CSS code formatting, beautification, and minification",
-    "tools.css.indent": "Indentation",
-    "tools.css.braceStyle": "Brace Style",
-    "tools.css.sortProperties": "Sort Properties",
-    "tools.css.inputPlaceholder": "Enter CSS code...",
-    "tools.css.loadExample": "Load Example",
-    "tools.css.aboutTitle": "About CSS Formatter",
-    "tools.css.aboutDesc": "CSS Formatter beautifies and compresses CSS code. Formatted CSS is easier to read and maintain, while compressed CSS reduces file size and improves page load speed."
+    "title": "CSS Formatter",
+    "description": "CSS code formatting, beautification, and minification",
+    "indent": "Indentation",
+    "braceStyle": "Brace Style",
+    "sortProperties": "Sort Properties",
+    "inputPlaceholder": "Enter CSS code...",
+    "loadExample": "Load Example",
+    "aboutTitle": "About CSS Formatter",
+    "aboutDesc": "CSS Formatter beautifies and compresses CSS code. Formatted CSS is easier to read and maintain, while compressed CSS reduces file size and improves page load speed.",
+    "formatSuccess": "Format successful",
+    "formatFailed": "Format failed",
+    "minifySuccess": "Minify successful",
+    "minifyFailed": "Minify failed"
 }

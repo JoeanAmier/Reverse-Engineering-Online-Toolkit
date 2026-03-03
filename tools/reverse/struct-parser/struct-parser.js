@@ -125,7 +125,7 @@
         // 提取结构体内容
         const structMatch = code.match(/struct\s+(\w+)?\s*\{([\s\S]*)\}/);
         if (!structMatch) {
-            throw new Error('无效的结构体定义');
+            throw new Error(REOT.i18n?.t('tools.struct-parser.invalidStruct') || '无效的结构体定义');
         }
 
         const structName = structMatch[1] || 'Anonymous';
@@ -305,18 +305,18 @@
                         <td class="field-offset">0x${item.offset.toString(16).toUpperCase().padStart(4, '0')}</td>
                         <td>-</td>
                         <td class="field-type">padding</td>
-                        <td class="field-size">${item.size} 字节</td>
+                        <td class="field-size">${item.size} ${REOT.i18n?.t('tools.struct-parser.bytes') || '字节'}</td>
                         <td class="field-note padding">${item.isTailPadding ? '结构体尾部对齐' : '字段对齐填充'}</td>
                     </tr>
                 `;
             } else {
                 let note = '';
                 if (item.arraySize) {
-                    note = `数组 [${item.arraySize}]`;
+                    note = `${REOT.i18n?.t('tools.struct-parser.array') || '数组'} [${item.arraySize}]`;
                 } else if (item.typeInfo?.isPointer) {
-                    note = '指针';
+                    note = REOT.i18n?.t('tools.struct-parser.pointer') || '指针';
                 } else if (item.typeInfo?.unknown) {
-                    note = '未知类型，使用默认大小';
+                    note = REOT.i18n?.t('tools.struct-parser.unknownType') || '未知类型，使用默认大小';
                 }
 
                 html += `
@@ -324,7 +324,7 @@
                         <td class="field-offset">0x${item.offset.toString(16).toUpperCase().padStart(4, '0')}</td>
                         <td>${item.name}</td>
                         <td class="field-type">${item.fieldType}</td>
-                        <td class="field-size">${item.size} 字节</td>
+                        <td class="field-size">${item.size} ${REOT.i18n?.t('tools.struct-parser.bytes') || '字节'}</td>
                         <td class="field-note">${note}</td>
                     </tr>
                 `;
@@ -355,13 +355,13 @@
         const maxAlign = parseInt(document.getElementById('align-select')?.value || '8');
 
         if (!code) {
-            throw new Error('请输入结构体定义');
+            throw new Error(REOT.i18n?.t('tools.struct-parser.enterStruct') || '请输入结构体定义');
         }
 
         const structDef = parseStruct(code);
 
         if (structDef.fields.length === 0) {
-            throw new Error('未找到有效的字段定义');
+            throw new Error(REOT.i18n?.t('tools.struct-parser.noValidFields') || '未找到有效的字段定义');
         }
 
         const result = calculateLayout(structDef, arch, maxAlign);
@@ -405,7 +405,7 @@
         if (target.id === 'parse-btn' || target.closest('#parse-btn')) {
             try {
                 parse();
-                REOT.utils?.showNotification('解析完成', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.struct-parser.parseDone') || '解析完成', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }

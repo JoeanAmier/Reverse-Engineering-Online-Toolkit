@@ -146,7 +146,7 @@
                 const result = encode(inputEl.value, getOptions());
                 outputEl.value = result;
             } catch (error) {
-                outputEl.value = `错误: ${error.message}`;
+                outputEl.value = `${REOT.i18n?.t('tools.html-entity.error') || '错误'}: ${error.message}`;
             }
         });
     }
@@ -157,7 +157,7 @@
                 const result = decode(inputEl.value);
                 outputEl.value = result;
             } catch (error) {
-                outputEl.value = `错误: ${error.message}`;
+                outputEl.value = `${REOT.i18n?.t('tools.html-entity.error') || '错误'}: ${error.message}`;
             }
         });
     }

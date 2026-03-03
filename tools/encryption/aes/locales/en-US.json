@@ -12,5 +12,11 @@
     "iv": "IV Vector",
     "ivPlaceholder": "Enter IV vector...",
     "ivHint": "Requires 16 bytes (128 bit)",
-    "inputPlaceholder": "Enter content to encrypt/decrypt..."
+    "inputPlaceholder": "Enter content to encrypt/decrypt...",
+    "enterContent": "Please enter content to encrypt",
+    "enterDecryptContent": "Please enter content to decrypt",
+    "enterKey": "Please enter key",
+    "enterIV": "Please enter IV vector",
+    "errorPrefix": "Error",
+    "decryptFailed": "Decryption failed"
 }

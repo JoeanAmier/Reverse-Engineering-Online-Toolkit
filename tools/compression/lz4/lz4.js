@@ -343,7 +343,7 @@
         // 验证 Magic Number
         for (let i = 0; i < LZ4_MAGIC.length; i++) {
             if (data[i] !== LZ4_MAGIC[i]) {
-                throw new Error('无效的 LZ4 格式：Magic Number 不匹配');
+                throw new Error(REOT.i18n?.t('tools.lz4.errorInvalidMagic') || '无效的 LZ4 格式：Magic Number 不匹配');
             }
         }
 
@@ -466,7 +466,7 @@
             ip += 2;
 
             if (offset === 0) {
-                throw new Error('无效的 LZ4 数据：偏移量为 0');
+                throw new Error(REOT.i18n?.t('tools.lz4.errorInvalidOffset') || '无效的 LZ4 数据：偏移量为 0');
             }
 
             // 读取额外匹配长度
@@ -599,7 +599,7 @@
     function downloadResult() {
         const output = document.getElementById('output');
         if (!output || !output.value) {
-            REOT.utils?.showNotification('没有可下载的内容', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.lz4.noDownloadContent') || '没有可下载的内容', 'warning');
             return;
         }
 
@@ -658,7 +658,7 @@
                 }
 
                 if (input) {
-                    input.value = `[文件已加载: ${file.name}]`;
+                    input.value = `[${REOT.i18n?.t('tools.lz4.fileLoaded') || '文件已加载: '}${file.name}]`;
                     input.disabled = true;
                 }
             };
@@ -688,7 +688,7 @@
                 }
 
                 if (!data || (typeof data === 'string' && !data.trim())) {
-                    REOT.utils?.showNotification('请输入要压缩的内容', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.lz4.errorNoInput') || '请输入要压缩的内容', 'warning');
                     return;
                 }
 
@@ -704,7 +704,7 @@
                         : uint8ArrayToHex(compressed);
                 }
 
-                REOT.utils?.showNotification('压缩成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.lz4.compressSuccess') || '压缩成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -730,10 +730,10 @@
                             compressedData = hexToUint8Array(input.value.trim());
                         }
                     } catch (e) {
-                        throw new Error('输入格式无效');
+                        throw new Error(REOT.i18n?.t('tools.lz4.errorInvalidFormat') || '输入格式无效');
                     }
                 } else {
-                    REOT.utils?.showNotification('请输入要解压的内容或上传文件', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.lz4.errorNoDecompressInput') || '请输入要解压的内容或上传文件', 'warning');
                     return;
                 }
 
@@ -748,7 +748,7 @@
                     }
                 }
 
-                REOT.utils?.showNotification('解压成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.lz4.decompressSuccess') || '解压成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message || '解压失败', 'error');
             }
@@ -800,7 +800,7 @@
     // 设置默认示例数据
     const defaultInput = document.getElementById('input');
     if (defaultInput && !defaultInput.value) {
-        const sampleText = `这是一段示例文本，用于演示 LZ4 压缩功能。
+        const sampleText = REOT.i18n?.t('tools.lz4.sampleText') || `这是一段示例文本，用于演示 LZ4 压缩功能。
 
 LZ4 是一种极速压缩算法，专注于压缩和解压速度。
 

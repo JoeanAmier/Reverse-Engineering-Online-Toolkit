@@ -6,5 +6,7 @@
     "withPrefix": "0x Prefix",
     "inputPlaceholder": "Enter text or hex string...",
     "textToHex": "Text to Hex",
-    "hexToText": "Hex to Text"
+    "hexToText": "Hex to Text",
+    "error": "Error",
+    "invalidHex": "Invalid hexadecimal string"
 }

@@ -28,7 +28,7 @@
     function hexToBytes(hex) {
         hex = hex.replace(/[\s\n\r]/g, '');
         if (hex.length % 2 !== 0) {
-            throw new Error('十六进制字符串长度必须为偶数');
+            throw new Error(REOT.i18n?.t('tools.protobuf.errorHexLength') || '十六进制字符串长度必须为偶数');
         }
         const bytes = new Uint8Array(hex.length / 2);
         for (let i = 0; i < bytes.length; i++) {
@@ -76,7 +76,7 @@
         } else if (isBase64(input)) {
             data = base64ToBytes(input);
         } else {
-            throw new Error('无法识别的输入格式，请输入十六进制或 Base64 编码的数据');
+            throw new Error(REOT.i18n?.t('tools.protobuf.errorUnrecognizedFormat') || '无法识别的输入格式，请输入十六进制或 Base64 编码的数据');
         }
 
         // gRPC 模式：跳过 5 字节头 (1 byte compressed flag + 4 bytes length)
@@ -106,7 +106,7 @@
             shift += 7n;
 
             if (shift > 63n) {
-                throw new Error('Varint 过长');
+                throw new Error(REOT.i18n?.t('tools.protobuf.errorVarintTooLong') || 'Varint 过长');
             }
         }
 
@@ -171,7 +171,7 @@
 
                     case 1: // 64-bit (fixed64)
                         if (offset + 8 > data.length) {
-                            throw new Error('数据不完整');
+                            throw new Error(REOT.i18n?.t('tools.protobuf.errorDataIncomplete') || '数据不完整');
                         }
                         field.value = data.slice(offset, offset + 8);
                         field.rawHex = bytesToHex(field.value, '');
@@ -184,7 +184,7 @@
                         offset += lengthResult.bytesRead;
 
                         if (offset + length > data.length) {
-                            throw new Error('数据不完整');
+                            throw new Error(REOT.i18n?.t('tools.protobuf.errorDataIncomplete') || '数据不完整');
                         }
 
                         field.value = data.slice(offset, offset + length);
@@ -194,7 +194,7 @@
 
                     case 5: // 32-bit (fixed32)
                         if (offset + 4 > data.length) {
-                            throw new Error('数据不完整');
+                            throw new Error(REOT.i18n?.t('tools.protobuf.errorDataIncomplete') || '数据不完整');
                         }
                         field.value = data.slice(offset, offset + 4);
                         field.rawHex = bytesToHex(field.value, '');
@@ -207,7 +207,7 @@
                         break;
 
                     default:
-                        throw new Error(`未知的 wire 类型: ${wireType}`);
+                        throw new Error((REOT.i18n?.t('tools.protobuf.errorUnknownWireType') || '未知的 wire 类型: {wireType}').replace('{wireType}', wireType));
                 }
 
                 field.byteRange[1] = offset;
@@ -699,7 +699,7 @@
         const outputActions = document.getElementById('output-actions');
 
         if (!decoded || !decoded.parts || decoded.parts.length === 0) {
-            output.innerHTML = '<div class="error-state">未能解析出任何字段，请检查数据格式</div>';
+            output.innerHTML = `<div class="error-state">${REOT.i18n?.t('tools.protobuf.errorNoFields') || '未能解析出任何字段，请检查数据格式'}</div>`;
             outputActions?.classList.add('hidden');
             output?.classList.remove('json-view-active');
             destroyJsonEditor();
@@ -748,7 +748,7 @@
         const output = document.getElementById('output');
 
         if (!input.trim()) {
-            if (output) output.innerHTML = '<div class="empty-state">请输入 Protobuf 数据</div>';
+            if (output) output.innerHTML = `<div class="empty-state">${REOT.i18n?.t('tools.protobuf.emptyState') || '请输入 Protobuf 数据'}</div>`;
             document.getElementById('output-actions')?.classList.add('hidden');
             destroyJsonEditor();
             return;
@@ -761,22 +761,22 @@
             currentFields = decoded;
 
             if (decoded.parts.length === 0) {
-                if (output) output.innerHTML = '<div class="error-state">未能解析出任何字段，请检查数据格式</div>';
+                if (output) output.innerHTML = `<div class="error-state">${REOT.i18n?.t('tools.protobuf.errorNoFields') || '未能解析出任何字段，请检查数据格式'}</div>`;
                 return;
             }
 
             // 显示解析信息
-            const leftOverInfo = decoded.leftOver.length > 0 ? `，剩余 ${decoded.leftOver.length} 字节未解析` : '';
-            const infoHtml = `<div class="parse-info">解析了 ${data.length} 字节，找到 ${countFields(decoded)} 个字段${leftOverInfo}</div>`;
+            const leftOverInfo = decoded.leftOver.length > 0 ? (REOT.i18n?.t('tools.protobuf.parseInfoLeftover') || '，剩余 {leftover} 字节未解析').replace('{leftover}', decoded.leftOver.length) : '';
+            const infoHtml = `<div class="parse-info">${(REOT.i18n?.t('tools.protobuf.parseInfo') || '解析了 {bytes} 字节，找到 {fields} 个字段').replace('{bytes}', data.length).replace('{fields}', countFields(decoded))}${leftOverInfo}</div>`;
 
             // 一次性渲染输出，避免重复初始化编辑器
             await renderOutput(decoded, currentView, infoHtml);
 
-            REOT.utils?.showNotification('解码成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.protobuf.decodeSuccess') || '解码成功', 'success');
 
         } catch (error) {
             if (output) {
-                output.innerHTML = `<div class="error-state">解码错误: ${escapeHtml(error.message)}</div>`;
+                output.innerHTML = `<div class="error-state">${(REOT.i18n?.t('tools.protobuf.decodeError') || '解码错误: {error}').replace('{error}', escapeHtml(error.message))}</div>`;
             }
             document.getElementById('output-actions')?.classList.add('hidden');
             destroyJsonEditor();
@@ -851,7 +851,7 @@
             const output = document.getElementById('output');
             if (input) input.value = '';
             if (output) {
-                output.innerHTML = '<div class="empty-state">请输入 Protobuf 数据并点击解码</div>';
+                output.innerHTML = `<div class="empty-state">${REOT.i18n?.t('tools.protobuf.emptyStateWithAction') || '请输入 Protobuf 数据并点击解码'}</div>`;
                 output.classList.remove('json-view-active');
             }
             document.getElementById('output-actions')?.classList.add('hidden');
@@ -889,7 +889,7 @@
                 }
                 const success = await REOT.utils?.copyToClipboard(textToCopy);
                 if (success) {
-                    REOT.utils?.showNotification('已复制到剪贴板', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.protobuf.copiedToClipboard') || '已复制到剪贴板', 'success');
                 }
             }
         }
@@ -905,7 +905,7 @@
                 a.download = 'protobuf-decoded.json';
                 a.click();
                 URL.revokeObjectURL(url);
-                REOT.utils?.showNotification('JSON 文件已下载', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.protobuf.jsonDownloaded') || 'JSON 文件已下载', 'success');
             }
         }
     });

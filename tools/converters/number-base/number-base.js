@@ -85,7 +85,7 @@
             const decimal = BigInt(parseInt(value, fromBase));
             return decimal.toString(toBase).toUpperCase();
         } catch (e) {
-            throw new Error('转换失败: ' + e.message);
+            throw new Error((REOT.i18n?.t('tools.number-base.convertFailed') || '转换失败') + ': ' + e.message);
         }
     }
 
@@ -138,12 +138,12 @@
                 const toBase = parseInt(toBaseEl.value);
 
                 if (fromBase < 2 || fromBase > 36 || toBase < 2 || toBase > 36) {
-                    throw new Error('进制必须在 2-36 之间');
+                    throw new Error(REOT.i18n?.t('tools.number-base.baseRange') || '进制必须在 2-36 之间');
                 }
 
                 customOutputEl.value = convertBase(value, fromBase, toBase);
             } catch (error) {
-                customOutputEl.value = '错误: ' + error.message;
+                customOutputEl.value = (REOT.i18n?.t('tools.number-base.error') || '错误') + ': ' + error.message;
             }
         });
     }

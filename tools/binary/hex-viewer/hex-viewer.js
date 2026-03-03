@@ -279,7 +279,7 @@
             hexOutput.insertAdjacentHTML('beforeend', panelHtml);
         } else {
             // 全部加载完成
-            REOT.utils?.showNotification('全部数据已加载', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.hex-viewer.allDataLoaded') || '全部数据已加载', 'success');
         }
 
         // 重新绑定高亮事件
@@ -301,7 +301,7 @@
             data = encoder.encode(textInput.value);
             currentData = data;  // 保存以便后续加载更多
         } else {
-            REOT.utils?.showNotification('请输入文本或上传文件', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.hex-viewer.enterTextOrUpload') || '请输入文本或上传文件', 'warning');
             return;
         }
 
@@ -332,7 +332,7 @@
         // 添加字节高亮交互
         addByteHighlighting();
 
-        REOT.utils?.showNotification('Hex 视图已生成', 'success');
+        REOT.utils?.showNotification(REOT.i18n?.t('tools.hex-viewer.hexGenerated') || 'Hex 视图已生成', 'success');
     }
 
     /**
@@ -341,6 +341,10 @@
     function addByteHighlighting() {
         const hexOutput = document.getElementById('hex-output');
         if (!hexOutput) return;
+
+        // 防止重复绑定事件监听器
+        if (hexOutput._highlightBound) return;
+        hexOutput._highlightBound = true;
 
         hexOutput.addEventListener('mouseover', (e) => {
             const target = e.target;
@@ -522,7 +526,7 @@
 
             // 如果剩余数据太大，给出警告
             if (remaining > 1000000) {
-                if (!confirm(`即将加载 ${formatFileSize(remaining)} 数据，这可能导致页面卡顿或无响应。\n\n确定要继续吗？`)) {
+                if (!confirm(REOT.i18n?.t('tools.hex-viewer.loadAllWarning')?.replace('{0}', formatFileSize(remaining)) || `即将加载 ${formatFileSize(remaining)} 数据，这可能导致页面卡顿或无响应。\n\n确定要继续吗？`)) {
                     return;
                 }
             }

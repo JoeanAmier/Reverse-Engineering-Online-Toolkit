@@ -8,29 +8,39 @@
 (function() {
     'use strict';
 
-    // PEM 类型映射
+    // PEM 类型映射 name: [zh, en]
     const PEM_TYPES = {
-        'CERTIFICATE': { name: '证书', icon: '📜' },
-        'X509 CERTIFICATE': { name: 'X.509 证书', icon: '📜' },
-        'TRUSTED CERTIFICATE': { name: '受信任证书', icon: '✅' },
-        'PRIVATE KEY': { name: '私钥 (PKCS#8)', icon: '🔑' },
-        'ENCRYPTED PRIVATE KEY': { name: '加密私钥', icon: '🔐' },
-        'RSA PRIVATE KEY': { name: 'RSA 私钥', icon: '🔑' },
-        'RSA PUBLIC KEY': { name: 'RSA 公钥', icon: '🔓' },
-        'EC PRIVATE KEY': { name: 'EC 私钥', icon: '🔑' },
-        'PUBLIC KEY': { name: '公钥', icon: '🔓' },
-        'CERTIFICATE REQUEST': { name: '证书请求 (CSR)', icon: '📝' },
-        'NEW CERTIFICATE REQUEST': { name: '新证书请求', icon: '📝' },
-        'X509 CRL': { name: '证书吊销列表', icon: '🚫' },
-        'PKCS7': { name: 'PKCS#7 数据', icon: '📦' },
-        'CMS': { name: 'CMS 数据', icon: '📦' },
-        'SSH2 PUBLIC KEY': { name: 'SSH2 公钥', icon: '🔓' },
-        'OPENSSH PRIVATE KEY': { name: 'OpenSSH 私钥', icon: '🔑' },
-        'PGP PUBLIC KEY BLOCK': { name: 'PGP 公钥', icon: '🔓' },
-        'PGP PRIVATE KEY BLOCK': { name: 'PGP 私钥', icon: '🔑' },
-        'PGP MESSAGE': { name: 'PGP 消息', icon: '✉️' },
-        'PGP SIGNATURE': { name: 'PGP 签名', icon: '✍️' }
+        'CERTIFICATE': { name: ['证书', 'Certificate'], icon: '📜' },
+        'X509 CERTIFICATE': { name: ['X.509 证书', 'X.509 Certificate'], icon: '📜' },
+        'TRUSTED CERTIFICATE': { name: ['受信任证书', 'Trusted Certificate'], icon: '✅' },
+        'PRIVATE KEY': { name: ['私钥 (PKCS#8)', 'Private Key (PKCS#8)'], icon: '🔑' },
+        'ENCRYPTED PRIVATE KEY': { name: ['加密私钥', 'Encrypted Private Key'], icon: '🔐' },
+        'RSA PRIVATE KEY': { name: ['RSA 私钥', 'RSA Private Key'], icon: '🔑' },
+        'RSA PUBLIC KEY': { name: ['RSA 公钥', 'RSA Public Key'], icon: '🔓' },
+        'EC PRIVATE KEY': { name: ['EC 私钥', 'EC Private Key'], icon: '🔑' },
+        'PUBLIC KEY': { name: ['公钥', 'Public Key'], icon: '🔓' },
+        'CERTIFICATE REQUEST': { name: ['证书请求 (CSR)', 'Certificate Request (CSR)'], icon: '📝' },
+        'NEW CERTIFICATE REQUEST': { name: ['新证书请求', 'New Certificate Request'], icon: '📝' },
+        'X509 CRL': { name: ['证书吊销列表', 'Certificate Revocation List'], icon: '🚫' },
+        'PKCS7': { name: ['PKCS#7 数据', 'PKCS#7 Data'], icon: '📦' },
+        'CMS': { name: ['CMS 数据', 'CMS Data'], icon: '📦' },
+        'SSH2 PUBLIC KEY': { name: ['SSH2 公钥', 'SSH2 Public Key'], icon: '🔓' },
+        'OPENSSH PRIVATE KEY': { name: ['OpenSSH 私钥', 'OpenSSH Private Key'], icon: '🔑' },
+        'PGP PUBLIC KEY BLOCK': { name: ['PGP 公钥', 'PGP Public Key'], icon: '🔓' },
+        'PGP PRIVATE KEY BLOCK': { name: ['PGP 私钥', 'PGP Private Key'], icon: '🔑' },
+        'PGP MESSAGE': { name: ['PGP 消息', 'PGP Message'], icon: '✉️' },
+        'PGP SIGNATURE': { name: ['PGP 签名', 'PGP Signature'], icon: '✍️' }
     };
+
+    /**
+     * 获取 PEM 类型名称（根据当前语言）
+     */
+    function getPemTypeName(type) {
+        const info = PEM_TYPES[type];
+        if (!info) return type;
+        const isEn = REOT.i18n?.getLocale?.()?.startsWith('en') || false;
+        return isEn ? info.name[1] : info.name[0];
+    }
 
     // ASN.1 标签类型
     const ASN1_TAGS = {
@@ -118,7 +128,7 @@
                 const derData = base64Decode(base64Data);
                 blocks.push({
                     type,
-                    typeName: PEM_TYPES[type]?.name || type,
+                    typeName: getPemTypeName(type),
                     icon: PEM_TYPES[type]?.icon || '📄',
                     base64: base64Data,
                     der: derData,
@@ -127,10 +137,10 @@
             } catch (e) {
                 blocks.push({
                     type,
-                    typeName: PEM_TYPES[type]?.name || type,
+                    typeName: getPemTypeName(type),
                     icon: PEM_TYPES[type]?.icon || '📄',
                     base64: base64Data,
-                    error: 'Base64 解码失败: ' + e.message
+                    error: (REOT.i18n?.t('tools.pem.errorBase64Decode') || 'Base64 解码失败: {error}').replace('{error}', e.message)
                 });
             }
         }
@@ -143,7 +153,7 @@
      */
     function parseASN1Length(data, offset) {
         if (offset >= data.length) {
-            throw new Error('数据不完整');
+            throw new Error(REOT.i18n?.t('tools.pem.errorDataIncomplete') || '数据不完整');
         }
 
         const firstByte = data[offset];
@@ -159,7 +169,7 @@
         }
 
         if (offset + numBytes >= data.length) {
-            throw new Error('数据不完整');
+            throw new Error(REOT.i18n?.t('tools.pem.errorDataIncomplete') || '数据不完整');
         }
 
         let length = 0;
@@ -355,14 +365,14 @@
         const output = document.getElementById('output');
 
         if (!input.trim()) {
-            if (output) output.innerHTML = '<div class="empty-state">请输入 PEM 格式数据</div>';
+            if (output) output.innerHTML = `<div class="empty-state">${REOT.i18n?.t('tools.pem.emptyState') || '请输入 PEM 格式数据'}</div>`;
             return;
         }
 
         const blocks = parsePEMBlocks(input);
 
         if (blocks.length === 0) {
-            if (output) output.innerHTML = '<div class="error-state">未找到有效的 PEM 块</div>';
+            if (output) output.innerHTML = `<div class="error-state">${REOT.i18n?.t('tools.pem.errorNoBlocks') || '未找到有效的 PEM 块'}</div>`;
             return;
         }
 
@@ -379,21 +389,21 @@
             html += '</div>';
 
             html += '<div class="pem-info">';
-            html += `<div class="info-row"><span class="info-label">大小:</span> ${block.size || 0} 字节</div>`;
+            html += `<div class="info-row"><span class="info-label">${REOT.i18n?.t('tools.pem.sizeLabel') || '大小:'}</span> ${(REOT.i18n?.t('tools.pem.sizeBytes') || '{size} 字节').replace('{size}', block.size || 0)}</div>`;
 
             if (block.error) {
                 html += `<div class="info-row error">${block.error}</div>`;
             } else if (block.der) {
-                html += `<div class="info-row"><span class="info-label">DER (十六进制):</span></div>`;
+                html += `<div class="info-row"><span class="info-label">${REOT.i18n?.t('tools.pem.derHexLabel') || 'DER (十六进制):'}</span></div>`;
                 html += `<div class="hex-dump">${formatHex(block.der, 64)}</div>`;
 
                 // 解析 ASN.1 结构
                 try {
                     const asn1 = parseASN1(block.der);
-                    html += `<div class="info-row"><span class="info-label">ASN.1 结构:</span></div>`;
+                    html += `<div class="info-row"><span class="info-label">${REOT.i18n?.t('tools.pem.asn1StructLabel') || 'ASN.1 结构:'}</span></div>`;
                     html += renderASN1Tree(asn1);
                 } catch (e) {
-                    html += `<div class="info-row warning">ASN.1 解析错误: ${e.message}</div>`;
+                    html += `<div class="info-row warning">${(REOT.i18n?.t('tools.pem.asn1ParseError') || 'ASN.1 解析错误: {error}').replace('{error}', e.message)}</div>`;
                 }
             }
 
@@ -405,7 +415,7 @@
             output.innerHTML = html;
         }
 
-        REOT.utils?.showNotification(`解析完成，找到 ${blocks.length} 个 PEM 块`, 'success');
+        REOT.utils?.showNotification((REOT.i18n?.t('tools.pem.parseComplete') || '解析完成，找到 {count} 个 PEM 块').replace('{count}', blocks.length), 'success');
     }
 
     // 示例证书

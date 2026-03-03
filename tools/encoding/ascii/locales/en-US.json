@@ -13,5 +13,7 @@
     "dash": "Dash",
     "none": "None",
     "toAscii": "Text → ASCII",
-    "toText": "ASCII → Text"
+    "toText": "ASCII → Text",
+    "error": "Error",
+    "parseError": "Unable to parse ASCII codes"
 }

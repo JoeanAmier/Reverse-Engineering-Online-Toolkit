@@ -6,5 +6,15 @@
     "sampleCert": "示例证书",
     "sampleKey": "示例密钥",
     "aboutPem": "关于 PEM 格式",
-    "aboutDesc": "PEM (Privacy Enhanced Mail) 是一种常用的文件格式，用于存储加密密钥、证书和其他安全相关数据。PEM 文件使用 Base64 编码，并以 \"-----BEGIN xxx-----\" 和 \"-----END xxx-----\" 标记包围。常见类型包括：CERTIFICATE、PRIVATE KEY、PUBLIC KEY、RSA PRIVATE KEY 等。"
+    "aboutDesc": "PEM (Privacy Enhanced Mail) 是一种常用的文件格式，用于存储加密密钥、证书和其他安全相关数据。PEM 文件使用 Base64 编码，并以 \"-----BEGIN xxx-----\" 和 \"-----END xxx-----\" 标记包围。常见类型包括：CERTIFICATE、PRIVATE KEY、PUBLIC KEY、RSA PRIVATE KEY 等。",
+    "emptyState": "请输入 PEM 格式数据",
+    "errorNoBlocks": "未找到有效的 PEM 块",
+    "errorBase64Decode": "Base64 解码失败: {error}",
+    "errorDataIncomplete": "数据不完整",
+    "sizeLabel": "大小:",
+    "sizeBytes": "{size} 字节",
+    "derHexLabel": "DER (十六进制):",
+    "asn1StructLabel": "ASN.1 结构:",
+    "asn1ParseError": "ASN.1 解析错误: {error}",
+    "parseComplete": "解析完成，找到 {count} 个 PEM 块"
 }

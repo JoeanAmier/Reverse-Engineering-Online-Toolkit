@@ -206,12 +206,12 @@
      */
     function validateXML(xmlString) {
         if (!xmlString.trim()) {
-            return { valid: false, message: '输入为空' };
+            return { valid: false, message: REOT.i18n?.t('tools.xml.emptyInput') || '输入为空' };
         }
 
         try {
             parseXML(xmlString);
-            return { valid: true, message: 'XML 格式正确' };
+            return { valid: true, message: REOT.i18n?.t('tools.xml.validXml') || 'XML 格式正确' };
         } catch (error) {
             return { valid: false, message: error.message };
         }

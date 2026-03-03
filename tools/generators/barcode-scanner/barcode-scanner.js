@@ -35,7 +35,7 @@
             await loadScript('https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js');
         } catch (e) {
             console.error('加载依赖库失败:', e);
-            alert('加载扫描库失败，请检查网络连接');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.barcode-scanner.loadFailed') || '加载扫描库失败，请检查网络连接', 'error');
             return;
         }
 
@@ -112,7 +112,7 @@
                     devices.forEach((device, index) => {
                         const option = document.createElement('option');
                         option.value = device.id;
-                        option.textContent = device.label || `摄像头 ${index + 1}`;
+                        option.textContent = device.label || `${REOT.i18n?.t('tools.barcode-scanner.cameraLabel') || '摄像头'} ${index + 1}`;
                         cameraSelect.appendChild(option);
                     });
 
@@ -126,12 +126,16 @@
                         cameraSelect.value = backCamera.id;
                     }
                 } else {
-                    cameraSelect.innerHTML = '<option value="">未检测到摄像头</option>';
+                    const opt = document.createElement('option');
+                    opt.value = '';
+                    opt.textContent = REOT.i18n?.t('tools.barcode-scanner.noCameraDetected') || '未检测到摄像头';
+                    cameraSelect.textContent = '';
+                    cameraSelect.appendChild(opt);
                     startBtn.disabled = true;
                 }
             } catch (err) {
                 console.error('获取摄像头失败:', err);
-                cameraSelect.innerHTML = '<option value="">获取摄像头失败</option>';
+                cameraSelect.innerHTML = '<option value="">' + (REOT.i18n?.t('tools.barcode-scanner.getCameraFailed') || '获取摄像头失败') + '</option>';
                 startBtn.disabled = true;
             }
         }
@@ -163,7 +167,7 @@
         async function startScanning() {
             const cameraId = cameraSelect.value;
             if (!cameraId) {
-                alert('请选择摄像头');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.barcode-scanner.selectCamera') || '请选择摄像头', 'warning');
                 return;
             }
 
@@ -185,7 +189,7 @@
                 cameraSelect.disabled = true;
             } catch (err) {
                 console.error('启动摄像头失败:', err);
-                alert('启动摄像头失败: ' + err.message);
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.barcode-scanner.cameraFailed') || '启动摄像头失败') + ': ' + err.message, 'error');
             }
         }
 
@@ -231,7 +235,7 @@
          * 显示结果
          */
         function showResult(content, format) {
-            resultFormat.textContent = `格式: ${format}`;
+            resultFormat.textContent = `${REOT.i18n?.t('tools.barcode-scanner.formatLabel') || '格式'}: ${format}`;
             resultContent.textContent = content;
             resultSection.style.display = 'block';
 
@@ -286,9 +290,9 @@
             const content = resultContent.textContent;
             try {
                 await navigator.clipboard.writeText(content);
-                copyBtn.textContent = '已复制!';
+                copyBtn.textContent = REOT.i18n?.t('tools.barcode-scanner.copied') || '已复制!';
                 setTimeout(() => {
-                    copyBtn.textContent = '复制内容';
+                    copyBtn.textContent = REOT.i18n?.t('tools.barcode-scanner.copyContent') || '复制内容';
                 }, 2000);
             } catch (err) {
                 // 降级方案
@@ -298,9 +302,9 @@
                 textarea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textarea);
-                copyBtn.textContent = '已复制!';
+                copyBtn.textContent = REOT.i18n?.t('tools.barcode-scanner.copied') || '已复制!';
                 setTimeout(() => {
-                    copyBtn.textContent = '复制内容';
+                    copyBtn.textContent = REOT.i18n?.t('tools.barcode-scanner.copyContent') || '复制内容';
                 }, 2000);
             }
         }
@@ -338,7 +342,7 @@
          */
         function renderHistory() {
             if (scanHistory.length === 0) {
-                historyList.innerHTML = '<li style="color: var(--text-secondary); text-align: center;">暂无扫描历史</li>';
+                historyList.innerHTML = '<li style="color: var(--text-secondary); text-align: center;">' + (REOT.i18n?.t('tools.barcode-scanner.noHistory') || '暂无扫描历史') + '</li>';
                 return;
             }
 
@@ -407,7 +411,7 @@
          */
         function handleFileSelect(file) {
             if (!file || !file.type.startsWith('image/')) {
-                alert('请选择有效的图片文件');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.barcode-scanner.selectValidImage') || '请选择有效的图片文件', 'warning');
                 return;
             }
 
@@ -427,25 +431,25 @@
         async function scanFile() {
             const file = fileInput.files[0];
             if (!file) {
-                alert('请先选择图片');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.barcode-scanner.selectImage') || '请先选择图片', 'warning');
                 return;
             }
 
             try {
-                scanFileBtn.textContent = '扫描中...';
+                scanFileBtn.textContent = REOT.i18n?.t('tools.barcode-scanner.scanning') || '扫描中...';
                 scanFileBtn.disabled = true;
 
                 const result = await html5QrCode.scanFile(file, true);
 
                 // scanFile 返回的是字符串，需要手动获取格式
-                showResult(result, '扫描结果');
+                showResult(result, REOT.i18n?.t('tools.barcode-scanner.scanResult') || '扫描结果');
                 addToHistory(result, 'FILE');
 
             } catch (err) {
                 console.error('扫描失败:', err);
-                alert('未能识别图片中的条码，请确保图片清晰且包含有效条码');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.barcode-scanner.noBarcode') || '未能识别图片中的条码，请确保图片清晰且包含有效条码', 'warning');
             } finally {
-                scanFileBtn.textContent = '扫描图片';
+                scanFileBtn.textContent = REOT.i18n?.t('tools.barcode-scanner.scanImage') || '扫描图片';
                 scanFileBtn.disabled = false;
             }
         }

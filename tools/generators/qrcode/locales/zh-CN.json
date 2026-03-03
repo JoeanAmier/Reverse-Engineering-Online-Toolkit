@@ -25,5 +25,16 @@
     "generate": "生成",
     "downloadPng": "下载PNG",
     "downloadSvg": "下载SVG",
-    "result": "生成结果"
+    "result": "生成结果",
+    "loadFailed": "加载依赖库失败，请检查网络连接",
+    "enterContent": "请输入要编码的内容",
+    "generateFailed": "生成失败",
+    "examplePrefix": "示例",
+    "infoType": "类型",
+    "infoQRCode": "QR码",
+    "infoErrorLevel": "纠错级别",
+    "infoVersion": "版本",
+    "infoModules": "模块数",
+    "infoDescription": "描述",
+    "infoData": "数据"
 }

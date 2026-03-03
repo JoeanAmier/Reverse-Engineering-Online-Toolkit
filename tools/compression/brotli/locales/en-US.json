@@ -9,5 +9,18 @@
     "inputPlaceholder": "Enter content to compress/decompress...",
     "originalSize": "Original Size",
     "compressedSize": "Compressed Size",
-    "ratio": "Compression Ratio"
+    "ratio": "Compression Ratio",
+    "compressSuccess": "Compression successful",
+    "decompressSuccess": "Decompression successful",
+    "errorNoInput": "Please enter content to compress",
+    "errorNoDecompressInput": "Please enter content to decompress or upload a file",
+    "errorInvalidFormat": "Invalid input format",
+    "errorDecompressFailed": "Decompression failed: invalid or corrupted data",
+    "noDownloadContent": "No content to download",
+    "fileLoaded": "File loaded: ",
+    "loadingCompress": "Loading Brotli library and compressing...",
+    "loadingDecompress": "Loading Brotli library and decompressing...",
+    "errorLoadLib": "Failed to load brotli-wasm",
+    "errorScriptLoad": "Failed to load brotli-wasm script",
+    "sampleText": "This is sample text for demonstrating Brotli compression.\n\nBrotli is a general-purpose lossless compression algorithm developed by Google, combining LZ77, Huffman coding, and 2nd-order context modeling.\n\nKey features:\n1. High compression ratio - about 20-26% better than GZIP\n2. Widely supported - all modern browsers support Brotli\n3. Web-optimized - especially good for HTML, CSS, JavaScript\n\nThis is sample text for demonstrating Brotli compression.\nBrotli typically achieves better compression than gzip for web content."
 }

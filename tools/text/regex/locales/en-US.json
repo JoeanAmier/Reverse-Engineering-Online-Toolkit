@@ -12,5 +12,8 @@
     "matches": "Matches",
     "highlighted": "Highlighted",
     "replaceWith": "Replace With",
-    "replace": "Replace"
+    "replace": "Replace",
+    "enterRegex": "Please enter a regular expression",
+    "error": "Error",
+    "noMatches": "No matches"
 }

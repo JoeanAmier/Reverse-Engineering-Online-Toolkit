@@ -40,7 +40,7 @@
 
             script.onerror = () => {
                 pakoLoadPromise = null;
-                reject(new Error('无法加载 pako 库，请检查网络连接'));
+                reject(new Error(REOT.i18n?.t('tools.deflate.errorLoadLib') || '无法加载 pako 库，请检查网络连接'));
             };
 
             document.head.appendChild(script);
@@ -57,7 +57,7 @@
             await loadPako();
         }
         if (!window.pako) {
-            throw new Error('pako 库加载失败');
+            throw new Error(REOT.i18n?.t('tools.deflate.errorLibNotLoaded') || 'pako 库加载失败');
         }
     }
 
@@ -201,7 +201,7 @@
                 input = hexToUint8Array(data);
             }
         } catch (e) {
-            throw new Error('输入格式无效');
+            throw new Error(REOT.i18n?.t('tools.deflate.errorInvalidFormat') || '输入格式无效');
         }
 
         try {
@@ -221,7 +221,7 @@
                 return uint8ArrayToBase64(decompressed);
             }
         } catch (e) {
-            throw new Error('解压失败: 数据格式无效或已损坏');
+            throw new Error(REOT.i18n?.t('tools.deflate.errorDecompressFailed') || '解压失败: 数据格式无效或已损坏');
         }
     }
 
@@ -260,7 +260,7 @@
     function downloadResult() {
         const output = document.getElementById('output');
         if (!output || !output.value) {
-            REOT.utils?.showNotification('没有可下载的内容', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.deflate.noDownloadContent') || '没有可下载的内容', 'warning');
             return;
         }
 
@@ -311,7 +311,7 @@
                 }
 
                 if (input) {
-                    input.value = `[文件已加载: ${file.name}]`;
+                    input.value = `[${REOT.i18n?.t('tools.deflate.fileLoaded') || '文件已加载: '}${file.name}]`;
                     input.disabled = true;
                 }
             };
@@ -347,7 +347,7 @@
                 }
 
                 if (!data || (typeof data === 'string' && !data.trim())) {
-                    REOT.utils?.showNotification('请输入要压缩的内容', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.deflate.errorNoInput') || '请输入要压缩的内容', 'warning');
                     return;
                 }
 
@@ -356,7 +356,7 @@
                     output.value = result;
                 }
 
-                REOT.utils?.showNotification('压缩成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.deflate.compressSuccess') || '压缩成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -383,10 +383,10 @@
                             compressedData = hexToUint8Array(input.value.trim());
                         }
                     } catch (e) {
-                        throw new Error('输入格式无效');
+                        throw new Error(REOT.i18n?.t('tools.deflate.errorInvalidFormat') || '输入格式无效');
                     }
                 } else {
-                    REOT.utils?.showNotification('请输入要解压的内容或上传文件', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.deflate.errorNoDecompressInput') || '请输入要解压的内容或上传文件', 'warning');
                     return;
                 }
 
@@ -408,7 +408,7 @@
                             ? window.pako.inflateRaw(compressedData)
                             : window.pako.inflate(compressedData);
                     } catch (e2) {
-                        throw new Error('解压失败: 数据格式无效或已损坏');
+                        throw new Error(REOT.i18n?.t('tools.deflate.errorDecompressFailed') || '解压失败: 数据格式无效或已损坏');
                     }
                 }
 
@@ -422,7 +422,7 @@
                     }
                 }
 
-                REOT.utils?.showNotification('解压成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.deflate.decompressSuccess') || '解压成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message || '解压失败', 'error');
             }
@@ -469,7 +469,7 @@
     // 设置默认示例数据
     const defaultInput = document.getElementById('input');
     if (defaultInput && !defaultInput.value) {
-        const sampleText = `这是一段示例文本，用于演示 Deflate 压缩功能。
+        const sampleText = REOT.i18n?.t('tools.deflate.sampleText') || `这是一段示例文本，用于演示 Deflate 压缩功能。
 
 Deflate 是一种无损数据压缩算法，结合了 LZ77 算法和霍夫曼编码。它是 GZIP、ZLIB 和 PNG 格式的基础算法。
 

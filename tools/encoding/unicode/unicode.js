@@ -171,9 +171,9 @@
         try {
             const result = encode(els.input.value, getOptions());
             els.output.value = result;
-            REOT.utils?.showNotification('编码完成', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.unicode.encodeSuccess') || '编码完成', 'success');
         } catch (error) {
-            els.output.value = `错误: ${error.message}`;
+            els.output.value = `${REOT.i18n?.t('tools.unicode.error') || '错误'}: ${error.message}`;
             REOT.utils?.showNotification(error.message, 'error');
         }
     }
@@ -188,9 +188,9 @@
         try {
             const result = decode(els.input.value);
             els.output.value = result;
-            REOT.utils?.showNotification('解码完成', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.unicode.decodeSuccess') || '解码完成', 'success');
         } catch (error) {
-            els.output.value = `错误: ${error.message}`;
+            els.output.value = `${REOT.i18n?.t('tools.unicode.error') || '错误'}: ${error.message}`;
             REOT.utils?.showNotification(error.message, 'error');
         }
     }

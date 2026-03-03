@@ -6,5 +6,6 @@
     "decimalEntities": "十进制实体",
     "hexEntities": "十六进制实体",
     "encodeAll": "编码所有字符",
-    "inputPlaceholder": "请输入 HTML 文本..."
+    "inputPlaceholder": "请输入 HTML 文本...",
+    "error": "错误"
 }

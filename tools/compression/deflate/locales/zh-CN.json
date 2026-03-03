@@ -10,5 +10,16 @@
     "uploadFile": "上传文件",
     "originalSize": "原始大小",
     "compressedSize": "压缩后大小",
-    "compressionRatio": "压缩率"
+    "compressionRatio": "压缩率",
+    "compressSuccess": "压缩成功",
+    "decompressSuccess": "解压成功",
+    "errorNoInput": "请输入要压缩的内容",
+    "errorNoDecompressInput": "请输入要解压的内容或上传文件",
+    "errorInvalidFormat": "输入格式无效",
+    "errorDecompressFailed": "解压失败: 数据格式无效或已损坏",
+    "noDownloadContent": "没有可下载的内容",
+    "fileLoaded": "文件已加载: ",
+    "errorLoadLib": "无法加载 pako 库，请检查网络连接",
+    "errorLibNotLoaded": "pako 库加载失败",
+    "sampleText": "这是一段示例文本，用于演示 Deflate 压缩功能。\n\nDeflate 是一种无损数据压缩算法，结合了 LZ77 算法和霍夫曼编码。它是 GZIP、ZLIB 和 PNG 格式的基础算法。\n\n主要特点：\n1. 高效压缩 - 对于文本文件通常可以达到 60-80% 的压缩率\n2. 广泛应用 - ZIP 文件、HTTP 压缩传输等都使用 Deflate\n3. 原始格式 - 可选择是否包含 zlib 头部信息\n\nThis is sample text for demonstrating Deflate compression.\nDeflate combines LZ77 and Huffman coding algorithms."
 }

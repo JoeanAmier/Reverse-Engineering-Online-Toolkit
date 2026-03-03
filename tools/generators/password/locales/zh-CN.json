@@ -10,5 +10,10 @@
     "noAmbiguous": "排除歧义字符 ({}[]())",
     "generateNew": "生成新密码",
     "history": "历史记录",
-    "strength": "强度"
+    "strength": "强度",
+    "weak": "弱",
+    "medium": "中",
+    "strong": "强",
+    "veryStrong": "非常强",
+    "selectCharType": "请选择至少一种字符类型"
 }

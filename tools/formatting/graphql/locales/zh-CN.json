@@ -23,12 +23,13 @@
     "fbApiResult": "Facebook/Instagram API 请求解析",
     "docId": "Doc ID (查询标识)",
     "friendlyName": "API 名称",
-    "variablesJson": "Variables (JSON)",
+    "variablesJson": "变量 (JSON)",
     "allParams": "所有参数",
     "aboutTitle": "关于 GraphQL",
     "aboutDesc": "GraphQL 是一种用于 API 的查询语言，由 Facebook 开发。它提供了一种更高效、更强大的数据获取方式。",
     "operationTypes": "操作类型",
     "features": "主要特性",
     "fbApiSupport": "FB/IG API 支持",
-    "usageNote": "使用提示：支持标准 GraphQL 语法格式化，以及 Facebook/Instagram API 的 URL 编码请求解析。"
+    "usageNote": "使用提示：支持标准 GraphQL 语法格式化，以及 Facebook/Instagram API 的 URL 编码请求解析。",
+    "none": "无"
 }

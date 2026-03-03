@@ -9,5 +9,7 @@
     "extension": "Extension",
     "suggestedExt": "Suggested Extension",
     "magicNumber": "Magic Number",
-    "supportedTypes": "Supported File Types"
+    "supportedTypes": "Supported File Types",
+    "unknownType": "Unable to identify this file type. The file may be plain text, corrupted binary, or not in the supported list.",
+    "extMismatch": "File extension does not match detected type! The file may have been renamed or disguised."
 }

@@ -25,5 +25,9 @@
     "fileError": "文件读取失败",
     "error": "错误: ",
     "errorNoInput": "请输入数据",
-    "errorNoData": "没有可下载的数据"
+    "errorNoData": "没有可下载的数据",
+    "loadError": "无法加载 CBOR 库",
+    "invalidJson": "无效的 JSON 格式",
+    "invalidBase64": "无效的 Base64 格式",
+    "invalidHex": "无效的 Hex 格式"
 }

@@ -246,11 +246,11 @@
                 return JSON.parse(converted);
             } catch (e2) {
                 // Python 转换失败，显示转换后的错误
-                throw new Error(`Python Dict 转换后解析失败: ${e2.message}`);
+                throw new Error(`${REOT.i18n?.t('tools.json.pythonParseError') || 'Python Dict 转换后解析失败'}: ${e2.message}`);
             }
         }
 
-        throw new Error(`JSON 解析错误: ${lastError.message}`);
+        throw new Error(`${REOT.i18n?.t('tools.json.jsonParseError') || 'JSON 解析错误'}: ${lastError.message}`);
     }
 
     /**
@@ -859,7 +859,7 @@
         }
 
         if (!currentJson) {
-            REOT.utils?.showNotification('请先输入有效的 JSON', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.json.enterValidJson') || '请先输入有效的 JSON', 'warning');
             return;
         }
 

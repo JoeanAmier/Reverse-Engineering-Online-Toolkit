@@ -41,7 +41,7 @@
             };
             script.onerror = () => {
                 xxhashLoadingPromise = null;
-                reject(new Error('无法加载 xxHash 库'));
+                reject(new Error(REOT.i18n?.t('tools.xxhash.errorLoadLib') || '无法加载 xxHash 库'));
             };
             document.head.appendChild(script);
         });
@@ -97,7 +97,7 @@
         if (isHex) {
             const cleaned = value.replace(/\s/g, '');
             if (!/^[0-9a-fA-F]*$/.test(cleaned) || cleaned.length % 2 !== 0) {
-                throw new Error('无效的 Hex 字符串');
+                throw new Error(REOT.i18n?.t('tools.xxhash.errorInvalidHex') || '无效的 Hex 字符串');
             }
             return hexToBytes(cleaned);
         }
@@ -120,7 +120,7 @@
 
         const num = parseInt(trimmed, 10);
         if (isNaN(num)) {
-            throw new Error('无效的种子值');
+            throw new Error(REOT.i18n?.t('tools.xxhash.errorInvalidSeed') || '无效的种子值');
         }
         return num;
     }
@@ -169,7 +169,7 @@
     function calculateHash(data, variant, seed) {
         // 检查 XXH 是否已加载
         if (typeof XXH === 'undefined') {
-            throw new Error('xxHash 库未加载');
+            throw new Error(REOT.i18n?.t('tools.xxhash.errorLibNotLoaded') || 'xxHash 库未加载');
         }
 
         const input = toHashInput(data);
@@ -249,7 +249,7 @@
      */
     async function copyResult() {
         const output = outputEl.value;
-        if (output && !output.startsWith('请') && !output.startsWith('计算失败')) {
+        if (output && !output.startsWith('Please') && !output.startsWith('请') && !output.startsWith('Hash') && !output.startsWith('计算失败')) {
             const success = await REOT.utils?.copyToClipboard(output);
             if (success) {
                 REOT.utils?.showNotification(REOT.i18n?.t('common.copied') || '已复制', 'success');

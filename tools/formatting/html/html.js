@@ -506,7 +506,7 @@
                 value: '',
                 readOnly: false,
                 theme: theme,
-                placeholder: '请输入 HTML 代码...'
+                placeholder: REOT.i18n?.t('tools.html.inputPlaceholder') || '请输入 HTML 代码...'
             });
 
             outputEditor = await REOT.CodeEditor.create('#output-editor', {
@@ -541,9 +541,9 @@
                 const options = getOptions();
                 const result = formatHtml(getInputValue(), options);
                 setOutputValue(result);
-                REOT.utils?.showNotification('格式化成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.html.formatSuccess') || '格式化成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('格式化失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.html.formatFailed') || '格式化失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -551,9 +551,9 @@
             try {
                 const result = minifyHtml(getInputValue());
                 setOutputValue(result);
-                REOT.utils?.showNotification('压缩成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.html.minifySuccess') || '压缩成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('压缩失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.html.minifyFailed') || '压缩失败') + ': ' + error.message, 'error');
             }
         }
 

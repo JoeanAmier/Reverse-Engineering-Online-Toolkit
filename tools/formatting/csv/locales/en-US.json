@@ -14,5 +14,13 @@
     "cells": "Cells",
     "tablePreview": "Table Preview",
     "jsonOutput": "JSON Output",
-    "downloadCsv": "Download CSV"
+    "downloadCsv": "Download CSV",
+    "enterCsv": "Please enter CSV content",
+    "parseSuccess": "Parse successful",
+    "parseFailed": "Parse failed",
+    "enterJson": "Please enter JSON content",
+    "convertSuccess": "Conversion successful",
+    "convertFailed": "Conversion failed",
+    "jsonParseFailed": "JSON parse failed",
+    "noDownloadData": "No data to download"
 }

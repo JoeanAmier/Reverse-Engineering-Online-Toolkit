@@ -6,5 +6,12 @@
     "outputFormat": "输出格式",
     "uploadFile": "上传文件",
     "hashAll": "计算所有",
-    "allHashes": "所有哈希值"
+    "allHashes": "所有哈希值",
+    "errorNoInput": "请输入要计算哈希的内容",
+    "hashComplete": "哈希计算完成",
+    "allHashComplete": "所有哈希计算完成",
+    "errorUnsupportedAlg": "不支持的算法: ",
+    "fileLoaded": "文件已加载: ",
+    "errorLoadLib": "无法加载 js-sha3 库，请检查网络连接",
+    "errorLibNotLoaded": "js-sha3 库加载失败"
 }

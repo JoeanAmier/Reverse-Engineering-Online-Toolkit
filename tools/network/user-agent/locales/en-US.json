@@ -19,5 +19,13 @@
     "isBot": "Is Bot",
     "isMobile": "Is Mobile",
     "cpu": "CPU Architecture",
-    "jsonOutput": "JSON Output"
+    "jsonOutput": "JSON Output",
+    "errorEmpty": "Please enter a User-Agent string",
+    "parseSuccess": "Parsed successfully",
+    "parseFailed": "Parse failed",
+    "getBrowserSuccess": "Got current browser User-Agent",
+    "isBotYes": "Yes",
+    "isBotNo": "No",
+    "isMobileYes": "Yes",
+    "isMobileNo": "No"
 }

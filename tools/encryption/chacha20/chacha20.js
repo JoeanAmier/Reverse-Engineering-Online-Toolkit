@@ -15,10 +15,10 @@
     class ChaCha20 {
         constructor(key, nonce, counter = 0) {
             if (key.length !== 32) {
-                throw new Error('密钥必须是 32 字节');
+                throw new Error(REOT.i18n?.t('tools.chacha20.errorKeyLength') || '密钥必须是 32 字节');
             }
             if (nonce.length !== 12) {
-                throw new Error('Nonce 必须是 12 字节');
+                throw new Error(REOT.i18n?.t('tools.chacha20.errorNonceLength') || 'Nonce 必须是 12 字节');
             }
 
             this.key = key;
@@ -146,7 +146,7 @@
     class Poly1305 {
         constructor(key) {
             if (key.length !== 32) {
-                throw new Error('Poly1305 密钥必须是 32 字节');
+                throw new Error(REOT.i18n?.t('tools.chacha20.errorPoly1305KeyLength') || 'Poly1305 密钥必须是 32 字节');
             }
 
             // 解析 r 和 s
@@ -240,7 +240,7 @@
     class ChaCha20Poly1305 {
         constructor(key) {
             if (key.length !== 32) {
-                throw new Error('密钥必须是 32 字节');
+                throw new Error(REOT.i18n?.t('tools.chacha20.errorKeyLength') || '密钥必须是 32 字节');
             }
             this.key = key;
         }
@@ -271,7 +271,7 @@
 
         decrypt(nonce, ciphertext, aad = new Uint8Array(0)) {
             if (ciphertext.length < 16) {
-                throw new Error('密文太短');
+                throw new Error(REOT.i18n?.t('tools.chacha20.errorCiphertextShort') || '密文太短');
             }
 
             const actualCiphertext = ciphertext.slice(0, -16);
@@ -294,7 +294,7 @@
                 diff |= tag[i] ^ expectedTag[i];
             }
             if (diff !== 0) {
-                throw new Error('认证失败：标签不匹配');
+                throw new Error(REOT.i18n?.t('tools.chacha20.errorAuthFailed') || '认证失败：标签不匹配');
             }
 
             // 解密
@@ -542,24 +542,24 @@
         if (target.id === 'encrypt-btn' || target.closest('#encrypt-btn')) {
             try {
                 if (!inputEl?.value) {
-                    REOT.utils?.showNotification('请输入要加密的内容', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.chacha20.enterContent') || '请输入要加密的内容', 'warning');
                     return;
                 }
                 if (!keyInput?.value.trim()) {
-                    REOT.utils?.showNotification('请输入密钥', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.chacha20.enterKey') || '请输入密钥', 'warning');
                     return;
                 }
                 if (!nonceInput?.value.trim()) {
-                    REOT.utils?.showNotification('请输入 Nonce', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.chacha20.enterNonce') || '请输入 Nonce', 'warning');
                     return;
                 }
 
                 const result = encrypt(inputEl.value);
                 if (outputEl) outputEl.value = result;
-                REOT.utils?.showNotification('加密成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.chacha20.encryptSuccess') || '加密成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('加密失败: ' + error.message, 'error');
-                if (outputEl) outputEl.value = '错误: ' + error.message;
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.chacha20.encryptFailed') || '加密失败') + ': ' + error.message, 'error');
+                if (outputEl) outputEl.value = (REOT.i18n?.t('tools.chacha20.errorPrefix') || '错误') + ': ' + error.message;
             }
         }
 
@@ -567,24 +567,24 @@
         if (target.id === 'decrypt-btn' || target.closest('#decrypt-btn')) {
             try {
                 if (!inputEl?.value) {
-                    REOT.utils?.showNotification('请输入要解密的内容', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.chacha20.enterDecryptContent') || '请输入要解密的内容', 'warning');
                     return;
                 }
                 if (!keyInput?.value.trim()) {
-                    REOT.utils?.showNotification('请输入密钥', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.chacha20.enterKey') || '请输入密钥', 'warning');
                     return;
                 }
                 if (!nonceInput?.value.trim()) {
-                    REOT.utils?.showNotification('请输入 Nonce', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.chacha20.enterNonce') || '请输入 Nonce', 'warning');
                     return;
                 }
 
                 const result = decrypt(inputEl.value);
                 if (outputEl) outputEl.value = result;
-                REOT.utils?.showNotification('解密成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.chacha20.decryptSuccess') || '解密成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('解密失败: ' + error.message, 'error');
-                if (outputEl) outputEl.value = '错误: ' + error.message;
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.chacha20.decryptFailed') || '解密失败') + ': ' + error.message, 'error');
+                if (outputEl) outputEl.value = (REOT.i18n?.t('tools.chacha20.errorPrefix') || '错误') + ': ' + error.message;
             }
         }
 

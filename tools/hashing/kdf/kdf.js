@@ -44,7 +44,7 @@
             };
             script.onerror = () => {
                 bcryptLoadingPromise = null;
-                reject(new Error('无法加载 bcrypt 库'));
+                reject(new Error(REOT.i18n?.t('tools.kdf.errorLoadBcrypt') || '无法加载 bcrypt 库'));
             };
             document.head.appendChild(script);
         });
@@ -233,7 +233,7 @@
 
         return new Promise((resolve, reject) => {
             if (typeof dcodeIO === 'undefined' || !dcodeIO.bcrypt) {
-                reject(new Error('bcrypt 库未加载'));
+                reject(new Error(REOT.i18n?.t('tools.kdf.errorBcryptNotLoaded') || 'bcrypt 库未加载'));
                 return;
             }
 
@@ -256,7 +256,7 @@
 
         return new Promise((resolve, reject) => {
             if (typeof dcodeIO === 'undefined' || !dcodeIO.bcrypt) {
-                reject(new Error('bcrypt 库未加载'));
+                reject(new Error(REOT.i18n?.t('tools.kdf.errorBcryptNotLoaded') || 'bcrypt 库未加载'));
                 return;
             }
 
@@ -404,7 +404,7 @@
 
     if (pbkdf2CopyBtn) {
         pbkdf2CopyBtn.addEventListener('click', async () => {
-            if (pbkdf2Output.value && !pbkdf2Output.value.startsWith('请') && !pbkdf2Output.value.startsWith('正在')) {
+            if (pbkdf2Output.value && !pbkdf2Output.value.startsWith('Please') && !pbkdf2Output.value.startsWith('请') && !pbkdf2Output.value.startsWith('Generat') && !pbkdf2Output.value.startsWith('正在')) {
                 const success = await REOT.utils?.copyToClipboard(pbkdf2Output.value);
                 if (success) {
                     REOT.utils?.showNotification(REOT.i18n?.t('common.copied') || '已复制', 'success');
@@ -452,7 +452,7 @@
     if (bcryptCopyBtn) {
         bcryptCopyBtn.addEventListener('click', async () => {
             const output = bcryptOutput.value;
-            if (output && !output.startsWith('请') && !output.startsWith('正在') && !output.startsWith('✓') && !output.startsWith('✗')) {
+            if (output && !output.startsWith('Please') && !output.startsWith('请') && !output.startsWith('Generat') && !output.startsWith('正在') && !output.startsWith('✓') && !output.startsWith('✗')) {
                 const success = await REOT.utils?.copyToClipboard(output);
                 if (success) {
                     REOT.utils?.showNotification(REOT.i18n?.t('common.copied') || '已复制', 'success');

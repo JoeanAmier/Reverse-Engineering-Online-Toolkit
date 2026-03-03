@@ -9,5 +9,22 @@
     "inputPlaceholder": "Enter content to compress/decompress...",
     "originalSize": "Original Size",
     "compressedSize": "Compressed Size",
-    "ratio": "Compression Ratio"
+    "ratio": "Compression Ratio",
+    "compressSuccess": "Compression successful",
+    "decompressSuccess": "Decompression successful",
+    "errorNoInput": "Please enter content to compress",
+    "errorNoDecompressInput": "Please enter content to decompress or upload a file",
+    "errorInvalidFormat": "Invalid input format",
+    "errorDecompressFailed": "Decompression failed: invalid or corrupted data",
+    "noDownloadContent": "No content to download",
+    "fileLoaded": "File loaded: ",
+    "errorLoadLib": "Failed to load ZSTD decompression library",
+    "errorDecompressZstd": "ZSTD decompression failed: ",
+    "errorInvalidCompressFormat": "Invalid format: neither ZSTD nor this tool format",
+    "compressSuccessCustom": "Compression successful (tool format)",
+    "decompressing": "Decompressing...",
+    "fileTypeBinary": "Binary file",
+    "fileTypeZstd": "ZSTD compressed file",
+    "fileTypeCustom": "Tool compressed file",
+    "sampleText": "This is sample text for demonstrating compression.\n\nZSTD (Zstandard) is a fast compression algorithm developed by Facebook.\n\nKey features:\n1. High compression ratio with fast speed\n2. Adjustable compression level (1-22)\n3. Dictionary compression support\n4. Widely used in data storage and transfer\n\nTips:\n- Upload .zst files to decompress real ZSTD compressed files\n- The compression feature uses a simplified algorithm for demonstration\n\nThis is sample text for demonstrating compression."
 }

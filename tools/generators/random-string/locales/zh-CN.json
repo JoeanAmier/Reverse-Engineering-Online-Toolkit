@@ -7,5 +7,6 @@
     "lowercase": "小写字母 (a-z)",
     "numbers": "数字 (0-9)",
     "symbols": "特殊字符 (!@#$...)",
-    "customChars": "自定义字符集"
+    "customChars": "自定义字符集",
+    "selectCharType": "请选择至少一种字符类型"
 }

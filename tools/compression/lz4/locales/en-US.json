@@ -11,5 +11,16 @@
     "inputPlaceholder": "Enter content to compress/decompress...",
     "originalSize": "Original Size",
     "compressedSize": "Compressed Size",
-    "ratio": "Compression Ratio"
+    "ratio": "Compression Ratio",
+    "compressSuccess": "Compression successful",
+    "decompressSuccess": "Decompression successful",
+    "errorNoInput": "Please enter content to compress",
+    "errorNoDecompressInput": "Please enter content to decompress or upload a file",
+    "errorInvalidFormat": "Invalid input format",
+    "errorDecompressFailed": "Decompression failed: invalid or corrupted data",
+    "noDownloadContent": "No content to download",
+    "fileLoaded": "File loaded: ",
+    "errorInvalidMagic": "Invalid LZ4 format: Magic Number mismatch",
+    "errorInvalidOffset": "Invalid LZ4 data: offset is 0",
+    "sampleText": "This is sample text for demonstrating LZ4 compression.\n\nLZ4 is an extremely fast compression algorithm focused on compression and decompression speed.\n\nKey features:\n1. Ultra-fast decompression (~5 GB/s)\n2. High compression speed (~780 MB/s)\n3. Two modes: fast mode and high compression mode\n4. Widely used in real-time data processing\n\nThis is sample text for demonstrating LZ4 compression.\nLZ4 provides extremely fast compression and decompression speeds."
 }

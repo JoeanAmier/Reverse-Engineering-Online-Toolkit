@@ -5,5 +5,9 @@
     "caseSensitive": "区分大小写",
     "trimWhitespace": "去除首尾空白",
     "keepEmpty": "保留空行",
-    "deduplicate": "去重"
+    "deduplicate": "去重",
+    "original": "原始",
+    "lines": "行",
+    "afterDedup": "去重后",
+    "removed": "移除"
 }

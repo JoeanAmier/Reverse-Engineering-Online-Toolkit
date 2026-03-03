@@ -9,5 +9,18 @@
     "inputPlaceholder": "请输入要压缩/解压的内容...",
     "originalSize": "原始大小",
     "compressedSize": "压缩后大小",
-    "ratio": "压缩率"
+    "ratio": "压缩率",
+    "compressSuccess": "压缩成功",
+    "decompressSuccess": "解压成功",
+    "errorNoInput": "请输入要压缩的内容",
+    "errorNoDecompressInput": "请输入要解压的内容或上传文件",
+    "errorInvalidFormat": "输入格式无效",
+    "errorDecompressFailed": "解压失败: 数据格式无效或已损坏",
+    "noDownloadContent": "没有可下载的内容",
+    "fileLoaded": "文件已加载: ",
+    "loadingCompress": "正在加载 Brotli 库并压缩...",
+    "loadingDecompress": "正在加载 Brotli 库并解压...",
+    "errorLoadLib": "brotli-wasm 加载失败",
+    "errorScriptLoad": "brotli-wasm 脚本加载失败",
+    "sampleText": "这是一段示例文本，用于演示 Brotli 压缩功能。\n\nBrotli 是 Google 开发的通用无损压缩算法，结合了 LZ77、霍夫曼编码和二阶上下文建模。\n\n主要特点：\n1. 高压缩率 - 比 GZIP 高约 20-26%\n2. 广泛应用 - 现代浏览器都支持 Brotli\n3. 适合 Web - 特别适合压缩 HTML、CSS、JavaScript\n\nThis is sample text for demonstrating Brotli compression.\nBrotli typically achieves better compression than gzip for web content."
 }

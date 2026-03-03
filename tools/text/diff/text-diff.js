@@ -141,9 +141,9 @@
         const { html, stats } = renderDiff(diffs);
 
         diffStats.innerHTML = `
-            <span class="stat-item stat-insert">+${stats.insertCount} 新增</span>
-            <span class="stat-item stat-delete">-${stats.deleteCount} 删除</span>
-            <span class="stat-item stat-equal">${stats.equalCount} 相同</span>
+            <span class="stat-item stat-insert">+${stats.insertCount} ${REOT.i18n?.t('tools.text-diff.added') || '新增'}</span>
+            <span class="stat-item stat-delete">-${stats.deleteCount} ${REOT.i18n?.t('tools.text-diff.deleted') || '删除'}</span>
+            <span class="stat-item stat-equal">${stats.equalCount} ${REOT.i18n?.t('tools.text-diff.equal') || '相同'}</span>
         `;
 
         diffOutput.innerHTML = html;

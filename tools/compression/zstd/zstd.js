@@ -32,7 +32,7 @@
                 resolve(window.fzstd);
             };
             script.onerror = () => {
-                reject(new Error('无法加载 ZSTD 解压库'));
+                reject(new Error(REOT.i18n?.t('tools.zstd.errorLoadLib') || '无法加载 ZSTD 解压库'));
             };
             document.head.appendChild(script);
         });
@@ -178,7 +178,7 @@
             try {
                 return fzstd.decompress(data);
             } catch (e) {
-                throw new Error('ZSTD 解压失败: ' + e.message);
+                throw new Error((REOT.i18n?.t('tools.zstd.errorDecompressZstd') || 'ZSTD 解压失败: ') + e.message);
             }
         }
 
@@ -195,7 +195,7 @@
             return decompressed;
         }
 
-        throw new Error('无效的压缩格式：既不是 ZSTD 也不是本工具的压缩格式');
+        throw new Error(REOT.i18n?.t('tools.zstd.errorInvalidCompressFormat') || '无效的压缩格式：既不是 ZSTD 也不是本工具的压缩格式');
     }
 
     // ========== 工具函数 ==========
@@ -277,7 +277,7 @@
     function downloadResult(isDecompressed = false) {
         const output = document.getElementById('output');
         if (!output || !output.value) {
-            REOT.utils?.showNotification('没有可下载的内容', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.zstd.noDownloadContent') || '没有可下载的内容', 'warning');
             return;
         }
 
@@ -341,13 +341,13 @@
 
                 if (input) {
                     // 检测文件类型
-                    let fileType = '二进制文件';
+                    let fileType = REOT.i18n?.t('tools.zstd.fileTypeBinary') || '二进制文件';
                     if (isRealZstd(currentFileData)) {
-                        fileType = 'ZSTD 压缩文件';
+                        fileType = REOT.i18n?.t('tools.zstd.fileTypeZstd') || 'ZSTD 压缩文件';
                     } else if (isCustomFormat(currentFileData)) {
-                        fileType = '本工具压缩文件';
+                        fileType = REOT.i18n?.t('tools.zstd.fileTypeCustom') || '本工具压缩文件';
                     }
-                    input.value = `[${fileType}已加载: ${file.name}]`;
+                    input.value = `[${fileType} - ${REOT.i18n?.t('tools.zstd.fileLoaded') || '文件已加载: '}${file.name}]`;
                     input.disabled = true;
                 }
             };
@@ -377,7 +377,7 @@
                 }
 
                 if (!data || (typeof data === 'string' && !data.trim())) {
-                    REOT.utils?.showNotification('请输入要压缩的内容', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.zstd.errorNoInput') || '请输入要压缩的内容', 'warning');
                     return;
                 }
 
@@ -393,7 +393,7 @@
                         : uint8ArrayToHex(compressed);
                 }
 
-                REOT.utils?.showNotification('压缩成功 (本工具格式)', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.zstd.compressSuccessCustom') || '压缩成功 (本工具格式)', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -419,15 +419,15 @@
                             compressedData = hexToUint8Array(input.value.trim());
                         }
                     } catch (e) {
-                        throw new Error('输入格式无效');
+                        throw new Error(REOT.i18n?.t('tools.zstd.errorInvalidFormat') || '输入格式无效');
                     }
                 } else {
-                    REOT.utils?.showNotification('请输入要解压的内容或上传文件', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.zstd.errorNoDecompressInput') || '请输入要解压的内容或上传文件', 'warning');
                     return;
                 }
 
                 // 显示加载提示
-                REOT.utils?.showNotification('正在解压...', 'info');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.zstd.decompressing') || '正在解压...', 'info');
 
                 const decompressed = await decompress(compressedData);
                 updateStats(decompressed.length, compressedData.length);
@@ -442,7 +442,7 @@
                     }
                 }
 
-                REOT.utils?.showNotification('解压成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.zstd.decompressSuccess') || '解压成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -496,7 +496,7 @@
     // 设置默认示例数据
     const defaultInput = document.getElementById('input');
     if (defaultInput && !defaultInput.value) {
-        const sampleText = `这是一段示例文本，用于演示压缩功能。
+        const sampleText = REOT.i18n?.t('tools.zstd.sampleText') || `这是一段示例文本，用于演示压缩功能。
 
 ZSTD (Zstandard) 是由 Facebook 开发的快速压缩算法。
 

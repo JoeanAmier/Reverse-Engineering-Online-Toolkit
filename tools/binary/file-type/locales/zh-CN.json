@@ -9,5 +9,7 @@
     "extension": "扩展名",
     "suggestedExt": "建议扩展名",
     "magicNumber": "Magic Number",
-    "supportedTypes": "支持检测的文件类型"
+    "supportedTypes": "支持检测的文件类型",
+    "unknownType": "无法识别此文件类型。文件可能是纯文本、损坏的二进制文件或不在支持列表中的格式。",
+    "extMismatch": "文件扩展名与检测到的真实类型不匹配！这可能是文件被重命名或伪装。"
 }

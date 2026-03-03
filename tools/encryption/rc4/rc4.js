@@ -66,10 +66,10 @@
      */
     function rc4(data, key) {
         if (key.length === 0) {
-            throw new Error('密钥不能为空');
+            throw new Error(REOT.i18n?.t('tools.rc4.errorEmptyKey') || '密钥不能为空');
         }
         if (key.length > 256) {
-            throw new Error('密钥长度不能超过 256 字节');
+            throw new Error(REOT.i18n?.t('tools.rc4.errorKeyTooLong') || '密钥长度不能超过 256 字节');
         }
 
         const S = ksa(key);
@@ -103,7 +103,7 @@
     function hexToBytes(hex) {
         hex = hex.replace(/\s/g, '');
         if (hex.length % 2 !== 0) {
-            throw new Error('无效的 Hex 字符串');
+            throw new Error(REOT.i18n?.t('tools.rc4.errorInvalidHex') || '无效的 Hex 字符串');
         }
         const bytes = new Uint8Array(hex.length / 2);
         for (let i = 0; i < bytes.length; i++) {
@@ -198,11 +198,11 @@
         const outputFormat = document.getElementById('output-format')?.value || 'hex';
 
         if (!inputEl?.value.trim()) {
-            throw new Error('请输入要处理的内容');
+            throw new Error(REOT.i18n?.t('tools.rc4.enterContent') || '请输入要处理的内容');
         }
 
         if (!keyInput?.value.trim()) {
-            throw new Error('请输入密钥');
+            throw new Error(REOT.i18n?.t('tools.rc4.enterKey') || '请输入密钥');
         }
 
         // 解析输入
@@ -248,11 +248,11 @@
         if (target.id === 'process-btn' || target.closest('#process-btn')) {
             try {
                 process();
-                REOT.utils?.showNotification('处理成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.rc4.processSuccess') || '处理成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
                 const outputEl = document.getElementById('output');
-                if (outputEl) outputEl.value = '错误: ' + error.message;
+                if (outputEl) outputEl.value = (REOT.i18n?.t('tools.rc4.errorPrefix') || '错误') + ': ' + error.message;
             }
         }
 

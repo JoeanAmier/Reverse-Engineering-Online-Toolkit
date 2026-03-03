@@ -10,5 +10,13 @@
     "privateKeyPlaceholder": "私钥将显示在这里...",
     "inputPlaceholder": "请输入要加密/解密的内容...",
     "keysGenerated": "密钥对已生成",
-    "note": "注意：使用公钥加密，私钥解密。RSA 加密的数据长度受限于密钥长度。"
+    "note": "注意：使用公钥加密，私钥解密。RSA 加密的数据长度受限于密钥长度。",
+    "generating": "生成中...",
+    "enterContent": "请输入要加密的内容",
+    "enterDecryptContent": "请输入要解密的内容",
+    "enterPublicKey": "请输入或生成公钥",
+    "enterPrivateKey": "请输入私钥",
+    "encryptFailed": "加密失败",
+    "decryptFailed": "解密失败",
+    "errorPrefix": "错误"
 }

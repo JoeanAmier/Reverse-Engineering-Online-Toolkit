@@ -16,5 +16,9 @@
     "searchPlaceholder": "搜索 Hex 或 ASCII...",
     "loadMore": "加载更多",
     "loadAll": "显示全部",
-    "dataLoaded": "全部数据已加载"
+    "dataLoaded": "全部数据已加载",
+    "allDataLoaded": "全部数据已加载",
+    "enterTextOrUpload": "请输入文本或上传文件",
+    "hexGenerated": "Hex 视图已生成",
+    "loadAllWarning": "即将加载 {0} 数据，这可能导致页面卡顿或无响应。\n\n确定要继续吗？"
 }

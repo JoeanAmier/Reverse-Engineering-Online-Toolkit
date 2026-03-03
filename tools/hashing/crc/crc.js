@@ -198,7 +198,7 @@
         const text = inputText.value;
         if (!text) {
             resultSection.style.display = 'none';
-            REOT.utils?.showNotification('请输入要计算的数据', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.crc.errorNoInput') || '请输入要计算的数据', 'warning');
             return;
         }
 
@@ -270,9 +270,9 @@
             `;
 
             resultSection.style.display = 'block';
-            REOT.utils?.showNotification('计算完成', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.crc.calcComplete') || '计算完成', 'success');
         } catch (e) {
-            REOT.utils?.showNotification('计算失败: ' + e.message, 'error');
+            REOT.utils?.showNotification((REOT.i18n?.t('tools.crc.calcError') || '计算失败: ') + e.message, 'error');
         }
     }
 

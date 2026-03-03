@@ -9,5 +9,12 @@
     "hashLower": "哈希值 (小写)",
     "hashUpper": "哈希值 (大写)",
     "aboutBlake2": "关于 BLAKE2",
-    "aboutDesc": "BLAKE2 是一种快速、安全的加密哈希函数，由 Jean-Philippe Aumasson 等人设计。它比 MD5 和 SHA-2 更快，同时提供更高的安全性。BLAKE2b 针对 64 位平台优化，输出长度可达 64 字节；BLAKE2s 针对 32 位平台优化，输出长度可达 32 字节。"
+    "aboutDesc": "BLAKE2 是一种快速、安全的加密哈希函数，由 Jean-Philippe Aumasson 等人设计。它比 MD5 和 SHA-2 更快，同时提供更高的安全性。BLAKE2b 针对 64 位平台优化，输出长度可达 64 字节；BLAKE2s 针对 32 位平台优化，输出长度可达 32 字节。",
+    "error": "错误: ",
+    "hashComplete": "哈希计算完成",
+    "fileLoaded": "文件已加载: ",
+    "errorB2bOutputLen": "BLAKE2b 输出长度必须在 1-64 字节之间",
+    "errorB2bKeyLen": "BLAKE2b 密钥长度不能超过 64 字节",
+    "errorB2sOutputLen": "BLAKE2s 输出长度必须在 1-32 字节之间",
+    "errorB2sKeyLen": "BLAKE2s 密钥长度不能超过 32 字节"
 }

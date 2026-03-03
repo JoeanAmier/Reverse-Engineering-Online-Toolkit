@@ -6,5 +6,12 @@
     "outputFormat": "Output Format",
     "uploadFile": "Upload File",
     "hashAll": "Hash All",
-    "allHashes": "All Hashes"
+    "allHashes": "All Hashes",
+    "errorNoInput": "Please enter content to hash",
+    "hashComplete": "Hash calculation complete",
+    "allHashComplete": "All hashes calculated",
+    "errorUnsupportedAlg": "Unsupported algorithm: ",
+    "fileLoaded": "File loaded: ",
+    "errorLoadLib": "Failed to load js-sha3 library, please check network connection",
+    "errorLibNotLoaded": "js-sha3 library failed to load"
 }

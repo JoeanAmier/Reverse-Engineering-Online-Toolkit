@@ -144,14 +144,15 @@
         const months = Math.floor(days / 30);
         const years = Math.floor(days / 365);
 
-        const suffix = diff >= 0 ? '前' : '后';
+        const t = (key, fallback) => REOT.i18n?.t(`tools.snowflake.${key}`) || fallback;
+        const suffix = diff >= 0 ? t('ago', '前') : t('later', '后');
 
-        if (years > 0) return `${years} 年${suffix}`;
-        if (months > 0) return `${months} 个月${suffix}`;
-        if (days > 0) return `${days} 天${suffix}`;
-        if (hours > 0) return `${hours} 小时${suffix}`;
-        if (minutes > 0) return `${minutes} 分钟${suffix}`;
-        return `${seconds} 秒${suffix}`;
+        if (years > 0) return `${years} ${t('relYear', '年')}${suffix}`;
+        if (months > 0) return `${months} ${t('relMonth', '个月')}${suffix}`;
+        if (days > 0) return `${days} ${t('relDay', '天')}${suffix}`;
+        if (hours > 0) return `${hours} ${t('relHour', '小时')}${suffix}`;
+        if (minutes > 0) return `${minutes} ${t('relMinute', '分钟')}${suffix}`;
+        return `${seconds} ${t('relSecond', '秒')}${suffix}`;
     }
 
     /**

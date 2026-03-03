@@ -71,7 +71,7 @@
         const charset = getCharset();
 
         if (!charset) {
-            outputEl.value = '请选择至少一种字符类型';
+            outputEl.value = REOT.i18n?.t('tools.random-string.selectCharType') || '请选择至少一种字符类型';
             return;
         }
 

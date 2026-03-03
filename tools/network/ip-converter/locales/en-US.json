@@ -8,5 +8,15 @@
     "binary": "Binary",
     "ipInfo": "IP Address Info",
     "type": "Type:",
-    "networkType": "Network Type:"
+    "networkType": "Network Type:",
+    "errorInvalidIp": "Invalid IP address",
+    "errorInvalidHex": "Invalid hexadecimal",
+    "errorInvalidBinary": "Invalid binary",
+    "privateA": "Private (Class A)",
+    "privateB": "Private (Class B)",
+    "privateC": "Private (Class C)",
+    "loopback": "Loopback address",
+    "linkLocal": "Link-local address",
+    "broadcast": "Broadcast address",
+    "publicAddr": "Public address"
 }

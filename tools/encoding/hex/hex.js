@@ -67,7 +67,7 @@
 
         // 验证十六进制格式
         if (!/^[0-9a-fA-F]*$/.test(hex)) {
-            throw new Error('无效的十六进制字符串');
+            throw new Error(REOT.i18n?.t('tools.hex.invalidHex') || '无效的十六进制字符串');
         }
 
         // 确保长度为偶数
@@ -104,7 +104,7 @@
                 const result = textToHex(inputEl.value, getOptions());
                 outputEl.value = result;
             } catch (error) {
-                outputEl.value = `错误: ${error.message}`;
+                outputEl.value = `${REOT.i18n?.t('tools.hex.error') || '错误'}: ${error.message}`;
             }
         });
     }
@@ -115,7 +115,7 @@
                 const result = hexToText(inputEl.value);
                 outputEl.value = result;
             } catch (error) {
-                outputEl.value = `错误: ${error.message}`;
+                outputEl.value = `${REOT.i18n?.t('tools.hex.error') || '错误'}: ${error.message}`;
             }
         });
     }

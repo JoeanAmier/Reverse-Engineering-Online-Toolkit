@@ -19,7 +19,7 @@
     function hexToBytes(hex) {
         hex = hex.replace(/[\s\n\r]/g, '');
         if (hex.length % 2 !== 0) {
-            throw new Error('十六进制字符串长度必须为偶数');
+            throw new Error(REOT.i18n?.t('tools.msgpack.errorHexLength') || '十六进制字符串长度必须为偶数');
         }
         const bytes = new Uint8Array(hex.length / 2);
         for (let i = 0; i < bytes.length; i++) {
@@ -84,7 +84,7 @@
 
         readValue() {
             if (this.offset >= this.buffer.length) {
-                throw new Error('意外的数据结束');
+                throw new Error(REOT.i18n?.t('tools.msgpack.errorUnexpectedEnd') || '意外的数据结束');
             }
 
             const byte = this.buffer[this.offset++];
@@ -121,7 +121,7 @@
 
                 // (never used)
                 case 0xc1:
-                    throw new Error('遇到保留字节 0xc1');
+                    throw new Error(REOT.i18n?.t('tools.msgpack.errorReservedByte') || '遇到保留字节 0xc1');
 
                 // false
                 case 0xc2:
@@ -244,7 +244,7 @@
                     return this.readMap(this.readUint32());
 
                 default:
-                    throw new Error(`未知的格式字节: 0x${byte.toString(16)}`);
+                    throw new Error((REOT.i18n?.t('tools.msgpack.errorUnknownFormat') || '未知的格式字节: 0x{byte}').replace('{byte}', byte.toString(16)));
             }
         }
 
@@ -406,7 +406,7 @@
                 return;
             }
 
-            throw new Error(`不支持的类型: ${type}`);
+            throw new Error((REOT.i18n?.t('tools.msgpack.errorUnsupportedType') || '不支持的类型: {type}').replace('{type}', type));
         }
 
         writeInt(value) {
@@ -556,7 +556,7 @@
             } else if (isBase64(input)) {
                 bytes = base64ToBytes(input);
             } else {
-                throw new Error('无法识别输入格式，请选择正确的格式');
+                throw new Error(REOT.i18n?.t('tools.msgpack.errorUnrecognizedFormat') || '无法识别输入格式，请选择正确的格式');
             }
         } else if (format === 'hex') {
             bytes = hexToBytes(input);
@@ -795,7 +795,7 @@
             // 显示信息
             const typeCount = countTypes(decoded);
             if (outputInfo) {
-                outputInfo.textContent = `解码成功：${bytes.length} 字节，包含 ${typeCount.total} 个元素`;
+                outputInfo.textContent = (REOT.i18n?.t('tools.msgpack.decodeInfo') || '解码成功：{bytes} 字节，包含 {total} 个元素').replace('{bytes}', bytes.length).replace('{total}', typeCount.total);
             }
 
             // 显示视图选项卡
@@ -806,11 +806,11 @@
 
             if (outputSection) outputSection.style.display = 'block';
 
-            REOT.utils?.showNotification('解码成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.msgpack.decodeSuccess') || '解码成功', 'success');
 
         } catch (error) {
             if (outputContent) {
-                outputContent.innerHTML = `<div class="error-state">解码错误: ${escapeHtml(error.message)}</div>`;
+                outputContent.innerHTML = `<div class="error-state">${(REOT.i18n?.t('tools.msgpack.decodeError') || '解码错误: {error}').replace('{error}', escapeHtml(error.message))}</div>`;
             }
             if (outputInfo) outputInfo.textContent = '';
             document.getElementById('view-tabs')?.classList.add('hidden');
@@ -839,7 +839,7 @@
 
             // 显示信息
             if (outputInfo) {
-                outputInfo.textContent = `编码成功：${bytes.length} 字节`;
+                outputInfo.textContent = (REOT.i18n?.t('tools.msgpack.encodeInfo') || '编码成功：{bytes} 字节').replace('{bytes}', bytes.length);
             }
 
             // 隐藏视图选项卡（编码只显示 hex）
@@ -854,11 +854,11 @@
 
             if (outputSection) outputSection.style.display = 'block';
 
-            REOT.utils?.showNotification('编码成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.msgpack.encodeSuccess') || '编码成功', 'success');
 
         } catch (error) {
             if (outputContent) {
-                outputContent.innerHTML = `<div class="error-state">编码错误: ${escapeHtml(error.message)}</div>`;
+                outputContent.innerHTML = `<div class="error-state">${(REOT.i18n?.t('tools.msgpack.encodeError') || '编码错误: {error}').replace('{error}', escapeHtml(error.message))}</div>`;
             }
             if (outputInfo) outputInfo.textContent = '';
             if (outputSection) outputSection.style.display = 'block';
@@ -895,9 +895,9 @@
         try {
             const parsed = JSON.parse(input.value);
             input.value = JSON.stringify(parsed, null, 2);
-            REOT.utils?.showNotification('JSON 已格式化', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.msgpack.jsonFormatted') || 'JSON 已格式化', 'success');
         } catch (e) {
-            REOT.utils?.showNotification('JSON 格式无效', 'error');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.msgpack.jsonInvalid') || 'JSON 格式无效', 'error');
         }
     }
 
@@ -1002,7 +1002,7 @@
             if (textToCopy) {
                 const success = await REOT.utils?.copyToClipboard(textToCopy);
                 if (success) {
-                    REOT.utils?.showNotification('已复制到剪贴板', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.msgpack.copiedToClipboard') || '已复制到剪贴板', 'success');
                 }
             }
         }
@@ -1017,7 +1017,7 @@
                 a.download = 'data.msgpack';
                 a.click();
                 URL.revokeObjectURL(url);
-                REOT.utils?.showNotification('文件已下载', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.msgpack.fileDownloaded') || '文件已下载', 'success');
             }
         }
     });

@@ -5,5 +5,7 @@
     "alphabet": "字母表",
     "bitcoin": "Bitcoin",
     "ripple": "Ripple",
-    "flickr": "Flickr"
+    "flickr": "Flickr",
+    "error": "错误",
+    "invalidChar": "无效的 Base58 字符"
 }

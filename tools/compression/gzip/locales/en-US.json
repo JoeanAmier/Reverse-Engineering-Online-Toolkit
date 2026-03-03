@@ -12,5 +12,16 @@
     "ratio": "Compression Ratio",
     "fastest": "Fastest",
     "balanced": "Balanced",
-    "best": "Best"
+    "best": "Best",
+    "compressSuccess": "Compression successful",
+    "decompressSuccess": "Decompression successful",
+    "errorNoInput": "Please enter content to compress",
+    "errorNoDecompressInput": "Please enter content to decompress or upload a file",
+    "errorInvalidFormat": "Invalid input format",
+    "errorDecompressFailed": "Decompression failed: invalid or corrupted data",
+    "noDownloadContent": "No content to download",
+    "fileLoaded": "File loaded: ",
+    "errorLoadLib": "Failed to load pako library, please check network connection",
+    "errorLibNotLoaded": "pako library failed to load",
+    "sampleText": "This is sample text for demonstrating GZIP compression.\n\nGZIP is a widely used data compression format, especially in web transfers. It uses the DEFLATE algorithm to compress data, significantly reducing file sizes.\n\nKey features:\n1. High compression ratio - typically 70-90% for text files\n2. Wide support - almost all browsers and servers support GZIP\n3. Fast decompression - very fast, suitable for real-time transfers\n\nThis is sample text for demonstrating GZIP compression.\nGZIP uses the DEFLATE algorithm to compress data."
 }

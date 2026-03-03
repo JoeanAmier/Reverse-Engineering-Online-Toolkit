@@ -376,13 +376,18 @@
                 `).join('');
             });
 
-            // 绑定分类折叠事件
-            document.querySelectorAll('.category-header').forEach(header => {
-                header.addEventListener('click', () => {
-                    const category = header.closest('.nav-category');
-                    category.classList.toggle('collapsed');
+            // 绑定分类折叠事件（使用事件委托避免重复绑定）
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar && !sidebar._categoryClickBound) {
+                sidebar.addEventListener('click', (e) => {
+                    const header = e.target.closest('.category-header');
+                    if (header) {
+                        const category = header.closest('.nav-category');
+                        category.classList.toggle('collapsed');
+                    }
                 });
-            });
+                sidebar._categoryClickBound = true;
+            }
         },
 
         /**
@@ -529,7 +534,7 @@
             const resetBtn = document.getElementById('reset-quick-access');
             const hint = document.getElementById('quick-access-hint');
 
-            if (editBtn) {
+            if (editBtn && !editBtn._clickBound) {
                 editBtn.addEventListener('click', () => {
                     this.editMode = !this.editMode;
                     editBtn.classList.toggle('active', this.editMode);
@@ -539,9 +544,10 @@
                     this.renderQuickAccess();
                     this.renderAllTools();
                 });
+                editBtn._clickBound = true;
             }
 
-            if (resetBtn) {
+            if (resetBtn && !resetBtn._clickBound) {
                 resetBtn.addEventListener('click', () => {
                     if (confirm(REOT.i18n?.t('home.confirmReset') || '确定要重置快速访问为默认设置吗？')) {
                         this.resetQuickAccess();
@@ -549,6 +555,7 @@
                         this.renderAllTools();
                     }
                 });
+                resetBtn._clickBound = true;
             }
         },
 
@@ -559,12 +566,13 @@
             const header = document.getElementById('all-tools-header');
             const toggleBtn = document.getElementById('toggle-all-tools');
 
-            if (header) {
+            if (header && !header._clickBound) {
                 header.addEventListener('click', () => {
                     this.allToolsCollapsed = !this.allToolsCollapsed;
                     this.setAllToolsCollapsed(this.allToolsCollapsed);
                     this.updateCollapseState();
                 });
+                header._clickBound = true;
             }
         },
 
@@ -904,7 +912,7 @@
          */
         initToolPageQuickAccess() {
             // 获取当前路径对应的工具
-            const currentPath = window.location.pathname;
+            const currentPath = REOT.router?.currentRoute || window.location.pathname;
             const tool = this.getByPath(currentPath);
 
             if (!tool) return;

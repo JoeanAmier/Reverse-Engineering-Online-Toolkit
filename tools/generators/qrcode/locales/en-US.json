@@ -25,5 +25,16 @@
     "generate": "Generate",
     "downloadPng": "Download PNG",
     "downloadSvg": "Download SVG",
-    "result": "Result"
+    "result": "Result",
+    "loadFailed": "Failed to load libraries, please check network",
+    "enterContent": "Please enter content to encode",
+    "generateFailed": "Generation failed",
+    "examplePrefix": "Example",
+    "infoType": "Type",
+    "infoQRCode": "QR Code",
+    "infoErrorLevel": "Error Level",
+    "infoVersion": "Version",
+    "infoModules": "Modules",
+    "infoDescription": "Description",
+    "infoData": "Data"
 }

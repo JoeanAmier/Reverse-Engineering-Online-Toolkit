@@ -20,5 +20,9 @@
     "batchSuccess": "批量计算完成",
     "success": "计算成功",
     "error": "计算失败: ",
-    "errorNoInput": "请输入数据"
+    "errorNoInput": "请输入数据",
+    "errorLoadLib": "无法加载 xxHash 库",
+    "errorInvalidHex": "无效的 Hex 字符串",
+    "errorInvalidSeed": "无效的种子值",
+    "errorLibNotLoaded": "xxHash 库未加载"
 }

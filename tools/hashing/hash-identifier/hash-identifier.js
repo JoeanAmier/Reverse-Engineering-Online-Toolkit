@@ -216,20 +216,20 @@
 
             // 显示哈希信息
             html += `<div class="result-info">`;
-            html += `<span>长度: ${info.length}</span>`;
-            if (info.isHex) html += `<span>格式: 十六进制</span>`;
-            else if (info.isBase64) html += `<span>格式: Base64</span>`;
-            if (info.prefix) html += `<span>前缀: ${escapeHtml(info.prefix)}</span>`;
+            html += `<span>${REOT.i18n?.t('tools.hash-identifier.lengthLabel') || '长度: '}${info.length}</span>`;
+            if (info.isHex) html += `<span>${REOT.i18n?.t('tools.hash-identifier.formatHex') || '格式: 十六进制'}</span>`;
+            else if (info.isBase64) html += `<span>${REOT.i18n?.t('tools.hash-identifier.formatBase64') || '格式: Base64'}</span>`;
+            if (info.prefix) html += `<span>${REOT.i18n?.t('tools.hash-identifier.prefixLabel') || '前缀: '}${escapeHtml(info.prefix)}</span>`;
             html += `</div>`;
 
             // 显示可能的类型
             html += `<div class="result-types">`;
-            html += `<div class="result-types-label">可能的类型</div>`;
+            html += `<div class="result-types-label">${REOT.i18n?.t('tools.hash-identifier.possibleTypes') || '可能的类型'}</div>`;
 
             if (types.length === 0) {
                 html += `<div class="no-match">
-                    <div class="no-match-icon">❓</div>
-                    <div>未能识别此哈希类型</div>
+                    <div class="no-match-icon">?</div>
+                    <div>${REOT.i18n?.t('tools.hash-identifier.noMatch') || '未能识别此哈希类型'}</div>
                 </div>`;
             } else {
                 html += `<div class="type-list">`;
@@ -256,9 +256,9 @@
 
     function getConfidenceLabel(confidence) {
         switch (confidence) {
-            case 'high': return '高';
-            case 'medium': return '中';
-            case 'low': return '低';
+            case 'high': return REOT.i18n?.t('tools.hash-identifier.confidenceHigh') || '高';
+            case 'medium': return REOT.i18n?.t('tools.hash-identifier.confidenceMedium') || '中';
+            case 'low': return REOT.i18n?.t('tools.hash-identifier.confidenceLow') || '低';
             default: return '';
         }
     }
@@ -288,7 +288,7 @@
 
         if (resultSection) resultSection.style.display = 'block';
 
-        REOT.utils?.showNotification(`识别了 ${hashes.length} 个哈希值`, 'success');
+        REOT.utils?.showNotification((REOT.i18n?.t('tools.hash-identifier.identifiedCount') || '识别了 {count} 个哈希值').replace('{count}', hashes.length), 'success');
     }
 
     function isHashIdentifierToolActive() {
@@ -318,7 +318,7 @@
                     performIdentify();
                 }
             } catch (e) {
-                REOT.utils?.showNotification('无法访问剪贴板', 'error');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.hash-identifier.clipboardError') || '无法访问剪贴板', 'error');
             }
         }
 

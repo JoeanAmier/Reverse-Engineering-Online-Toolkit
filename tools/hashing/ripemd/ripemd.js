@@ -198,7 +198,7 @@
 
         } catch (error) {
             const outputLower = document.getElementById('output-lower');
-            if (outputLower) outputLower.value = '错误: ' + error.message;
+            if (outputLower) outputLower.value = (REOT.i18n?.t('tools.ripemd.error') || '错误: ') + error.message;
             REOT.utils?.showNotification(error.message, 'error');
         }
     }
@@ -233,7 +233,7 @@
                 }
 
                 if (input) {
-                    input.value = `[文件已加载: ${file.name}]`;
+                    input.value = `[${REOT.i18n?.t('tools.ripemd.fileLoaded') || '文件已加载: '}${file.name}]`;
                     input.disabled = true;
                 }
 
@@ -252,7 +252,7 @@
         // 哈希按钮
         if (target.id === 'hash-btn' || target.closest('#hash-btn')) {
             updateOutput();
-            REOT.utils?.showNotification('哈希计算完成', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.ripemd.hashComplete') || '哈希计算完成', 'success');
         }
 
         // 清除按钮

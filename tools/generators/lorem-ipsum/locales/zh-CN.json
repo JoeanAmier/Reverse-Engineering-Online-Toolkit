@@ -1,5 +1,5 @@
 {
-    "title": "Lorem Ipsum生成器",
+    "title": "Lorem Ipsum 生成器",
     "description": "生成占位文本",
     "genType": "生成类型",
     "paragraphs": "段落",
@@ -11,5 +11,6 @@
     "statParagraphs": "段落",
     "statSentences": "句子",
     "statWords": "单词",
-    "statCharacters": "字符"
+    "statCharacters": "字符",
+    "copied": "已复制!"
 }

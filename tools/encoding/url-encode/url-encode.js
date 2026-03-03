@@ -32,7 +32,7 @@
             }
             return encodeURIComponent(input);
         } catch (error) {
-            throw new Error(`编码失败: ${error.message}`);
+            throw new Error(`${REOT.i18n?.t('tools.url-encode.encodeFailed') || '编码失败'}: ${error.message}`);
         }
     }
 
@@ -47,7 +47,7 @@
             }
             return decodeURIComponent(input);
         } catch (error) {
-            throw new Error(`解码失败: ${error.message}`);
+            throw new Error(`${REOT.i18n?.t('tools.url-encode.decodeFailed') || '解码失败'}: ${error.message}`);
         }
     }
 

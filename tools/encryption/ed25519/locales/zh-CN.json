@@ -14,5 +14,19 @@
     "sign": "签名",
     "verify": "验证签名",
     "validSignature": "签名验证成功",
-    "invalidSignature": "签名验证失败"
+    "invalidSignature": "签名验证失败",
+    "keyGenSuccess": "密钥对生成成功",
+    "signSuccess": "签名成功",
+    "signFailed": "签名失败",
+    "verifySuccess": "签名验证成功",
+    "verifyFailed": "签名验证失败",
+    "verifyError": "验证失败",
+    "enterMessage": "请输入要签名的消息",
+    "enterPrivateKey": "请先生成或输入私钥",
+    "enterOriginalMessage": "请输入原始消息",
+    "enterSignature": "请输入签名",
+    "enterPublicKey": "请输入公钥",
+    "publicKeyCopied": "公钥已复制",
+    "privateKeyCopied": "私钥已复制",
+    "browserNotSupported": "您的浏览器不支持 Ed25519，请使用最新版本的 Chrome、Edge 或 Firefox"
 }

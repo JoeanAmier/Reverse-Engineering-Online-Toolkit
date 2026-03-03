@@ -6,5 +6,14 @@
     "parse": "解析",
     "sample": "示例数据",
     "aboutAsn1": "关于 ASN.1",
-    "aboutDesc": "ASN.1 (Abstract Syntax Notation One) 是一种用于描述数据结构的标准，广泛应用于通信协议和安全领域。DER (Distinguished Encoding Rules) 和 BER (Basic Encoding Rules) 是 ASN.1 的两种编码规则，常用于 X.509 证书、PKCS 标准等。"
+    "aboutDesc": "ASN.1 (Abstract Syntax Notation One) 是一种用于描述数据结构的标准，广泛应用于通信协议和安全领域。DER (Distinguished Encoding Rules) 和 BER (Basic Encoding Rules) 是 ASN.1 的两种编码规则，常用于 X.509 证书、PKCS 标准等。",
+    "emptyState": "请输入 ASN.1 数据",
+    "errorHexLength": "十六进制字符串长度必须为偶数",
+    "errorInvalidHexChar": "无效的十六进制字符: {char}",
+    "errorDataIncomplete": "数据不完整",
+    "errorDataIncompleteDetail": "数据不完整: 需要 {need} 字节，只有 {have} 字节",
+    "errorInvalidPem": "无效的 PEM 格式",
+    "parseInfo": "解析了 {bytes} 字节的数据",
+    "parseSuccess": "解析成功",
+    "parseError": "解析错误: {error}"
 }

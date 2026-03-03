@@ -41,7 +41,7 @@
                     const end = isArray ? line.indexOf(']]') : line.indexOf(']');
 
                     if (end === -1) {
-                        throw new Error(`行 ${lineNum + 1}: 无效的表头语法`);
+                        throw new Error(`${REOT.i18n?.t('tools.toml.invalidHeader') || '无效的表头语法'} (${REOT.i18n?.t('tools.toml.line') || '行'} ${lineNum + 1})`);
                     }
 
                     const path = line.substring(isArray ? 2 : 1, end).trim();
@@ -82,7 +82,7 @@
                 // 处理键值对
                 const eqIndex = line.indexOf('=');
                 if (eqIndex === -1) {
-                    throw new Error(`行 ${lineNum + 1}: 无效的语法，缺少 '='`);
+                    throw new Error(`${REOT.i18n?.t('tools.toml.invalidSyntax') || "无效的语法，缺少 '='"} (${REOT.i18n?.t('tools.toml.line') || '行'} ${lineNum + 1})`);
                 }
 
                 const key = line.substring(0, eqIndex).trim();
@@ -128,7 +128,7 @@
             if (str.startsWith('"')) {
                 const end = str.lastIndexOf('"');
                 if (end <= 0) {
-                    throw new Error(`行 ${lineNum}: 未闭合的字符串`);
+                    throw new Error(`${REOT.i18n?.t('tools.toml.line') || '行'} ${lineNum}: ${REOT.i18n?.t('tools.toml.unclosedString') || '未闭合的字符串'}`);
                 }
                 return this.unescapeString(str.substring(1, end));
             }
@@ -136,7 +136,7 @@
             if (str.startsWith("'")) {
                 const end = str.lastIndexOf("'");
                 if (end <= 0) {
-                    throw new Error(`行 ${lineNum}: 未闭合的字符串`);
+                    throw new Error(`${REOT.i18n?.t('tools.toml.line') || '行'} ${lineNum}: ${REOT.i18n?.t('tools.toml.unclosedString') || '未闭合的字符串'}`);
                 }
                 return str.substring(1, end); // 单引号不转义
             }
@@ -528,7 +528,7 @@ color = "gray"`;
                 value: '',
                 readOnly: false,
                 theme: theme,
-                placeholder: '请输入 TOML 或 JSON...'
+                placeholder: REOT.i18n?.t('tools.toml.inputPlaceholder') || '请输入 TOML 或 JSON...'
             });
 
             outputEditor = await REOT.CodeEditor.create('#output-editor', {
@@ -565,9 +565,9 @@ color = "gray"`;
                 const result = formatToml(getInputValue());
                 setOutputValue(result);
                 if (validationSection) validationSection.style.display = 'none';
-                REOT.utils?.showNotification('格式化成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.toml.formatSuccess') || '格式化成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('格式化失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.toml.formatFailed') || '格式化失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -587,9 +587,9 @@ color = "gray"`;
                 const result = tomlToJson(getInputValue());
                 setOutputValue(result);
                 if (validationSection) validationSection.style.display = 'none';
-                REOT.utils?.showNotification('转换成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.toml.convertSuccess') || '转换成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('转换失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.toml.convertFailed') || '转换失败') + ': ' + error.message, 'error');
             }
         }
 
@@ -598,9 +598,9 @@ color = "gray"`;
                 const result = jsonToToml(getInputValue());
                 setOutputValue(result);
                 if (validationSection) validationSection.style.display = 'none';
-                REOT.utils?.showNotification('转换成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.toml.convertSuccess') || '转换成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification('转换失败: ' + error.message, 'error');
+                REOT.utils?.showNotification((REOT.i18n?.t('tools.toml.convertFailed') || '转换失败') + ': ' + error.message, 'error');
             }
         }
 

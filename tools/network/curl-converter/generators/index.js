@@ -63,7 +63,7 @@
     function generateCode(parsed, language, options = {}) {
         const generator = getGenerator(language);
         if (!generator) {
-            throw new Error('不支持的语言: ' + language);
+            throw new Error((REOT.i18n?.getLocale?.()?.startsWith('en') ? 'Unsupported language: ' : '不支持的语言: ') + language);
         }
         return generator.generate(parsed, options);
     }

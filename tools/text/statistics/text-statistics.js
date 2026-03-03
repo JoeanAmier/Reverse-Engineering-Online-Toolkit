@@ -99,7 +99,7 @@
 
     // 设置默认示例数据
     if (inputEl && !inputEl.value) {
-        inputEl.value = `REOT - 逆向工程在线工具箱
+        inputEl.value = REOT.i18n?.t('tools.text-statistics.sampleText') || `REOT - 逆向工程在线工具箱
 
 这是一个纯前端实现的在线工具箱，所有计算都在本地浏览器中完成。
 

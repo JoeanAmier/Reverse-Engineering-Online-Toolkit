@@ -13,5 +13,7 @@
     "dash": "短横线",
     "none": "无",
     "toAscii": "文本 → ASCII",
-    "toText": "ASCII → 文本"
+    "toText": "ASCII → 文本",
+    "error": "错误",
+    "parseError": "无法解析输入的 ASCII 码"
 }

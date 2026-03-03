@@ -76,13 +76,13 @@
     function hexToBytes(hex) {
         hex = hex.replace(/[\s\n\r]/g, '');
         if (hex.length % 2 !== 0) {
-            throw new Error('十六进制字符串长度必须为偶数');
+            throw new Error(REOT.i18n?.t('tools.asn1.errorHexLength') || '十六进制字符串长度必须为偶数');
         }
         const bytes = new Uint8Array(hex.length / 2);
         for (let i = 0; i < bytes.length; i++) {
             const byte = parseInt(hex.substr(i * 2, 2), 16);
             if (isNaN(byte)) {
-                throw new Error(`无效的十六进制字符: ${hex.substr(i * 2, 2)}`);
+                throw new Error((REOT.i18n?.t('tools.asn1.errorInvalidHexChar') || '无效的十六进制字符: {char}').replace('{char}', hex.substr(i * 2, 2)));
             }
             bytes[i] = byte;
         }
@@ -123,7 +123,7 @@
 
     function parseLength(data, offset) {
         if (offset >= data.length) {
-            throw new Error('数据不完整');
+            throw new Error(REOT.i18n?.t('tools.asn1.errorDataIncomplete') || '数据不完整');
         }
 
         const firstByte = data[offset];
@@ -138,7 +138,7 @@
 
         const numBytes = firstByte & 0x7f;
         if (offset + numBytes >= data.length) {
-            throw new Error('数据不完整');
+            throw new Error(REOT.i18n?.t('tools.asn1.errorDataIncomplete') || '数据不完整');
         }
 
         let length = 0;
@@ -180,7 +180,7 @@
             }
 
             if (contentOffset + contentLength > data.length) {
-                throw new Error(`数据不完整: 需要 ${contentLength} 字节，只有 ${data.length - contentOffset} 字节`);
+                throw new Error((REOT.i18n?.t('tools.asn1.errorDataIncompleteDetail') || '数据不完整: 需要 {need} 字节，只有 {have} 字节').replace('{need}', contentLength).replace('{have}', data.length - contentOffset));
             }
 
             const content = data.slice(contentOffset, contentOffset + contentLength);
@@ -338,7 +338,7 @@
         const output = document.getElementById('output');
 
         if (!input.trim()) {
-            if (output) output.innerHTML = '<div class="empty-state">请输入 ASN.1 数据</div>';
+            if (output) output.innerHTML = `<div class="empty-state">${REOT.i18n?.t('tools.asn1.emptyState') || '请输入 ASN.1 数据'}</div>`;
             return;
         }
 
@@ -352,7 +352,7 @@
             } else if (format === 'pem') {
                 const match = input.match(/-----BEGIN [^-]+-----\s*([\s\S]*?)\s*-----END/);
                 if (!match) {
-                    throw new Error('无效的 PEM 格式');
+                    throw new Error(REOT.i18n?.t('tools.asn1.errorInvalidPem') || '无效的 PEM 格式');
                 }
                 data = base64ToBytes(match[1]);
             }
@@ -360,14 +360,14 @@
             const parsed = parseASN1(data);
 
             if (output) {
-                output.innerHTML = `<div class="parse-info">解析了 ${data.length} 字节的数据</div>` + renderASN1Tree(parsed);
+                output.innerHTML = `<div class="parse-info">${(REOT.i18n?.t('tools.asn1.parseInfo') || '解析了 {bytes} 字节的数据').replace('{bytes}', data.length)}</div>` + renderASN1Tree(parsed);
             }
 
-            REOT.utils?.showNotification('解析成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.asn1.parseSuccess') || '解析成功', 'success');
 
         } catch (error) {
             if (output) {
-                output.innerHTML = `<div class="error-state">解析错误: ${escapeHtml(error.message)}</div>`;
+                output.innerHTML = `<div class="error-state">${(REOT.i18n?.t('tools.asn1.parseError') || '解析错误: {error}').replace('{error}', escapeHtml(error.message))}</div>`;
             }
             REOT.utils?.showNotification(error.message, 'error');
         }

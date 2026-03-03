@@ -44,7 +44,7 @@
             return BigInt('0x' + hex);
         }
 
-        throw new Error('无效的地址格式');
+        throw new Error(REOT.i18n?.t('tools.offset-calculator.invalidAddress') || '无效的地址格式');
     }
 
     /**
@@ -69,7 +69,7 @@
         const resultEl = document.getElementById('calc-result');
 
         if (!baseStr || !offsetStr) {
-            throw new Error('请输入基址和偏移值');
+            throw new Error(REOT.i18n?.t('tools.offset-calculator.enterBaseOffset') || '请输入基址和偏移值');
         }
 
         const base = parseAddress(baseStr);
@@ -98,7 +98,7 @@
         const inputType = document.getElementById('rva-input-type')?.value;
 
         if (!inputStr) {
-            throw new Error('请输入要转换的值');
+            throw new Error(REOT.i18n?.t('tools.offset-calculator.enterValue') || '请输入要转换的值');
         }
 
         const imageBase = parseAddress(imageBaseStr || '0x400000');
@@ -141,7 +141,7 @@
         const bitWidth = parseInt(document.getElementById('bit-width')?.value || '64', 10);
 
         if (!inputStr) {
-            throw new Error('请输入地址');
+            throw new Error(REOT.i18n?.t('tools.offset-calculator.enterAddress') || '请输入地址');
         }
 
         let value = parseAddress(inputStr);
@@ -200,7 +200,7 @@
         if (target.id === 'rva-convert-btn' || target.closest('#rva-convert-btn')) {
             try {
                 convertRva();
-                REOT.utils?.showNotification('转换完成', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.offset-calculator.convertDone') || '转换完成', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -210,7 +210,7 @@
         if (target.id === 'format-convert-btn' || target.closest('#format-convert-btn')) {
             try {
                 convertFormat();
-                REOT.utils?.showNotification('转换完成', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.offset-calculator.convertDone') || '转换完成', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }

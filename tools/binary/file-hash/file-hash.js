@@ -41,7 +41,7 @@
 
             script.onerror = () => {
                 sparkMD5LoadPromise = null;
-                reject(new Error('无法加载 SparkMD5 库'));
+                reject(new Error(REOT.i18n?.t('tools.file-hash.loadError') || '无法加载 SparkMD5 库'));
             };
 
             document.head.appendChild(script);
@@ -141,7 +141,7 @@
             };
 
             fileReader.onerror = function() {
-                reject(new Error('MD5 计算失败'));
+                reject(new Error(REOT.i18n?.t('tools.file-hash.md5Failed') || 'MD5 计算失败'));
             };
 
             function loadNext() {
@@ -177,7 +177,7 @@
             };
 
             reader.onerror = function() {
-                reject(new Error(`${algorithm} 计算失败`));
+                reject(new Error(`${algorithm} ${REOT.i18n?.t('tools.file-hash.calcFailed') || '计算失败'}`));
             };
 
             reader.onprogress = function(e) {
@@ -196,7 +196,7 @@
     async function calculateAllHashes(file) {
         const algorithms = getSelectedAlgorithms();
         if (algorithms.length === 0) {
-            throw new Error('请至少选择一种哈希算法');
+            throw new Error(REOT.i18n?.t('tools.file-hash.selectAlgo') || '请至少选择一种哈希算法');
         }
 
         hashResults = {};
@@ -325,12 +325,12 @@
 
         const expectedAlgo = algorithms[inputHash.length];
         if (!expectedAlgo) {
-            return { match: false, algorithm: null, message: '无效的哈希长度' };
+            return { match: false, algorithm: null, message: REOT.i18n?.t('tools.file-hash.invalidHashLen') || '无效的哈希长度' };
         }
 
         const storedHash = hashResults[expectedAlgo];
         if (!storedHash) {
-            return { match: false, algorithm: expectedAlgo, message: `未计算 ${expectedAlgo}` };
+            return { match: false, algorithm: expectedAlgo, message: (REOT.i18n?.t('tools.file-hash.notCalculated') || '未计算') + ` ${expectedAlgo}` };
         }
 
         const match = storedHash.toLowerCase() === inputHash;
@@ -346,7 +346,7 @@
      */
     function copyAllResults() {
         if (Object.keys(hashResults).length === 0) {
-            REOT.utils?.showNotification('没有可复制的结果', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.file-hash.noCopyResults') || '没有可复制的结果', 'warning');
             return;
         }
 
@@ -441,7 +441,7 @@
         // 计算按钮
         if (target.id === 'calculate-btn' || target.closest('#calculate-btn')) {
             if (!currentFile) {
-                REOT.utils?.showNotification('请先选择文件', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.file-hash.selectFile') || '请先选择文件', 'warning');
                 return;
             }
 
@@ -449,7 +449,7 @@
                 const results = await calculateAllHashes(currentFile);
                 displayResults(results);
                 hideProgress();
-                REOT.utils?.showNotification('计算完成', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.file-hash.calcComplete') || '计算完成', 'success');
             } catch (error) {
                 hideProgress();
                 REOT.utils?.showNotification(error.message, 'error');
@@ -489,7 +489,7 @@
             const verifyAlgorithm = document.getElementById('verify-algorithm');
 
             if (!verifyInput?.value) {
-                REOT.utils?.showNotification('请输入要验证的哈希值', 'warning');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.file-hash.enterHash') || '请输入要验证的哈希值', 'warning');
                 return;
             }
 

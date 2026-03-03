@@ -215,7 +215,7 @@
      * @param {string} message
      */
     function showError(message) {
-        outputEl.value = `错误: ${message}`;
+        outputEl.value = (REOT.i18n?.t('tools.rsa.errorPrefix') || '错误') + ': ' + message;
         if (window.REOT?.utils?.showNotification) {
             window.REOT.utils.showNotification(message, 'error');
         }
@@ -236,7 +236,7 @@
         generateKeysBtn.addEventListener('click', async () => {
             try {
                 generateKeysBtn.disabled = true;
-                generateKeysBtn.textContent = '生成中...';
+                generateKeysBtn.textContent = REOT.i18n?.t('tools.rsa.generating') || '生成中...';
 
                 currentKeyPair = await generateKeyPair();
                 publicKeyEl.value = await exportPublicKey(currentKeyPair.publicKey);
@@ -257,13 +257,13 @@
             try {
                 const input = inputEl.value;
                 if (!input) {
-                    showError('请输入要加密的内容');
+                    showError(REOT.i18n?.t('tools.rsa.enterContent') || '请输入要加密的内容');
                     return;
                 }
 
                 const publicKeyPem = publicKeyEl.value.trim();
                 if (!publicKeyPem) {
-                    showError('请输入或生成公钥');
+                    showError(REOT.i18n?.t('tools.rsa.enterPublicKey') || '请输入或生成公钥');
                     return;
                 }
 
@@ -277,7 +277,7 @@
                 const result = await encrypt(input, publicKey);
                 outputEl.value = result;
             } catch (error) {
-                showError('加密失败: ' + error.message);
+                showError((REOT.i18n?.t('tools.rsa.encryptFailed') || '加密失败') + ': ' + error.message);
             }
         });
     }
@@ -287,13 +287,13 @@
             try {
                 const input = inputEl.value;
                 if (!input) {
-                    showError('请输入要解密的内容');
+                    showError(REOT.i18n?.t('tools.rsa.enterDecryptContent') || '请输入要解密的内容');
                     return;
                 }
 
                 const privateKeyPem = privateKeyEl.value.trim();
                 if (!privateKeyPem) {
-                    showError('请输入私钥');
+                    showError(REOT.i18n?.t('tools.rsa.enterPrivateKey') || '请输入私钥');
                     return;
                 }
 
@@ -307,7 +307,7 @@
                 const result = await decrypt(input, privateKey);
                 outputEl.value = result;
             } catch (error) {
-                showError('解密失败: ' + error.message);
+                showError((REOT.i18n?.t('tools.rsa.decryptFailed') || '解密失败') + ': ' + error.message);
             }
         });
     }

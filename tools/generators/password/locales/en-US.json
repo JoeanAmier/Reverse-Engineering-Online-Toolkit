@@ -10,5 +10,10 @@
     "noAmbiguous": "Exclude ambiguous characters ({}[]())",
     "generateNew": "Generate New Password",
     "history": "History",
-    "strength": "Strength"
+    "strength": "Strength",
+    "weak": "Weak",
+    "medium": "Medium",
+    "strong": "Strong",
+    "veryStrong": "Very Strong",
+    "selectCharType": "Please select at least one character type"
 }

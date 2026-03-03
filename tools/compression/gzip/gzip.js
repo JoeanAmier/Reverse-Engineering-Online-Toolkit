@@ -40,7 +40,7 @@
 
             script.onerror = () => {
                 pakoLoadPromise = null;
-                reject(new Error('无法加载 pako 库，请检查网络连接'));
+                reject(new Error(REOT.i18n?.t('tools.gzip.errorLoadLib') || '无法加载 pako 库，请检查网络连接'));
             };
 
             document.head.appendChild(script);
@@ -57,7 +57,7 @@
             await loadPako();
         }
         if (!window.pako) {
-            throw new Error('pako 库加载失败');
+            throw new Error(REOT.i18n?.t('tools.gzip.errorLibNotLoaded') || 'pako 库加载失败');
         }
     }
 
@@ -188,7 +188,7 @@
                 input = hexToUint8Array(data);
             }
         } catch (e) {
-            throw new Error('输入格式无效');
+            throw new Error(REOT.i18n?.t('tools.gzip.errorInvalidFormat') || '输入格式无效');
         }
 
         try {
@@ -205,7 +205,7 @@
                 return uint8ArrayToBase64(decompressed);
             }
         } catch (e) {
-            throw new Error('解压失败: 数据格式无效或已损坏');
+            throw new Error(REOT.i18n?.t('tools.gzip.errorDecompressFailed') || '解压失败: 数据格式无效或已损坏');
         }
     }
 
@@ -244,7 +244,7 @@
     function downloadResult() {
         const output = document.getElementById('output');
         if (!output || !output.value) {
-            REOT.utils?.showNotification('没有可下载的内容', 'warning');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.gzip.noDownloadContent') || '没有可下载的内容', 'warning');
             return;
         }
 
@@ -296,7 +296,7 @@
                 }
 
                 if (input) {
-                    input.value = `[文件已加载: ${file.name}]`;
+                    input.value = `[${REOT.i18n?.t('tools.gzip.fileLoaded') || '文件已加载: '}${file.name}]`;
                     input.disabled = true;
                 }
             };
@@ -332,7 +332,7 @@
                 }
 
                 if (!data || (typeof data === 'string' && !data.trim())) {
-                    REOT.utils?.showNotification('请输入要压缩的内容', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.gzip.errorNoInput') || '请输入要压缩的内容', 'warning');
                     return;
                 }
 
@@ -341,7 +341,7 @@
                     output.value = result;
                 }
 
-                REOT.utils?.showNotification('压缩成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.gzip.compressSuccess') || '压缩成功', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }
@@ -368,10 +368,10 @@
                             compressedData = hexToUint8Array(input.value.trim());
                         }
                     } catch (e) {
-                        throw new Error('输入格式无效');
+                        throw new Error(REOT.i18n?.t('tools.gzip.errorInvalidFormat') || '输入格式无效');
                     }
                 } else {
-                    REOT.utils?.showNotification('请输入要解压的内容或上传文件', 'warning');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.gzip.errorNoDecompressInput') || '请输入要解压的内容或上传文件', 'warning');
                     return;
                 }
 
@@ -387,9 +387,9 @@
                     }
                 }
 
-                REOT.utils?.showNotification('解压成功', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.gzip.decompressSuccess') || '解压成功', 'success');
             } catch (error) {
-                REOT.utils?.showNotification(error.message || '解压失败: 数据格式无效或已损坏', 'error');
+                REOT.utils?.showNotification(error.message || (REOT.i18n?.t('tools.gzip.errorDecompressFailed') || '解压失败: 数据格式无效或已损坏'), 'error');
             }
         }
 
@@ -434,7 +434,7 @@
     // 设置默认示例数据
     const defaultInput = document.getElementById('input');
     if (defaultInput && !defaultInput.value) {
-        const sampleText = `这是一段示例文本，用于演示 GZIP 压缩功能。
+        const sampleText = REOT.i18n?.t('tools.gzip.sampleText') || `这是一段示例文本，用于演示 GZIP 压缩功能。
 
 GZIP 是一种广泛使用的数据压缩格式，特别是在 Web 传输中。它使用 DEFLATE 算法来压缩数据，可以显著减少文件大小。
 

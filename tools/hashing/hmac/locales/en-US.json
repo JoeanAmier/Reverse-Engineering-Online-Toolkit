@@ -9,5 +9,8 @@
     "keyPlaceholder": "Enter key...",
     "message": "Message",
     "messagePlaceholder": "Enter content for HMAC...",
-    "calculate": "Calculate HMAC"
+    "calculate": "Calculate HMAC",
+    "errorNoKey": "Please enter a key",
+    "errorNoMessage": "Please enter a message",
+    "calcFailed": "Calculation failed: "
 }

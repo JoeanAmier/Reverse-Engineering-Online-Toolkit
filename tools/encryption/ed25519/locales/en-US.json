@@ -14,5 +14,19 @@
     "sign": "Sign",
     "verify": "Verify Signature",
     "validSignature": "Signature is valid",
-    "invalidSignature": "Signature is invalid"
+    "invalidSignature": "Signature is invalid",
+    "keyGenSuccess": "Key pair generated successfully",
+    "signSuccess": "Signing successful",
+    "signFailed": "Signing failed",
+    "verifySuccess": "Signature verification successful",
+    "verifyFailed": "Signature verification failed",
+    "verifyError": "Verification failed",
+    "enterMessage": "Please enter message to sign",
+    "enterPrivateKey": "Please generate or enter private key first",
+    "enterOriginalMessage": "Please enter original message",
+    "enterSignature": "Please enter signature",
+    "enterPublicKey": "Please enter public key",
+    "publicKeyCopied": "Public key copied",
+    "privateKeyCopied": "Private key copied",
+    "browserNotSupported": "Your browser does not support Ed25519. Please use the latest version of Chrome, Edge or Firefox"
 }

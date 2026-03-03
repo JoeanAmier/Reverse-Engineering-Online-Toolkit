@@ -18,5 +18,6 @@
     "extractSuccess": "EXIF data extracted successfully",
     "exportSuccess": "Export successful",
     "unsupportedFormat": "Unsupported image format",
-    "extractError": "Extraction failed: "
+    "extractError": "Extraction failed: ",
+    "loadError": "Failed to load exifr library"
 }

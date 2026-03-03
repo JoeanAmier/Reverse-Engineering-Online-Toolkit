@@ -6,5 +6,15 @@
     "sampleCert": "Sample Certificate",
     "sampleKey": "Sample Key",
     "aboutPem": "About PEM Format",
-    "aboutDesc": "PEM (Privacy Enhanced Mail) is a commonly used file format for storing cryptographic keys, certificates, and other security-related data. PEM files are Base64 encoded and enclosed between \"-----BEGIN xxx-----\" and \"-----END xxx-----\" markers. Common types include: CERTIFICATE, PRIVATE KEY, PUBLIC KEY, RSA PRIVATE KEY, etc."
+    "aboutDesc": "PEM (Privacy Enhanced Mail) is a commonly used file format for storing cryptographic keys, certificates, and other security-related data. PEM files are Base64 encoded and enclosed between \"-----BEGIN xxx-----\" and \"-----END xxx-----\" markers. Common types include: CERTIFICATE, PRIVATE KEY, PUBLIC KEY, RSA PRIVATE KEY, etc.",
+    "emptyState": "Enter PEM format data",
+    "errorNoBlocks": "No valid PEM blocks found",
+    "errorBase64Decode": "Base64 decode failed: {error}",
+    "errorDataIncomplete": "Incomplete data",
+    "sizeLabel": "Size:",
+    "sizeBytes": "{size} bytes",
+    "derHexLabel": "DER (Hex):",
+    "asn1StructLabel": "ASN.1 Structure:",
+    "asn1ParseError": "ASN.1 parse error: {error}",
+    "parseComplete": "Parse complete, found {count} PEM blocks"
 }

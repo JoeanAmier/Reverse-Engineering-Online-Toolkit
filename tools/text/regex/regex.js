@@ -72,7 +72,7 @@
         const text = inputEl.value;
 
         if (!pattern) {
-            matchesResult.innerHTML = '<span class="no-matches">请输入正则表达式</span>';
+            matchesResult.innerHTML = '<span class="no-matches">' + (REOT.i18n?.t('tools.regex.enterRegex') || '请输入正则表达式') + '</span>';
             highlightedText.innerHTML = escapeHtml(text);
             return;
         }
@@ -86,7 +86,11 @@
 
             // 显示匹配结果
             if (matches.length === 0) {
-                matchesResult.innerHTML = '<span class="no-matches">没有匹配</span>';
+                matchesResult.textContent = '';
+                const noMatchSpan = document.createElement('span');
+                noMatchSpan.className = 'no-matches';
+                noMatchSpan.textContent = REOT.i18n?.t('tools.regex.noMatches') || '没有匹配';
+                matchesResult.appendChild(noMatchSpan);
             } else {
                 matchesResult.innerHTML = matches.map((match, i) => `
                     <div class="match-item">
@@ -102,39 +106,25 @@
                 `).join('');
             }
 
-            // 高亮显示
-            let highlighted = escapeHtml(text);
-            let offset = 0;
+            // 高亮显示 - 将文本按匹配/非匹配部分拆分，全部转义后拼接
+            let highlighted = '';
+            let lastIndex = 0;
 
-            // 获取新的匹配（因为 escapeHtml 改变了长度）
-            const textMatches = [...text.matchAll(globalRegex)];
-
-            for (const match of textMatches) {
-                const start = match.index;
-                const end = start + match[0].length;
-                const escapedMatch = escapeHtml(match[0]);
-
-                // 计算偏移后的位置
-                const before = escapeHtml(text.substring(0, start));
-                const after = escapeHtml(text.substring(end));
-
-                highlighted = before +
-                    '<mark class="regex-highlight">' + escapedMatch + '</mark>' +
-                    after;
-
-                // 重新构建 highlighted，处理多个匹配
-                break; // 简化处理，只高亮所有匹配
+            for (const match of [...text.matchAll(globalRegex)]) {
+                // 转义匹配之前的非匹配文本
+                highlighted += escapeHtml(text.substring(lastIndex, match.index));
+                // 包裹匹配文本（匹配部分也经过 escapeHtml 处理）
+                highlighted += '<mark class="regex-highlight">' + escapeHtml(match[0]) + '</mark>';
+                lastIndex = match.index + match[0].length;
             }
+            // 转义最后一段非匹配文本
+            highlighted += escapeHtml(text.substring(lastIndex));
 
-            // 使用替换来处理所有匹配
-            highlighted = text.replace(globalRegex, (match) =>
-                `<mark class="regex-highlight">${escapeHtml(match)}</mark>`
-            );
-            // 转义未匹配的部分
+            // 所有用户输入均已通过 escapeHtml 转义，安全设置 innerHTML
             highlightedText.innerHTML = highlighted;
 
         } catch (error) {
-            matchesResult.innerHTML = `<span class="regex-error">错误: ${escapeHtml(error.message)}</span>`;
+            matchesResult.innerHTML = `<span class="regex-error">${REOT.i18n?.t('tools.regex.error') || '错误'}: ${escapeHtml(error.message)}</span>`;
             highlightedText.innerHTML = escapeHtml(text);
         }
     }
@@ -157,7 +147,7 @@
             const regex = new RegExp(pattern, flags);
             replaceResult.value = text.replace(regex, replacement);
         } catch (error) {
-            replaceResult.value = `错误: ${error.message}`;
+            replaceResult.value = `${REOT.i18n?.t('tools.regex.error') || '错误'}: ${error.message}`;
         }
     }
 

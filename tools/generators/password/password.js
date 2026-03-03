@@ -103,14 +103,15 @@
         if (/[^a-zA-Z0-9]/.test(password)) score += 1;
 
         let level, color, text;
+        const t = (key, fallback) => REOT.i18n?.t(`tools.password.${key}`) || fallback;
         if (score <= 2) {
-            level = 25; color = '#ef4444'; text = '弱';
+            level = 25; color = '#ef4444'; text = t('weak', '弱');
         } else if (score <= 4) {
-            level = 50; color = '#f59e0b'; text = '中';
+            level = 50; color = '#f59e0b'; text = t('medium', '中');
         } else if (score <= 6) {
-            level = 75; color = '#10b981'; text = '强';
+            level = 75; color = '#10b981'; text = t('strong', '强');
         } else {
-            level = 100; color = '#22c55e'; text = '非常强';
+            level = 100; color = '#22c55e'; text = t('veryStrong', '非常强');
         }
 
         return { level, color, text };
@@ -135,7 +136,7 @@
         const charset = getCharset();
 
         if (!charset) {
-            passwordInput.value = '请选择至少一种字符类型';
+            passwordInput.value = REOT.i18n?.t('tools.password.selectCharType') || '请选择至少一种字符类型';
             return;
         }
 
@@ -164,7 +165,7 @@
         historyList.innerHTML = history.map((pwd, i) => `
             <div class="history-item">
                 <code>${pwd}</code>
-                <button class="btn btn--sm btn--outline" onclick="navigator.clipboard.writeText('${pwd}')">复制</button>
+                <button class="btn btn--sm btn--outline" onclick="navigator.clipboard.writeText('${pwd}')">${REOT.i18n?.t('common.copy') || '复制'}</button>
             </div>
         `).join('');
     }

@@ -5,5 +5,10 @@
     "header": "Header",
     "payload": "Payload",
     "signature": "Signature",
-    "signatureNote": "Note: Signature verification requires a key. This tool only decodes, it does not verify signatures."
+    "signatureNote": "Note: Signature verification requires a key. This tool only decodes, it does not verify signatures.",
+    "errorNoToken": "Please enter a JWT Token",
+    "errorInvalidFormat": "Invalid JWT format: JWT should contain three parts separated by dots",
+    "errorParseFailed": "JWT parsing failed: ",
+    "expired": "(Expired)",
+    "remaining": "({hours}h {minutes}m remaining)"
 }

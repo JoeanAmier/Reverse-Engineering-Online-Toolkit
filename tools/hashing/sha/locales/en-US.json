@@ -4,5 +4,6 @@
     "algorithm": "Algorithm",
     "inputPlaceholder": "Enter content to hash...",
     "hashLower": "Hash (Lowercase)",
-    "hashUpper": "Hash (Uppercase)"
+    "hashUpper": "Hash (Uppercase)",
+    "calcFailed": "Hash calculation failed: "
 }

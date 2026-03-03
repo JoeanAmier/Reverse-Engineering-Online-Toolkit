@@ -69,7 +69,7 @@
         const privateKeyEl = document.getElementById('private-key');
 
         try {
-            REOT.utils?.showNotification('正在生成密钥对...', 'info');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.keypair.generating') || '正在生成密钥对...', 'info');
 
             const algorithm = ALGORITHMS[algorithmId];
             let keyPair;
@@ -84,7 +84,7 @@
                         ['sign', 'verify']
                     );
                 } catch (e) {
-                    throw new Error('您的浏览器不支持 Ed25519，请使用最新版本的 Chrome 或 Edge');
+                    throw new Error(REOT.i18n?.t('tools.keypair.ed25519NotSupported') || '您的浏览器不支持 Ed25519，请使用最新版本的 Chrome 或 Edge');
                 }
             } else if (algorithm.name === 'RSASSA-PKCS1-v1_5') {
                 keyPair = await crypto.subtle.generateKey(
@@ -127,12 +127,12 @@
                 }
             }
 
-            REOT.utils?.showNotification('密钥对生成成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.keypair.generateSuccess') || '密钥对生成成功', 'success');
 
         } catch (error) {
             console.error('密钥生成错误:', error);
             if (publicKeyEl) publicKeyEl.value = '';
-            if (privateKeyEl) privateKeyEl.value = '错误: ' + error.message;
+            if (privateKeyEl) privateKeyEl.value = (REOT.i18n?.t('tools.keypair.error') || '错误') + ': ' + error.message;
             REOT.utils?.showNotification(error.message, 'error');
         }
     }
@@ -156,7 +156,7 @@
             if (publicKey && publicKey.value) {
                 const success = await REOT.utils?.copyToClipboard(publicKey.value);
                 if (success) {
-                    REOT.utils?.showNotification('公钥已复制', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.keypair.publicKeyCopied') || '公钥已复制', 'success');
                 }
             }
         }
@@ -166,7 +166,7 @@
             if (privateKey && privateKey.value) {
                 const success = await REOT.utils?.copyToClipboard(privateKey.value);
                 if (success) {
-                    REOT.utils?.showNotification('私钥已复制', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.keypair.privateKeyCopied') || '私钥已复制', 'success');
                 }
             }
         }

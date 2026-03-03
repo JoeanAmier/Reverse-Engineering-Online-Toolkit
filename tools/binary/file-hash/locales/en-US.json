@@ -16,5 +16,15 @@
     "lowercase": "Lower",
     "uppercase": "Upper",
     "verifyHash": "Verify Hash",
-    "verifyPlaceholder": "Enter hash to verify..."
+    "verifyPlaceholder": "Enter hash to verify...",
+    "loadError": "Failed to load SparkMD5 library",
+    "md5Failed": "MD5 calculation failed",
+    "calcFailed": "calculation failed",
+    "selectAlgo": "Please select at least one hash algorithm",
+    "invalidHashLen": "Invalid hash length",
+    "noCopyResults": "No results to copy",
+    "selectFile": "Please select a file first",
+    "enterHash": "Please enter a hash value to verify",
+    "calcComplete": "Calculation complete",
+    "notCalculated": "Not calculated"
 }

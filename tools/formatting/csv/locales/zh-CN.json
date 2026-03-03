@@ -14,5 +14,13 @@
     "cells": "单元格",
     "tablePreview": "表格预览",
     "jsonOutput": "JSON 输出",
-    "downloadCsv": "下载 CSV"
+    "downloadCsv": "下载 CSV",
+    "enterCsv": "请输入 CSV 内容",
+    "parseSuccess": "解析成功",
+    "parseFailed": "解析失败",
+    "enterJson": "请输入 JSON 内容",
+    "convertSuccess": "转换成功",
+    "convertFailed": "转换失败",
+    "jsonParseFailed": "JSON 解析失败",
+    "noDownloadData": "没有可下载的数据"
 }

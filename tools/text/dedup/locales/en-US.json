@@ -5,5 +5,9 @@
     "caseSensitive": "Case sensitive",
     "trimWhitespace": "Trim whitespace",
     "keepEmpty": "Keep empty lines",
-    "deduplicate": "Deduplicate"
+    "deduplicate": "Deduplicate",
+    "original": "Original",
+    "lines": "lines",
+    "afterDedup": "After dedup",
+    "removed": "removed"
 }

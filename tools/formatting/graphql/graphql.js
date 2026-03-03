@@ -906,7 +906,7 @@ subscription OnNewComment($postId: ID!) {
             } else {
                 const span = document.createElement('span');
                 span.className = 'text-muted';
-                span.textContent = '无';
+                span.textContent = REOT.i18n?.t('tools.graphql.none') || '无';
                 operationsEl.appendChild(span);
             }
         }
@@ -923,7 +923,7 @@ subscription OnNewComment($postId: ID!) {
             } else {
                 const span = document.createElement('span');
                 span.className = 'text-muted';
-                span.textContent = '无';
+                span.textContent = REOT.i18n?.t('tools.graphql.none') || '无';
                 fragmentsEl.appendChild(span);
             }
         }
@@ -940,7 +940,7 @@ subscription OnNewComment($postId: ID!) {
             } else {
                 const span = document.createElement('span');
                 span.className = 'text-muted';
-                span.textContent = '无';
+                span.textContent = REOT.i18n?.t('tools.graphql.none') || '无';
                 variablesEl.appendChild(span);
             }
         }
@@ -957,7 +957,7 @@ subscription OnNewComment($postId: ID!) {
             } else {
                 const span = document.createElement('span');
                 span.className = 'text-muted';
-                span.textContent = '无';
+                span.textContent = REOT.i18n?.t('tools.graphql.none') || '无';
                 directivesEl.appendChild(span);
             }
         }
@@ -1165,7 +1165,7 @@ subscription OnNewComment($postId: ID!) {
                 value: '',
                 readOnly: false,
                 theme: theme,
-                placeholder: '请输入 GraphQL 查询...'
+                placeholder: REOT.i18n?.t('tools.graphql.inputPlaceholder') || '请输入 GraphQL 查询...'
             });
 
             outputEditor = await REOT.CodeEditor.create('#output-editor', {

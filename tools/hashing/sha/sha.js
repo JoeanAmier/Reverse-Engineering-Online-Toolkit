@@ -43,7 +43,7 @@
             return hashHex;
         } catch (error) {
             console.error('Hash calculation failed:', error);
-            throw new Error(`哈希计算失败: ${error.message}`);
+            throw new Error((REOT.i18n?.t('tools.sha.calcFailed') || '哈希计算失败: ') + error.message);
         }
     }
 

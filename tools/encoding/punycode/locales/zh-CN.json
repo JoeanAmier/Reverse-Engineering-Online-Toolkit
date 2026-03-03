@@ -1,5 +1,8 @@
 {
     "title": "Punycode 编解码",
     "description": "国际化域名 Punycode 编解码",
-    "examples": "示例"
+    "examples": "示例",
+    "encodeFailed": "编码失败",
+    "decodeFailed": "解码失败",
+    "sampleDomain": "中国.com"
 }

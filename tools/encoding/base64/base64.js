@@ -105,7 +105,7 @@
             }
             return encodeStandard(input);
         } catch (error) {
-            throw new Error(`编码失败: ${error.message}`);
+            throw new Error(`${REOT.i18n?.t('tools.base64.encodeFailed') || '编码失败'}: ${error.message}`);
         }
     }
 
@@ -126,7 +126,7 @@
             }
             return decodeStandard(input);
         } catch (error) {
-            throw new Error(`解码失败: ${error.message}`);
+            throw new Error(`${REOT.i18n?.t('tools.base64.decodeFailed') || '解码失败'}: ${error.message}`);
         }
     }
 

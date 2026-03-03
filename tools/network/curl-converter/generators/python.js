@@ -547,10 +547,11 @@
         }
 
         // 文件头注释（docstring 固定使用三引号）
+        const _isEn = REOT.i18n?.getLocale?.()?.startsWith('en') || false;
         let code = '"""\n';
-        code += `FastAPI 代理接口 - ${apiPath}\n`;
-        code += `目标地址: ${targetBaseUrl}${apiPath}\n`;
-        code += `HTTP 方法: ${parsed.method}\n`;
+        code += `FastAPI ${_isEn ? 'Proxy Endpoint' : '代理接口'} - ${apiPath}\n`;
+        code += `${_isEn ? 'Target' : '目标地址'}: ${targetBaseUrl}${apiPath}\n`;
+        code += `${_isEn ? 'HTTP Method' : 'HTTP 方法'}: ${parsed.method}\n`;
         code += '"""\n\n';
 
         code += 'from fastapi import FastAPI, HTTPException, Depends\n';
@@ -564,13 +565,13 @@
 
         code += 'app = FastAPI(\n';
         code += `${i1}title=${q}${className} API${q},\n`;
-        code += `${i1}description=${q}代理请求到 ${targetBaseUrl}${q},\n`;
+        code += `${i1}description=${q}${_isEn ? 'Proxy requests to' : '代理请求到'} ${targetBaseUrl}${q},\n`;
         code += `${i1}version=${q}1.0.0${q}\n`;
         code += ')\n\n';
 
         // 生成查询参数 Pydantic 模型
         if (hasQueryParams) {
-            code += '# 查询参数模型\n';
+            code += `# ${_isEn ? 'Query parameters model' : '查询参数模型'}\n`;
             code += `class ${queryParamsName}(BaseModel):\n`;
             code += `${i1}model_config = ConfigDict(populate_by_name=True)\n\n`;
 
@@ -589,7 +590,7 @@
         // 如果有请求体，生成 Pydantic 模型
         const requestBodyName = className + 'Request';
         if (parsed.data && parsed.dataType === 'json') {
-            code += '# 请求体模型\n';
+            code += `# ${_isEn ? 'Request body model' : '请求体模型'}\n`;
             code += `class ${requestBodyName}(BaseModel):\n`;
             try {
                 const jsonData = JSON.parse(parsed.data);
@@ -604,7 +605,7 @@
             code += '\n';
         }
 
-        code += '# 响应模型\n';
+        code += `# ${_isEn ? 'Response model' : '响应模型'}\n`;
         code += `class ${responseModelName}(BaseModel):\n`;
         code += `${i1}status_code: int\n`;
         code += `${i1}data: Any\n\n`;
@@ -624,7 +625,7 @@
         code += `async def ${funcName}(${funcParams.join(', ')}):\n`;
 
         code += `${i1}"""\n`;
-        code += `${i1}代理请求到: ${targetBaseUrl}${apiPath}\n`;
+        code += `${i1}${_isEn ? 'Proxy requests to' : '代理请求到'}: ${targetBaseUrl}${apiPath}\n`;
         code += `${i1}"""\n`;
 
         // 目标 URL（函数内部定义，便于修改）
@@ -632,7 +633,7 @@
 
         // 使用 model_dump 转换查询参数
         if (hasQueryParams) {
-            code += `${i1}# 将查询参数模型转换为字典\n`;
+            code += `${i1}# ${_isEn ? 'Convert query params model to dict' : '将查询参数模型转换为字典'}\n`;
             code += `${i1}query_params = params.model_dump(by_alias=True, exclude_none=True)\n\n`;
         }
 
@@ -663,7 +664,7 @@
         code += `${i2}${i1})\n`;
         code += `${i2}${i1}response.raise_for_status()\n\n`;
 
-        code += `${i2}${i1}# 解析响应\n`;
+        code += `${i2}${i1}# ${_isEn ? 'Parse response' : '解析响应'}\n`;
         code += `${i2}${i1}try:\n`;
         code += `${i2}${i2}data = response.json()\n`;
         code += `${i2}${i1}except Exception:\n`;
@@ -674,13 +675,13 @@
         code += `${i2}except httpx.HTTPStatusError as e:\n`;
         code += `${i2}${i1}raise HTTPException(status_code=e.response.status_code, detail=e.response.text)\n`;
         code += `${i2}except httpx.RequestError as e:\n`;
-        code += `${i2}${i1}raise HTTPException(status_code=500, detail=f${q}请求失败: {e}${q})\n\n\n`;
+        code += `${i2}${i1}raise HTTPException(status_code=500, detail=f${q}${_isEn ? 'Request failed' : '请求失败'}: {e}${q})\n\n\n`;
 
         // 添加 main 入口
         code += 'if __name__ == "__main__":\n';
         code += `${i1}import uvicorn\n`;
-        code += `${i1}# 直接运行: python main.py\n`;
-        code += `${i1}# 访问文档: http://127.0.0.1:8000/docs\n`;
+        code += `${i1}# ${_isEn ? 'Run directly: python main.py' : '直接运行: python main.py'}\n`;
+        code += `${i1}# ${_isEn ? 'API docs: http://127.0.0.1:8000/docs' : '访问文档: http://127.0.0.1:8000/docs'}\n`;
         code += `${i1}uvicorn.run(app, host=${q}0.0.0.0${q}, port=8000)\n`;
 
         return code;
@@ -893,7 +894,7 @@
             code += `data = ${pyStr(parsed.data, opts)}\n\n`;
         }
 
-        code += '# 创建带有浏览器指纹模拟的客户端\n';
+        code += `# ${REOT.i18n?.getLocale?.()?.startsWith('en') ? 'Create client with browser fingerprint impersonation' : '创建带有浏览器指纹模拟的客户端'}\n`;
         code += 'client = BlockingClient(impersonate=Impersonate.Chrome136)\n\n';
 
         code += `response = client.${parsed.method.toLowerCase()}(\n`;
@@ -929,7 +930,7 @@
 
         let code = 'from rnet import Client, Impersonate\nimport asyncio\n\n';
         code += 'async def main():\n';
-        code += `${i1}# 创建带有浏览器指纹模拟的客户端\n`;
+        code += `${i1}# ${REOT.i18n?.getLocale?.()?.startsWith('en') ? 'Create client with browser fingerprint impersonation' : '创建带有浏览器指纹模拟的客户端'}\n`;
         code += `${i1}client = Client(impersonate=Impersonate.Chrome136)\n\n`;
 
         // 处理 URL 和查询参数
@@ -998,27 +999,27 @@
             generate: toPythonRequests
         },
         'python-httpx': {
-            name: 'Python - httpx (同步)',
+            name: 'Python - httpx (' + (REOT?.i18n?.t('tools.curl-converter.genSyncLabel') || '同步') + ')',
             generate: toPythonHttpx
         },
         'python-httpx-async': {
-            name: 'Python - httpx (异步)',
+            name: 'Python - httpx (' + (REOT?.i18n?.t('tools.curl-converter.genAsyncLabel') || '异步') + ')',
             generate: toPythonHttpxAsync
         },
         'python-curl-cffi': {
-            name: 'Python - curl_cffi (同步)',
+            name: 'Python - curl_cffi (' + (REOT?.i18n?.t('tools.curl-converter.genSyncLabel') || '同步') + ')',
             generate: toPythonCurlCffi
         },
         'python-curl-cffi-async': {
-            name: 'Python - curl_cffi (异步)',
+            name: 'Python - curl_cffi (' + (REOT?.i18n?.t('tools.curl-converter.genAsyncLabel') || '异步') + ')',
             generate: toPythonCurlCffiAsync
         },
         'python-rnet': {
-            name: 'Python - rnet (同步)',
+            name: 'Python - rnet (' + (REOT?.i18n?.t('tools.curl-converter.genSyncLabel') || '同步') + ')',
             generate: toPythonRnet
         },
         'python-rnet-async': {
-            name: 'Python - rnet (异步)',
+            name: 'Python - rnet (' + (REOT?.i18n?.t('tools.curl-converter.genAsyncLabel') || '异步') + ')',
             generate: toPythonRnetAsync
         },
         'python-aiohttp': {

@@ -74,7 +74,12 @@
         });
 
         outputEl.value = result.result;
-        statsEl.textContent = `原始: ${result.originalCount} 行 → 去重后: ${result.uniqueCount} 行 (移除 ${result.removedCount} 行)`;
+        const t = REOT.i18n?.t.bind(REOT.i18n);
+        const original = t?.('tools.text-dedup.original') || '原始';
+        const lines = t?.('tools.text-dedup.lines') || '行';
+        const afterDedup = t?.('tools.text-dedup.afterDedup') || '去重后';
+        const removed = t?.('tools.text-dedup.removed') || '移除';
+        statsEl.textContent = `${original}: ${result.originalCount} ${lines} → ${afterDedup}: ${result.uniqueCount} ${lines} (${removed} ${result.removedCount} ${lines})`;
     }
 
     // 事件监听

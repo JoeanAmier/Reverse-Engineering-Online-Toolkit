@@ -259,7 +259,7 @@
     function parseHexInput(hexStr) {
         hexStr = hexStr.replace(/[\s\n\r,;]/g, '').replace(/^0x/i, '');
         if (!/^[0-9a-fA-F]*$/.test(hexStr)) {
-            throw new Error('无效的十六进制字符串');
+            throw new Error(REOT.i18n?.t('tools.strings-extractor.invalidHex') || '无效的十六进制字符串');
         }
         if (hexStr.length % 2 !== 0) {
             hexStr = '0' + hexStr;
@@ -360,7 +360,7 @@
         } else {
             const hexInput = document.getElementById('hex-input')?.value.trim();
             if (!hexInput) {
-                throw new Error('请上传文件或输入十六进制数据');
+                throw new Error(REOT.i18n?.t('tools.strings-extractor.uploadOrEnterHex') || '请上传文件或输入十六进制数据');
             }
             data = parseHexInput(hexInput);
         }
@@ -415,7 +415,7 @@
         if (target.id === 'extract-btn' || target.closest('#extract-btn')) {
             try {
                 doExtract();
-                REOT.utils?.showNotification('提取完成', 'success');
+                REOT.utils?.showNotification(REOT.i18n?.t('tools.strings-extractor.extractDone') || '提取完成', 'success');
             } catch (error) {
                 REOT.utils?.showNotification(error.message, 'error');
             }

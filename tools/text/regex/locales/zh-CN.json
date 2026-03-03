@@ -8,9 +8,12 @@
     "flagGlobal": "g (全局)",
     "flagIgnoreCase": "i (忽略大小写)",
     "flagMultiline": "m (多行)",
-    "flagDotAll": "s (dotAll)",
+    "flagDotAll": "s (dotAll，匹配换行)",
     "matches": "匹配结果",
     "highlighted": "高亮显示",
     "replaceWith": "替换为",
-    "replace": "替换"
+    "replace": "替换",
+    "enterRegex": "请输入正则表达式",
+    "error": "错误",
+    "noMatches": "没有匹配"
 }

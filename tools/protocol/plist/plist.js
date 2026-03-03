@@ -39,13 +39,13 @@
         // 检查解析错误
         const parseError = doc.querySelector('parsererror');
         if (parseError) {
-            throw new Error('XML 解析错误: ' + parseError.textContent);
+            throw new Error((REOT.i18n?.t('tools.plist.errorXmlParse') || 'XML 解析错误: {error}').replace('{error}', parseError.textContent));
         }
 
         // 查找 plist 根元素
         const plist = doc.querySelector('plist');
         if (!plist) {
-            throw new Error('无效的 Plist: 缺少 <plist> 根元素');
+            throw new Error(REOT.i18n?.t('tools.plist.errorInvalidPlist') || '无效的 Plist: 缺少 <plist> 根元素');
         }
 
         // 获取第一个子元素（dict, array, string 等）
@@ -146,11 +146,11 @@
             const valueElement = children[i + 1];
 
             if (!keyElement || keyElement.tagName.toLowerCase() !== 'key') {
-                throw new Error('Dict 格式错误: 期望 <key> 元素');
+                throw new Error(REOT.i18n?.t('tools.plist.errorDictFormat') || 'Dict 格式错误: 期望 <key> 元素');
             }
 
             if (!valueElement) {
-                throw new Error('Dict 格式错误: 缺少值元素');
+                throw new Error(REOT.i18n?.t('tools.plist.errorDictMissingValue') || 'Dict 格式错误: 缺少值元素');
             }
 
             entries.push({
@@ -197,7 +197,7 @@
             // 检查魔数
             const magic = String.fromCharCode(...this.buffer.slice(0, 6));
             if (magic !== BPLIST_MAGIC) {
-                throw new Error('无效的二进制 Plist: 魔数不匹配');
+                throw new Error(REOT.i18n?.t('tools.plist.errorInvalidBinaryPlist') || '无效的二进制 Plist: 魔数不匹配');
             }
 
             // 读取 trailer (最后 32 字节)
@@ -620,7 +620,7 @@ ${xmlBody}
                 result = parseXmlPlist(input);
             } else {
                 // 二进制格式需要从文件上传
-                throw new Error('请通过文件上传提供二进制 Plist 数据');
+                throw new Error(REOT.i18n?.t('tools.plist.errorBinaryPlist') || '请通过文件上传提供二进制 Plist 数据');
             }
 
             currentResult = result;
@@ -628,18 +628,18 @@ ${xmlBody}
             // 统计信息
             const stats = countElements(result);
             if (outputInfo) {
-                outputInfo.textContent = `解析成功：${detectedFormat.toUpperCase()} 格式，包含 ${stats.total} 个元素（${stats.dict} 个字典，${stats.array} 个数组）`;
+                outputInfo.textContent = (REOT.i18n?.t('tools.plist.parseSuccessInfo') || '解析成功：{format} 格式，包含 {total} 个元素（{dict} 个字典，{array} 个数组）').replace('{format}', detectedFormat.toUpperCase()).replace('{total}', stats.total).replace('{dict}', stats.dict).replace('{array}', stats.array);
             }
 
             renderOutput(result, currentView);
 
             if (outputSection) outputSection.style.display = 'block';
 
-            REOT.utils?.showNotification('解析成功', 'success');
+            REOT.utils?.showNotification(REOT.i18n?.t('tools.plist.parseSuccess') || '解析成功', 'success');
 
         } catch (error) {
             if (outputContent) {
-                outputContent.innerHTML = `<div class="error-state">解析错误: ${escapeHtml(error.message)}</div>`;
+                outputContent.innerHTML = `<div class="error-state">${(REOT.i18n?.t('tools.plist.parseError') || '解析失败: {error}').replace('{error}', escapeHtml(error.message))}</div>`;
             }
             if (outputInfo) outputInfo.textContent = '';
             if (outputSection) outputSection.style.display = 'block';
@@ -777,7 +777,7 @@ ${plistToXml(currentResult)}
                 }
                 const success = await REOT.utils?.copyToClipboard(textToCopy);
                 if (success) {
-                    REOT.utils?.showNotification('已复制到剪贴板', 'success');
+                    REOT.utils?.showNotification(REOT.i18n?.t('tools.plist.copiedToClipboard') || '已复制到剪贴板', 'success');
                 }
             }
         }
@@ -828,14 +828,14 @@ ${plistToXml(currentResult)}
                         const stats = countElements(currentResult);
                         const outputInfo = document.getElementById('output-info');
                         if (outputInfo) {
-                            outputInfo.textContent = `解析成功：二进制格式，包含 ${stats.total} 个元素`;
+                            outputInfo.textContent = (REOT.i18n?.t('tools.plist.parseSuccessBinary') || '解析成功：二进制格式，包含 {total} 个元素').replace('{total}', stats.total);
                         }
 
                         renderOutput(currentResult, currentView);
                         document.getElementById('output-section').style.display = 'block';
-                        REOT.utils?.showNotification('二进制 Plist 解析成功', 'success');
+                        REOT.utils?.showNotification(REOT.i18n?.t('tools.plist.binaryParseSuccess') || '二进制 Plist 解析成功', 'success');
                     } catch (error) {
-                        REOT.utils?.showNotification('二进制 Plist 解析失败: ' + error.message, 'error');
+                        REOT.utils?.showNotification((REOT.i18n?.t('tools.plist.binaryParseFailed') || '二进制 Plist 解析失败: {error}').replace('{error}', error.message), 'error');
                     }
                 } else {
                     // 作为文本处理
@@ -860,7 +860,7 @@ ${plistToXml(currentResult)}
         a.download = filename;
         a.click();
         URL.revokeObjectURL(url);
-        REOT.utils?.showNotification('文件已下载', 'success');
+        REOT.utils?.showNotification(REOT.i18n?.t('tools.plist.fileDownloaded') || '文件已下载', 'success');
     }
 
     // 导出到全局

@@ -147,7 +147,7 @@
             minValue: 0,
             maxValue: 9223372036854775807n,
             convert: null,
-            note: '相对值，无法转换为绝对时间',
+            note: REOT.i18n?.t('tools.timestamp-guesser.relativeNote') || '相对值，无法转换为绝对时间',
             noteEn: 'Relative value, cannot convert to absolute time'
         }
     ];

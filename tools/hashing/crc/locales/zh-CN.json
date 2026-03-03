@@ -1,12 +1,12 @@
 {
-    "title": "CRC计算器",
-    "description": "计算CRC校验值",
+    "title": "CRC 计算器",
+    "description": "计算 CRC 校验值",
     "inputData": "输入数据",
-    "inputPlaceholder": "输入要计算CRC的文本...",
+    "inputPlaceholder": "输入要计算 CRC 的文本...",
     "inputType": "输入类型",
     "textUtf8": "文本 (UTF-8)",
     "hexadecimal": "十六进制",
-    "algorithm": "CRC算法",
+    "algorithm": "CRC 算法",
     "calculate": "计算",
     "decimal": "十进制",
     "hexUpper": "十六进制 (大写)",
@@ -21,5 +21,8 @@
     "outputXor": "输出异或",
     "yes": "是",
     "no": "否",
-    "calcFailed": "计算失败"
+    "calcFailed": "计算失败",
+    "errorNoInput": "请输入要计算的数据",
+    "calcComplete": "计算完成",
+    "calcError": "计算失败: "
 }
